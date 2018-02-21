@@ -17,15 +17,18 @@ public class Main {
     public static void main (String[] args) throws Exception {
         System.out.println("\n\nRunning the compiler for Storm");
 
-        CharStream stream = getCharStream(args);
+        String path;
+        if (args.length > 1) {
+            path = args[0];
+        } else {
+            path = Main.class.getResource("test.storm").getPath();
+        }
+        CharStream stream = getCharStream(path);
         buildModel(stream);
-
     }
 
-    private static CharStream getCharStream(String[] args) throws IOException {
-        if (args.length < 1)
-            throw new RuntimeException("no input file");
-        Path input = Paths.get(new File(args[0]).toURI());
+    private static CharStream getCharStream(String path) throws IOException {
+        Path input = Paths.get(new File(path).toURI());
         System.out.println("Using input file: " + input);
         return CharStreams.fromPath(input);
     }
