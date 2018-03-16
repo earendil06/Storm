@@ -1,22 +1,21 @@
 package com.storm.antlr;
 
 import com.storm.antlr.grammar.StormBaseListener;
-import com.storm.antlr.grammar.StormParser;
 
 public class StormListenerImpl extends StormBaseListener {
 
-    @Override
-    public void enterRoot(StormParser.RootContext ctx) {
-        super.enterRoot(ctx);
+    /*@Override
+    public void enterRoot(StormParser.BlockContext ctx) {
+        super.enterBlock(ctx);
     }
 
     @Override
-    public void exitRoot(StormParser.RootContext ctx) {
-        super.exitRoot(ctx);
+    public void exitRoot(StormParser.BlockContext ctx) {
+        super.enterBlock(ctx);
     }
 
     @Override
-    public void enterExpr(StormParser.ExprContext ctx) {
+    public void enterExpr(StormParser.StatContext ctx) {
         int value = Integer.parseInt(ctx.value.getText());
         if (value == 42) {
             System.out.println("Well done !");
@@ -29,5 +28,5 @@ public class StormListenerImpl extends StormBaseListener {
     @Override
     public void exitExpr(StormParser.ExprContext ctx) {
         super.exitExpr(ctx);
-    }
+    }*/
 }

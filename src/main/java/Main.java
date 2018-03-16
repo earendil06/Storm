@@ -38,7 +38,7 @@ public class Main {
 
         ParseTreeWalker walker = new ParseTreeWalker();
 
-        StormParser.RootContext rootContext = parser.root();
+        StormParser.BlockContext rootContext = parser.block();
 
         StormListenerImpl stormListenerImpl = new StormListenerImpl();
 
