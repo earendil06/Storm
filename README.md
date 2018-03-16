@@ -4,18 +4,18 @@ Toolchain with the goal to help a Dungeon Master to run a D&D game.
 This is not yet another online role playing game tool, it is meant to be used for live pen and papers sessions.  
 All dice rolls should be done IRL, the toolchain should only provide information on what to do but not do it for you.  
 The principal features should be to enable faster battles and content generation by providing :
-- A data type (code name StormLang) that can describe a monster's stats block
+- A data type (codename StormLang) that can describe a monster's stats block
   - the automatic generation of those blocks by parsing some db on the web
   - the persistence of those blocks in a db
   - an api that enables an easy manipulation of those data
-- A Command Line Interface (code name StormCLI) to easily manage a battle encounter
+- A Command Line Interface (codename StormCLI) to easily manage a battle encounter
   - initiative tracking
   - Health tracking per monster
   - an easy access to the data of the monsters in the encounter
   - a ncurse type GUI | an easy to use CLI
 
 Not prioritary :
-- A data type / db for the player characters, the spells, the equipements, etc, 
+- A data type / db for the player characters, the spells, the equipments, etc, 
 that uses the same concepts as the monster stats blocks
 - A cloud hub to store and retrieve those data
 
