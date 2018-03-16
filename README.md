@@ -3,7 +3,7 @@
 Toolchain with the goal to help a Dungeon Master to run a D&D game.  
 This is not yet another online role playing game tool, it is meant to be used for live pen and papers sessions.  
 All dice rolls should be done IRL, the toolchain should only provide information on what to do but not do it for you.  
-The principal features should be to enable faster battles and content generation :
+The principal features should be to enable faster battles and content generation by providing :
 - A data type (code name StormLang) that can describe a monster's stats block
   - the automatic generation of those blocks by parsing some db on the web
   - the persistence of those blocks in a db
