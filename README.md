@@ -21,7 +21,7 @@ that uses the same concepts as the monster stats blocks
 
 ## StormLang
 
-####Example :
+#### Example :
 
 The syntax below should not influence the future implementation, 
 it is json-like to be simple to talk about for now.
@@ -59,7 +59,7 @@ Things to note :
  and retrieved at compile time so we don't have to rewrite them each time we need one)
 ## StormCLI
 
-### Example for a simple CLI (no ncurse) :
+#### Example for a simple CLI (no ncurse) :
 
 The symbol '>>' is a user prompt and '->" is the cli response.
 
