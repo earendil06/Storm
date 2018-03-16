@@ -4,16 +4,7 @@ import com.storm.antlr.grammar.StormBaseListener;
 
 public class StormListenerImpl extends StormBaseListener {
 
-    /*@Override
-    public void enterRoot(StormParser.BlockContext ctx) {
-        super.enterBlock(ctx);
-    }
-
-    @Override
-    public void exitRoot(StormParser.BlockContext ctx) {
-        super.enterBlock(ctx);
-    }
-
+    /*
     @Override
     public void enterExpr(StormParser.StatContext ctx) {
         int value = Integer.parseInt(ctx.value.getText());
@@ -23,10 +14,5 @@ public class StormListenerImpl extends StormBaseListener {
             System.out.println("Try again !");
         }
         super.enterExpr(ctx);
-    }
-
-    @Override
-    public void exitExpr(StormParser.ExprContext ctx) {
-        super.exitExpr(ctx);
     }*/
 }

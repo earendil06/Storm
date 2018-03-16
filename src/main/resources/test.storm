@@ -1,1 +1,11 @@
-hi 42
+Goblin
+AC 10
+HP 1d6+2
+PP 11
+stats {
+  str 10
+  dex 10
+  con 15
+  int 17
+  int 18
+}
