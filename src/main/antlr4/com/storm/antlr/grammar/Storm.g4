@@ -1,17 +1,20 @@
 grammar Storm;
 
 // Parser Rules
-block    : name NEWLINE stat* EOF ;
+block    : name NEWLINE traits EOF ;
 
 name     : WORD ;
 
-stat     : 'AC' const_stat
-         | 'PP' const_stat
-         | 'HP' var_stat
-         | 'stats' WHITESPACE* '{' NEWLINE* (WHITESPACE* stat_line)+ '}'
+traits    : stat* (NEWLINE ability_block NEWLINE)? stat*
 ;
 
-stat_line  : STAT_MOD WHITESPACE+ NUMBER NEWLINE* ;
+stat     : CONST_STAT const_stat
+         | VAR_STAT var_stat
+;
+
+ability_block : 'scores' WHITESPACE* '{' NEWLINE* (WHITESPACE* ability)+ '}' ;
+
+ability    : STAT_ID WHITESPACE+ NUMBER NEWLINE* ;
 
 const_stat : WHITESPACE+ NUMBER NEWLINE* ;
 var_stat   : WHITESPACE+ value NEWLINE* ;
@@ -22,13 +25,14 @@ modifier   : MODIFIER_OP WHITESPACE* NUMBER ;
 
 // Lexer Rules
 MODIFIER_OP : ('+' | '-') ;
-STAT_MOD    : ('str' | 'dex' | 'con' | 'int' | 'wis' | 'cha') ;
+STAT_ID     : ('str' | 'dex' | 'con' | 'int' | 'wis' | 'cha') ;
+CONST_STAT  : ('ac' | 'pp' | 'AC' | 'PP') ;
+VAR_STAT    : ('hp' | 'HP') ;
+
 
 WORD        : (LOWERCASE | UPPERCASE | '_')+ ;
-
 NUMBER      : [0-9]+ ;
 LOWERCASE   : [a-z]  ;
 UPPERCASE   : [A-Z]  ;
-
 NEWLINE     : ('\r'? '\n' | '\r')+ ;
 WHITESPACE  : (' ' | '\t') ;
