@@ -1,10 +1,9 @@
 package com.storm.antlr;
 
-
 import com.storm.antlr.grammar.StormBaseListener;
 import com.storm.antlr.grammar.StormParser;
 
-public class ModelBuilder extends StormBaseListener {
+public class StormListenerImpl extends StormBaseListener {
 
     @Override
     public void enterRoot(StormParser.RootContext ctx) {

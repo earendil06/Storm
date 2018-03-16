@@ -1,5 +1,4 @@
-import com.storm.antlr.ModelBuilder;
-import com.storm.antlr.StopErrorListener;
+import com.storm.antlr.StormListenerImpl;
 import com.storm.antlr.grammar.StormLexer;
 import com.storm.antlr.grammar.StormParser;
 import org.antlr.v4.runtime.CharStream;
@@ -14,8 +13,8 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    public static void main (String[] args) throws Exception {
-        System.out.println("\n\nRunning the compiler for Storm");
+    public static void main(String[] args) throws Exception {
+        System.out.println("Running the compiler for Storm");
 
         String path;
         if (args.length > 1) {
@@ -29,23 +28,21 @@ public class Main {
 
     private static CharStream getCharStream(String path) throws IOException {
         Path input = Paths.get(new File(path).toURI());
-        System.out.println("Using input file: " + input);
+        System.out.println(String.format("Using input file: %s\n", input));
         return CharStreams.fromPath(input);
     }
 
     private static void buildModel(CharStream stream) {
-        StormLexer lexer   = new StormLexer(stream);
-        lexer.removeErrorListeners();
-        lexer.addErrorListener(new StopErrorListener());
+        StormLexer lexer = new StormLexer(stream);
+        StormParser parser = new StormParser(new CommonTokenStream(lexer));
 
-        StormParser parser  = new StormParser(new CommonTokenStream(lexer));
-        parser.removeErrorListeners();
-        parser.addErrorListener(new StopErrorListener());
+        ParseTreeWalker walker = new ParseTreeWalker();
 
-        ParseTreeWalker walker  = new ParseTreeWalker();
-        ModelBuilder builder = new ModelBuilder();
+        StormParser.RootContext rootContext = parser.root();
 
-        walker.walk(builder, parser.root());
+        StormListenerImpl stormListenerImpl = new StormListenerImpl();
+
+        walker.walk(stormListenerImpl, rootContext);
     }
 
 }

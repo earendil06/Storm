@@ -1,9 +1,18 @@
 grammar Storm;
 
+/*
+* Parser Rules
+*/
+
 root:	(expr NEWLINE?)* EOF ;
-expr:	fct WHITESPACE value=INT
+expr:	fct WHITESPACE+ value=NUMBER
     ;
-fct : 'test';
-NEWLINE : [\r\n]+ ;
-INT     : [0-9]+ ;
-WHITESPACE : (' ')+;
+fct : 'hi';
+
+/*
+* Lexer Rules
+*/
+
+NEWLINE    :  ('\r'? '\n' | '\r')+ ;
+NUMBER     : [0-9]+ ;
+WHITESPACE : (' ' | '\t') ;
