@@ -2,12 +2,15 @@ package com.storm.model;
 
 import com.storm.model.ability.Ability;
 import com.storm.model.ability.AbilityType;
+import com.storm.model.stat.Stat;
+import com.storm.model.stat.StatType;
 
 import java.util.*;
 
 public class Block {
     private String name;
-    private Set<Ability> abilityScores = new HashSet<>();
+    private TypedSet<Ability> abilityScores = new TypedSet<>();
+    private TypedSet<Stat> stats = new TypedSet<>();
 
     public String getName() {
         return name;
@@ -22,21 +25,25 @@ public class Block {
     }
 
     public Optional<Ability> getAbility(AbilityType type) {
-        return abilityScores.stream()
-                .filter(ability -> ability.getAbilityType().equals(type))
-                .findFirst();
+        return abilityScores.getValueMatching(ability -> ability.getAbilityType().equals(type));
+    }
+
+    public Optional<Stat> getStat(StatType type) {
+        return stats.getValueMatching(stat -> stat.getType().equals(type));
     }
 
     public void addAbility(Ability ability) {
-        if (!abilityScores.add(ability)) {
-            abilityScores.remove(ability);
-            abilityScores.add(ability);
-        }
+        abilityScores.put(ability);
+    }
+
+    public void addStat(Stat stat) {
+        stats.put(stat);
     }
 
     @Override
     public String toString() {
         return "Name : " + name + '\n' +
-                "Abilities : " + abilityScores;
+                "Abilities : " + abilityScores + '\n' +
+                "Statistics : " + stats;
     }
 }
