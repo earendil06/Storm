@@ -17,9 +17,9 @@ ability_block : 'scores' WHITESPACE* '{' NEWLINE* (WHITESPACE* ability)+ '}' ;
 ability    : STAT_ID WHITESPACE+ NUMBER NEWLINE* ;
 
 const_stat : WHITESPACE+ NUMBER NEWLINE* ;
-var_stat   : WHITESPACE+ value NEWLINE* ;
-dice       : NUMBER 'd' NUMBER WHITESPACE* modifier ;
-value      : (dice | NUMBER) ;
+var_stat   : WHITESPACE+ score NEWLINE* ;
+dice       : NUMBER 'd' NUMBER (WHITESPACE* modifier)? ;
+score      : (dice | NUMBER) ;
 modifier   : MODIFIER_OP WHITESPACE* NUMBER ;
 
 

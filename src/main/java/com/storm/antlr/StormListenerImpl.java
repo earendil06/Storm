@@ -2,7 +2,7 @@ package com.storm.antlr;
 
 import com.storm.antlr.grammar.StormBaseListener;
 import com.storm.antlr.grammar.StormParser;
-import com.storm.model.Ability;
+import com.storm.model.ability.Ability;
 import com.storm.model.Block;
 
 public class StormListenerImpl extends StormBaseListener {
@@ -26,7 +26,6 @@ public class StormListenerImpl extends StormBaseListener {
 
         block.addAbility(new Ability(type, value));
     }
-
 
     @Override
     public void exitBlock(StormParser.BlockContext ctx) {

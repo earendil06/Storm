@@ -1,12 +1,13 @@
 package com.storm.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.storm.model.ability.Ability;
+import com.storm.model.ability.AbilityType;
+
+import java.util.*;
 
 public class Block {
     private String name;
-    private List<Ability> abilities = new ArrayList<>();
+    private Set<Ability> abilityScores = new HashSet<>();
 
     public String getName() {
         return name;
@@ -16,27 +17,26 @@ public class Block {
         this.name = name;
     }
 
-    public List<Ability> getAbilities() {
-        return new ArrayList<>(abilities);
+    public List<Ability> getAbilityScores() {
+        return new ArrayList<>(abilityScores);
     }
 
     public Optional<Ability> getAbility(AbilityType type) {
-        return this.abilities.stream()
+        return abilityScores.stream()
                 .filter(ability -> ability.getAbilityType().equals(type))
                 .findFirst();
     }
 
     public void addAbility(Ability ability) {
-        this.abilities.add(ability);
-    }
-
-    public void removeAbility(Ability ability) {
-        this.abilities.remove(ability);
+        if (!abilityScores.add(ability)) {
+            abilityScores.remove(ability);
+            abilityScores.add(ability);
+        }
     }
 
     @Override
     public String toString() {
         return "Name : " + name + '\n' +
-                "Abilities : " + abilities;
+                "Abilities : " + abilityScores;
     }
 }

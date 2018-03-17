@@ -1,15 +1,15 @@
 Goblin
 
-AC 10
-HP 1d6+2
+AC 15
+HP 2d6
 
 scores {
-  str 10
-  dex 10
-  con 15
-  int 17
-  cha 14
+  str 8
+  dex 14
+  con 10
+  int 10
   wis 8
+  cha 8
 }
 
 pp 11

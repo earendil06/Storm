@@ -1,4 +1,4 @@
-package com.storm.model;
+package com.storm.model.ability;
 
 import java.util.Arrays;
 import java.util.Optional;
