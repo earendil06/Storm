@@ -12,7 +12,7 @@ public class StormListenerImpl extends StormBaseListener {
     private Block block = new Block();
 
     @Override
-    public void enterName(StormParser.NameContext ctx) {
+    public void enterBlock(StormParser.BlockContext ctx) {
         String name = ctx.WORD().getText();
         System.out.println(name);
         block.setName(name);

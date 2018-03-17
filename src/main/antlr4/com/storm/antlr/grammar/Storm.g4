@@ -1,31 +1,37 @@
 grammar Storm;
 
-// Parser Rules
-block    : name NEWLINE traits EOF ;
+// Block Statistics Parser Rules
+block         : WORD NEWLINE+ traits EOF ;
 
-name     : WORD ;
+traits        : stat* ability_block action_block* description? ;
 
-traits   : stat* (NEWLINE ability_block NEWLINE)? stat* ;
+stat          : STAT WS+ (NUMBER | dice) NEWLINE* ;
+ability_block : (ability NEWLINE*)+ NEWLINE* ;
+ability       : STAT_ID WS+ NUMBER NEWLINE* ;
 
-stat     : STAT WHITESPACE+ (NUMBER | dice) NEWLINE* ;
+action_block  : WORD NEWLINE action+ NEWLINE? ;
+action        : (to_hit | reach | range | hit | description) NEWLINE? ;
 
-ability_block : 'scores' WHITESPACE* '{' NEWLINE* (WHITESPACE* ability)+ '}' ;
+to_hit        : MODIFIER_OP NUMBER WS+ 'to hit' NEWLINE ;
+reach         : 'reach' WS+ NUMBER ;
+range         : 'range' WS+ NUMBER '/' NUMBER ;
+hit           : 'hit' WS+ dice WS+ DAMAGE_TYPE ;
 
-ability    : STAT_ID WHITESPACE+ NUMBER NEWLINE* ;
-
-dice       : NUMBER 'd' NUMBER (WHITESPACE* modifier)? ;
-
-modifier   : MODIFIER_OP WHITESPACE* NUMBER ;
+dice          : NUMBER 'd' NUMBER (WS* modifier)? ;
+modifier      : MODIFIER_OP WS* NUMBER ;
+description   : '[' .~('[' | ']')+ ']' ;
 
 
 // Lexer Rules
 MODIFIER_OP : ('+' | '-') ;
 STAT_ID     : ('str' | 'dex' | 'con' | 'int' | 'wis' | 'cha') ;
 STAT        : ('ac' | 'AC' | 'pp'  | 'PP' | 'hp' | 'HP') ;
+DAMAGE_TYPE : ('piercing' | 'slashing' | 'bludgeoning' | 'fire' | 'acid' | 'ice' | 'arcane' | 'thunder') ;
 
 WORD        : (LOWERCASE | UPPERCASE | '_')+ ;
 NUMBER      : [0-9]+ ;
-LOWERCASE   : [a-z]  ;
-UPPERCASE   : [A-Z]  ;
 NEWLINE     : ('\r'? '\n' | '\r')+ ;
-WHITESPACE  : (' ' | '\t') ;
+WS          : (' ' | '\t') ;
+
+fragment LOWERCASE : [a-z] ;
+fragment UPPERCASE : [A-Z] ;

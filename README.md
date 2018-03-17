@@ -27,7 +27,7 @@ The syntax below should not influence the future implementation,
 it is json-like to be simple to talk about for now.
 
 ```
-entity "Goblin"
+Goblin
 
 AC 11
 HP 1d6 + 2

@@ -20,7 +20,7 @@ public class Main {
         if (args.length > 1) {
             path = args[0];
         } else {
-            path = Main.class.getResource("test.storm").getPath();
+            path = Main.class.getResource("goblin.storm").getPath();
         }
         CharStream stream = getCharStream(path);
         buildModel(stream);
