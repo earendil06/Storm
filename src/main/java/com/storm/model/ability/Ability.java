@@ -16,7 +16,7 @@ public class Ability {
         this(AbilityType.asAbility(type).orElse(AbilityType.NOT_APPLICABLE), score);
     }
 
-    private int getModifier() {
+    public int getModifier() {
         int roundingMode = (score - 10) > 0 ? BigDecimal.ROUND_DOWN : BigDecimal.ROUND_UP;
         BigDecimal decimal = new BigDecimal(score - 10).divide(new BigDecimal(2), roundingMode);
         return decimal.intValue();
