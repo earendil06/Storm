@@ -1,4 +1,4 @@
-package com.storm.model.stat;
+package com.ddmodel.stat;
 
 public class ConstValue implements StatValue {
     private int value;

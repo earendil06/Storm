@@ -1,4 +1,4 @@
-package com.storm.model;
+package com.ddmodel;
 
 import java.util.HashSet;
 import java.util.Optional;

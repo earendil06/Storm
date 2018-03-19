@@ -1,6 +1,6 @@
 grammar Storm;
 
-// Block Statistics Parser Rules
+// com.ddmodel.Block Statistics Parser Rules
 block         : WORD NEWLINE+ traits EOF ;
 
 traits        : stat* ability_block action_block* spell_block* description? ;

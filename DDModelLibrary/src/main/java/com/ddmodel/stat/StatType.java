@@ -1,4 +1,4 @@
-package com.storm.model.stat;
+package com.ddmodel.stat;
 
 import java.util.Arrays;
 import java.util.Optional;

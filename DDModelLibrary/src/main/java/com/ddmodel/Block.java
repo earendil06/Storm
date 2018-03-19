@@ -1,12 +1,14 @@
-package com.storm.model;
+package com.ddmodel;
 
-import com.storm.model.ability.Ability;
-import com.storm.model.ability.AbilityType;
-import com.storm.model.spell.Spell;
-import com.storm.model.stat.Stat;
-import com.storm.model.stat.StatType;
+import com.ddmodel.ability.Ability;
+import com.ddmodel.ability.AbilityType;
+import com.ddmodel.spell.Spell;
+import com.ddmodel.stat.Stat;
+import com.ddmodel.stat.StatType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Block {
     private String name;

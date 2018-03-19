@@ -1,4 +1,4 @@
-package com.storm.model.spell;
+package com.ddmodel.spell;
 
 public class Spell {
     private String name;

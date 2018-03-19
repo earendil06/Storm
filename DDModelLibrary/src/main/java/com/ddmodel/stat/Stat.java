@@ -1,4 +1,4 @@
-package com.storm.model.stat;
+package com.ddmodel.stat;
 
 public class Stat {
     private StatType type;

@@ -1,4 +1,4 @@
-package com.storm.model.ability;
+package com.ddmodel.ability;
 
 import java.util.Arrays;
 import java.util.Optional;

@@ -1,13 +1,13 @@
 package com.storm.antlr;
 
+import com.ddmodel.Block;
+import com.ddmodel.ability.Ability;
+import com.ddmodel.spell.Spell;
+import com.ddmodel.stat.ConstValue;
+import com.ddmodel.stat.Dice;
+import com.ddmodel.stat.Stat;
 import com.storm.antlr.grammar.StormBaseListener;
 import com.storm.antlr.grammar.StormParser;
-import com.storm.model.Block;
-import com.storm.model.ability.Ability;
-import com.storm.model.spell.Spell;
-import com.storm.model.stat.ConstValue;
-import com.storm.model.stat.Dice;
-import com.storm.model.stat.Stat;
 
 public class StormListenerImpl extends StormBaseListener {
     private Block block = new Block();
