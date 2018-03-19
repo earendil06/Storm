@@ -4,6 +4,7 @@ import com.storm.antlr.grammar.StormBaseListener;
 import com.storm.antlr.grammar.StormParser;
 import com.storm.model.Block;
 import com.storm.model.ability.Ability;
+import com.storm.model.spell.Spell;
 import com.storm.model.stat.ConstValue;
 import com.storm.model.stat.Dice;
 import com.storm.model.stat.Stat;
@@ -59,6 +60,22 @@ public class StormListenerImpl extends StormBaseListener {
         }
 
         block.addStat(stat);
+    }
+
+    @Override
+    public void enterSpell_block(StormParser.Spell_blockContext ctx) {
+        int index = ctx.children.indexOf(ctx.ARROW());
+        StringBuilder name = new StringBuilder();
+        StringBuilder description = new StringBuilder();
+        for (int i = 0; i < index; i++) {
+            name.append(ctx.children.get(i));
+        }
+        for (int i = index + 1; i < ctx.children.size(); i++) {
+            description.append(ctx.children.get(i));
+        }
+
+        Spell spell = new Spell(name.toString(), description.toString());
+        block.addSpell(spell);
     }
 
     @Override

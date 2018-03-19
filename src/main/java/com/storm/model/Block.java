@@ -2,6 +2,7 @@ package com.storm.model;
 
 import com.storm.model.ability.Ability;
 import com.storm.model.ability.AbilityType;
+import com.storm.model.spell.Spell;
 import com.storm.model.stat.Stat;
 import com.storm.model.stat.StatType;
 
@@ -11,6 +12,7 @@ public class Block {
     private String name;
     private TypedSet<Ability> abilityScores = new TypedSet<>();
     private TypedSet<Stat> stats = new TypedSet<>();
+    private TypedSet<Spell> spells = new TypedSet<>();
 
     public String getName() {
         return name;
@@ -40,10 +42,15 @@ public class Block {
         stats.put(stat);
     }
 
+    public void addSpell(Spell spell) {
+        spells.put(spell);
+    }
+
     @Override
     public String toString() {
         return "Name : " + name + '\n' +
                 "Abilities : " + abilityScores + '\n' +
-                "Statistics : " + stats;
+                "Statistics : " + stats + '\n' +
+                "Spells : " + spells;
     }
 }
