@@ -1,7 +1,7 @@
-package com.storm
+package pastorm.stormlanguage
 
 import com.ddmodel.Block
-import com.storm.encounterengine.Encounter
+import pastorm.stormlanguage.encounterengine.Encounter
 import storm.resource.StormParser
 
 object Main {
@@ -29,4 +29,5 @@ object Main {
     encounter.nextTurn()
     encounter.nextTurn()
   }
+
 }

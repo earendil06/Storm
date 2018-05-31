@@ -11,6 +11,7 @@
     <modules>
         <module>DDModelLibrary</module>
         <module>StormLang</module>
+        <module>stormengine</module>
     </modules>
 
     <properties>

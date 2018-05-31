@@ -1,8 +1,8 @@
-package com.storm.encounterengine
+package pastorm.stormlanguage.encounterengine
 
 import com.ddmodel.Block
 import com.ddmodel.ability.{Ability, AbilityType}
-import com.storm.encounterengine.dice.Die
+import pastorm.stormlanguage.encounterengine.dice.Die
 
 class Encounter {
   private val d20 = new Die(20)
@@ -22,7 +22,7 @@ class Encounter {
         val dexterityAbility = block.getAbility(AbilityType.DEXTERITY)
           .orElse(new Ability(AbilityType.DEXTERITY, 10))
         val dexterityModifier = dexterityAbility.getModifier
-        val roll = d20.roll
+        val roll = d20 roll
         val rolledInitiative = roll + dexterityModifier
         initiatives += (name -> rolledInitiative)
         println(s"$name rolled $rolledInitiative (base:$dexterityModifier + roll:$roll)")
@@ -43,7 +43,7 @@ class Encounter {
       val index = orderedInitiative.indexOf(currentTurnMonster)
       val newIndex = index + 1
       if (newIndex >= orderedInitiative.size) {
-        currentTurnMonster = orderedInitiative.head
+        currentTurnMonster = orderedInitiative head
       } else {
         currentTurnMonster = orderedInitiative(newIndex)
       }

@@ -1,4 +1,4 @@
-package com.storm.encounterengine.dice
+package pastorm.stormlanguage.encounterengine.dice
 
 import java.security.SecureRandom
 
