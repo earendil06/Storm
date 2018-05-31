@@ -14,5 +14,19 @@ object Main {
     encounter.newMonster("Glork", goblinBlock)
 
     encounter.rollInitiative()
+    encounter.nextTurn()
+    encounter.nextTurn()
+    encounter.nextTurn()
+    encounter.nextTurn()
+    encounter.nextTurn()
+    encounter.nextTurn()
+    encounter.nextTurn()
+    encounter.nextTurn()
+
+    encounter.newMonster("Baba", goblinBlock)
+    encounter.rollInitiative()
+
+    encounter.nextTurn()
+    encounter.nextTurn()
   }
 }
