@@ -1,6 +1,6 @@
 package com.pastorm
 
-import com.pastorm.encounterengine.Encounter
+import com.pastorm.encounterengine.{Encounter, InitiativeEngine}
 import storm.resource.StormParser
 
 object Main {
@@ -8,7 +8,7 @@ object Main {
     val stormParser = new StormParser
     val goblinBlock = stormParser.getBlockFromName("goblin")
 
-    val encounter: Encounter = new Encounter
+    val encounter: Encounter = new Encounter(new InitiativeEngine)
     encounter.newMonster("Toto", goblinBlock)
     encounter.newMonster("Glork", goblinBlock)
 
