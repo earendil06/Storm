@@ -36,15 +36,15 @@ public class Block {
         return stats.getValueMatching(stat -> stat.getType().equals(type));
     }
 
-    public void addAbility(Ability ability) {
+    public void putAbility(Ability ability) {
         abilityScores.put(ability);
     }
 
-    public void addStat(Stat stat) {
+    public void putStat(Stat stat) {
         stats.put(stat);
     }
 
-    public void addSpell(Spell spell) {
+    public void putSpell(Spell spell) {
         spells.put(spell);
     }
 

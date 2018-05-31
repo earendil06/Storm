@@ -1,5 +1,7 @@
 package com.ddmodel.stat;
 
+import java.util.Objects;
+
 public class Stat {
     private StatType type;
     private StatValue statValue;
@@ -7,6 +9,11 @@ public class Stat {
 
     public Stat(StatType type) {
         this.type = type;
+    }
+
+    public Stat(StatType type, StatValue statValue) {
+        this.type = type;
+        this.statValue = statValue;
     }
 
     public Stat(String type) {
@@ -23,6 +30,10 @@ public class Stat {
 
     public StatValue getStatValue() {
         return statValue;
+    }
+
+    public void setStatValue(StatValue statValue) {
+        this.statValue = statValue;
     }
 
     public int getScore() {
@@ -42,12 +53,22 @@ public class Stat {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Stat stat = (Stat) o;
+        return type == stat.type;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(type);
+    }
+
+    @Override
     public String toString() {
         String desc = description == null ? "" : " {" + description + "}";
         return type + "=" + statValue + desc;
-    }
-
-    public void setStatValue(StatValue statValue) {
-        this.statValue = statValue;
     }
 }
