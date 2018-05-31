@@ -1,13 +1,12 @@
-package pastorm.stormlanguage
+package com.pastorm
 
-import com.ddmodel.Block
-import pastorm.stormlanguage.encounterengine.Encounter
+import com.pastorm.encounterengine.Encounter
 import storm.resource.StormParser
 
 object Main {
   def main(args: Array[String]): Unit = {
     val stormParser = new StormParser
-    val goblinBlock: Block = stormParser.getBlockFromName("goblin")
+    val goblinBlock = stormParser.getBlockFromName("goblin")
 
     val encounter: Encounter = new Encounter
     encounter.newMonster("Toto", goblinBlock)
