@@ -10,7 +10,7 @@ public class Dice implements StatValue {
         this.faces = faces;
     }
 
-    public int meanValue() {
+    private int meanValue() {
         return number * (faces / 2) + modifier;
     }
 
@@ -20,7 +20,7 @@ public class Dice implements StatValue {
 
     @Override
     public int getScore() {
-        return roll();
+        return meanValue();
     }
 
     @Override

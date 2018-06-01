@@ -1,4 +1,4 @@
-package com.pastorm.encounterengine.dice
+package com.pastorm.encounter.dice
 
 import java.security.SecureRandom
 

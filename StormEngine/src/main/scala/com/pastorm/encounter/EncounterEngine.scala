@@ -1,10 +1,9 @@
-package com.pastorm.encounterengine
+package com.pastorm.encounter
 
 import com.ddmodel.Block
 import com.pastorm.encounter.initiative.InitiativeEngine
-import com.pastorm.encounter.{EncounterData, Monster}
 
-class Encounter(initiativeEngine: InitiativeEngine) {
+class EncounterEngine(initiativeEngine: InitiativeEngine) {
   private var encounterData: EncounterData = EncounterData(List(), Map(), "")
 
   def newMonster(name: String, block: Block): Unit =
@@ -18,4 +17,9 @@ class Encounter(initiativeEngine: InitiativeEngine) {
 
   def nextTurn(): Unit = encounterData = initiativeEngine.nextTurn(encounterData)
 
+  def getPlayingMonster: Option[Monster] = encounterData.get(encounterData.playingMonsterName)
+
+  def setMonster(monster: Monster): Unit =
+    encounterData =
+      encounterData.copy(monsters = encounterData.monsters.filter(m => m.name.equals(monster.name)) :+ monster)
 }

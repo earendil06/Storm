@@ -1,4 +1,4 @@
-package com.pastorm.encounterengine
+package com.pastorm.encounter
 
 case class EncounterData(monsters: List[Monster], initiatives: Map[String, Int], playingMonsterName: String) {
 

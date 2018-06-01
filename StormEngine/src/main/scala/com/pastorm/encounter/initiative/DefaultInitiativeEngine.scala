@@ -1,12 +1,13 @@
-package com.pastorm.encounterengine
+package com.pastorm.encounter.initiative
 
 import com.ddmodel.ability.{Ability, AbilityType}
-import com.pastorm.encounterengine.dice.Die
+import com.pastorm.encounter.EncounterData
+import com.pastorm.encounter.dice.Die
 
-class InitiativeEngine() {
+class DefaultInitiativeEngine() extends InitiativeEngine {
   private val d20 = new Die(20)
 
-  def rollInitiative(encounterData: EncounterData): EncounterData = {
+  override def rollInitiative(encounterData: EncounterData): EncounterData = {
     var resultInitiatives = encounterData.initiatives
     for (monster <- encounterData.monsters if !(resultInitiatives contains monster.name)) {
       val dexterityAbility = monster.block.getAbility(AbilityType.DEXTERITY)
@@ -21,7 +22,7 @@ class InitiativeEngine() {
     encounterData.copy(initiatives = resultInitiatives)
   }
 
-  def nextTurn(encounterData: EncounterData): EncounterData = {
+  override def nextTurn(encounterData: EncounterData): EncounterData = {
     var resultEncounterData = encounterData
     val initiatives = encounterData.initiatives
     if (initiatives.isEmpty) {
