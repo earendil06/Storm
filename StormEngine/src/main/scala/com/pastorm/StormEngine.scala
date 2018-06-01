@@ -3,7 +3,7 @@ package com.pastorm
 import com.pastorm.encounterengine.{Encounter, InitiativeEngine}
 import storm.resource.StormParser
 
-object Main {
+object StormEngine {
   def main(args: Array[String]): Unit = {
     val stormParser = new StormParser
     val goblinBlock = stormParser.getBlockFromName("goblin")

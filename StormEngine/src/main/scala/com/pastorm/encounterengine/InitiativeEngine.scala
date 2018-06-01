@@ -8,16 +8,14 @@ class InitiativeEngine() {
 
   def rollInitiative(encounterData: EncounterData): EncounterData = {
     var resultInitiatives = encounterData.initiatives
-    for (monster <- encounterData.monsters) {
-      if (!(resultInitiatives contains monster.name)) {
-        val dexterityAbility = monster.block.getAbility(AbilityType.DEXTERITY)
-          .orElse(new Ability(AbilityType.DEXTERITY, 10))
-        val dexterityModifier = dexterityAbility.getModifier
-        val roll = d20 roll
-        val rolledInitiative = roll + dexterityModifier
-        resultInitiatives += (monster.name -> rolledInitiative)
-        println(s"${monster.name} rolled $rolledInitiative (base:$dexterityModifier + roll:$roll)")
-      }
+    for (monster <- encounterData.monsters if !(resultInitiatives contains monster.name)) {
+      val dexterityAbility = monster.block.getAbility(AbilityType.DEXTERITY)
+        .orElse(new Ability(AbilityType.DEXTERITY, 10))
+      val dexterityModifier = dexterityAbility.getModifier
+      val roll = d20 roll
+      val rolledInitiative = roll + dexterityModifier
+      println(s"${monster.name} rolled $rolledInitiative (base:$dexterityModifier + roll:$roll)")
+      resultInitiatives += (monster.name -> rolledInitiative)
     }
     println(s"=> Combat order: ${resultInitiatives.toList.sortBy(_._2).reverse.map(_._1)}")
     EncounterData(encounterData.monsters, resultInitiatives, encounterData.playingMonsterName)
