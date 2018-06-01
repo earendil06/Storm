@@ -6,7 +6,7 @@ class Encounter(initiativeEngine: InitiativeEngine) {
   private var encounterData: EncounterData = EncounterData(List(), Map(), null)
 
   def newMonster(name: String, block: Block): Unit =
-    encounterData.copy(monsters = encounterData.monsters :+ Monster(name, block))
+    encounterData = encounterData.copy(monsters = encounterData.monsters :+ Monster(name, block))
 
   def getMonsterByName(name: String): Option[Monster] = encounterData.get(name)
 
