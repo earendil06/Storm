@@ -18,7 +18,7 @@ class InitiativeEngine() {
       resultInitiatives += (monster.name -> rolledInitiative)
     }
     println(s"=> Combat order: ${resultInitiatives.toList.sortBy(_._2).reverse.map(_._1)}")
-    EncounterData(encounterData.monsters, resultInitiatives, encounterData.playingMonsterName)
+    encounterData.copy(initiatives = resultInitiatives)
   }
 
   def nextTurn(encounterData: EncounterData): EncounterData = {
@@ -30,13 +30,13 @@ class InitiativeEngine() {
     }
     val orderedInitiative = initiatives.toList.sortBy(_._2).reverse.map(_._1)
     if (encounterData.playingMonsterName == null) {
-      resultEncounterData = EncounterData(encounterData.monsters, encounterData.initiatives, orderedInitiative.head)
+      resultEncounterData = encounterData.copy(playingMonsterName = orderedInitiative.head)
     } else {
       val next = orderedInitiative.indexOf(encounterData.playingMonsterName) + 1
       if (next >= orderedInitiative.size) {
-        resultEncounterData = EncounterData(encounterData.monsters, encounterData.initiatives, orderedInitiative.head)
+        resultEncounterData = encounterData.copy(playingMonsterName = orderedInitiative.head)
       } else {
-        resultEncounterData = EncounterData(encounterData.monsters, encounterData.initiatives, orderedInitiative(next))
+        resultEncounterData = encounterData.copy(playingMonsterName = orderedInitiative(next))
       }
     }
     println(s"${resultEncounterData.playingMonsterName}'s turn")
