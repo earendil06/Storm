@@ -6,8 +6,7 @@ class Encounter(initiativeEngine: InitiativeEngine) {
   private var encounterData: EncounterData = EncounterData(List(), Map(), null)
 
   def newMonster(name: String, block: Block): Unit =
-    encounterData =
-      EncounterData(encounterData.monsters :+ Monster(name, block), encounterData.initiatives, encounterData.playingMonsterName)
+    encounterData.copy(monsters = encounterData.monsters :+ Monster(name, block))
 
   def getMonsterByName(name: String): Option[Monster] = encounterData.get(name)
 
