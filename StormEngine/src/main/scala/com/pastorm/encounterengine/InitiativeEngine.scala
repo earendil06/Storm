@@ -29,7 +29,7 @@ class InitiativeEngine() {
       return resultEncounterData
     }
     val orderedInitiative = initiatives.toList.sortBy(_._2).reverse.map(_._1)
-    if (encounterData.playingMonsterName == null) {
+    if (encounterData.playingMonsterName.isEmpty) {
       resultEncounterData = encounterData.copy(playingMonsterName = orderedInitiative.head)
     } else {
       val next = orderedInitiative.indexOf(encounterData.playingMonsterName) + 1
