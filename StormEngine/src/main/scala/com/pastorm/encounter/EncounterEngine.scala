@@ -4,7 +4,7 @@ import com.ddmodel.Block
 import com.pastorm.encounter.initiative.InitiativeEngine
 
 class EncounterEngine(initiativeEngine: InitiativeEngine) {
-  private var encounterData: EncounterData = EncounterData(List(), Map(), "")
+  private var encounterData: EncounterData = EncounterData(Seq(), Map(), "")
 
   def newMonster(name: String, block: Block): Unit =
     encounterData = encounterData.copy(monsters = encounterData.monsters :+ Monster(name, block))
