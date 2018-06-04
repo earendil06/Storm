@@ -5,7 +5,7 @@ import com.pastorm.encounter.initiative.InitiativeEngine
 import com.pastorm.encounter.{EncounterData, Monster}
 
 class Encounter(initiativeEngine: InitiativeEngine) {
-  private var encounterData: EncounterData = EncounterData(List(), Map(), "")
+  private var encounterData: EncounterData = EncounterData(Seq(), Map(), "")
 
   def newMonster(name: String, block: Block): Unit =
     encounterData = encounterData.copy(monsters = encounterData.monsters :+ Monster(name, block))
