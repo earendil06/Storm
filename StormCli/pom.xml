@@ -4,18 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pastorm.stormlanguage</groupId>
+    <parent>
+        <groupId>pastorm.storm</groupId>
+        <artifactId>Storm</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <artifactId>StormCli</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>pastorm.stormlanguage</groupId>
+            <groupId>pastorm.storm</groupId>
             <artifactId>DDModelLibrary</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>pastorm.stormlanguage</groupId>
+            <groupId>pastorm.storm</groupId>
             <artifactId>StormLang</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
