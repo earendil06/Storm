@@ -2,32 +2,31 @@ package com.pastorm.encounter.engine.initiative
 
 import com.ddmodel.ability.AbilityType
 import com.pastorm.encounter.dice.Die
-import com.pastorm.encounter.model.EncounterData
+import com.pastorm.encounter.model.{EncounterData, Monster}
 import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
+
+import scala.collection.mutable
 
 class DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)
 
-  override def rollInitiative(encounterData: EncounterData): EncounterData = {
-    var resultMonsters = encounterData.monsters
-    for (monster <- encounterData.monsters if monster.initiative isEmpty) {
-      val dexterityAbility = monster.block.getAbility(AbilityType.DEXTERITY)
+  override def rollInitiative(monsters: Seq[Monster]): Seq[Monster] = {
+    val resultMonsters = mutable.ArrayBuffer(monsters:_*)
+    for (monster <- monsters if monster.initiative isEmpty) {
+      val dexterityModifier = monster.block.getAbility(AbilityType.DEXTERITY)
         .orElseThrow(IllegalArgumentSupplier(s"${monster.name} does not have a dexterity ability."))
-      val dexterityModifier = dexterityAbility.getModifier
+        .getModifier
       val roll = d20 roll
       val rolledInitiative = roll + dexterityModifier
       println(s"${monster.name} rolled $rolledInitiative (base:$dexterityModifier + roll:$roll)")
-      resultMonsters =
-        resultMonsters.filter(_.name != monster.name) :+ monster.copy(initiative = Some(rolledInitiative))
+      resultMonsters(resultMonsters.indexOf(monster)) = monster.copy(initiative = Some(rolledInitiative))
     }
     println(s"=> Combat order: ${
-      resultMonsters
-        .sortBy(_.initiative)
-        .reverse
+      resultMonsters.sortBy(_.initiative).reverse
         .map(monster => s"${monster.name} (${monster.initiative.get})")
         .reduce((a, b) => a + ", " + b)
     }")
-    encounterData.copy(monsters = resultMonsters)
+    resultMonsters
   }
 
   override def nextTurn(encounterData: EncounterData): EncounterData = {
