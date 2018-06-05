@@ -2,11 +2,12 @@ package com.pastorm.encounter.engine
 
 import com.ddmodel.Block
 import com.ddmodel.stat.StatType
-import com.pastorm.encounter.engine.initiative.DefaultInitiativeEngine
+import com.pastorm.encounter.engine.initiative.InitiativeEngine
 import com.pastorm.encounter.model.{EncounterData, Monster}
 import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
 
-class EncounterEngine() extends GameEngine with DefaultInitiativeEngine {
+class EncounterEngine() extends GameEngine {
+  this: InitiativeEngine =>
   private var encounterData: EncounterData = EncounterData(Seq(), "")
 
   override def newMonster(name: String, block: Block): Unit =
