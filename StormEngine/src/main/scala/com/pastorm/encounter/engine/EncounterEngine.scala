@@ -33,8 +33,7 @@ class EncounterEngine() extends GameEngine with DefaultInitiativeEngine {
 
   override def damage(name: String, damage: Int): Monster = {
     println(s"$name took $damage damage")
-    val monster = getMonsterByName(name).getOrElse(
-      throw new IllegalArgumentException(s"$name is not in the encounter"))
+    val monster = getMonsterByName(name).getOrElse(throw new IllegalArgumentException(s"$name is not in the encounter"))
     monster.copy(hitPoints = monster.hitPoints.map(hp => hp - damage))
   }
 
