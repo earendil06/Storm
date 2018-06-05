@@ -30,7 +30,7 @@ object StormEngine {
     encounter.nextTurn()
 
     showAllInfo
-    encounter.updateMonster(encounter.getPlayingMonster.damage(2))
+    encounter.updateMonster(encounter.damage("Toto", 2))
     encounter.nextTurn()
     showAllInfo
 
@@ -45,7 +45,8 @@ object StormEngine {
       .reverse
       .foreach(monster =>
         println(
-          s"${monster.name}:\t HP: ${monster.hitPoints.get}, Init: ${monster.initiative.getOrElse("(not rolled)")}"))
+          s"${monster.name}:\t HP: ${monster.hitPoints.get}, " +
+            s"Initiative: ${monster.initiative.getOrElse("(not rolled)")}"))
     println()
   }
 

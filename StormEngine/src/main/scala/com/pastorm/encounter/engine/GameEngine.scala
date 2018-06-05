@@ -20,4 +20,6 @@ trait GameEngine {
   def getPlayingMonster: Monster
 
   def updateMonster(monster: Monster): Unit
+
+  def damage(name: String, damage: Int): Monster
 }
