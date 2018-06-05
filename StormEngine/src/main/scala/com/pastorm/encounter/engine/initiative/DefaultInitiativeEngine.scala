@@ -5,7 +5,7 @@ import com.pastorm.encounter.dice.Die
 import com.pastorm.encounter.model.EncounterData
 import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
 
-trait DefaultInitiativeEngine extends InitiativeEngine {
+class DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)
 
   override def rollInitiative(encounterData: EncounterData): EncounterData = {

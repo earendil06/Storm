@@ -2,12 +2,12 @@ package com.pastorm.encounter.engine
 
 import com.ddmodel.Block
 import com.ddmodel.stat.StatType
-import com.pastorm.encounter.engine.initiative.InitiativeEngine
+import com.pastorm.encounter.engine.configuration.InitiativeEngineComponent
 import com.pastorm.encounter.model.{EncounterData, Monster}
 import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
 
 class EncounterEngine() extends GameEngine {
-  this: InitiativeEngine =>
+  this: InitiativeEngineComponent =>
   private var encounterData: EncounterData = EncounterData(Seq(), "")
 
   override def newMonster(name: String, block: Block): Unit =
@@ -20,9 +20,9 @@ class EncounterEngine() extends GameEngine {
 
   override def getCurrentTurnMonster: String = encounterData.playingMonsterName
 
-  override def rollInitiative(): Unit = encounterData = rollInitiative(encounterData)
+  override def rollInitiative(): Unit = encounterData = initiativeEngine.rollInitiative(encounterData)
 
-  override def nextTurn(): Unit = encounterData = nextTurn(encounterData)
+  override def nextTurn(): Unit = encounterData = initiativeEngine.nextTurn(encounterData)
 
   override def getPlayingMonster: Monster = getMonsterByName(encounterData.playingMonsterName)
     .getOrElse(throw new IllegalArgumentException(

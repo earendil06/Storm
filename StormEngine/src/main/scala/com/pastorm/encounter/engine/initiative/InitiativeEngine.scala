@@ -1,9 +1,8 @@
 package com.pastorm.encounter.engine.initiative
 
-import com.pastorm.encounter.engine.GameEngine
 import com.pastorm.encounter.model.EncounterData
 
-trait InitiativeEngine extends GameEngine {
+trait InitiativeEngine {
 
   def rollInitiative(encounterData: EncounterData): EncounterData
 
