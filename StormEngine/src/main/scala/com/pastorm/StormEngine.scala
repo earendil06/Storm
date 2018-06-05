@@ -1,7 +1,6 @@
 package com.pastorm
 
-import com.pastorm.encounter.EncounterEngine
-import com.pastorm.encounter.initiative.DefaultInitiativeEngine
+import com.pastorm.encounter.engine.EncounterEngine
 import storm.resource.StormParser
 
 object StormEngine {
@@ -9,10 +8,11 @@ object StormEngine {
     val stormParser = new StormParser
     val goblinBlock = stormParser.getBlockFromName("goblin")
 
-    val encounter: EncounterEngine = new EncounterEngine(new DefaultInitiativeEngine)
+    implicit val encounter: EncounterEngine = new EncounterEngine()
+    showAllInfo
     encounter.newMonster("Toto", goblinBlock)
     encounter.newMonster("Glork", goblinBlock)
-
+    showAllInfo
     encounter.rollInitiative()
     encounter.nextTurn()
     encounter.nextTurn()
@@ -28,11 +28,25 @@ object StormEngine {
 
     encounter.nextTurn()
     encounter.nextTurn()
-    println(encounter.getPlayingMonster.hitPoints.get)
-    val damaged = encounter.getPlayingMonster
-    val n = damaged.damage(2)
-    encounter.updateMonster(n)
-    println(encounter.getPlayingMonster.hitPoints.get)
+
+    showAllInfo
+    encounter.updateMonster(encounter.getPlayingMonster.damage(2))
+    encounter.nextTurn()
+    showAllInfo
+
+  }
+
+  def showAllInfo(implicit encounterEngine: EncounterEngine): Unit = {
+    val data = encounterEngine.getEncounterData
+    if (data.monsters.isEmpty) return
+    println()
+    data.monsters
+      .sortBy(_.initiative)
+      .reverse
+      .foreach(monster =>
+        println(
+          s"${monster.name}:\t HP: ${monster.hitPoints.get}, Init: ${monster.initiative.getOrElse("(not rolled)")}"))
+    println()
   }
 
 }

@@ -1,11 +1,11 @@
-package com.pastorm.encounter.initiative
+package com.pastorm.encounter.engine.initiative
 
 import com.ddmodel.ability.AbilityType
-import com.pastorm.encounter.EncounterData
 import com.pastorm.encounter.dice.Die
+import com.pastorm.encounter.model.EncounterData
 import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
 
-class DefaultInitiativeEngine() extends InitiativeEngine {
+trait DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)
 
   override def rollInitiative(encounterData: EncounterData): EncounterData = {
@@ -24,7 +24,7 @@ class DefaultInitiativeEngine() extends InitiativeEngine {
       resultMonsters
         .sortBy(_.initiative)
         .reverse
-        .map(monster => s"${monster.name} (${monster.initiative})")
+        .map(monster => s"${monster.name} (${monster.initiative.get})")
         .reduce((a, b) => a + ", " + b)
     }")
     encounterData.copy(monsters = resultMonsters)

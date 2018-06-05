@@ -1,4 +1,4 @@
-package com.pastorm.encounter
+package com.pastorm.encounter.model
 
 import com.ddmodel.Block
 import com.ddmodel.stat.StatType
@@ -9,7 +9,10 @@ case class Monster(block: Block,
                    hitPoints: Option[Int] = None,
                    initiative: Option[Int] = None) {
 
-  def damage(damage: Int): Monster = this.copy(hitPoints = hitPoints.map(hp => hp - damage))
+  def damage(damage: Int): Monster = {
+    println(s"$name took $damage damage")
+    this.copy(hitPoints = hitPoints.map(hp => hp - damage))
+  }
 }
 
 object Monster {
