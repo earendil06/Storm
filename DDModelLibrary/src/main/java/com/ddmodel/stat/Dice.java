@@ -1,13 +1,17 @@
 package com.ddmodel.stat;
 
+import com.ddmodel.Die;
+
 public class Dice implements StatValue {
     private int number;
     private int faces;
     private int modifier;
+    private Die die;
 
     public Dice(int number, int faces) {
         this.number = number;
         this.faces = faces;
+        this.die = new Die(faces);
     }
 
     private int meanValue() {
@@ -15,12 +19,7 @@ public class Dice implements StatValue {
     }
 
     private int roll() {
-        return -1;
-    }
-
-    @Override
-    public int getScore() {
-        return meanValue();
+        return die.roll();
     }
 
     @Override
@@ -30,6 +29,11 @@ public class Dice implements StatValue {
             mod = (modifier > 0 ? "+" : "-") + modifier;
         }
         return number + "d" + faces + mod;
+    }
+
+    @Override
+    public int instanciateValue() {
+        return roll() + modifier;
     }
 
     public int getNumber() {

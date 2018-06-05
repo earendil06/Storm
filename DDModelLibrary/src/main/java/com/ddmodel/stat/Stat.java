@@ -36,10 +36,6 @@ public class Stat {
         this.statValue = statValue;
     }
 
-    public int getScore() {
-        return statValue.getScore();
-    }
-
     public String getFormulae() {
         return statValue.getFormulae();
     }

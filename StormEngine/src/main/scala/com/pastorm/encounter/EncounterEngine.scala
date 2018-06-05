@@ -4,10 +4,10 @@ import com.ddmodel.Block
 import com.pastorm.encounter.initiative.InitiativeEngine
 
 class EncounterEngine(initiativeEngine: InitiativeEngine) {
-  private var encounterData: EncounterData = EncounterData(Seq(), Map(), "")
+  private var encounterData: EncounterData = EncounterData(Seq(), "")
 
   def newMonster(name: String, block: Block): Unit =
-    encounterData = encounterData.copy(monsters = encounterData.monsters :+ Monster(name, block))
+    encounterData = encounterData.copy(monsters = encounterData.monsters :+ Monster(block, name))
 
   def getMonsterByName(name: String): Option[Monster] = encounterData.get(name)
 
@@ -17,9 +17,11 @@ class EncounterEngine(initiativeEngine: InitiativeEngine) {
 
   def nextTurn(): Unit = encounterData = initiativeEngine.nextTurn(encounterData)
 
-  def getPlayingMonster: Option[Monster] = encounterData.get(encounterData.playingMonsterName)
+  def getPlayingMonster: Monster = encounterData.get(encounterData.playingMonsterName)
+    .getOrElse(throw new IllegalArgumentException(
+      s"${encounterData.playingMonsterName} is the playing monster but does not exists in the encounter."))
 
-  def setMonster(monster: Monster): Unit =
+  def updateMonster(monster: Monster): Unit =
     encounterData =
-      encounterData.copy(monsters = encounterData.monsters.filter(m => m.name.equals(monster.name)) :+ monster)
+      encounterData.copy(monsters = encounterData.monsters.filter(m => !m.name.equals(monster.name)) :+ monster)
 }

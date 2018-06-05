@@ -1,7 +1,6 @@
 package com.pastorm
 
-import com.ddmodel.stat.{ConstValue, Stat, StatType}
-import com.pastorm.encounter.{EncounterEngine, Monster}
+import com.pastorm.encounter.EncounterEngine
 import com.pastorm.encounter.initiative.DefaultInitiativeEngine
 import storm.resource.StormParser
 
@@ -29,11 +28,11 @@ object StormEngine {
 
     encounter.nextTurn()
     encounter.nextTurn()
-    println(encounter.getPlayingMonster)
-    val damaged = encounter.getPlayingMonster.get
-    damaged.block.putStat(new Stat(StatType.HIT_POINTS, new ConstValue(damaged.block.getStat(StatType.HIT_POINTS).get().getStatValue.getScore - 2)))
-    encounter.setMonster(damaged)
-    println(encounter.getPlayingMonster)
+    println(encounter.getPlayingMonster.hitPoints.get)
+    val damaged = encounter.getPlayingMonster
+    val n = damaged.damage(2)
+    encounter.updateMonster(n)
+    println(encounter.getPlayingMonster.hitPoints.get)
   }
 
 }

@@ -12,13 +12,13 @@ public class ConstValue implements StatValue {
     }
 
     @Override
-    public int getScore() {
-        return value;
+    public String getFormulae() {
+        return String.valueOf(value);
     }
 
     @Override
-    public String getFormulae() {
-        return String.valueOf(value);
+    public int instanciateValue() {
+        return value;
     }
 
     @Override
