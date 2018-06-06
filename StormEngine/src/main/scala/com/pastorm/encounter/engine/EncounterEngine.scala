@@ -21,7 +21,7 @@ class EncounterEngine() extends GameEngine {
   override def getCurrentTurnMonster: String = encounterData.playingMonsterName
 
   override def rollInitiative(): Unit =
-    encounterData = encounterData.copy(monsters = initiativeEngine.rollInitiative(encounterData.monsters))
+    encounterData = encounterData.copy(monsters = initiativeEngine.rollInitiatives(encounterData.monsters))
 
   override def nextTurn(): Unit = encounterData = initiativeEngine.nextTurn(encounterData)
 

@@ -54,7 +54,6 @@
                             <args>
                                 <arg>-deprecation</arg>
                                 <arg>-feature</arg>
-                                <arg>-language:postfixOps</arg>
                             </args>
                         </configuration>
                     </execution>
