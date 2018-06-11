@@ -5,6 +5,7 @@ import com.storm.antlr.StopErrorListener;
 import com.storm.antlr.StormListenerImpl;
 import com.storm.antlr.grammar.StormLexer;
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -13,7 +14,9 @@ import java.util.Optional;
 
 public class StormParser {
 
-    public Optional<Block> parseBlock(CharStream stream) {
+    public Optional<Block> parseBlock(String block) {
+        CharStream stream = CharStreams.fromString(block);
+
         StormLexer lexer = new StormLexer(stream);
         com.storm.antlr.grammar.StormParser parser = new com.storm.antlr.grammar.StormParser(new CommonTokenStream(lexer));
         parser.addErrorListener(new StopErrorListener());

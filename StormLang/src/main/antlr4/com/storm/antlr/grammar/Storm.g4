@@ -12,7 +12,7 @@ ability       : STAT_ID WS+ NUMBER NEWLINE* ;
 action_block     : WORD NEWLINE action_component+ NEWLINE? ;
 action_component : (to_hit | reach | range | hit | description) NEWLINE? ;
 
-feature_block :       feature_name ARROW feature_description NEWLINE+;
+feature_block :       feature_name ARROW feature_description NEWLINE?;
 feature_name :        (WORD | WS+)+ ;
 feature_description : (WORD | WS+)+ ;
 
