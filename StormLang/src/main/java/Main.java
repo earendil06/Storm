@@ -1,3 +1,4 @@
+import com.storm.antlr.StopErrorListener;
 import com.storm.antlr.StormListenerImpl;
 import com.storm.antlr.grammar.StormLexer;
 import com.storm.antlr.grammar.StormParser;
@@ -5,6 +6,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import storm.resource.BlockDB;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +25,7 @@ public class Main {
             path = Main.class.getResource("goblin.storm").getPath();
         }
         CharStream stream = getCharStream(path);
-//        buildModel(stream);
+        buildModel(stream);
     }
 
     private static CharStream getCharStream(String path) throws IOException {
@@ -32,9 +34,10 @@ public class Main {
         return CharStreams.fromPath(input);
     }
 
-    /*private static void buildModel(CharStream stream) {
+    private static void buildModel(CharStream stream) {
         StormLexer lexer = new StormLexer(stream);
         StormParser parser = new StormParser(new CommonTokenStream(lexer));
+        parser.addErrorListener(new StopErrorListener());
 
         ParseTreeWalker walker = new ParseTreeWalker();
 
@@ -43,6 +46,7 @@ public class Main {
         StormListenerImpl stormListenerImpl = new StormListenerImpl();
 
         walker.walk(stormListenerImpl, rootContext);
-    }*/
+        System.out.println(BlockDB.getInstance().blocks.get(0));
+    }
 
 }

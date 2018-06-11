@@ -2,7 +2,7 @@ package com.ddmodel;
 
 import com.ddmodel.ability.Ability;
 import com.ddmodel.ability.AbilityType;
-import com.ddmodel.spell.Spell;
+import com.ddmodel.feature.Feature;
 import com.ddmodel.stat.Stat;
 import com.ddmodel.stat.StatType;
 
@@ -14,7 +14,8 @@ public class Block {
     private String name;
     private TypedSet<Ability> abilityScores = new TypedSet<>();
     private TypedSet<Stat> stats = new TypedSet<>();
-    private TypedSet<Spell> spells = new TypedSet<>();
+    private TypedSet<Feature> features = new TypedSet<>();
+    private TypedSet<Action> actions = new TypedSet<>();
 
     public String getName() {
         return name;
@@ -44,8 +45,16 @@ public class Block {
         stats.put(stat);
     }
 
-    public void putSpell(Spell spell) {
-        spells.put(spell);
+    public void putFeature(Feature feature) {
+        features.put(feature);
+    }
+
+    public TypedSet<Action> getAction() {
+        return actions;
+    }
+
+    public void putAction(Action action) {
+        actions.put(action);
     }
 
     @Override
@@ -53,6 +62,7 @@ public class Block {
         return "Name : " + name + '\n' +
                 "Abilities : " + abilityScores + '\n' +
                 "Statistics : " + stats + '\n' +
-                "Spells : " + spells;
+                "Actions : " + actions + '\n' +
+                "Features : " + features;
     }
 }

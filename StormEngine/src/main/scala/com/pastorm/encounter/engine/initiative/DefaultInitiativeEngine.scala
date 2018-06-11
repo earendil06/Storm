@@ -11,11 +11,7 @@ class DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)
 
   override def rollInitiatives(monsters: Seq[Monster]): Seq[Monster] = {
-    val monstersWithInitiative: Seq[Monster] = for {
-      monster <- monsters
-      result = if (monster.initiative.isEmpty) rollInitiative(monster) else monster
-    } yield result
-    monstersWithInitiative
+    monsters.map(monster => if (monster.initiative.isEmpty) rollInitiative(monster) else monster)
   }
 
   def rollInitiative(monster: Monster): Monster = {

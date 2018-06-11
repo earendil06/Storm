@@ -1,12 +1,12 @@
-package com.ddmodel.spell;
+package com.ddmodel.feature;
 
 import java.util.Objects;
 
-public class Spell {
+public class Feature {
     private String name;
     private String description;
 
-    public Spell(String name, String description) {
+    public Feature(String name, String description) {
         this.name = name;
         this.description = description;
     }
@@ -15,8 +15,8 @@ public class Spell {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Spell spell = (Spell) o;
-        return Objects.equals(name, spell.name);
+        Feature feature = (Feature) o;
+        return Objects.equals(name, feature.name);
     }
 
     @Override
