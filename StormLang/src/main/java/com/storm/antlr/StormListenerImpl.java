@@ -31,12 +31,10 @@ public class StormListenerImpl extends StormBaseListener {
     @Override
     public void enterStat(StormParser.StatContext ctx) {
         Stat stat = new Stat(ctx.STAT().getSymbol().getText());
-
         if (ctx.NUMBER() == null) {
             int number = Integer.parseInt(ctx.dice().NUMBER().get(0).getText());
             int faces = Integer.parseInt(ctx.dice().NUMBER().get(1).getText());
             Dice dice = new Dice(number, faces);
-
             String modifier = ctx.dice().modifier().NUMBER().getText();
             if (modifier != null) {
                 int modifierValue = Integer.parseInt(modifier);
@@ -82,11 +80,6 @@ public class StormListenerImpl extends StormBaseListener {
             }
         }
         block.putAction(action);
-    }
-
-    @Override
-    public void exitBlock(StormParser.BlockContext ctx) {
-
     }
 
     public Block getResult() {
