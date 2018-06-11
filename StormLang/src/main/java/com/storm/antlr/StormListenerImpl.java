@@ -9,7 +9,6 @@ import com.ddmodel.stat.Dice;
 import com.ddmodel.stat.Stat;
 import com.storm.antlr.grammar.StormBaseListener;
 import com.storm.antlr.grammar.StormParser;
-import storm.resource.BlockDB;
 
 import java.util.List;
 
@@ -87,6 +86,10 @@ public class StormListenerImpl extends StormBaseListener {
 
     @Override
     public void exitBlock(StormParser.BlockContext ctx) {
-        BlockDB.getInstance().blocks.add(block);
+
+    }
+
+    public Block getResult() {
+        return block;
     }
 }
