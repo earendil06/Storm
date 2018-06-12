@@ -80,7 +80,7 @@ class BlockCommand {
     execute(input, args) {
         const blockName = args[1];
         $.ajax({
-            dataType:"jsonp",
+            contentType: "application/json",
             url: 'http://localhost:8080/api/block/' + blockName,
             success: function (data) {
                 app.commands.push({input: input, output: JSON.stringify(data)});
