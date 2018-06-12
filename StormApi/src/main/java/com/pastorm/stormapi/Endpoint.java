@@ -1,11 +1,15 @@
 package com.pastorm.stormapi;
 
 import com.ddmodel.Block;
+import com.pastorm.accessors.Accessor;
 import com.pastorm.accessors.ServerAccessor;
 import com.pastorm.encounter.engine.GameEngine;
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent;
 import com.pastorm.encounter.model.Monster;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
 import scala.Option;
 
 import javax.ws.rs.*;
@@ -13,10 +17,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Optional;
 
-@Component
+@RestController
 @Path("/api")
 public class Endpoint {
-    private ServerAccessor accessor = new ServerAccessor();
+    private Accessor accessor = new ServerAccessor();
     private GameEngine gameEngine = EncounterEngineComponent.encounterEngine();
 
     @GET
