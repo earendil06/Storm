@@ -8,8 +8,7 @@ import com.pastorm.encounter.engine.configuration.EncounterEngineComponent;
 import com.pastorm.encounter.model.Monster;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import scala.Option;
 
 import javax.ws.rs.*;
@@ -18,28 +17,20 @@ import javax.ws.rs.core.Response;
 import java.util.Optional;
 
 @RestController
-@Path("/api")
+@CrossOrigin
 public class Endpoint {
     private Accessor accessor = new ServerAccessor();
     private GameEngine gameEngine = EncounterEngineComponent.encounterEngine();
 
-    @GET
+    @RequestMapping(value = "/api/block/{name}", method = RequestMethod.GET)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response documentation() {
-        return Response.ok("TODO API DOC").build();
-    }
-
-    @GET
-    @Path("/block/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Block getBlockByName(@PathParam("name") String name) {
+    public Block getBlockByName(@PathVariable("name") String name) {
         return accessor.getBlockByName(name).orElse(new Block());
     }
 
-    @GET
-    @Path("/monster/{name}")
+    @RequestMapping(value = "/api/monster/{name}", method = RequestMethod.GET)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMonsterByName(@PathParam("name") String name) {
+    public Response getMonsterByName(@PathVariable("name") String name) {
         Option<Monster> monster = gameEngine.getMonsterByName(name);
         if (monster.nonEmpty()) {
             return Response.ok(new MonsterJson(monster.get())).build();
@@ -48,8 +39,7 @@ public class Endpoint {
         }
     }
 
-    @POST
-    @Path("/new")
+    @RequestMapping(value = "/api/new", method = RequestMethod.POST)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newMonster(NewMonster newMonster) {
         Optional<Block> block = accessor.getBlockByName(newMonster.blockName);
@@ -61,8 +51,7 @@ public class Endpoint {
         }
     }
 
-    @GET
-    @Path("/data")
+    @RequestMapping(value = "/api/data", method = RequestMethod.GET)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEncounterData() {
         return Response.ok(gameEngine.getEncounterData()).build();
