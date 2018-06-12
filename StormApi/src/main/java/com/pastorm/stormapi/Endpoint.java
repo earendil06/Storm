@@ -41,7 +41,7 @@ public class Endpoint {
 
     @RequestMapping(value = "/api/new", method = RequestMethod.POST)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newMonster(NewMonster newMonster) {
+    public Response newMonster(@RequestBody NewMonster newMonster) {
         Optional<Block> block = accessor.getBlockByName(newMonster.blockName);
         if (block.isPresent()) {
             gameEngine.newMonster(newMonster.name, block.get());
@@ -54,7 +54,7 @@ public class Endpoint {
     @RequestMapping(value = "/api/data", method = RequestMethod.GET)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEncounterData() {
-        return Response.ok(gameEngine.getEncounterData()).build();
+        return Response.ok(new EncounterDataJson(gameEngine.getEncounterData())).build();
     }
 
 }
