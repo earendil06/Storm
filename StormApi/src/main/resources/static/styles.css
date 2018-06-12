@@ -7,7 +7,7 @@ html, body {
     margin: 0;
 }
 body {
-    font-size: 11pt;
+    font-size: 12pt;
     font-family: Inconsolata, monospace;
     color: white;
     background-color: black;
@@ -74,33 +74,5 @@ body {
     -moz-column-width: 100px;
     -o-column-width: 100px;
     column-width: 100px;
-}
-
-
-/************************************************************/
-/* SVG Clock                                                */
-/************************************************************/
-
-.clock-container {
-    display: none /*inline-block*/;
-    position: relative;
-    width: 200px;
-    vertical-align: middle;
-    overflow: hidden;
-}
-
-.clock-container > svg > circle {
-    stroke-width: 2px;
-    stroke: #fff;
-}
-
-.hour, .min, .sec {
-    stroke-width: 1px;
-    fill: #333;
-    stroke: #555;
-}
-
-.sec {
-    stroke: #f55;
 }
 
