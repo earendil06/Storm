@@ -1,0 +1,77 @@
+GET http://localhost:8080/api/block/Goblin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###
+
+POST http://localhost:8080/api/new
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Toto","blockName":"Goblin"}
+
+###
+
+POST http://localhost:8080/api/new
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"argh","blockName":"Goblin"}
+
+###
+
+GET http://localhost:8080/api/monster/Toto
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###
+
+GET http://localhost:8080/api/data
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###
+
+GET http://localhost:8080/api/playing
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###
+
+PUT http://localhost:8080/api/roll/initiative
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###
+
+PUT http://localhost:8080/api/damage
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"Toto","damage":"2"}
+
+###
+
+PUT http://localhost:8080/api/damage
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{"name":"nope","damage":"2"}
+
+###
+
+PUT http://localhost:8080/api/nextTurn
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###

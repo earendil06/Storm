@@ -26,7 +26,9 @@ class DefaultInitiativeEngine extends InitiativeEngine {
 
   override def nextTurn(encounterData: EncounterData): EncounterData = {
     var resultEncounterData = encounterData
-    val initiatives = encounterData.monsters.map(monster => (monster.name, monster.initiative))
+    val initiatives = encounterData.monsters
+      .filter(_.initiative.nonEmpty)
+      .map(monster => (monster.name, monster.initiative))
     if (initiatives.isEmpty) {
       println("No one rolled initiative in the encounter")
       return resultEncounterData

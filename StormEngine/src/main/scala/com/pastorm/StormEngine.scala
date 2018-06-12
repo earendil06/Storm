@@ -15,8 +15,7 @@ object StormEngine {
     showAllInfo
     encounter.newMonster("Toto", goblinBlock)
     encounter.newMonster("Glork", goblinBlock)
-    showAllInfo
-    encounter.rollInitiative()
+//    encounter.rollInitiative()
     encounter.nextTurn()
     encounter.nextTurn()
     encounter.nextTurn()
@@ -33,7 +32,7 @@ object StormEngine {
     encounter.nextTurn()
 
     showAllInfo
-    encounter.updateMonster(encounter.damage("Toto", 2))
+    encounter.updateMonster(encounter.damage("Toto", 2).get)
     encounter.nextTurn()
     showAllInfo
 

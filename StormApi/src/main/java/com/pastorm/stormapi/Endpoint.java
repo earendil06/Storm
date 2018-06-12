@@ -6,12 +6,11 @@ import com.pastorm.accessors.ServerAccessor;
 import com.pastorm.encounter.engine.GameEngine;
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent;
 import com.pastorm.encounter.model.Monster;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import scala.Option;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Optional;
@@ -42,6 +41,11 @@ public class Endpoint {
     @RequestMapping(value = "/api/new", method = RequestMethod.POST)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newMonster(@RequestBody NewMonster newMonster) {
+        if (gameEngine.getMonsterByName(newMonster.name).nonEmpty()) {
+            return Response.status(400)
+                    .entity(newMonster.name + " already exists in the encounter.")
+                    .build();
+        }
         Optional<Block> block = accessor.getBlockByName(newMonster.blockName);
         if (block.isPresent()) {
             gameEngine.newMonster(newMonster.name, block.get());
@@ -57,4 +61,64 @@ public class Endpoint {
         return Response.ok(new EncounterDataJson(gameEngine.getEncounterData())).build();
     }
 
+    @RequestMapping(value = "/api/playing", method = RequestMethod.GET)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPlayingMonster() {
+        Option monster = gameEngine.getPlayingMonster();
+        if (monster.nonEmpty()) {
+            return Response
+                    .ok(new MonsterJson(gameEngine.getPlayingMonster().get()))
+                    .build();
+        } else {
+            return Response.status(404).entity("No one rolled initiative.").build();
+        }
+    }
+
+    @RequestMapping(value = "/api/roll/initiative", method = RequestMethod.PUT)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response rollInitiative() {
+        gameEngine.rollInitiative();
+        String name = gameEngine.getPlayingMonsterName();
+        if (name.isEmpty()) {
+            return Response.status(404)
+                    .entity("No one rolled initiative, is there no one in the encounter ?")
+                    .build();
+        }
+        return Response.ok(gameEngine.getPlayingMonsterName() + "'s turn.").build();
+    }
+
+    @RequestMapping(value = "/api/nextTurn", method = RequestMethod.PUT)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response nextTurn() {
+        gameEngine.nextTurn();
+        String name = gameEngine.getPlayingMonsterName();
+        if (name.isEmpty()) {
+            return Response.status(404).entity("No one rolled initiative.").build();
+        } else {
+            return Response.ok(gameEngine.getPlayingMonsterName() + "'s turn.").build();
+        }
+    }
+
+    @RequestMapping(value = "/api/update", method = RequestMethod.PUT)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateMonster(@RequestBody Monster monster) {
+        gameEngine.updateMonster(monster);
+        return Response
+                .ok(new MonsterJson(gameEngine.getMonsterByName(monster.name()).get()))
+                .build();
+    }
+
+    @RequestMapping(value = "/api/damage", method = RequestMethod.PUT)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response damage(@RequestBody DamageJson damageJson) {
+        Option monster = gameEngine.damage(damageJson.getName(), damageJson.getDamage());
+        if (monster.nonEmpty()) {
+            gameEngine.updateMonster((Monster) monster.get());
+            return Response
+                    .ok(new MonsterJson(gameEngine.getMonsterByName(damageJson.getName()).get()))
+                    .build();
+        } else {
+            return Response.status(404).entity(damageJson.getName() + " does not exists.").build();
+        }
+    }
 }

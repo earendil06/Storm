@@ -11,15 +11,15 @@ trait GameEngine {
 
   def getMonsterByName(name: String): Option[Monster]
 
-  def getCurrentTurnMonster: String
+  def getPlayingMonsterName: String
 
   def rollInitiative(): Unit
 
   def nextTurn(): Unit
 
-  def getPlayingMonster: Monster
+  def getPlayingMonster: Option[Monster]
 
   def updateMonster(monster: Monster): Unit
 
-  def damage(name: String, damage: Int): Monster
+  def damage(name: String, damage: Int): Option[Monster]
 }

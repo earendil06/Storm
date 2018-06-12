@@ -10,33 +10,40 @@ class EncounterEngine() extends GameEngine {
   this: InitiativeEngineComponent =>
   private var encounterData: EncounterData = EncounterData(Seq(), "")
 
-  override def newMonster(name: String, block: Block): Unit =
-    encounterData = encounterData.copy(monsters = encounterData.monsters :+ createBaseMonster(name, block))
+  override def newMonster(name: String, block: Block): Unit = {
+    if (getMonsterByName(name).nonEmpty) {
+      println(s"$name already exists in the encounter.")
+    } else {
+      encounterData = encounterData.copy(monsters = encounterData.monsters :+ createBaseMonster(name, block))
+    }
+  }
 
   override def getEncounterData: EncounterData = encounterData
 
   override def getMonsterByName(name: String): Option[Monster] =
     encounterData.monsters.find(monster => monster.name == name)
 
-  override def getCurrentTurnMonster: String = encounterData.playingMonsterName
+  override def getPlayingMonsterName: String = encounterData.playingMonsterName
 
-  override def rollInitiative(): Unit =
+  override def rollInitiative(): Unit = {
     encounterData = encounterData.copy(monsters = initiativeEngine.rollInitiatives(encounterData.monsters))
+    nextTurn()
+  }
 
   override def nextTurn(): Unit = encounterData = initiativeEngine.nextTurn(encounterData)
 
-  override def getPlayingMonster: Monster = getMonsterByName(encounterData.playingMonsterName)
-    .getOrElse(throw new IllegalArgumentException(
-      s"${encounterData.playingMonsterName} is the playing monster but does not exists in the encounter."))
+  override def getPlayingMonster: Option[Monster] = getMonsterByName(encounterData.playingMonsterName)
 
   override def updateMonster(monster: Monster): Unit =
     encounterData =
-      encounterData.copy(monsters = encounterData.monsters.filter(m => !m.name.equals(monster.name)) :+ monster)
+      encounterData.copy(monsters = encounterData.monsters.filterNot(m => m.name.equals(monster.name)) :+ monster)
 
-  override def damage(name: String, damage: Int): Monster = {
+  override def damage(name: String, damage: Int): Option[Monster] = {
     println(s"$name took $damage damage")
-    val monster = getMonsterByName(name).getOrElse(throw new IllegalArgumentException(s"$name is not in the encounter"))
-    monster.copy(hitPoints = monster.hitPoints.map(hp => hp - damage))
+    getMonsterByName(name) match {
+      case Some(m) => Some(m.copy(hitPoints = m.hitPoints.map(hp => hp - damage)))
+      case None => None
+    }
   }
 
   private def createBaseMonster(name: String, block: Block): Monster = {
