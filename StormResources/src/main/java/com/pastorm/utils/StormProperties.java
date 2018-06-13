@@ -1,6 +1,7 @@
 package com.pastorm.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,14 +10,13 @@ import java.util.Properties;
 
 public class StormProperties {
     public static Properties getStormProperties() {
-        URL resource = StormProperties.class.getClassLoader().getResource("storm.properties");
+        InputStream resource = StormProperties.class.getClassLoader().getResourceAsStream("/storm.properties");
         if (resource == null) {
             return new Properties();
         }
-        Path path = Paths.get(resource.getPath());
         Properties properties = new Properties();
         try {
-            properties.load(Files.newInputStream(path));
+            properties.load(resource);
         } catch (IOException e) {
             e.printStackTrace();
         }

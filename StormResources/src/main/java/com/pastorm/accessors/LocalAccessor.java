@@ -23,7 +23,7 @@ public class LocalAccessor implements Accessor {
 
 
     private String getFileContent(String path) {
-        Path input = Paths.get(new File(path).toURI());
+        Path input = Paths.get(new File("/" + path).toURI());
         try {
             return String.join("\n", Files.readAllLines(input));
         } catch (IOException e) {
