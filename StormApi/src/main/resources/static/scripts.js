@@ -1,4 +1,5 @@
-var server = "florentpastor.ddns.net";
+// var server = "florentpastor.ddns.net";
+var server = "localhost";
 var port = "8080";
 
 Vue.component('command', {
@@ -94,7 +95,10 @@ class BlockCommand {
             contentType: "application/json",
             url: `http://${server}:${port}/api/block/` + blockName,
             success: function (data) {
-                app.commands.push({ input: input, output: data, templateName: "block" });
+                app.commands.push({ input: input, output: data.entity, templateName: "block" });
+            },
+            error: function(msg) {
+                app.commands.push({ input: input, output: blockName + " is not registered.", templateName: "default" });
             }
         });
     }

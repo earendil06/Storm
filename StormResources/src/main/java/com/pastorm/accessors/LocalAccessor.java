@@ -15,15 +15,17 @@ public class LocalAccessor implements Accessor {
 
     @Override
     public Optional<Block> getBlockByName(String blockName) {
-        String data = getFileContent(
-                getClass().getClassLoader().getResource(blockName + ".storm").getPath());
-
+        String data = null;
+        try {
+            data = getFileContent(getClass().getClassLoader().getResource(blockName + ".storm").getPath());
+        } catch (NullPointerException e) {
+            //should not catch that... will not be in resources soon anyway
+        }
         return parser.parseBlock(data);
     }
 
-
     private String getFileContent(String path) {
-        Path input = Paths.get(new File("/" + path).toURI());
+        Path input = Paths.get(new File(path).toURI());
         try {
             return String.join("\n", Files.readAllLines(input));
         } catch (IOException e) {
