@@ -33,6 +33,34 @@ public class Block {
         return abilityScores.getValueMatching(ability -> ability.getAbilityType().equals(type));
     }
 
+    public void setAbilityScores(TypedSet<Ability> abilityScores) {
+        this.abilityScores = abilityScores;
+    }
+
+    public TypedSet<Stat> getStats() {
+        return stats;
+    }
+
+    public void setStats(TypedSet<Stat> stats) {
+        this.stats = stats;
+    }
+
+    public TypedSet<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(TypedSet<Feature> features) {
+        this.features = features;
+    }
+
+    public TypedSet<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(TypedSet<Action> actions) {
+        this.actions = actions;
+    }
+
     public Optional<Stat> getStat(StatType type) {
         return stats.getValueMatching(stat -> stat.getType().equals(type));
     }
