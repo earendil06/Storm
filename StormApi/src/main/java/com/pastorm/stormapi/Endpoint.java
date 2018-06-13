@@ -19,7 +19,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 public class Endpoint {
-    private Accessor accessor = new LocalAccessor();
+    private Accessor accessor = new ServerAccessor();
     private GameEngine gameEngine = EncounterEngineComponent.encounterEngine();
 
     @RequestMapping(value = "/api/block/{name}", method = RequestMethod.GET)

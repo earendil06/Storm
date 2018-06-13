@@ -5,19 +5,15 @@ Vue.component('command', {
     '        <div class="input-line line">' +
     '        <div class="prompt">{{ user }}</div>' +
     '            <div>' +
-    '                <input class="cmdline" v-bind:value="command.input" readonly="" >' +
+    '                <input style="color: white;" class="cmdline" v-bind:value="command.input" readonly="" >' +
     '            </div>' +
     '        </div>' +
-    '        <div style="padding-bottom: 10px; padding-top: 5px">' +
+    '        <div style="padding-bottom: 10px; padding-top: 5px; color: white">' +
     '           <component :is="command.templateName" :data="command.output"></component>' +
     '       </div>' +
     '    </div>'
 });
 
-Vue.component('block', {
-    props: ["data"],
-    template: '<div style="background-color: red;">{{ data }}</div>'
-});
 
 const app = new Vue({
     el: '#container',
@@ -90,6 +86,7 @@ class BlockCommand {
             contentType: "application/json",
             url: 'http://localhost:8080/api/block/' + blockName,
             success: function (data) {
+                debugger;
                 app.commands.push({ input: input, output: data, templateName: "block" });
             }
         });

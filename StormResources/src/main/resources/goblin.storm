@@ -3,6 +3,7 @@ Goblin
 AC 15
 HP 2d6 +2
 pp 11
+speed 30
 
 str 8
 dex 14

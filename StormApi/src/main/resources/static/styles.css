@@ -9,7 +9,7 @@ html, body {
 body {
     font-size: 12pt;
     font-family: Inconsolata, monospace;
-    color: white;
+    /*color: white;*/
     background-color: black;
 }
 #container {

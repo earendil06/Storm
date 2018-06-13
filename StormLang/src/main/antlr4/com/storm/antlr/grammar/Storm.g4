@@ -29,7 +29,7 @@ description   : '[' .~('[' | ']')+ ']' ;
 // Lexer Rules
 MODIFIER_OP : ('+' | '-') ;
 STAT_ID     : ('str' | 'dex' | 'con' | 'int' | 'wis' | 'cha') ;
-STAT        : ('ac' | 'AC' | 'pp'  | 'PP' | 'hp' | 'HP') ;
+STAT        : ('ac' | 'AC' | 'pp'  | 'PP' | 'hp' | 'HP'| 'speed'| 'SPEED') ;
 DAMAGE_TYPE : ('piercing' | 'slashing' | 'bludgeoning' | 'fire' | 'acid' | 'ice' | 'arcane' | 'thunder') ;
 
 ARROW       : '=>';
