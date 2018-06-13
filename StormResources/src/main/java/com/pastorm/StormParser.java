@@ -15,6 +15,9 @@ import java.util.Optional;
 public class StormParser {
 
     public Optional<Block> parseBlock(String block) {
+        if (block == null) {
+            return Optional.empty();
+        }
         CharStream stream = CharStreams.fromString(block);
 
         StormLexer lexer = new StormLexer(stream);
