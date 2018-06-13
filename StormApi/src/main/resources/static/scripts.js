@@ -1,3 +1,6 @@
+var server = "florentpastor.ddns.net";
+var port = "8080";
+
 Vue.component('command', {
     props: ['command', 'user'],
     template:
@@ -12,6 +15,11 @@ Vue.component('command', {
     '           <component :is="command.templateName" :data="command.output"></component>' +
     '       </div>' +
     '    </div>'
+});
+
+Vue.component('default', {
+    props: ["data"],
+    template: "<div>{{ data }}</div>"
 });
 
 
@@ -71,7 +79,7 @@ class HelpCommand {
     }
 
     execute(input, args) {
-
+        app.commands.push({ input: input, output: COMMANDS.map(c => c.name), templateName: "default" });
     }
 }
 
@@ -84,9 +92,8 @@ class BlockCommand {
         const blockName = args[1];
         $.ajax({
             contentType: "application/json",
-            url: 'http://localhost:8080/api/block/' + blockName,
+            url: `http://${server}:${port}/api/block/` + blockName,
             success: function (data) {
-                debugger;
                 app.commands.push({ input: input, output: data, templateName: "block" });
             }
         });
@@ -110,8 +117,7 @@ class NewCommand {
                 url: 'http://localhost:8080/api/new/',
                 data: JSON.stringify({ "name" : monsterName, "blockName" : monsterType}),
                 success: function (data) {
-                    var html = '<toto v-bind:output="data"></toto>';
-                    app.commands.push({input: input, output: html});
+                    app.commands.push({input: input, output: data, templateName: "default"});
                 }
             });
 
@@ -133,7 +139,7 @@ class GetMonsterCommand {
                 contentType: "application/json",
                 url: 'http://localhost:8080/api/monster/' + monsterName,
                 success: function (data) {
-                    app.commands.push({input: input, output: data});
+                    app.commands.push({input: input, output: data, templateName: "default"});
                 }
             });
 
@@ -155,7 +161,7 @@ class GetEncounterDataCommand {
                 monsters.forEach(m => {
                    m.block = m.block.name;
                 });
-                app.commands.push({input: input, output: data});
+                app.commands.push({input: input, output: data, templateName: "default"});
             }
         });
     }
@@ -169,9 +175,9 @@ class GetPlayingMonster {
     execute(input, args){
         $.ajax({
             contentType: "application/json",
-            url: 'http://localhost:8080/api/playing',
+            url: `http://${server}:${port}/api/playing`,
             success: function (data) {
-                app.commands.push({input: input, output: data});
+                app.commands.push({input: input, output: data, templateName: "default"});
             }
         });
     }
@@ -186,9 +192,9 @@ class RollInitiativeCommand {
         $.ajax({
             contentType: "application/json",
             method: 'PUT',
-            url: 'http://localhost:8080/api/roll/initiative',
+            url: `http://${server}:${port}/api/roll/initiative`,
             success: function (data) {
-                app.commands.push({input: input, output: data});
+                app.commands.push({input: input, output: data, templateName: "default"});
             }
         });
     }
@@ -208,10 +214,10 @@ class DamageCommand {
             $.ajax({
                 contentType: "application/json",
                 method: 'PUT',
-                url: 'http://localhost:8080/api/damage/',
+                url: `http://${server}:${port}/api/damage/`,
                 data: JSON.stringify({ "name" : monsterName, "damage" : monsterDamage}),
                 success: function (data) {
-                    app.commands.push({input: input, output: data});
+                    app.commands.push({input: input, output: data, templateName: "default"});
                 }
             });
 
@@ -228,9 +234,9 @@ class NextTurnCommand {
         $.ajax({
             contentType: "application/json",
             method: 'PUT',
-            url: 'http://localhost:8080/api/nextTurn/',
+            url: `http://${server}:${port}/api/nextTurn/`,
             success: function (data) {
-                app.commands.push({input: input, output: data});
+                app.commands.push({input: input, output: data, templateName: "default"});
             }
         });
     }
@@ -245,9 +251,9 @@ class ResetCommand {
         $.ajax({
             contentType: "application/json",
             method: 'PUT',
-            url: 'http://localhost:8080/api/reset/',
+            url: `http://${server}:${port}/api/reset/`,
             success: function (data) {
-                app.commands.push({input: input, output: data});
+                app.commands.push({input: input, output: data, templateName: "default"});
             }
         });
     }
@@ -270,12 +276,12 @@ const COMMANDS = [
 function eval(input) {
     const arguments = input.trim().split(" ");
     if (arguments.length === 0) {
-        app.commands.push({input: input, output: "error"});
+        app.commands.push({input: input, output: "error", templateName: "default"});
     } else {
         const commandName = arguments[0];
         let commandFound = COMMANDS.find(f => f.name === commandName);
         if (typeof commandFound === "undefined") {
-            app.commands.push({input: input, output: "error"});
+            app.commands.push({input: input, output: "error", templateName: "default"});
         } else {
             commandFound.execute(input, arguments);
         }
