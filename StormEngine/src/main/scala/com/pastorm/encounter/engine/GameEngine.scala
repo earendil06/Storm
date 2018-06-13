@@ -22,4 +22,6 @@ trait GameEngine {
   def updateMonster(monster: Monster): Unit
 
   def damage(name: String, damage: Int): Option[Monster]
+
+  def reset(): Unit
 }
