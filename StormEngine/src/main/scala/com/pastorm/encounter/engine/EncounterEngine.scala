@@ -51,4 +51,6 @@ class EncounterEngine() extends GameEngine {
       .orElseThrow(IllegalArgumentSupplier(s"Missing HP for ${block.getName}"))
       .getStatValue.instanciateValue))
   }
+
+  override def reset(): Unit = encounterData = EncounterData(Seq(), "")
 }

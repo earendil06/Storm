@@ -2,6 +2,7 @@ package com.pastorm.stormapi;
 
 import com.ddmodel.Block;
 import com.pastorm.accessors.Accessor;
+import com.pastorm.accessors.LocalAccessor;
 import com.pastorm.accessors.ServerAccessor;
 import com.pastorm.encounter.engine.GameEngine;
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 public class Endpoint {
-    private Accessor accessor = new ServerAccessor();
+    private Accessor accessor = new LocalAccessor();
     private GameEngine gameEngine = EncounterEngineComponent.encounterEngine();
 
     @RequestMapping(value = "/api/block/{name}", method = RequestMethod.GET)
@@ -120,5 +121,12 @@ public class Endpoint {
         } else {
             return Response.status(404).entity(damageJson.getName() + " does not exists.").build();
         }
+    }
+
+    @RequestMapping(value = "/api/reset", method = RequestMethod.PUT)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response reset() {
+        gameEngine.reset();
+        return Response.ok("Reset done.").build();
     }
 }
