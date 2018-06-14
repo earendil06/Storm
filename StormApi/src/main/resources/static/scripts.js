@@ -18,6 +18,22 @@ Vue.component('command', {
     '    </div>'
 });
 
+Vue.component('monster', {
+    props: ["data"],
+    template:
+    '    <div>' +
+    '        <block :data="data.entity.block"></block>' +
+    '        <div>' +
+    '           <h4>{{ data.entity.name }}</h4>' +
+    '           HP: {{ data.entity.hitPoints }}' +
+    '           <p>Initiative: {{ data.entity.initiative === null ? "not rolled" : data.entity.initiative }}</p>' +
+    '        </div>' +
+    '    <div>',
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+});
+
 Vue.component('default', {
     props: ["data"],
     template: "<div>{{ data }}</div>",
@@ -26,6 +42,13 @@ Vue.component('default', {
     }
 });
 
+Vue.component('entity', {
+    props: ["data"],
+    template: "<div>{{ data.entity }}</div>",
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+});
 
 const app = new Vue({
     el: '#container',
@@ -108,13 +131,25 @@ class BlockCommand {
                     app.commands.push({input: input, output: data.entity, templateName: "block"});
                     window.scrollTo(0, document.body.scrollHeight);
                 } else if (data.status === 404) {
-                    app.commands.push({input: input, output: blockName + " is not registered.", templateName: "default"});
+                    app.commands.push({
+                        input: input,
+                        output: blockName + " is not registered.",
+                        templateName: "default"
+                    });
                 } else {
-                    app.commands.push({input: input, output: "Error " + data.status + ", Something went wrong!", templateName: "default"});
+                    app.commands.push({
+                        input: input,
+                        output: "Error " + data.status + ", Something went wrong!",
+                        templateName: "default"
+                    });
                 }
             },
             error: function (data) {
-                app.commands.push({input: input, output: "Error " + data.status + ", Something went wrong!", templateName: "default"});
+                app.commands.push({
+                    input: input,
+                    output: "Error " + data.status + ", Something went wrong!",
+                    templateName: "default"
+                });
             }
         });
     }
@@ -134,10 +169,10 @@ class NewCommand {
             $.ajax({
                 contentType: "application/json",
                 method: 'POST',
-                url: 'http://localhost:8080/api/new/',
+                url: `http://${server}:${port}/api/new/`,
                 data: JSON.stringify({"name": monsterName, "blockName": monsterType}),
                 success: function (data) {
-                    app.commands.push({input: input, output: data, templateName: "default"});
+                    app.commands.push({input: input, output: data, templateName: "entity"});
                 }
             });
 
@@ -157,9 +192,13 @@ class GetMonsterCommand {
             const monsterName = args[1];
             $.ajax({
                 contentType: "application/json",
-                url: 'http://localhost:8080/api/monster/' + monsterName,
+                url: `http://${server}:${port}/api/monster/` + monsterName,
                 success: function (data) {
-                    app.commands.push({input: input, output: data, templateName: "default"});
+                    if (data.status === 200) {
+                        app.commands.push({input: input, output: data, templateName: "monster"});
+                    } else {
+                        app.commands.push({input: input, output: data, templateName: "entity"});
+                    }
                 }
             });
 
@@ -175,13 +214,13 @@ class GetEncounterDataCommand {
     execute(input, args) {
         $.ajax({
             contentType: "application/json",
-            url: 'http://localhost:8080/api/data',
+            url: `http://${server}:${port}/api/data`,
             success: function (data) {
                 const monsters = data.entity.monsters;
                 monsters.forEach(m => {
                     m.block = m.block.name;
                 });
-                app.commands.push({input: input, output: data, templateName: "default"});
+                app.commands.push({input: input, output: data, templateName: "entity"});
             }
         });
     }
@@ -197,7 +236,7 @@ class GetPlayingMonster {
             contentType: "application/json",
             url: `http://${server}:${port}/api/playing`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "default"});
+                app.commands.push({input: input, output: data, templateName: "entity"});
             }
         });
     }
@@ -214,7 +253,7 @@ class RollInitiativeCommand {
             method: 'PUT',
             url: `http://${server}:${port}/api/roll/initiative`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "default"});
+                app.commands.push({input: input, output: data, templateName: "entity"});
             }
         });
     }
@@ -237,7 +276,7 @@ class DamageCommand {
                 url: `http://${server}:${port}/api/damage/`,
                 data: JSON.stringify({"name": monsterName, "damage": monsterDamage}),
                 success: function (data) {
-                    app.commands.push({input: input, output: data, templateName: "default"});
+                    app.commands.push({input: input, output: data, templateName: "entity"});
                 }
             });
 
@@ -256,7 +295,7 @@ class ResetCommand {
             method: 'PUT',
             url: `http://${server}:${port}/api/reset/`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "default"});
+                app.commands.push({input: input, output: data, templateName: "entity"});
             }
         });
     }
@@ -273,7 +312,7 @@ class NextTurnCommand {
             method: 'PUT',
             url: `http://${server}:${port}/api/nextTurn/`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "default"});
+                app.commands.push({input: input, output: data, templateName: "entity"});
             }
         });
     }
@@ -290,7 +329,7 @@ class GetTurnCommand {
             method: 'GET',
             url: `http://${server}:${port}/api/turn/`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "default"});
+                app.commands.push({input: input, output: data, templateName: "entity"});
             }
         });
     }

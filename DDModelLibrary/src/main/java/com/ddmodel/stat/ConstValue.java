@@ -17,7 +17,12 @@ public class ConstValue implements StatValue {
     }
 
     @Override
-    public int instanciateValue() {
+    public int instantiateValue() {
+        return value;
+    }
+
+    @Override
+    public int getMeanValue() {
         return value;
     }
 

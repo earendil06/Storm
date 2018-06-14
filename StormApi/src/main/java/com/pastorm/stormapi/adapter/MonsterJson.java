@@ -58,4 +58,14 @@ public class MonsterJson {
     public void setInitiative(Integer initiative) {
         this.initiative = initiative;
     }
+
+    @Override
+    public String toString() {
+        return "MonsterJson{" +
+                "block=" + block +
+                ", name='" + name + '\'' +
+                ", hitPoints=" + hitPoints +
+                ", initiative=" + initiative +
+                '}';
+    }
 }

@@ -14,7 +14,8 @@ public class Dice implements StatValue {
         this.die = new Die(faces);
     }
 
-    private int meanValue() {
+    @Override
+    public int getMeanValue() {
         return number * (faces / 2) + modifier;
     }
 
@@ -32,7 +33,7 @@ public class Dice implements StatValue {
     }
 
     @Override
-    public int instanciateValue() {
+    public int instantiateValue() {
         return roll() + modifier;
     }
 
@@ -58,6 +59,6 @@ public class Dice implements StatValue {
 
     @Override
     public String toString() {
-        return meanValue() + "(" + getFormulae() + ")";
+        return getMeanValue() + "(" + getFormulae() + ")";
     }
 }

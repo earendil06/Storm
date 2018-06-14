@@ -18,7 +18,8 @@ document.write(`
             </div> <!-- property line -->
             <div class="property-line">
                 <h4>Hit Points</h4>
-                <p>{{ data.stats.find(f => f.type === "HIT_POINTS").formulae }}</p>
+                <p>{{ data.stats.find(f => f.type === "HIT_POINTS").formulae }} 
+                ({{data.stats.find(f => f.type === "HIT_POINTS").meanValue}})</p>
             </div> <!-- property line -->
             <div class="property-line last">
                 <h4>Speed</h4>

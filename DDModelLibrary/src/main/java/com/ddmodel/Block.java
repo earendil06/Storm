@@ -77,10 +77,6 @@ public class Block {
         features.put(feature);
     }
 
-    public TypedSet<Action> getAction() {
-        return actions;
-    }
-
     public void putAction(Action action) {
         actions.put(action);
     }

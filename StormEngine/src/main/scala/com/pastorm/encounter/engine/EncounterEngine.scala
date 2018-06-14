@@ -49,7 +49,7 @@ class EncounterEngine() extends GameEngine {
   private def createBaseMonster(name: String, block: Block): Monster = {
     Monster(block, name, hitPoints = Option(block.getStat(StatType.HIT_POINTS)
       .orElseThrow(IllegalArgumentSupplier(s"Missing HP for ${block.getName}"))
-      .getStatValue.instanciateValue))
+      .instantiateValue()))
   }
 
   override def reset(): Unit = encounterData = EncounterData(Seq(), "", 0)

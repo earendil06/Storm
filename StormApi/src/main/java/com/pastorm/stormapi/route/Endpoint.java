@@ -46,10 +46,12 @@ public class Endpoint {
     public Response getMonsterByName(@PathVariable("name") String name) {
         Option<Monster> monster = gameEngine.getMonsterByName(name);
         if (monster.nonEmpty()) {
-            return Response.ok(new MonsterJson(monster.get())).build();
+            MonsterJson entity = new MonsterJson(monster.get());
+            return Response.ok(entity).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).entity(name + " does not exist in the encounter.").build();
         }
+
     }
 
     @RequestMapping(value = "/api/new", method = RequestMethod.POST)

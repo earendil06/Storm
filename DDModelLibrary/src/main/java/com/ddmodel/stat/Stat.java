@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Stat {
     private StatType type;
     private StatValue statValue;
-    private String description;
 
     public Stat(StatType type) {
         this.type = type;
@@ -28,8 +27,12 @@ public class Stat {
         this.type = type;
     }
 
-    public StatValue getStatValue() {
-        return statValue;
+    public int instantiateValue() {
+        return statValue.instantiateValue();
+    }
+
+    public int getMeanValue() {
+        return statValue.getMeanValue();
     }
 
     public void setStatValue(StatValue statValue) {
@@ -38,14 +41,6 @@ public class Stat {
 
     public String getFormulae() {
         return statValue.getFormulae();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override
@@ -64,7 +59,6 @@ public class Stat {
 
     @Override
     public String toString() {
-        String desc = description == null ? "" : " {" + description + "}";
-        return type + "=" + statValue + desc;
+        return type + "=" + statValue;
     }
 }
