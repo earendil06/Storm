@@ -10,12 +10,12 @@ pipeline {
       parallel {
         stage('stop servers') {
           steps {
-            echo 'stop servers'
+            sh '/home/pi/hdd/projects/StormLanguage/kill-servers.sh'
           }
         }
         stage('build client api') {
           steps {
-            echo 'build mvn'
+            sh '/home/pi/hdd/projects/StormLanguage/build-client.sh'
           }
         }
       }
@@ -24,7 +24,7 @@ pipeline {
       parallel {
         stage('run servers') {
           steps {
-            echo 'run python + client api'
+            sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'
           }
         }
         stage('web deploy') {
