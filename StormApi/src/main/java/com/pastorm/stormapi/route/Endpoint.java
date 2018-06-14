@@ -1,11 +1,15 @@
-package com.pastorm.stormapi;
+package com.pastorm.stormapi.route;
 
 import com.ddmodel.Block;
 import com.pastorm.accessors.Accessor;
-import com.pastorm.accessors.ServerAccessor;
 import com.pastorm.encounter.engine.GameEngine;
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent;
 import com.pastorm.encounter.model.Monster;
+import com.pastorm.stormapi.adapter.DamageJson;
+import com.pastorm.stormapi.adapter.EncounterDataJson;
+import com.pastorm.stormapi.adapter.MonsterJson;
+import com.pastorm.stormapi.adapter.NewMonster;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import scala.Option;
 
@@ -18,8 +22,13 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 public class Endpoint {
-    private Accessor accessor = new ServerAccessor();
     private GameEngine gameEngine = EncounterEngineComponent.encounterEngine();
+    private final Accessor accessor;
+
+    @Autowired
+    public Endpoint(Accessor accessor) {
+        this.accessor = accessor;
+    }
 
     @RequestMapping(value = "/api/block/{name}", method = RequestMethod.GET)
     @Produces(MediaType.APPLICATION_JSON)

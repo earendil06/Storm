@@ -1,5 +1,5 @@
-var server = "florentpastor.ddns.net";
-// var server = "localhost";
+// var server = "florentpastor.ddns.net";
+var server = "localhost";
 var port = "8080";
 
 Vue.component('command', {

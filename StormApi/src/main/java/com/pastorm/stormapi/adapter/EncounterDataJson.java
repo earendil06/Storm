@@ -1,4 +1,4 @@
-package com.pastorm.stormapi;
+package com.pastorm.stormapi.adapter;
 
 import com.pastorm.encounter.model.EncounterData;
 import com.pastorm.encounter.model.Monster;

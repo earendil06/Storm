@@ -1,4 +1,4 @@
-package com.pastorm.stormapi;
+package com.pastorm.stormapi.adapter;
 
 import com.ddmodel.Block;
 import com.pastorm.encounter.model.Monster;

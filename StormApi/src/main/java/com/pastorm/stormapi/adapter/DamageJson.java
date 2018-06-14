@@ -1,4 +1,4 @@
-package com.pastorm.stormapi;
+package com.pastorm.stormapi.adapter;
 
 public class DamageJson {
     private int damage;

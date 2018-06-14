@@ -1,8 +1,8 @@
-package com.pastorm.stormapi;
+package com.pastorm.stormapi.adapter;
 
-class NewMonster {
-    String name;
-    String blockName;
+public class NewMonster {
+    public String name;
+    public String blockName;
 
     public NewMonster() {
     }
