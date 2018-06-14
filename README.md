@@ -26,6 +26,7 @@ that uses the same concepts as the monster stats blocks
 The syntax below should not influence the future implementation, 
 it is json-like to be simple to talk about for now.
 
+
 ```
 Goblin
 
