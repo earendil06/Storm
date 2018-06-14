@@ -95,7 +95,7 @@ class BlockCommand {
             contentType: "application/json",
             url: `http://${server}:${port}/api/block/` + blockName,
             success: function (data) {
-                app.commands.push({ input: input, output: data.entity, templateName: "block" });
+                app.commands.push({ input: input, output: data, templateName: "block" });
             },
             error: function(msg) {
                 app.commands.push({ input: input, output: blockName + " is not registered.", templateName: "default" });
