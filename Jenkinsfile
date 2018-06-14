@@ -24,7 +24,6 @@ pipeline {
       parallel {
         stage('run servers') {
           steps {
-            sh 'export JENKINS_NODE_COOKIE=dontKillMe'
             sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'  
           }
         }
