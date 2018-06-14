@@ -25,6 +25,7 @@ pipeline {
         stage('run python') {
           environment {
             JENKINS_NODE_COOKIE = 'dontkillme'
+            FLASK_APP = 'server.py'
           }
           steps {
             sh '/home/pi/hdd/projects/StormLanguage/restart-python.sh'
