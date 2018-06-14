@@ -1,5 +1,5 @@
-var server = "florentpastor.ddns.net";
-// var server = "localhost";
+// var server = "florentpastor.ddns.net";
+var server = "localhost";
 var port = "8080";
 
 Vue.component('command', {
@@ -27,7 +27,7 @@ Vue.component('default', {
 const app = new Vue({
     el: '#container',
     data: {
-        user: "[gm@storm-cli] $",
+        user: "gm@storm =>",
         commands: [],
         history: [],
         currentInputValue: "",
@@ -50,7 +50,6 @@ const app = new Vue({
 
             this.currentInputValue = "";
             this.positionHistory = 0;
-
         },
         setPositionHistory: function (message) {
             const downCode = 40;
@@ -95,7 +94,8 @@ class BlockCommand {
             contentType: "application/json",
             url: `http://${server}:${port}/api/block/` + blockName.toLowerCase(),
             success: function (data) {
-                app.commands.push({ input: input, output: data, templateName: "block" });
+                console.log(JSON.stringify(data.entity));
+                app.commands.push({ input: input, output: data.entity, templateName: "block" });
             },
             error: function(msg) {
                 app.commands.push({ input: input, output: blockName + " is not registered.", templateName: "default" });

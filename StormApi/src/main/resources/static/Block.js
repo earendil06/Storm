@@ -32,42 +32,42 @@ document.write(`
                     <h4>STR</h4>
                     <p>
                         {{ data.abilityScores.find(f => f.abilityType === "STRENGTH").score }}
-                        {{ data.abilityScores.find(f => f.abilityType === "STRENGTH").modifier }}
+                        ({{ data.abilityScores.find(f => f.abilityType === "STRENGTH").modifier }})
                     </p>
                 </div> <!-- ability strength -->
                 <div class="ability-dexterity">
                     <h4>DEX</h4>
                     <p>
                         {{ data.abilityScores.find(f => f.abilityType === "DEXTERITY").score }}
-                        {{ data.abilityScores.find(f => f.abilityType === "DEXTERITY").modifier }}
+                        ({{ data.abilityScores.find(f => f.abilityType === "DEXTERITY").modifier }})
                     </p>
                 </div> <!-- ability dexterity -->
                 <div class="ability-constitution">
                     <h4>CON</h4>
                     <p>
                         {{ data.abilityScores.find(f => f.abilityType === "CONSTITUTION").score }}
-                        {{ data.abilityScores.find(f => f.abilityType === "CONSTITUTION").modifier }}
+                        ({{ data.abilityScores.find(f => f.abilityType === "CONSTITUTION").modifier }})
                     </p>
                 </div> <!-- ability constitution -->
                 <div class="ability-intelligence">
                     <h4>INT</h4>
                     <p>
                         {{ data.abilityScores.find(f => f.abilityType === "INTELLIGENCE").score }}
-                        {{ data.abilityScores.find(f => f.abilityType === "INTELLIGENCE").modifier }}
+                        ({{ data.abilityScores.find(f => f.abilityType === "INTELLIGENCE").modifier }})
                     </p>
                 </div> <!-- ability intelligence -->
                 <div class="ability-wisdom">
                     <h4>WIS</h4>
                     <p>
                         {{ data.abilityScores.find(f => f.abilityType === "WISDOM").score }}
-                        {{ data.abilityScores.find(f => f.abilityType === "WISDOM").modifier }}
+                       ({{ data.abilityScores.find(f => f.abilityType === "WISDOM").modifier }})
                     </p>
                 </div> <!-- ability wisdom -->
                 <div class="ability-charisma">
                     <h4>CHA</h4>
                     <p>
                         {{ data.abilityScores.find(f => f.abilityType === "CHARISMA").score }}
-                        {{ data.abilityScores.find(f => f.abilityType === "CHARISMA").modifier }}
+                        ({{ data.abilityScores.find(f => f.abilityType === "CHARISMA").modifier }})
                     </p>
                 </div> <!-- ability charisma -->
             </div> <!-- abilities -->
