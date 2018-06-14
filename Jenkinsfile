@@ -24,11 +24,8 @@ pipeline {
       parallel {
         stage('run servers') {
           steps {
-            script {
-              withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                    sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'
-                }
-            }    
+            sh 'export JENKINS_NODE_COOKIE=dontKillMe'
+            sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'  
           }
         }
         stage('web deploy') {
