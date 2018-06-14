@@ -24,7 +24,11 @@ pipeline {
       parallel {
         stage('run servers') {
           steps {
-            sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'
+            script {
+              withEnv(['BUILD_ID=dontkill']) {
+                    sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'
+                }
+            }    
           }
         }
         stage('web deploy') {
