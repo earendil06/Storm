@@ -23,8 +23,11 @@ pipeline {
     stage('run servers') {
       parallel {
         stage('run servers') {
+          environment {
+            JENKINS_NODE_COOKIE = 'dontkillme'
+          }
           steps {
-            sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'  
+            sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'
           }
         }
         stage('web deploy') {
