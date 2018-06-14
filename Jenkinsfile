@@ -1,9 +1,14 @@
 pipeline {
   agent any
   stages {
-    stage('build') {
+    stage('pull repository') {
       steps {
-        echo 'toto'
+        sh '/home/pi/hdd/projects/StormLanguage/pull.sh'
+      }
+    }
+    stage('html deploy') {
+      steps {
+        sh '/home/pi/hdd/projects/StormLanguage/export-web.sh'
       }
     }
   }
