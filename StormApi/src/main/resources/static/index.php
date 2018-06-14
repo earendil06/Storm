@@ -41,5 +41,14 @@
 
 
 <script src="scripts.js"></script>
+<script>
+   <?php 
+    if (isset($_GET['host'])) {
+        echo "var host = '".$_GET['host']."';";
+    } else {
+        echo "var host = 'florentpastor.ddns.net';";
+    }
+   ?> 
+</script>
 </body>
 </html>
