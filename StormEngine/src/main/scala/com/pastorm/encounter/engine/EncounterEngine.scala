@@ -8,7 +8,7 @@ import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
 
 class EncounterEngine() extends GameEngine {
   this: InitiativeEngineComponent =>
-  private var encounterData: EncounterData = EncounterData(Seq(), "")
+  private var encounterData: EncounterData = EncounterData(Seq(), "", 0)
 
   override def newMonster(name: String, block: Block): Unit = {
     if (getMonsterByName(name).nonEmpty) {
@@ -52,5 +52,7 @@ class EncounterEngine() extends GameEngine {
       .getStatValue.instanciateValue))
   }
 
-  override def reset(): Unit = encounterData = EncounterData(Seq(), "")
+  override def reset(): Unit = encounterData = EncounterData(Seq(), "", 0)
+
+  override def getTurn: Int = encounterData.turn
 }

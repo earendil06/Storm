@@ -24,4 +24,6 @@ trait GameEngine {
   def damage(name: String, damage: Int): Option[Monster]
 
   def reset(): Unit
+
+  def getTurn: Int
 }

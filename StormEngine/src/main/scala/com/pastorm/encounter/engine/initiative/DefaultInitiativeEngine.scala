@@ -5,8 +5,6 @@ import com.pastorm.encounter.dice.Die
 import com.pastorm.encounter.model.{EncounterData, Monster}
 import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
 
-import scala.collection.mutable
-
 class DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)
 
@@ -45,7 +43,7 @@ class DefaultInitiativeEngine extends InitiativeEngine {
       }
     }
     println(s"${resultEncounterData.playingMonsterName}'s turn")
-    resultEncounterData
+    resultEncounterData.copy(turn = resultEncounterData.turn + 1)
   }
 
 }

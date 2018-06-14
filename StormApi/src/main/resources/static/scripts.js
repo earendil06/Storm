@@ -229,6 +229,23 @@ class DamageCommand {
     }
 }
 
+class ResetCommand {
+    constructor(){
+        this.name = "reset";
+    }
+
+    execute(input, args){
+        $.ajax({
+            contentType: "application/json",
+            method: 'PUT',
+            url: `http://${server}:${port}/api/reset/`,
+            success: function (data) {
+                app.commands.push({input: input, output: data, templateName: "default"});
+            }
+        });
+    }
+}
+
 class NextTurnCommand {
     constructor(){
         this.name = "next";
@@ -246,16 +263,16 @@ class NextTurnCommand {
     }
 }
 
-class ResetCommand {
+class GetTurnCommand {
     constructor(){
-        this.name = "reset";
+        this.name = "turn";
     }
 
     execute(input, args){
         $.ajax({
             contentType: "application/json",
-            method: 'PUT',
-            url: `http://${server}:${port}/api/reset/`,
+            method: 'GET',
+            url: `http://${server}:${port}/api/turn/`,
             success: function (data) {
                 app.commands.push({input: input, output: data, templateName: "default"});
             }
@@ -274,7 +291,8 @@ const COMMANDS = [
     new RollInitiativeCommand(),
     new DamageCommand(),
     new NextTurnCommand(),
-    new ResetCommand()
+    new ResetCommand(),
+    new GetTurnCommand()
 ];
 
 function eval(input) {

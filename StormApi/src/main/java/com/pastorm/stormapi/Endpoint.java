@@ -31,7 +31,6 @@ public class Endpoint {
             return Response.status(404).entity(name + " does not exist.").build();
         }
     }
-
     @RequestMapping(value = "/api/monster/{name}", method = RequestMethod.GET)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMonsterByName(@PathVariable("name") String name) {
@@ -132,5 +131,11 @@ public class Endpoint {
     public Response reset() {
         gameEngine.reset();
         return Response.ok("Reset done.").build();
+    }
+
+    @RequestMapping(value = "/api/turn", method = RequestMethod.GET)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTurn() {
+        return Response.ok(gameEngine.getTurn()).build();
     }
 }

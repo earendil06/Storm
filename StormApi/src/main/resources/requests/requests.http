@@ -75,3 +75,10 @@ Cache-Control: no-cache
 Content-Type: application/json
 
 ###
+
+GET http://localhost:8080/api/turn
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###
