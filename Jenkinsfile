@@ -22,9 +22,13 @@ pipeline {
     }
     stage('run servers') {
       parallel {
-        stage('run servers') {
+        stage('run python') {
+          environment {
+            JENKINS_NODE_COOKIE = 'dontkillme'
+            FLASK_APP = 'server.py'
+          }
           steps {
-            sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'
+            sh '/home/pi/hdd/projects/StormLanguage/restart-python.sh'
           }
         }
         stage('web deploy') {
@@ -35,6 +39,14 @@ pipeline {
         stage('copy storm files') {
           steps {
             sh '/home/pi/hdd/projects/StormLanguage/copy-storm.sh'
+          }
+        }
+        stage('run client') {
+          environment {
+            JENKINS_NODE_COOKIE = 'dontkillme'
+          }
+          steps {
+            sh '/home/pi/hdd/projects/StormLanguage/restart-client.sh'
           }
         }
       }
