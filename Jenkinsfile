@@ -32,6 +32,11 @@ pipeline {
             sh '/home/pi/hdd/projects/StormLanguage/export-web.sh'
           }
         }
+        stage('copy storm files') {
+          steps {
+            sh '/home/pi/hdd/projects/StormLanguage/copy-storm.sh'
+          }
+        }
       }
     }
   }
