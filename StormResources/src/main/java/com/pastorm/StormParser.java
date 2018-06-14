@@ -16,7 +16,7 @@ public class StormParser {
 
     public Optional<Block> parseBlock(String block) {
         if (block == null || block.isEmpty()) {
-            throw new IllegalArgumentException("non existing block");
+            return Optional.empty();
         }
         CharStream stream = CharStreams.fromString(block);
 

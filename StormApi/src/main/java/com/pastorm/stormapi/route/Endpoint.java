@@ -37,7 +37,7 @@ public class Endpoint {
         if (monster.isPresent()) {
             return Response.ok(monster.get()).build();
         } else {
-            return Response.status(404).entity(name + " does not exist.").build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
@@ -48,7 +48,7 @@ public class Endpoint {
         if (monster.nonEmpty()) {
             return Response.ok(new MonsterJson(monster.get())).build();
         } else {
-            return Response.status(404).entity(name + " does not exist in the encounter.").build();
+            return Response.status(Response.Status.NOT_FOUND).entity(name + " does not exist in the encounter.").build();
         }
     }
 
@@ -56,7 +56,7 @@ public class Endpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newMonster(@RequestBody NewMonster newMonster) {
         if (gameEngine.getMonsterByName(newMonster.name).nonEmpty()) {
-            return Response.status(400)
+            return Response.status(Response.Status.BAD_REQUEST)
                     .entity(newMonster.name + " already exists in the encounter.")
                     .build();
         }
@@ -65,7 +65,7 @@ public class Endpoint {
             gameEngine.newMonster(newMonster.name, block.get());
             return Response.ok(newMonster.name + " has been added successfully.").build();
         } else {
-            return Response.status(404).entity(newMonster.blockName + " does not exist.").build();
+            return Response.status(Response.Status.NOT_FOUND).entity(newMonster.blockName + " does not exist.").build();
         }
     }
 
@@ -84,7 +84,7 @@ public class Endpoint {
                     .ok(new MonsterJson(gameEngine.getPlayingMonster().get()))
                     .build();
         } else {
-            return Response.status(404).entity("No one rolled initiative.").build();
+            return Response.status(Response.Status.NOT_FOUND).entity("No one rolled initiative.").build();
         }
     }
 
@@ -94,7 +94,7 @@ public class Endpoint {
         gameEngine.rollInitiative();
         String name = gameEngine.getPlayingMonsterName();
         if (name.isEmpty()) {
-            return Response.status(404)
+            return Response.status(Response.Status.NOT_FOUND)
                     .entity("No one rolled initiative, is there no one in the encounter ?")
                     .build();
         }
@@ -107,7 +107,7 @@ public class Endpoint {
         gameEngine.nextTurn();
         String name = gameEngine.getPlayingMonsterName();
         if (name.isEmpty()) {
-            return Response.status(404).entity("No one rolled initiative.").build();
+            return Response.status(Response.Status.NOT_FOUND).entity("No one rolled initiative.").build();
         } else {
             return Response.ok(gameEngine.getPlayingMonsterName() + "'s turn.").build();
         }
@@ -132,7 +132,7 @@ public class Endpoint {
                     .ok(new MonsterJson(gameEngine.getMonsterByName(damageJson.getName()).get()))
                     .build();
         } else {
-            return Response.status(404).entity(damageJson.getName() + " does not exists.").build();
+            return Response.status(Response.Status.NOT_FOUND).entity(damageJson.getName() + " does not exists.").build();
         }
     }
 

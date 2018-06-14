@@ -104,11 +104,17 @@ class BlockCommand {
             contentType: "application/json",
             url: `http://${server}:${port}/api/block/` + blockName.toLowerCase(),
             success: function (data) {
-                app.commands.push({input: input, output: data.entity, templateName: "block"});
-                window.scrollTo(0, document.body.scrollHeight);
+                if (data.status === 200) {
+                    app.commands.push({input: input, output: data.entity, templateName: "block"});
+                    window.scrollTo(0, document.body.scrollHeight);
+                } else if (data.status === 404) {
+                    app.commands.push({input: input, output: blockName + " is not registered.", templateName: "default"});
+                } else {
+                    app.commands.push({input: input, output: "Error " + data.status + ", Something went wrong!", templateName: "default"});
+                }
             },
-            error: function (msg) {
-                app.commands.push({input: input, output: blockName + " is not registered.", templateName: "default"});
+            error: function (data) {
+                app.commands.push({input: input, output: "Error " + data.status + ", Something went wrong!", templateName: "default"});
             }
         });
     }
@@ -308,12 +314,12 @@ const COMMANDS = [
 function eval(input) {
     const arguments = input.trim().split(" ");
     if (arguments.length === 0) {
-        app.commands.push({input: input, output: "error", templateName: "default"});
+        app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
     } else {
         const commandName = arguments[0];
         let commandFound = COMMANDS.find(f => f.name === commandName);
         if (typeof commandFound === "undefined") {
-            app.commands.push({input: input, output: "error", templateName: "default"});
+            app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
         } else {
             commandFound.execute(input, arguments);
         }
