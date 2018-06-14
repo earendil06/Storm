@@ -25,7 +25,7 @@ pipeline {
         stage('run servers') {
           steps {
             script {
-              withEnv(['BUILD_ID=dontkill']) {
+              withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
                     sh '/home/pi/hdd/projects/StormLanguage/restart-all.sh'
                 }
             }    
