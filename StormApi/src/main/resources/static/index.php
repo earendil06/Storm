@@ -43,10 +43,10 @@
 <script src="scripts.js"></script>
 <script>
    <?php 
-    if (isset($_GET['host'])) {
-        echo "var host = '".$_GET['host']."';";
+    if (isset($_GET['server'])) {
+        echo "var server = '".$_GET['server']."';";
     } else {
-        echo "var host = 'florentpastor.ddns.net';";
+        echo "var server = 'florentpastor.ddns.net';";
     }
    ?> 
 </script>
