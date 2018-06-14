@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
-    <title>HTML5 Web Terminal</title>
+    <title>Storm Web Client</title>
     <link href="https://fonts.googleapis.com/css?family=Inconsolata"
           rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="styles.css">
@@ -29,7 +29,7 @@
 
 
     <div id="input-line" class="input-line">
-        <div class="prompt" >{{ user }} toto</div>
+        <div class="prompt" >{{ user }}</div>
         <div>
             <input v-model="currentInputValue" style="color: white"
                    @keyup.enter="executeCommand"
