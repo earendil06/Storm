@@ -1,6 +1,6 @@
-var server = "florentpastor.ddns.net";
-// var server = "localhost";
-var port = "8080";
+// var server = "florentpastor.ddns.net";
+let server = "localhost";
+let port = "8080";
 
 Vue.component('command', {
     props: ['command', 'user'],
@@ -20,7 +20,10 @@ Vue.component('command', {
 
 Vue.component('default', {
     props: ["data"],
-    template: "<div>{{ data }}</div>"
+    template: "<div>{{ data }}</div>",
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
 });
 
 
@@ -45,8 +48,12 @@ const app = new Vue({
     },
     methods: {
         executeCommand: function (message) {
-            this.history.push(this.currentInputValue);
+            if (this.currentInputValue !== this.history[this.history.length - 1]) {
+                this.history.push(this.currentInputValue);
+            }
             eval(this.currentInputValue);
+
+            window.scrollTo(0, document.body.scrollHeight);
 
             this.currentInputValue = "";
             this.positionHistory = 0;
@@ -60,6 +67,9 @@ const app = new Vue({
                 this.positionHistory--;
             }
         }
+    },
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
     }
 });
 
@@ -79,7 +89,7 @@ class HelpCommand {
     }
 
     execute(input, args) {
-        app.commands.push({ input: input, output: COMMANDS.map(c => c.name), templateName: "default" });
+        app.commands.push({input: input, output: COMMANDS.map(c => c.name), templateName: "default"});
     }
 }
 
@@ -94,32 +104,32 @@ class BlockCommand {
             contentType: "application/json",
             url: `http://${server}:${port}/api/block/` + blockName.toLowerCase(),
             success: function (data) {
-                console.log(JSON.stringify(data.entity));
-                app.commands.push({ input: input, output: data.entity, templateName: "block" });
+                app.commands.push({input: input, output: data.entity, templateName: "block"});
+                window.scrollTo(0, document.body.scrollHeight);
             },
-            error: function(msg) {
-                app.commands.push({ input: input, output: blockName + " is not registered.", templateName: "default" });
+            error: function (msg) {
+                app.commands.push({input: input, output: blockName + " is not registered.", templateName: "default"});
             }
         });
     }
 }
 
 class NewCommand {
-    constructor(){
+    constructor() {
         this.name = "new";
     }
 
-    execute(input, args){
-        if (args.length < 3){
+    execute(input, args) {
+        if (args.length < 3) {
             console.log("error");
-        }else {
+        } else {
             const monsterType = args[1];
             const monsterName = args[2];
             $.ajax({
                 contentType: "application/json",
                 method: 'POST',
                 url: 'http://localhost:8080/api/new/',
-                data: JSON.stringify({ "name" : monsterName, "blockName" : monsterType}),
+                data: JSON.stringify({"name": monsterName, "blockName": monsterType}),
                 success: function (data) {
                     app.commands.push({input: input, output: data, templateName: "default"});
                 }
@@ -130,12 +140,12 @@ class NewCommand {
 }
 
 class GetMonsterCommand {
-    constructor(){
+    constructor() {
         this.name = "monster";
     }
 
-    execute(input, args){
-        if (args.length < 2){
+    execute(input, args) {
+        if (args.length < 2) {
             console.log("error");
         } else {
             const monsterName = args[1];
@@ -152,18 +162,18 @@ class GetMonsterCommand {
 }
 
 class GetEncounterDataCommand {
-    constructor(){
+    constructor() {
         this.name = "encounter";
     }
 
-    execute(input, args){
+    execute(input, args) {
         $.ajax({
             contentType: "application/json",
             url: 'http://localhost:8080/api/data',
             success: function (data) {
                 const monsters = data.entity.monsters;
                 monsters.forEach(m => {
-                   m.block = m.block.name;
+                    m.block = m.block.name;
                 });
                 app.commands.push({input: input, output: data, templateName: "default"});
             }
@@ -172,11 +182,11 @@ class GetEncounterDataCommand {
 }
 
 class GetPlayingMonster {
-    constructor(){
+    constructor() {
         this.name = "playing";
     }
 
-    execute(input, args){
+    execute(input, args) {
         $.ajax({
             contentType: "application/json",
             url: `http://${server}:${port}/api/playing`,
@@ -188,11 +198,11 @@ class GetPlayingMonster {
 }
 
 class RollInitiativeCommand {
-    constructor(){
+    constructor() {
         this.name = "initiative";
     }
 
-    execute(input, args){
+    execute(input, args) {
         $.ajax({
             contentType: "application/json",
             method: 'PUT',
@@ -205,21 +215,21 @@ class RollInitiativeCommand {
 }
 
 class DamageCommand {
-    constructor(){
+    constructor() {
         this.name = "damage";
     }
 
-    execute(input, args){
-        if (args.length < 3){
+    execute(input, args) {
+        if (args.length < 3) {
             console.log("error");
-        }else {
+        } else {
             const monsterName = args[1];
             const monsterDamage = args[2];
             $.ajax({
                 contentType: "application/json",
                 method: 'PUT',
                 url: `http://${server}:${port}/api/damage/`,
-                data: JSON.stringify({ "name" : monsterName, "damage" : monsterDamage}),
+                data: JSON.stringify({"name": monsterName, "damage": monsterDamage}),
                 success: function (data) {
                     app.commands.push({input: input, output: data, templateName: "default"});
                 }
@@ -230,11 +240,11 @@ class DamageCommand {
 }
 
 class ResetCommand {
-    constructor(){
+    constructor() {
         this.name = "reset";
     }
 
-    execute(input, args){
+    execute(input, args) {
         $.ajax({
             contentType: "application/json",
             method: 'PUT',
@@ -247,11 +257,11 @@ class ResetCommand {
 }
 
 class NextTurnCommand {
-    constructor(){
+    constructor() {
         this.name = "next";
     }
 
-    execute(input, args){
+    execute(input, args) {
         $.ajax({
             contentType: "application/json",
             method: 'PUT',
@@ -264,11 +274,11 @@ class NextTurnCommand {
 }
 
 class GetTurnCommand {
-    constructor(){
+    constructor() {
         this.name = "turn";
     }
 
-    execute(input, args){
+    execute(input, args) {
         $.ajax({
             contentType: "application/json",
             method: 'GET',

@@ -141,5 +141,8 @@ document.write(`
 
 Vue.component('block', {
     props: ["data"],
-    template: "#blockTemplate"
+    template: "#blockTemplate",
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
 });
