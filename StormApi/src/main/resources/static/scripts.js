@@ -93,7 +93,7 @@ class BlockCommand {
         const blockName = args[1];
         $.ajax({
             contentType: "application/json",
-            url: `http://${server}:${port}/api/block/` + blockName,
+            url: `http://${server}:${port}/api/block/` + blockName.toLowerCase(),
             success: function (data) {
                 app.commands.push({ input: input, output: data, templateName: "block" });
             },
