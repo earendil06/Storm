@@ -2,11 +2,17 @@ pipeline {
   agent any
   stages {
     stage('pull repository') {
+      when {
+		    branch 'master'
+      }
       steps {
         sh '/home/pi/hdd/projects/StormLanguage/pull.sh'
       }
     }
     stage('build') {
+      when {
+		    branch 'master'
+      }
       parallel {
         stage('stop servers') {
           steps {
@@ -21,6 +27,9 @@ pipeline {
       }
     }
     stage('run servers') {
+      when {
+		    branch 'master'
+      }
       parallel {
         stage('run python') {
           environment {
