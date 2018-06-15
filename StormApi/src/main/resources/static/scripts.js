@@ -22,7 +22,7 @@ Vue.component('encounter', {
     '    <div class="stat-block">' +
     '    <hr class="orange-border"/>'+
     '        <div v-for="monster in data.entity.monsters" class="creature-heading">' +
-    '           <h1>{{ monster.block }} {{ `${monster.name[0].toUpperCase()}${monster.name.slice(1)}` }}</h1>' +
+    '           <h1>{{ monster.block }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}</h1>' +
     '               HP: {{ monster.hitPoints }}</br>Initiative: {{ monster.initiative === null ? "not rolled" : monster.initiative }}' +
     '        </div>' +
     '    <div>'+
@@ -39,10 +39,13 @@ Vue.component('monster', {
     template:
     '    <div>' +
     '        <block :data="data.entity.block"></block>' +
-    '        <div>' +
-    '           <h4>{{ data.entity.name }}</h4>' +
-    '           HP: {{ data.entity.hitPoints }}' +
-    '           <p>Initiative: {{ data.entity.initiative === null ? "not rolled" : data.entity.initiative }}</p>' +
+    '        <div class="stat-block">' +
+    '            <hr class="orange-border"/>'+
+    '            <div class="creature-heading">' +
+    '                   <h1>{{ data.entity.name[0].toUpperCase() + data.entity.name.slice(1) }}</h1>' +
+    '                       HP: {{ data.entity.hitPoints }}</br>Initiative: {{ data.entity.initiative === null ? "not rolled" : data.entity.initiative }}' +
+    '                </div>' +
+    '            <div>'+
     '        </div>' +
     '    <div>',
     mounted: function () {
