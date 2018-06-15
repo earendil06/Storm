@@ -68,6 +68,10 @@ body {
 #container output pre {
     margin: 0;
 }
+
+.bg-prop-current {
+    background-color: red;
+}
 .input-line {
     display: -webkit-box;
     -webkit-box-orient: horizontal;
