@@ -1,3 +1,11 @@
+Vue.component('block', {
+    props: ["data"],
+    template: "#blockTemplate",
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+});
+
 document.write(`
 <link rel="stylesheet" type="text/css" href="block.css">
 <script type="text/x-template" id="blockTemplate">
@@ -138,12 +146,3 @@ document.write(`
 </script>
 
 `);
-
-
-Vue.component('block', {
-    props: ["data"],
-    template: "#blockTemplate",
-    mounted: function () {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-});

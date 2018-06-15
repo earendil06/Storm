@@ -1,4 +1,3 @@
-
 let port = "8080";
 
 Vue.component('command', {
@@ -15,6 +14,24 @@ Vue.component('command', {
     '           <component :is="command.templateName" :data="command.output"></component>' +
     '       </div>' +
     '    </div>'
+});
+
+Vue.component('encounter', {
+    props: ["data"],
+    template:
+    '    <div class="stat-block">' +
+    '    <hr class="orange-border"/>'+
+    '        <div v-for="monster in data.entity.monsters" class="creature-heading">' +
+    '           <h1>{{ monster.block }} {{ `${monster.name[0].toUpperCase()}${monster.name.slice(1)}` }}</h1>' +
+    '               HP: {{ monster.hitPoints }}</br>Initiative: {{ monster.initiative === null ? "not rolled" : monster.initiative }}' +
+    '        </div>' +
+    '    <div>'+
+    '    <div class="creature-heading">' +
+    '       <h1>{{ data.entity.playingMonsterName === "" ? "Nobody rolled initiative" : data.entity.playingMonsterName + "\'s turn" }}</h1>' +
+    '    </div>',
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
 });
 
 Vue.component('monster', {
@@ -219,7 +236,7 @@ class GetEncounterDataCommand {
                 monsters.forEach(m => {
                     m.block = m.block.name;
                 });
-                app.commands.push({input: input, output: data, templateName: "entity"});
+                app.commands.push({input: input, output: data, templateName: "encounter"});
             }
         });
     }

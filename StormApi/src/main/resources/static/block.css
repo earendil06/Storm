@@ -10,7 +10,9 @@
     max-width: 100%;
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica,
     Arial, sans-serif;
+    color: black;
 }
+
 .stat-block {
     text-align: left;
     margin: 20px;
@@ -21,6 +23,7 @@
     background: #FDF1DC;
     padding: 5px 10px 20px;
     box-shadow: 0 0 1.5em #867453;
+    color: black;
 }
 .stat-block.wide{
     width: 46.5%;

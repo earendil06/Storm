@@ -115,15 +115,6 @@ public class Endpoint {
         }
     }
 
-    @RequestMapping(value = "/api/update", method = RequestMethod.PUT)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateMonster(@RequestBody Monster monster) {
-        gameEngine.updateMonster(monster);
-        return Response
-                .ok(new MonsterJson(gameEngine.getMonsterByName(monster.name()).get()))
-                .build();
-    }
-
     @RequestMapping(value = "/api/damage", method = RequestMethod.PUT)
     @Produces(MediaType.APPLICATION_JSON)
     public Response damage(@RequestBody DamageJson damageJson) {
