@@ -81,7 +81,7 @@ const app = new Vue({
     },
     methods: {
         executeCommand: function (message) {
-            if (this.currentInputValue !== this.history[this.history.length - 1]) {
+            if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
                 this.history.push(this.currentInputValue);
             }
             eval(this.currentInputValue);

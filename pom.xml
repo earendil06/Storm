@@ -13,7 +13,6 @@
         <module>DDModelLibrary</module>
         <module>StormLang</module>
         <module>StormEngine</module>
-        <module>StormCli</module>
         <module>StormResources</module>
     </modules>
 
