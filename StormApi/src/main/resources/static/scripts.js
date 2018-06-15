@@ -38,7 +38,6 @@ Vue.component('monster', {
     props: ["data"],
     template:
     '    <div>' +
-    '        <block :data="data.entity.block"></block>' +
     '        <div class="stat-block">' +
     '            <hr class="orange-border"/>'+
     '            <div class="creature-heading">' +
@@ -47,6 +46,7 @@ Vue.component('monster', {
     '                </div>' +
     '            <div>'+
     '        </div>' +
+    '        <block :data="data.entity.block"></block>' +
     '    <div>',
     mounted: function () {
         window.scrollTo(0, document.body.scrollHeight);
