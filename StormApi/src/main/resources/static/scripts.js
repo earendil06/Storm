@@ -43,11 +43,10 @@ Vue.component('monster', {
     '            <div class="creature-heading">' +
     '                   <h1>{{ data.entity.name[0].toUpperCase() + data.entity.name.slice(1) }}</h1>' +
     '                       HP: {{ data.entity.hitPoints }}</br>Initiative: {{ data.entity.initiative === null ? "not rolled" : data.entity.initiative }}' +
-    '                </div>' +
-    '            <div>'+
+    '            </div>' +
+    '            <block :data="data.entity.block"></block>' +
     '        </div>' +
-    '        <block :data="data.entity.block"></block>' +
-    '    <div>',
+    '    </div>',
     mounted: function () {
         window.scrollTo(0, document.body.scrollHeight);
     }
