@@ -20,12 +20,12 @@ Vue.component('encounter', {
     props: ["data"],
     template:
     '    <div class="stat-block">' +
-    '    <hr class="orange-border"/>'+
+    '    <hr class="orange-border"/>' +
     '        <div v-for="monster in data.entity.monsters" class="creature-heading">' +
     '           <h1>{{ monster.block }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}</h1>' +
     '               HP: {{ monster.hitPoints }}</br>Initiative: {{ monster.initiative === null ? "not rolled" : monster.initiative }}' +
     '        </div>' +
-    '    <div>'+
+    '    <div>' +
     '    <div class="creature-heading">' +
     '       <h1>{{ data.entity.playingMonsterName === "" ? "Nobody rolled initiative" : data.entity.playingMonsterName + "\'s turn" }}</h1>' +
     '    </div>',
@@ -39,7 +39,7 @@ Vue.component('monster', {
     template:
     '    <div>' +
     '        <div class="stat-block">' +
-    '            <hr class="orange-border"/>'+
+    '            <hr class="orange-border"/>' +
     '            <div class="creature-heading">' +
     '                   <h1>{{ data.entity.name[0].toUpperCase() + data.entity.name.slice(1) }}</h1>' +
     '                       HP: {{ data.entity.hitPoints }}</br>Initiative: {{ data.entity.initiative === null ? "not rolled" : data.entity.initiative }}' +
@@ -353,6 +353,28 @@ class GetTurnCommand {
     }
 }
 
+class RemoveCommand {
+    constructor() {
+        this.name = "remove";
+    }
+
+    execute(input, args) {
+        if (args.length < 2) {
+            console.log("missing monster name");
+        } else {
+            const monsterName = args[1];
+            $.ajax({
+                contentType: "application/json",
+                method: 'DELETE',
+                url: `http://${server}:${port}/api/remove/` + monsterName,
+                success: function (data) {
+                    app.commands.push({input: input, output: data, templateName: "entity"});
+                }
+            });
+        }
+    }
+}
+
 const COMMANDS = [
     new ClearCommand(),
     new HelpCommand(),
@@ -365,7 +387,8 @@ const COMMANDS = [
     new DamageCommand(),
     new NextTurnCommand(),
     new ResetCommand(),
-    new GetTurnCommand()
+    new GetTurnCommand(),
+    new RemoveCommand()
 ];
 
 function eval(input) {

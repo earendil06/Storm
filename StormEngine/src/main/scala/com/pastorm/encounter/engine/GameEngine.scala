@@ -26,4 +26,6 @@ trait GameEngine {
   def reset(): Unit
 
   def getTurn: Int
+
+  def remove(name: String): Unit
 }

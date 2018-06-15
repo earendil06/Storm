@@ -10,7 +10,12 @@ import com.pastorm.stormapi.adapter.EncounterDataJson;
 import com.pastorm.stormapi.adapter.MonsterJson;
 import com.pastorm.stormapi.adapter.NewMonster;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import scala.Option;
 
 import javax.ws.rs.Consumes;
@@ -22,8 +27,8 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 public class Endpoint {
-    private GameEngine gameEngine = EncounterEngineComponent.encounterEngine();
     private final Accessor accessor;
+    private GameEngine gameEngine = EncounterEngineComponent.encounterEngine();
 
     @Autowired
     public Endpoint(Accessor accessor) {
@@ -141,5 +146,17 @@ public class Endpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTurn() {
         return Response.ok(gameEngine.getTurn()).build();
+    }
+
+    @RequestMapping(value = "/api/remove/{name}", method = RequestMethod.DELETE)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(@PathVariable("name") String name) {
+        if (name == null || name.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("name cannot be empty.").build();
+        } else if (gameEngine.getMonsterByName(name).isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).entity(name + " is not in the encounter.").build();
+        }
+        gameEngine.remove(name);
+        return Response.ok(name + " has been removed.").build();
     }
 }

@@ -55,4 +55,11 @@ class EncounterEngine() extends GameEngine {
   override def reset(): Unit = encounterData = EncounterData(Seq(), "", 0)
 
   override def getTurn: Int = encounterData.turn
+
+  override def remove(name: String): Unit = {
+    encounterData = encounterData.copy(monsters = encounterData.monsters.filterNot(m => m.name.equals(name)))
+    if (encounterData.playingMonsterName.equals(name)) {
+      nextTurn()
+    }
+  }
 }
