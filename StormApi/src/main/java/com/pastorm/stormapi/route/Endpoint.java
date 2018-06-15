@@ -57,6 +57,7 @@ public class Endpoint {
     @RequestMapping(value = "/api/new", method = RequestMethod.POST)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newMonster(@RequestBody NewMonster newMonster) {
+        newMonster.name = newMonster.name.toLowerCase();
         if (gameEngine.getMonsterByName(newMonster.name).nonEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(newMonster.name + " already exists in the encounter.")
