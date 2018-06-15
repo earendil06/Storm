@@ -13,7 +13,11 @@ Vue.component('command', {
     '        <div style="padding-bottom: 10px; padding-top: 5px; color: white">' +
     '           <component :is="command.templateName" :data="command.output"></component>' +
     '       </div>' +
-    '    </div>'
+    '    </div>',
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
+        document.getElementById("loader").style.display = "none";
+    }
 });
 
 Vue.component('encounter', {
@@ -28,10 +32,7 @@ Vue.component('encounter', {
     '    <div>' +
     '    <div class="creature-heading">' +
     '       <h1>{{ data.entity.playingMonsterName === "" ? "Nobody rolled initiative" : data.entity.playingMonsterName + "\'s turn" }}</h1>' +
-    '    </div>',
-    mounted: function () {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
+    '    </div>'
 });
 
 Vue.component('monster', {
@@ -46,26 +47,17 @@ Vue.component('monster', {
     '            </div>' +
     '            <block :data="data.entity.block"></block>' +
     '        </div>' +
-    '    </div>',
-    mounted: function () {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
+    '    </div>'
 });
 
 Vue.component('default', {
     props: ["data"],
-    template: "<div>{{ data }}</div>",
-    mounted: function () {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
+    template: "<div>{{ data }}</div>"
 });
 
 Vue.component('entity', {
     props: ["data"],
-    template: "<div>{{ data.entity }}</div>",
-    mounted: function () {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
+    template: "<div>{{ data.entity }}</div>"
 });
 
 const app = new Vue({
@@ -108,9 +100,6 @@ const app = new Vue({
                 this.positionHistory--;
             }
         }
-    },
-    mounted: function () {
-        window.scrollTo(0, document.body.scrollHeight);
     }
 });
 
@@ -121,6 +110,7 @@ class ClearCommand {
 
     execute(input, args) {
         app.commands = [];
+        document.getElementById("loader").style.display = "none";
     }
 }
 
@@ -401,6 +391,7 @@ function eval(input) {
         if (typeof commandFound === "undefined") {
             app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
         } else {
+            document.getElementById("loader").style.display = "block";
             commandFound.execute(input, arguments);
         }
     }

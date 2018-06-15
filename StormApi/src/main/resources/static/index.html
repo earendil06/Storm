@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="styles.css">
 
     <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css">
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -19,40 +20,43 @@
 </head>
 <body>
 
-<div id="container" >
+<div id="container">
     <command
             v-for="command in commands"
             v-bind:command="command"
             v-bind:user="user">
     </command>
 
-
     <div id="input-line" class="input-line">
-        <div class="prompt" >{{ user }}</div>
+        <div class="prompt">{{ user }}</div>
         <div>
             <input v-model="currentInputValue" style="color: white"
                    @keyup.enter="executeCommand"
                    @keyup.38="setPositionHistory"
                    @keyup.40="setPositionHistory"
                    class="cmdline" autofocus/>
+            <div id="loader" class="animate-bottom" style="display:none;"></div>
         </div>
     </div>
 </div>
 
-
 <script src="scripts.js"></script>
 <script>
     function getQueryVariable(variable) {
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
-       }
-       return(false);
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return (false);
     }
-    
+
     var server = getQueryVariable("server") || "florentpastor.ddns.net";
 </script>
+
+
 </body>
 </html>
