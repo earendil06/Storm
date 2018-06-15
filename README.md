@@ -1,3 +1,5 @@
+![demo](./storm.gif)
+
 # StormD&D Specifications draft
 
 Toolchain with the goal to help a Dungeon Master to run a D&D game.  
