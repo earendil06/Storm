@@ -294,7 +294,7 @@ class DamageCommand {
                 url: `http://${server}:${port}/api/damage/`,
                 data: JSON.stringify({"name": monsterName, "damage": monsterDamage}),
                 success: function (data) {
-                    app.commands.push({input: input, output: data, templateName: "entity"});
+                    app.commands.push({input: input, output: data, templateName: "monster"});
                 }
             });
 
@@ -373,7 +373,7 @@ function eval(input) {
     if (arguments.length === 0) {
         app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
     } else {
-        const commandName = arguments[0];
+        const commandName = arguments[0].toLowerCase();
         let commandFound = COMMANDS.find(f => f.name === commandName);
         if (typeof commandFound === "undefined") {
             app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
