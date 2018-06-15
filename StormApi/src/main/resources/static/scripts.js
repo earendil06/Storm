@@ -76,6 +76,8 @@ const app = new Vue({
         history: [],
         currentInputValue: "",
         positionHistory: 0,
+        propositions: "",
+        propositionsIndex: -1
     },
     watch: {
         positionHistory: function (newPosition, oldPosition) {
@@ -92,12 +94,16 @@ const app = new Vue({
             if (this.currentInputValue !== this.history[this.history.length - 1]) {
                 this.history.push(this.currentInputValue);
             }
-            eval(this.currentInputValue);
-
+            if (this.propositionsIndex === -1) {
+                eval(this.currentInputValue);
+                this.currentInputValue = "";
+                this.positionHistory = 0;
+            } else {
+                this.currentInputValue = this.currentInputValue += (" " + this.propositions[this.propositionsIndex] + " ");
+            }
             window.scrollTo(0, document.body.scrollHeight);
-
-            this.currentInputValue = "";
-            this.positionHistory = 0;
+            this.propositionsIndex = -1;
+            this.propositions = []
         },
         setPositionHistory: function (message) {
             const downCode = 40;
@@ -107,12 +113,67 @@ const app = new Vue({
             } else if (message.keyCode === downCode && this.positionHistory > 0) {
                 this.positionHistory--;
             }
+        },
+        invokeAutocomplete: function (message) {
+            message.preventDefault();
+            const pointer = this.currentInputValue.trim().split(" ").filter(f => f !== "");
+            pointer.unshift("");
+            var propositions = propEngine;
+            pointer.forEach(p => {
+                propositions = propositions.find(f => f.name === p).prop;
+            });
+            this.propositions = propositions.map(m => m.name);
+            this.propositionsIndex = (this.propositionsIndex + 1) % this.propositions.length;
+        },
+        lambdaKey: function (message) {
+            const tabCode = 9;
+            if (message !== tabCode) {
+                this.propositions = [];
+                this.propositionsIndex = -1;
+            }
         }
     },
     mounted: function () {
         window.scrollTo(0, document.body.scrollHeight);
     }
 });
+
+const propEngine = [{
+    "name" : "",
+    "pointer": [""],
+    "prop" : [
+        {
+            "name": "monster",
+            "prop": [
+                {
+                    "name": "toto",
+                    "prop": []
+                },
+                {
+                    "name": "titi",
+                    "prop": []
+                }
+            ]
+        },
+        {
+            "name": "block",
+            "prop": [
+                {
+                    "name": "goblin",
+                    "prop": []
+                },
+                {
+                    "name": "ork",
+                    "prop": []
+                },
+                {
+                    "name": "dragon",
+                    "prop": []
+                }
+            ]
+        }
+    ]
+}];
 
 class ClearCommand {
     constructor() {
@@ -392,7 +453,7 @@ const COMMANDS = [
 ];
 
 function eval(input) {
-    const arguments = input.trim().split(" ");
+    const arguments = input.trim().split(" ").filter(f => f !== "");
     if (arguments.length === 0) {
         app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
     } else {
