@@ -158,6 +158,10 @@ const propEngine = [{
                 {
                     "name": "dragon",
                     "prop": []
+                },
+                {
+                    "name": "drunkenmaster",
+                    "prop": []
                 }
             ]
         }
