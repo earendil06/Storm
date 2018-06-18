@@ -52,8 +52,8 @@ public class StormListenerImpl extends StormBaseListener {
     @Override
     public void enterFeature_block(StormParser.Feature_blockContext ctx) {
         String name = ctx.feature_name().getText();
-        String description = ctx.feature_description().getText();
-        Feature feature = new Feature(name, description);
+        String description = ctx.description().getText();
+        Feature feature = new Feature(name, description.replaceAll("[{}]", ""));
         block.putFeature(feature);
     }
 

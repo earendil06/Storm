@@ -12,18 +12,18 @@ ability       : STAT_ID WS+ NUMBER NEWLINE* ;
 action_block     : WORD NEWLINE action_component+ NEWLINE? ;
 action_component : (to_hit | reach | range | hit | description) NEWLINE? ;
 
-feature_block :       feature_name ARROW feature_description NEWLINE?;
-feature_name :        (WORD | WS+)+ ;
-feature_description : (WORD | WS+)+ ;
+feature_block : feature_name ARROW description NEWLINE*;
+feature_name  : .~(ARROW | '{' | '}')+;
+//feature_description : (.~(NEWLINE))+ ;
 
-to_hit        : MODIFIER_OP NUMBER WS+ 'to hit' NEWLINE ;
-reach         : 'reach' WS+ NUMBER ;
-range         : 'range' WS+ NUMBER '/' NUMBER ;
-hit           : 'hit' WS+ dice WS+ DAMAGE_TYPE ;
+to_hit        : MODIFIER_OP NUMBER WS+ TO_HIT NEWLINE ;
+reach         : REACH WS+ NUMBER ;
+range         : RANGE WS+ NUMBER SLASH NUMBER ;
+hit           : HIT WS+ dice WS+ DAMAGE_TYPE ;
 
-dice          : NUMBER 'd' NUMBER (WS* modifier)? ;
+dice          : NUMBER D NUMBER (WS* modifier)? ;
 modifier      : MODIFIER_OP WS* NUMBER ;
-description   : '[' .~('[' | ']')+ ']' ;
+description   : WS* '{' .~('{' | '}')* '}' WS* ;
 
 
 // Lexer Rules
@@ -33,12 +33,22 @@ STAT        : ('ac' | 'AC' | 'pp'  | 'PP' | 'hp' | 'HP'| 'speed'| 'SPEED') ;
 DAMAGE_TYPE : ('piercing' | 'slashing' | 'bludgeoning' | 'fire' | 'acid' | 'ice' | 'arcane' | 'thunder') ;
 
 ARROW       : '=>';
+BLOCK       : 'block';
+TO_HIT      : 'to hit';
 
-WORD        : (LOWERCASE | UPPERCASE | '_')+ ;
+HIT         : 'hit';
+ACTION      : 'action';
+REACH       : 'reach';
+RANGE       : 'range';
+D           : 'd';
+SLASH       : '/';
+
+
+//FEATURE_NAME : (WORD | NUMBER | MODIFIER_OP | WS+)+ ARROW;
+WORD        : (LOWERCASE | UPPERCASE | '_' | '(' | ')' | '\'' | '.' | ',' | '?' | '!' | ';')+ ;
 NUMBER      : [0-9]+ ;
 NEWLINE     : ('\r'? '\n' | '\r')+ ;
 WS          : (' ' | '\t') ;
-
 
 fragment LOWERCASE : [a-z] ;
 fragment UPPERCASE : [A-Z] ;
