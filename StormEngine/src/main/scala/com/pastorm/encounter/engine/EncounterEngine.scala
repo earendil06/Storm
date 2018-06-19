@@ -61,4 +61,12 @@ class EncounterEngine() extends GameEngine {
       nextTurn()
     }
   }
+
+  override def setInitiative(name: String, value: Int): Option[Monster] = {
+    getMonsterByName(name) match {
+      case Some(m) => Some(m.copy(initiative = Some(value)))
+      case None => None
+    }
+  }
+
 }

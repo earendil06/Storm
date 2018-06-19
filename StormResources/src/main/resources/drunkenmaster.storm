@@ -26,7 +26,7 @@ Brewer's Supplies =>{ +9}
 
 Condition Immunities => {poisoned }
 
-Deflect Missile => { When the drunken master is hit by a ranged weapon attack, the damage is reduced by 25 (1d10 + 20).}
+Deflect Missile => { When the drunken master is hit by a ranged weapon attack, the stat is reduced by 25 (1d10 + 20).}
 
 Drunkard's Luck (1/Turn) => {When the drunken master has disadvantage on an attack roll, ability check, or saving throw,
  it can choose either result for that roll.}
@@ -40,7 +40,7 @@ Legendary Resistances (3/Day) => {When the drunken master fails a saving throw, 
 
 Lucky (3/Day) => {The drunken master can re-roll an attack roll, ability check, or saving throw it makes and use either result.}
 
-Slow Fall => {The drunken master takes no damage as a result of a fall.}
+Slow Fall => {The drunken master takes no stat as a result of a fall.}
 
 Unarmored Defense => {While the drunken master isn't wearing armor, its armor class includes its Wisdom modifier.}
 

@@ -28,4 +28,6 @@ trait GameEngine {
   def getTurn: Int
 
   def remove(name: String): Unit
+
+  def setInitiative(name: String, value: Int): Option[Monster]
 }

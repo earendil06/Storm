@@ -239,6 +239,7 @@ class NewCommand {
     execute(input, args) {
         if (args.length < 3) {
             console.log("error");
+            document.getElementById("loader").style.display = "none";
         } else {
             const monsterType = args[1];
             const monsterName = args[2];
@@ -264,6 +265,7 @@ class GetMonsterCommand {
     execute(input, args) {
         if (args.length < 2) {
             console.log("error");
+            document.getElementById("loader").style.display = "none";
         } else {
             const monsterName = args[1];
             $.ajax({
@@ -347,6 +349,7 @@ class DamageCommand {
     execute(input, args) {
         if (args.length < 3) {
             console.log("error");
+            document.getElementById("loader").style.display = "none";
         } else {
             const monsterName = args[1];
             const monsterDamage = args[2];
@@ -376,6 +379,7 @@ class HealCommand {
     execute(input, args) {
         if (args.length < 3) {
             console.log("error");
+            document.getElementById("loader").style.display = "none";
         } else {
             const monsterName = args[1];
             const monsterDamage = args[2];
@@ -458,6 +462,7 @@ class RemoveCommand {
     execute(input, args) {
         if (args.length < 2) {
             console.log("missing monster name");
+            document.getElementById("loader").style.display = "none";
         } else {
             const monsterName = args[1];
             $.ajax({
@@ -466,6 +471,35 @@ class RemoveCommand {
                 url: `http://${server}:${port}/api/remove/` + monsterName,
                 success: function (data) {
                     app.commands.push({input: input, output: data, templateName: "entity"});
+                }
+            });
+        }
+    }
+}
+
+class SetInitiativeCommand {
+    constructor() {
+        this.name = "set-init";
+    }
+
+    execute(input, args) {
+        if (args.length < 3) {
+            console.log("error");
+            document.getElementById("loader").style.display = "none";
+        } else {
+            const name = args[1];
+            const value = args[2];
+            $.ajax({
+                contentType: "application/json",
+                method: 'PUT',
+                url: `http://${server}:${port}/api/set/`,
+                data: JSON.stringify({"name": name, "value": value}),
+                success: function (data) {
+                    if (data.status === 200) {
+                        app.commands.push({input: input, output: data, templateName: "monster"});
+                    } else {
+                        app.commands.push({input: input, output: data, templateName: "entity"});
+                    }
                 }
             });
         }
@@ -486,7 +520,8 @@ const COMMANDS = [
     new NextTurnCommand(),
     new ResetCommand(),
     new GetTurnCommand(),
-    new RemoveCommand()
+    new RemoveCommand(),
+    new SetInitiativeCommand()
 ];
 
 function eval(input) {
