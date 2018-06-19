@@ -124,7 +124,7 @@ document.write(`
                     {{ action.toHit }}
                     {{ action.reach == null ? action.range : action.reach }}
                     {{ action.hit }}
-                    {{ action.description }}
+                    {{ action.description == null ? "" : action.description }}
                 </p>
             </div> <!-- property block -->
         </div> <!-- actions -->

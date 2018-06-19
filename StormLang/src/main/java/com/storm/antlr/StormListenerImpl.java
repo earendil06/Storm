@@ -17,7 +17,7 @@ public class StormListenerImpl extends StormBaseListener {
 
     @Override
     public void enterBlock(StormParser.BlockContext ctx) {
-        String name = ctx.WORD().getText();
+        String name = ctx.block_name().getText();
         block.setName(name);
     }
 
@@ -61,7 +61,7 @@ public class StormListenerImpl extends StormBaseListener {
     public void enterAction_block(StormParser.Action_blockContext ctx) {
         List<StormParser.Action_componentContext> actions = ctx.action_component();
         Action action = new Action();
-        action.setName(ctx.WORD().getText());
+        action.setName(ctx.action_block_name().getText());
         for (StormParser.Action_componentContext actionComponent : actions) {
             if (actionComponent.reach() != null) {
                 action.setReach(actionComponent.reach().getText());
@@ -76,7 +76,8 @@ public class StormListenerImpl extends StormBaseListener {
                 action.setHit(actionComponent.hit().getText());
             }
             if (actionComponent.description() != null) {
-                action.setDescription(actionComponent.description().getText());
+                String description = actionComponent.description().getText();
+                action.setDescription(description.replaceAll("[{}]", ""));
             }
         }
         block.putAction(action);

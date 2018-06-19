@@ -1,4 +1,4 @@
-DrunkenMaster
+Drunken Master
 
 AC 20
 HP 12d8 + 55
@@ -12,7 +12,7 @@ int 20
 wis 20
 cha 20
 
-UnarmedStrike
+Unarmed Strike
 +9 to hit
 reach 5
 hit 1d4+5 bludgeoning

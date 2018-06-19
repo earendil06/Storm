@@ -1,7 +1,7 @@
 grammar Storm;
 
-// com.ddmodel.Block Statistics Parser Rules
-block         : WORD NEWLINE+ traits EOF ;
+block         : block_name NEWLINE+ traits EOF ;
+block_name    : .+?;
 
 traits        : stat* ability_block action_block* feature_block* description? ;
 
@@ -9,12 +9,12 @@ stat          : STAT WS+ (NUMBER | dice) NEWLINE* ;
 ability_block : (ability NEWLINE*)+ NEWLINE* ;
 ability       : STAT_ID WS+ NUMBER NEWLINE* ;
 
-action_block     : WORD NEWLINE action_component+ NEWLINE? ;
+action_block      : action_block_name NEWLINE action_component+ NEWLINE? ;
+action_block_name : .+?;
 action_component : (to_hit | reach | range | hit | description) NEWLINE? ;
 
-feature_block : feature_name ARROW description NEWLINE*;
+feature_block : feature_name ARROW description? NEWLINE*;
 feature_name  : .~(ARROW | '{' | '}')+;
-//feature_description : (.~(NEWLINE))+ ;
 
 to_hit        : MODIFIER_OP NUMBER WS+ TO_HIT NEWLINE ;
 reach         : REACH WS+ NUMBER ;
@@ -23,6 +23,7 @@ hit           : HIT WS+ dice WS+ DAMAGE_TYPE ;
 
 dice          : NUMBER D NUMBER (WS* modifier)? ;
 modifier      : MODIFIER_OP WS* NUMBER ;
+
 description   : WS* '{' .~('{' | '}')* '}' WS* ;
 
 
@@ -49,6 +50,8 @@ WORD        : (LOWERCASE | UPPERCASE | '_' | '(' | ')' | '\'' | '.' | ',' | '?' 
 NUMBER      : [0-9]+ ;
 NEWLINE     : ('\r'? '\n' | '\r')+ ;
 WS          : (' ' | '\t') ;
+
+
 
 fragment LOWERCASE : [a-z] ;
 fragment UPPERCASE : [A-Z] ;
