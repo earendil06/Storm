@@ -9,6 +9,7 @@ import com.pastorm.stormapi.adapter.DamageJson;
 import com.pastorm.stormapi.adapter.EncounterDataJson;
 import com.pastorm.stormapi.adapter.MonsterJson;
 import com.pastorm.stormapi.adapter.NewMonster;
+import com.pastorm.stormapi.adapter.SetJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -164,5 +165,25 @@ public class Endpoint {
         }
         gameEngine.remove(name);
         return Response.ok(name + " has been removed.").build();
+    }
+
+    @RequestMapping(value = "/api/set", method = RequestMethod.PUT)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response set(@RequestBody SetJson setJson) {
+        Integer initiative;
+        try {
+            initiative = Integer.valueOf(setJson.getValue());
+        } catch (NumberFormatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Initiative argument must be a number.").build();
+        }
+        Option monster = gameEngine.setInitiative(setJson.getName(), initiative);
+        if (monster.nonEmpty()) {
+            gameEngine.updateMonster((Monster) monster.get());
+            return Response
+                    .ok(new MonsterJson(gameEngine.getMonsterByName(setJson.getName()).get()))
+                    .build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity(setJson.getName() + " does not exists.").build();
+        }
     }
 }
