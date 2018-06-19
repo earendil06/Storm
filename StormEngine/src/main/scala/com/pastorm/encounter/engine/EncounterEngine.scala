@@ -39,9 +39,8 @@ class EncounterEngine() extends GameEngine {
       encounterData.copy(monsters = encounterData.monsters.filterNot(m => m.name.equals(monster.name)) :+ monster)
 
   override def damage(name: String, damage: Int): Option[Monster] = {
-    println(s"$name took $damage damage")
     getMonsterByName(name) match {
-      case Some(m) => Some(m.copy(hitPoints = m.hitPoints.map(hp => hp - damage)))
+      case Some(m) => Some(m.copy(hitPoints = m.hitPoints.map(hp => hp + damage)))
       case None => None
     }
   }

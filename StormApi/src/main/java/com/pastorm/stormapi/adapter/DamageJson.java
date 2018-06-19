@@ -1,7 +1,7 @@
 package com.pastorm.stormapi.adapter;
 
 public class DamageJson {
-    private int damage;
+    private String damage;
     private String name;
 
     public DamageJson() {
@@ -11,12 +11,12 @@ public class DamageJson {
         this.name = name;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(String damage) {
 
         this.damage = damage;
     }
 
-    public int getDamage() {
+    public String getDamage() {
         return damage;
     }
 
