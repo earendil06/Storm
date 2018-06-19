@@ -51,21 +51,21 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:8080/api/stat
+PUT http://localhost:8080/api/damage
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
-{"name":"Toto","stat":"2"}
+{"name":"Toto","damage":"2"}
 
 ###
 
-PUT http://localhost:8080/api/stat
+PUT http://localhost:8080/api/damage
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
-{"name":"nope","stat":"2"}
+{"name":"nope","damage":"2"}
 
 ###
 
