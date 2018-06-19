@@ -34,7 +34,6 @@ STAT        : ('ac' | 'AC' | 'pp'  | 'PP' | 'hp' | 'HP'| 'speed'| 'SPEED') ;
 DAMAGE_TYPE : ('piercing' | 'slashing' | 'bludgeoning' | 'fire' | 'acid' | 'ice' | 'arcane' | 'thunder') ;
 
 ARROW       : '=>';
-BLOCK       : 'block';
 TO_HIT      : 'to hit';
 
 HIT         : 'hit';
