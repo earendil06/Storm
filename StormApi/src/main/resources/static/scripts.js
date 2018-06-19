@@ -26,10 +26,11 @@ Vue.component('encounter', {
     '    <div class="stat-block">' +
     '    <hr class="orange-border"/>' +
     '        <div v-for="monster in data.entity.monsters" class="creature-heading">' +
-    '           <h1>{{ monster.name === data.entity.playingMonsterName ? "=>" : "" }} ' +
-    '               {{ monster.block }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}' +
+    '           <h1>{{ monster.blockName === data.entity.playingMonsterName ? "=>" : "" }} ' +
+    '               {{ monster.blockName }} {{ monster.blockName[0].toUpperCase() + monster.blockName.slice(1) }}' +
     '           </h1>' +
-    '               HP: {{ monster.hitPoints }}</br>Initiative: {{ monster.initiative === null ? "not rolled" : monster.initiative }}' +
+    '               HP: {{ monster.hitPoints }}, AC: {{ monster.ac }}' +
+    '               </br>Initiative: {{ monster.initiative === null ? "not rolled" : monster.initiative }}' +
     '        </div>' +
     '    <div>' +
     '    <div class="creature-heading">' +
@@ -296,7 +297,8 @@ class GetEncounterDataCommand {
             success: function (data) {
                 const monsters = data.entity.monsters;
                 monsters.forEach(m => {
-                    m.block = m.block.name;
+                    m.ac = m.block.stats.find(f => f.type === "ARMOR_CLASS").formulae;
+                    m.blockName = m.block.name;
                 });
                 app.commands.push({input: input, output: data, templateName: "encounter"});
             }
