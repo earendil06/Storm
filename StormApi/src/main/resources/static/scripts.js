@@ -312,7 +312,11 @@ class GetPlayingMonster {
             contentType: "application/json",
             url: `http://${server}:${port}/api/playing`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "monster"});
+                if (data.status === 200) {
+                    app.commands.push({input: input, output: data, templateName: "monster"});
+                } else {
+                    app.commands.push({input: input, output: data, templateName: "entity"});
+                }
             }
         });
     }
@@ -350,9 +354,42 @@ class DamageCommand {
                 contentType: "application/json",
                 method: 'PUT',
                 url: `http://${server}:${port}/api/damage/`,
+                data: JSON.stringify({"name": monsterName, "damage": -monsterDamage}),
+                success: function (data) {
+                    if (data.status === 200) {
+                        app.commands.push({input: input, output: data, templateName: "monster"});
+                    } else {
+                        app.commands.push({input: input, output: data, templateName: "entity"});
+                    }
+                }
+            });
+
+        }
+    }
+}
+
+class HealCommand {
+    constructor() {
+        this.name = "heal";
+    }
+
+    execute(input, args) {
+        if (args.length < 3) {
+            console.log("error");
+        } else {
+            const monsterName = args[1];
+            const monsterDamage = args[2];
+            $.ajax({
+                contentType: "application/json",
+                method: 'PUT',
+                url: `http://${server}:${port}/api/damage/`,
                 data: JSON.stringify({"name": monsterName, "damage": monsterDamage}),
                 success: function (data) {
-                    app.commands.push({input: input, output: data, templateName: "monster"});
+                    if (data.status === 200) {
+                        app.commands.push({input: input, output: data, templateName: "monster"});
+                    } else {
+                        app.commands.push({input: input, output: data, templateName: "entity"});
+                    }
                 }
             });
 
@@ -445,6 +482,7 @@ const COMMANDS = [
     new GetPlayingMonster(),
     new RollInitiativeCommand(),
     new DamageCommand(),
+    new HealCommand(),
     new NextTurnCommand(),
     new ResetCommand(),
     new GetTurnCommand(),

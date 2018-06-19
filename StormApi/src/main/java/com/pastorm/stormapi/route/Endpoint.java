@@ -124,7 +124,13 @@ public class Endpoint {
     @RequestMapping(value = "/api/damage", method = RequestMethod.PUT)
     @Produces(MediaType.APPLICATION_JSON)
     public Response damage(@RequestBody DamageJson damageJson) {
-        Option monster = gameEngine.damage(damageJson.getName(), damageJson.getDamage());
+        Integer damage;
+        try {
+            damage = Integer.valueOf(damageJson.getDamage());
+        } catch (NumberFormatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Damage argument must be a number.").build();
+        }
+        Option monster = gameEngine.damage(damageJson.getName(), damage);
         if (monster.nonEmpty()) {
             gameEngine.updateMonster((Monster) monster.get());
             return Response
