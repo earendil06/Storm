@@ -6,9 +6,14 @@ import com.pastorm.encounter.model.Monster;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.nullsLast;
+import static java.util.Comparator.reverseOrder;
+
 public class EncounterDataJson {
     private List<MonsterJson> monsters;
     private String playingMonsterName;
+    private int turn;
 
     public EncounterDataJson() {
     }
@@ -19,7 +24,9 @@ public class EncounterDataJson {
             Monster monster = encounterData.monsters().apply(i);
             monsters.add(new MonsterJson(monster));
         }
+        this.monsters.sort(comparing(MonsterJson::getInitiative, nullsLast(reverseOrder())));
         this.playingMonsterName = encounterData.playingMonsterName();
+        this.turn = encounterData.turn();
     }
 
     public List<MonsterJson> getMonsters() {
@@ -38,11 +45,20 @@ public class EncounterDataJson {
         this.playingMonsterName = playingMonsterName;
     }
 
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
     @Override
     public String toString() {
         return "EncounterDataJson{" +
                 "monsters=" + monsters +
                 ", playingMonsterName='" + playingMonsterName + '\'' +
+                ", turn=" + turn +
                 '}';
     }
 }
