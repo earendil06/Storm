@@ -80,9 +80,9 @@ document.write(`
                     </p>
                 </div> <!-- ability charisma -->
             </div> <!-- abilities -->
-            <svg height="5" width="100%" class="tapered-rule">
+            <!--<svg height="5" width="100%" class="tapered-rule">
                 <polyline points="0,0 400,2.5 0,5"></polyline>
-            </svg>
+            </svg>-->
 
 
             <!--<div class="property-line first">
@@ -118,14 +118,16 @@ document.write(`
     <div class="section-right">
         <div class="actions">
             <h3>Actions</h3>
-            <div v-for="action in data.actions" class="property-block">
-                <h4>{{ action.name }}</h4>
-                <p>
-                    {{ action.toHit }}
-                    {{ action.reach == null ? action.range : action.reach }}
-                    {{ action.hit }}
-                    {{ action.description == null ? "" : action.description }}
-                </p>
+            <div v-for="action in data.actions" class="actions">
+                <div class="property-block">
+                    <h4>{{ action.name }}</h4>
+                    <p>
+                        {{ action.toHit }}
+                        {{ action.reach == null ? action.range : action.reach }}
+                        {{ action.hit }}
+                        {{ action.description == null ? "" : ". " + action.description }}
+                    </p>
+                </div>
             </div> <!-- property block -->
         </div> <!-- actions -->
         <!--<div class="actions">

@@ -12,7 +12,7 @@ Vue.component('command', {
     '        </div>' +
     '        <div style="padding-bottom: 10px; padding-top: 5px; color: white">' +
     '           <component :is="command.templateName" :data="command.output"></component>' +
-    '       </div>' +
+    '        </div>' +
     '    </div>',
     mounted: function () {
         window.scrollTo(0, document.body.scrollHeight);
@@ -26,13 +26,16 @@ Vue.component('encounter', {
     '    <div class="stat-block">' +
     '    <hr class="orange-border"/>' +
     '        <div v-for="monster in data.entity.monsters" class="creature-heading">' +
-    '           <h1>{{ monster.block }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}</h1>' +
+    '           <h1>{{ monster.name === data.entity.playingMonsterName ? "=>" : "" }} ' +
+    '               {{ monster.block }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}' +
+    '           </h1>' +
     '               HP: {{ monster.hitPoints }}</br>Initiative: {{ monster.initiative === null ? "not rolled" : monster.initiative }}' +
     '        </div>' +
     '    <div>' +
     '    <div class="creature-heading">' +
     '       <h1>{{ data.entity.playingMonsterName === "" ? "Nobody rolled initiative" : data.entity.playingMonsterName + "\'s turn" }}</h1>' +
-    '    </div>'
+    '    </div>' +
+    '<div>Turn {{ data.entity.turn }}</div>'
 });
 
 Vue.component('monster', {
@@ -128,9 +131,9 @@ const app = new Vue({
 });
 
 const propEngine = [{
-    "name" : "",
+    "name": "",
     "pointer": [""],
-    "prop" : [
+    "prop": [
         {
             "name": "monster",
             "prop": [
@@ -309,7 +312,7 @@ class GetPlayingMonster {
             contentType: "application/json",
             url: `http://${server}:${port}/api/playing`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "entity"});
+                app.commands.push({input: input, output: data, templateName: "monster"});
             }
         });
     }
@@ -385,7 +388,8 @@ class NextTurnCommand {
             method: 'PUT',
             url: `http://${server}:${port}/api/nextTurn/`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "entity"});
+                let encounterCommand = COMMANDS.find(f => f.name === "encounter");
+                encounterCommand.execute("", "");
             }
         });
     }
@@ -402,7 +406,8 @@ class GetTurnCommand {
             method: 'GET',
             url: `http://${server}:${port}/api/turn/`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "entity"});
+                let encounterCommand = COMMANDS.find(f => f.name === "encounter");
+                encounterCommand.execute("", "");
             }
         });
     }
