@@ -19,10 +19,6 @@ public class Dice implements StatValue {
         return number * (faces / 2) + modifier;
     }
 
-    private int roll() {
-        return die.roll();
-    }
-
     @Override
     public String getFormulae() {
         String mod = "";
@@ -34,7 +30,11 @@ public class Dice implements StatValue {
 
     @Override
     public int instantiateValue() {
-        return roll() + modifier;
+        int acc = 0;
+        for (int i = 0; i < number; i++) {
+            acc += die.roll();
+        }
+        return acc + modifier;
     }
 
     public int getNumber() {
