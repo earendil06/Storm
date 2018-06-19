@@ -26,8 +26,8 @@ Vue.component('encounter', {
     '    <div class="stat-block">' +
     '    <hr class="orange-border"/>' +
     '        <div v-for="monster in data.entity.monsters" class="creature-heading">' +
-    '           <h1>{{ monster.blockName === data.entity.playingMonsterName ? "=>" : "" }} ' +
-    '               {{ monster.blockName }} {{ monster.blockName[0].toUpperCase() + monster.blockName.slice(1) }}' +
+    '           <h1>{{ monster.name === data.entity.playingMonsterName ? "=>" : "" }} ' +
+    '               {{ monster.blockName }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}' +
     '           </h1>' +
     '               HP: {{ monster.hitPoints }}, AC: {{ monster.ac }}' +
     '               </br>Initiative: {{ monster.initiative === null ? "not rolled" : monster.initiative }}' +
