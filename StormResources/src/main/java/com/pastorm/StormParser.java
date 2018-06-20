@@ -36,6 +36,4 @@ public class StormParser {
             return Optional.empty();
         }
     }
-
-
 }
