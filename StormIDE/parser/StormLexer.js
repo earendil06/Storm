@@ -1,4 +1,4 @@
-// Generated from C:/GitClone/Storm/StormLang/src/main/antlr4/com/storm/antlr/grammar\Storm.g4 by ANTLR 4.7
+// Generated from C:/Users/antho/IdeaProjects/StormLanguage/StormIDE\Storm.g4 by ANTLR 4.7
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 
@@ -154,8 +154,8 @@ StormLexer.prototype = Object.create(antlr4.Lexer.prototype);
 StormLexer.prototype.constructor = StormLexer;
 
 StormLexer.EOF = antlr4.Token.EOF;
-StormLexer.T__0 = 1;
-StormLexer.T__1 = 2;
+StormLexer.OPEN = 1;
+StormLexer.CLOSE = 2;
 StormLexer.MODIFIER_OP = 3;
 StormLexer.STAT_ID = 4;
 StormLexer.STAT = 5;
@@ -182,13 +182,13 @@ StormLexer.prototype.literalNames = [ null, "'{'", "'}'", null, null, null,
                                       "'action'", "'reach'", "'range'", 
                                       "'d'", "'/'" ];
 
-StormLexer.prototype.symbolicNames = [ null, null, null, "MODIFIER_OP", 
+StormLexer.prototype.symbolicNames = [ null, "OPEN", "CLOSE", "MODIFIER_OP", 
                                        "STAT_ID", "STAT", "DAMAGE_TYPE", 
                                        "ARROW", "TO_HIT", "HIT", "ACTION", 
                                        "REACH", "RANGE", "D", "SLASH", "WORD", 
                                        "NUMBER", "NEWLINE", "WS" ];
 
-StormLexer.prototype.ruleNames = [ "T__0", "T__1", "MODIFIER_OP", "STAT_ID", 
+StormLexer.prototype.ruleNames = [ "OPEN", "CLOSE", "MODIFIER_OP", "STAT_ID", 
                                    "STAT", "DAMAGE_TYPE", "ARROW", "TO_HIT", 
                                    "HIT", "ACTION", "REACH", "RANGE", "D", 
                                    "SLASH", "WORD", "NUMBER", "NEWLINE", 

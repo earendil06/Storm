@@ -26,22 +26,8 @@ ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "a
                         regex: /\d/
                     }, {
                         token: "keyword",
-                        regex: /^[^0-9].+\n*/,
-                        next: "ability"
-                    }
-                ],
-                "ability": [
-                    {
-                        token: "entity.name.function",
-                        regex: /ac |AC |pp |PP |hp |HP |speed |SPEED |str |dex |con |int |wis |cha /,
-                        next: "stats"
-                    }, {
-                        token: "constant.numeric",
-                        regex: /[+|-]\s*\d+/
-                    }, {
-                        token: "entity.name.function",
-                        regex: /to hit/,
-                        next: "abilityBlock"
+                        regex: /^[^0-9][^=>]+\s*\n*/,
+                        next: "featureOrAbility"
                     }
                 ],
                 "abilityBlock": [
@@ -56,7 +42,7 @@ ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "a
                         regex: /(piercing|slashing|bludgeoning|fire|acid|ice|arcane|thunder)/
                     }, {
                         token: "paren",
-                        regex: /{/,
+                        regex: /\s*{/,
                         next: "description"
                     }, {
                         token: "keyword",
@@ -84,14 +70,14 @@ ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "a
                         next: "abilityBlock"
                     }, {
                         token: "paren",
-                        regex: /{/,
+                        regex: /\s*{/,
                         next: "description"
                     }
                 ],
                 "description": [
                     {
                         token: "paren",
-                        regex: /}/,
+                        regex: /}\s*/,
                         next: "abilityBlock"
                     }, {
                         defaultToken: "text"
@@ -103,10 +89,10 @@ ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "a
                         regex: /=>/
                     }, {
                         token: "paren",
-                        regex: /{/
+                        regex: /\s*{/
                     }, {
                         token: "paren",
-                        regex: /}/,
+                        regex: /}\s*/,
                         next: "featureName"
                     }, {
                         defaultToken: "text"
@@ -118,7 +104,7 @@ ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "a
                         regex: /=>/
                     }, {
                         token: "paren",
-                        regex: /{/,
+                        regex: /\s*{/,
                         next: "feature"
                     }, {
                         token: "keyword",
