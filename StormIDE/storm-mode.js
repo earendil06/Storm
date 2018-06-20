@@ -1,4 +1,4 @@
-define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text_highlight_rules"],
+ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text_highlight_rules"],
     function (require, exports, module) {
         "use strict";
 
@@ -132,7 +132,7 @@ define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "ace/l
         exports.StormHighlightRules = StormHighlightRules;
     });
 
-define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text", "ace/mode/storm_highlight_rules"],
+ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text", "ace/mode/storm_highlight_rules"],
     function (require, exports, module) {
         "use strict";
 
@@ -144,6 +144,33 @@ define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ace/mo
             this.HighlightRules = HighlightRules;
         };
         oop.inherits(Mode, TextMode);
+
+        (function() {
+
+            this.$id = "ace/mode/storm-mode";
+
+            var WorkerClient = require("ace/worker/worker_client").WorkerClient;
+            this.createWorker = function(session) {
+                this.$worker = new WorkerClient(["ace"], "ace/worker/my-worker", "MyWorker", "my-worker.js");
+                this.$worker.attachToDocument(session.getDocument());
+
+                this.$worker.on("errors", function(e) {
+                    session.setAnnotations(e.data);
+                });
+
+                this.$worker.on("annotate", function(e) {
+                    session.setAnnotations(e.data);
+                });
+
+                this.$worker.on("terminate", function() {
+                    session.clearAnnotations();
+                });
+
+                return this.$worker;
+
+            };
+
+        }).call(Mode.prototype);
 
         exports.Mode = Mode;
     });
