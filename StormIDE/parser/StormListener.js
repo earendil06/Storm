@@ -1,4 +1,4 @@
-// Generated from C:/GitClone/Storm/StormLang/src/main/antlr4/com/storm/antlr/grammar\Storm.g4 by ANTLR 4.7
+// Generated from C:/Users/antho/IdeaProjects/StormLanguage/StormIDE\Storm.g4 by ANTLR 4.7
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 
@@ -13,7 +13,6 @@ StormListener.prototype.constructor = StormListener;
 
 // Enter a parse tree produced by StormParser#block.
 StormListener.prototype.enterBlock = function(ctx) {
-    console.log("bloooock");
 };
 
 // Exit a parse tree produced by StormParser#block.
