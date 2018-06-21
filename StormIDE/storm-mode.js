@@ -26,92 +26,46 @@ ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "a
                         regex: /\d/
                     }, {
                         token: "keyword",
-                        regex: /^[^0-9][^=>]+\s*\n*/,
-                        next: "featureOrAbility"
+                        regex: /(actions|features)\s*{/,
+                       next: "block"
                     }
                 ],
-                "abilityBlock": [
+                "block": [
                     {
                         token: "entity.name.function",
-                        regex: /hit|reach|range/
+                        regex: /^[^0-9]+\s*=>\s*\n*/
                     }, {
                         token: "constant.numeric",
-                        regex: /\d|d|[+|-]/
+                        regex: /\s*{/,
+                        next: "description"
                     }, {
-                        token: "entity.name.function",
+                        token: "string",
+                        regex: /hit|reach|range|to hit/
+                    }, {
+                        token: "constant.numeric",
+                        regex: /[+|-]\s*\d+|\dd|\d|[+|-]/
+                    }, {
+                        token: "string",
                         regex: /(piercing|slashing|bludgeoning|fire|acid|ice|arcane|thunder)/
                     }, {
-                        token: "paren",
-                        regex: /\s*{/,
-                        next: "description"
-                    }, {
                         token: "keyword",
-                        regex: /^[^0-9][^=>]+\s*\n*/,
-                        next: "featureOrAbility"
+                        regex: /}\s*/,
+                        next: "stats"
                     }, {
                         defaultToken: "text"
-                    }
-                ],
-                "featureOrAbility": [
-                    {
-                        token: "entity.name.function",
-                        regex: /=>/,
-                        next: "feature"
-                    }, {
-                        token: "entity.name.function",
-                        regex: /[^+{=>]+\s*.*\s*\n*/,
-                        next: "abilityBlock"
-                    }, {
-                        token: "constant.numeric",
-                        regex: /[+|-]\s*\d+/
-                    }, {
-                        token: "entity.name.function",
-                        regex: /to hit/,
-                        next: "abilityBlock"
-                    }, {
-                        token: "paren",
-                        regex: /\s*{/,
-                        next: "description"
                     }
                 ],
                 "description": [
                     {
-                        token: "paren",
+                        token: "constant.numeric",
                         regex: /}\s*/,
-                        next: "abilityBlock"
+                        next: "block"
                     }, {
                         defaultToken: "text"
-                    }
-                ],
-                "feature": [
-                    {
-                        token: "entity.name.function",
-                        regex: /=>/
-                    }, {
-                        token: "paren",
-                        regex: /\s*{/
-                    }, {
-                        token: "paren",
-                        regex: /}\s*/,
-                        next: "featureName"
-                    }, {
-                        defaultToken: "text"
-                    }
-                ],
-                "featureName": [
-                    {
-                        token: "entity.name.function",
-                        regex: /=>/
-                    }, {
-                        token: "paren",
-                        regex: /\s*{/,
-                        next: "feature"
-                    }, {
-                        token: "keyword",
-                        regex: /^[^0-9][^=>{}]+\n*/
                     }
                 ]
             };
+            this.normalizeRules();
         };
         oop.inherits(StormHighlightRules, TextHighlightRules);
 
@@ -131,7 +85,7 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
         };
         oop.inherits(Mode, TextMode);
 
-        (function() {
+        /*(function() {
 
             this.$id = "ace/mode/storm-mode";
 
@@ -156,7 +110,7 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
 
             };
 
-        }).call(Mode.prototype);
+        }).call(Mode.prototype);*/
 
         exports.Mode = Mode;
     });
