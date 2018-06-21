@@ -199,36 +199,41 @@ class BlockCommand {
     }
 
     execute(input, args) {
-        const blockName = args[1];
-        $.ajax({
-            contentType: "application/json",
-            url: `http://${server}:${port}/api/block/` + blockName.toLowerCase(),
-            success: function (data) {
-                if (data.status === 200) {
-                    app.commands.push({input: input, output: data.entity, templateName: "block"});
-                    window.scrollTo(0, document.body.scrollHeight);
-                } else if (data.status === 404) {
-                    app.commands.push({
-                        input: input,
-                        output: blockName + " is not registered.",
-                        templateName: "default"
-                    });
-                } else {
+        if (args.length < 2) {
+            console.log("error");
+            document.getElementById("loader").style.display = "none";
+        } else {
+            const blockName = args[1];
+            $.ajax({
+                contentType: "application/json",
+                url: `http://${server}:${port}/api/block/` + blockName.toLowerCase(),
+                success: function (data) {
+                    if (data.status === 200) {
+                        app.commands.push({input: input, output: data.entity, templateName: "block"});
+                        window.scrollTo(0, document.body.scrollHeight);
+                    } else if (data.status === 404) {
+                        app.commands.push({
+                            input: input,
+                            output: blockName + " is not registered.",
+                            templateName: "default"
+                        });
+                    } else {
+                        app.commands.push({
+                            input: input,
+                            output: "Error " + data.status + ", Something went wrong!",
+                            templateName: "default"
+                        });
+                    }
+                },
+                error: function (data) {
                     app.commands.push({
                         input: input,
                         output: "Error " + data.status + ", Something went wrong!",
                         templateName: "default"
                     });
                 }
-            },
-            error: function (data) {
-                app.commands.push({
-                    input: input,
-                    output: "Error " + data.status + ", Something went wrong!",
-                    templateName: "default"
-                });
-            }
-        });
+            });
+        }
     }
 }
 

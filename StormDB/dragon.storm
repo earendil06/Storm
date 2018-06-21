@@ -1,0 +1,21 @@
+Dragon
+
+AC 300
+HP 100d6 +2
+pp 11
+speed 30
+
+str 100
+dex 80
+con 60
+int 85
+wis 10
+cha 1
+
+actions {
+scimitar =>
++4 to hit
+reach 5
+hit 1d6+2 slashing
+{todo add only desc in action}
+}
