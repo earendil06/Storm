@@ -8,6 +8,7 @@
         body {
             overflow: hidden;
         }
+
         #editor {
             margin: 0;
             position: absolute;
@@ -20,6 +21,7 @@
 
     <script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="storm-mode.js" data-ace-base="src" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/ace-builds/src-noconflict/ext-language_tools.js"></script>
 </head>
 <body>
 
@@ -38,59 +40,84 @@ int 20
 wis 20
 cha 20
 
-Unarmed Strike
+actions {
+Unarmed Strike =>
 +9 to hit
 reach 5
 hit 1d4+5 bludgeoning
 {one target.}
+}
+
+features {
 
 CR => {10}
 
 Performance => {+9}
 
-Brewer's Supplies =>{ +9}
+Brewer's Supplies => {+9}
 
 Condition Immunities => {poisoned }
 
-Deflect Missile => { When the drunken master is hit by a ranged weapon attack, the damage is reduced by 25 (1d10 + 20).}
+Deflect Missile =>
+{ When the drunken master is hit by a ranged weapon attack, the damage is reduced by 25 (1d10 + 20).}
 
-Drunkard's Luck (1/Turn) => {When the drunken master has disadvantage on an attack roll, ability check, or saving throw,
+Drunkard's Luck (1/Turn) =>
+{When the drunken master has disadvantage on an attack roll, ability check, or saving throw,
  it can choose either result for that roll.}
 
-Drunken Technique => {The drunken master does not trigger opportunity attacks when it moves on its turn. Also, when prone,
+Drunken Technique =>
+{The drunken master does not trigger opportunity attacks when it moves on its turn. Also, when prone,
  the drunken master can spend 5 feet of movement to stand up.}
 
-Ki Fists => {The drunken master's unarmed strikes are magical.}
+Ki Fists =>
+{The drunken master's unarmed strikes are magical.}
 
-Legendary Resistances (3/Day) => {When the drunken master fails a saving throw, it can choose to succeed instead.}
+Legendary Resistances (3/Day) =>
+{When the drunken master fails a saving throw, it can choose to succeed instead.}
 
-Lucky (3/Day) => {The drunken master can re-roll an attack roll, ability check, or saving throw it makes and use either result.}
+Lucky (3/Day) =>
+{The drunken master can re-roll an attack roll, ability check, or saving throw it makes and use either result.}
 
 Slow Fall => {The drunken master takes no damage as a result of a fall.}
 
 Unarmored Defense => {While the drunken master isn't wearing armor, its armor class includes its Wisdom modifier.}
 
-Flailing Arms (Action) => {The drunken master makes two unarmed strikes against each creature within 5 feet of its poison.}
+Flailing Arms (Action) =>
+{The drunken master makes two unarmed strikes against each creature within 5 feet of its poison.}
 
-Redirect Attack (reaction) => {When a creature misses the drunken master with a melee attack roll,
+Redirect Attack (reaction) =>
+{When a creature misses the drunken master with a melee attack roll,
 the drunken master can use its reaction to cause that attack to hit one creature of its choice,
 other than the attacker, that it can see within 5 feet of it.}
+
+}
 </pre>
 
-<script>
-    var editor = ace.edit("editor");
+<script type="text/javascript" charset="utf-8">
+    let editor = ace.edit("editor");
     editor.setTheme("ace/theme/solarized_dark");
-    // editor.setOptions({'enableBasicAutoCompletion': true});
+    editor.$blockScrolling = Infinity;
+    editor.setOptions({
+        // enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true
+    });
     editor.getSession().setMode("ace/mode/storm");
-    /*var langTools = ace.require('ace/ext/language_tools');
+    let langTools = ace.require('ace/ext/language_tools');
+    let tokens = ['AC ', 'ac ', 'PP ', 'pp ', 'HP ', 'hp ', 'speed ', 'str ', 'dex ', 'con ', 'int ', 'wis ', 'cha ',
+        'actions {\n', 'features {\n', 'hit ', 'reach ', 'range ', 'to hit\n',
+        'piercing\n', 'slashing\n', 'bludgeoning\n', 'fire\n', 'acid\n', 'ice\n', 'arcane\n', 'thunder\n', '=>\n'];
     langTools.addCompleter({
-        getCompletions: function(editor, session, pos, prefix, callback) {
-            if (prefix.length === 0) { callback(null, []); return }
-            callback(null,
-                [{name: "MATCH", value: "MATCH", score: 1, meta: "Statement"}]
+        getCompletions: function (editor, session, pos, prefix, callback) {
+            if (prefix.length === 0) {
+                callback(null, []);
+                return
+            }
+            callback(null, tokens.map(function (t) {
+                    return {name: t, value: t, score: 1, meta: "Statement"}
+                })
             );
         }
-    });*/
+    });
 </script>
 
 </body>

@@ -75,10 +75,10 @@ public class StormListenerImpl extends StormBaseListener {
             if (actionComponent.hit() != null) {
                 action.setHit(actionComponent.hit().getText());
             }
-            if (actionComponent.description() != null) {
-                String description = actionComponent.description().getText();
-                action.setDescription(description.replaceAll("[{}]", ""));
-            }
+        }
+        if (ctx.description() != null) {
+            String description = ctx.description().getText();
+            action.setDescription(description.replaceAll("[{}]", ""));
         }
         block.putAction(action);
     }

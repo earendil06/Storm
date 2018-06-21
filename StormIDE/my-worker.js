@@ -37,7 +37,7 @@ ace.define('ace/worker/my-worker', ["require", "exports", "module", "ace/lib/oop
             window.require = ace_require;
         }
 
-        var AnnotatingErrorListener = function (annotations) {
+        let AnnotatingErrorListener = function (annotations) {
             antlr4.error.ErrorListener.call(this);
             this.annotations = annotations;
             return this;
@@ -47,13 +47,6 @@ ace.define('ace/worker/my-worker', ["require", "exports", "module", "ace/lib/oop
         AnnotatingErrorListener.prototype.constructor = AnnotatingErrorListener;
 
         AnnotatingErrorListener.prototype.syntaxError = function (recognizer, offendingSymbol, line, column, msg, e) {
-            /*console.log(offendingSymbol)
-            console.log(line)
-            console.log(column)
-            console.log(msg)
-            console.log(e)
-            console.log('-----')
-            console.log('-----')*/
             this.annotations.push({
                 row: line - 1,
                 column: column,
@@ -62,18 +55,20 @@ ace.define('ace/worker/my-worker', ["require", "exports", "module", "ace/lib/oop
             });
         };
 
-        var validate = function (input) {
-            var stream = antlr4.CharStreams.fromString(input);
-            var lexer = new StormLexer(stream);
-            var tokens = new antlr4.CommonTokenStream(lexer);
-            var parser = new StormParser(tokens);
-            var annotations = [];
-            var listener = new AnnotatingErrorListener(annotations);
+        let validate = function (input) {
+            // console.log(input)
+            // let stream = antlr4.CharStreams.fromString(input);
+            let stream = new antlr4.InputStream(input);
+            let lexer = new StormLexer(stream);
+            let tokens = new antlr4.CommonTokenStream(lexer);
+            let parser = new StormParser(tokens);
+            let annotations = [];
+            let listener = new AnnotatingErrorListener(annotations);
             parser.removeErrorListeners();
             parser.addErrorListener(listener);
             // parser.block();
-            var stormListener = new StormListener();
-            var walker = new antlr4.tree.ParseTreeWalker();
+            let stormListener = new StormListener();
+            let walker = new antlr4.tree.ParseTreeWalker();
             walker.walk(stormListener, parser.block());
             return annotations;
             // return [{row: 0, column: 0, text: "MyMode says Hello!", type: "error"}];
@@ -83,8 +78,8 @@ ace.define('ace/worker/my-worker', ["require", "exports", "module", "ace/lib/oop
         (function () {
 
             this.onUpdate = function () {
-                var value = this.doc.getValue();
-                var annotations = validate(value);
+                let value = this.doc.getValue();
+                let annotations = validate(value);
                 this.sender.emit("annotate", annotations);
             };
 
@@ -93,6 +88,6 @@ ace.define('ace/worker/my-worker', ["require", "exports", "module", "ace/lib/oop
         exports.MyWorker = MyWorker;
     });
 
-var validate = function (input) {
+let validate = function (input) {
     return [{row: 0, column: 0, text: "MyMode says Hello!", type: "error"}];
 };

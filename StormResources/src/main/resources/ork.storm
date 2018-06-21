@@ -12,13 +12,14 @@ int 85
 wis 10
 cha 1
 
-scimitar
+actions {
+scimitar =>
 +4 to hit
 reach 5
 hit 1d6+2 slashing
 
-shortbow
+shortbow =>
 +4 to hit
 range 80/320
 hit 1d6 + 2 piercing
-
+}

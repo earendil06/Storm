@@ -1,4 +1,4 @@
-// Generated from C:/Users/antho/IdeaProjects/StormLanguage/StormIDE\Storm.g4 by ANTLR 4.7
+// Generated from C:/GitClone/Storm/StormIDE\Storm.g4 by ANTLR 4.7
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 
@@ -65,6 +65,15 @@ StormListener.prototype.exitAbility = function(ctx) {
 };
 
 
+// Enter a parse tree produced by StormParser#action_zone.
+StormListener.prototype.enterAction_zone = function(ctx) {
+};
+
+// Exit a parse tree produced by StormParser#action_zone.
+StormListener.prototype.exitAction_zone = function(ctx) {
+};
+
+
 // Enter a parse tree produced by StormParser#action_block.
 StormListener.prototype.enterAction_block = function(ctx) {
 };
@@ -89,6 +98,15 @@ StormListener.prototype.enterAction_component = function(ctx) {
 
 // Exit a parse tree produced by StormParser#action_component.
 StormListener.prototype.exitAction_component = function(ctx) {
+};
+
+
+// Enter a parse tree produced by StormParser#feature_zone.
+StormListener.prototype.enterFeature_zone = function(ctx) {
+};
+
+// Exit a parse tree produced by StormParser#feature_zone.
+StormListener.prototype.exitFeature_zone = function(ctx) {
 };
 
 
