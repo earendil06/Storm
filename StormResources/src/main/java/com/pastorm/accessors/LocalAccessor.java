@@ -21,6 +21,17 @@ public class LocalAccessor implements Accessor {
         return parser.parseBlock(data);
     }
 
+    @Override
+    public void saveBlock(String blockName, String block) {
+        String dbPath = StormProperties.getStormProperties().getProperty("db_path", "./StormDB");
+        Path path = Paths.get(dbPath, blockName + ".storm");
+        try {
+            Files.write(path, block.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String getFileContent(String path) {
         Path input = Paths.get(new File(path).toURI());
         if (Files.notExists(input)) {

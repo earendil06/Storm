@@ -8,20 +8,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style type="text/css" media="screen">
-        /*body {
-            overflow: hidden;
-        }*/
-        /*html,body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }*/
-        html,body {
+        html, body {
             height: 100%;
         }
+
         .flex-fill {
-            flex:1;
+            flex: 1;
         }
 
         .navbar {
@@ -31,10 +23,54 @@
 
         #editor {
             position: relative;
-            /*height: 1000px;*/
             font-size: 14px;
             font-family: monospace;
         }
+
+        #loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            margin: -30px 0 0 -75px;
+            border: 12px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 12px solid #3498db;
+            width: 12px;
+            height: 12px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Add animation to "page content" */
+        .animate-bottom {
+            position: relative;
+            -webkit-animation-name: animatebottom;
+            -webkit-animation-duration: 1s;
+            animation-name: animatebottom;
+            animation-duration: 1s
+        }
+
+        @-webkit-keyframes animatebottom {
+            from { bottom:-100px; opacity:0 }
+            to { bottom:0px; opacity:1 }
+        }
+
+        @keyframes animatebottom {
+            from{ bottom:-100px; opacity:0 }
+            to{ bottom:0; opacity:1 }
+        }
+
     </style>
     <script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="storm-mode.js" data-ace-base="src" type="text/javascript" charset="utf-8"></script>
@@ -48,15 +84,14 @@
                 <a class="navbar-brand" href="#">Storm IDE</a>
                 <div class="container-fluid" id="navbarText">
                     <ul class="navbar-nav mr-auto">
-                        <li class="dropdown">
-                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                File
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <button id="load" class="dropdown-item" type="button">Load (TODO)</button>
-                                <button id="save" class="dropdown-item" type="button">Save</button>
-                            </div>
+                        <li>
+                            <button id="load" class="btn btn-dark" type="button">Load (TODO)</button>
+                        </li>
+                        <li>
+                            <button id="save" class="btn btn-dark" type="button">Save</button>
+                        </li>
+                        <li>
+                            <button id="download" class="btn btn-dark" type="button">Download</button>
                         </li>
                     </ul>
 
@@ -106,6 +141,7 @@ Nimble Escape =>
 
 }
 </pre>
+        <div id="loader" class="animate-bottom" style="display:none;"></div>
     </div>
 </div>
 
@@ -134,9 +170,7 @@ Nimble Escape =>
         }
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
@@ -145,9 +179,76 @@ Nimble Escape =>
         crossorigin="anonymous"></script>
 
 <script>
-    $('#load').on('click', function (event) {
-        console.log('load');
-    })
+    function saveTextAsFile() {
+        let textToWrite = editor.getValue();
+        let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
+        let nameInput = prompt("Enter the name of the Storm file", "name");
+        let fileNameToSaveAs;
+        if (nameInput == null || nameInput === "") {
+            alert('Incorrect name, nothing has been saved.');
+            return;
+        } else {
+            fileNameToSaveAs = nameInput + ".storm";
+        }
+        let downloadLink = document.createElement("a");
+        downloadLink.download = fileNameToSaveAs;
+        downloadLink.innerHTML = "Download File";
+        if (window.webkitURL != null) {
+            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+        } else {
+            downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+            downloadLink.onclick = destroyClickedElement;
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+        }
+
+        downloadLink.click();
+    }
+
+    function destroyClickedElement(event) {
+        document.body.removeChild(event.target);
+    }
+
+    function save() {
+        let nameInput = prompt("Enter the name of the Storm file", "name");
+        let fileNameToSaveAs;
+        if (nameInput == null || nameInput === "") {
+            alert('Incorrect name, nothing has been saved.');
+            return;
+        } else {
+            fileNameToSaveAs = nameInput;
+        }
+        document.getElementById("loader").style.display = "block";
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/write/" + fileNameToSaveAs,
+            data: editor.getValue(),
+            contentType: "text/plain",
+            success: function (data) {
+                if (data.status === 200) {
+                    document.getElementById("loader").style.display = "none";
+                    alert(fileNameToSaveAs + " saved!");
+                } else {
+                    document.getElementById("loader").style.display = "none";
+                    alert("Something went wrong with error code " + data.status);
+                }
+            },
+            error: function (data) {
+                document.getElementById("loader").style.display = "none";
+                alert("Something went wrong with error code " + data.status);
+            }
+        });
+    }
+
+    let download = document.getElementById('download');
+    download.addEventListener('click', saveTextAsFile);
+
+    let saveButton = document.getElementById('save');
+    saveButton.addEventListener('click', save);
+
+    // let load = document.getElementById('load');
+    // button.addEventListener('click', ???);
+
 </script>
 
 </body>
