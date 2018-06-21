@@ -342,7 +342,8 @@ class RollInitiativeCommand {
             method: 'PUT',
             url: `http://${server}:${port}/api/roll/initiative`,
             success: function (data) {
-                app.commands.push({input: input, output: data, templateName: "entity"});
+                let encounterCommand = COMMANDS.find(f => f.name === "encounter");
+                encounterCommand.execute("", "");
             }
         });
     }
