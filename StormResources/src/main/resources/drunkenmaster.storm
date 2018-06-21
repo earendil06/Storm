@@ -18,6 +18,9 @@ Unarmed Strike =>
 reach 5
 hit 1d4+5 bludgeoning
 {one target.}
+
+Flailing Arms =>
+{The drunken master makes two unarmed strikes against each creature within 5 feet of its poison.}
 }
 
 features {
@@ -53,9 +56,6 @@ Lucky (3/Day) =>
 Slow Fall => {The drunken master takes no damage as a result of a fall.}
 
 Unarmored Defense => {While the drunken master isn't wearing armor, its armor class includes its Wisdom modifier.}
-
-Flailing Arms (Action) =>
-{The drunken master makes two unarmed strikes against each creature within 5 feet of its poison.}
 
 Redirect Attack (reaction) =>
 {When a creature misses the drunken master with a melee attack roll,
