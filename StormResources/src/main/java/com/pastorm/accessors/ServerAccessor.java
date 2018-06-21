@@ -35,4 +35,9 @@ public class ServerAccessor implements Accessor {
 
         return parser.parseBlock(blockDownloaded);
     }
+
+    @Override
+    public void saveBlock(String blockName, String block) {
+        //todo
+    }
 }
