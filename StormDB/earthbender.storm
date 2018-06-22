@@ -1,0 +1,35 @@
+Earth Bender
+
+AC 16
+HP 4d8+4
+speed 25
+pp 12
+
+str 10
+dex 14
+con 12
+int 10
+wis 14
+cha 12
+
+actions {
+
+Fist of Four Thunders =>
++4 to hit
+reach 5
+hit 1d10 + 2 bludgeoning 
+{Melee Spell Attack.
+Each creature other than the bender within 10 feet that can see and hear the bender must succeed on a DC 12 Constitution saving throw or take 11 (2d10) thunder damage.}
+
+}
+
+features {
+
+Damage Resistances => {Damage Resistances bludgeoning, piercing, and slashing from nonmagical weapon}
+
+Languages => {Primordial plus any one language}
+
+Challenge => {2 (450 XP)}
+
+}
+
