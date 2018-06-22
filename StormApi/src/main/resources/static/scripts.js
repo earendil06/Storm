@@ -16,7 +16,7 @@ Vue.component('command', {
     '    </div>',
     mounted: function () {
         window.scrollTo(0, document.body.scrollHeight);
-        document.getElementById("loader").style.display = "none";
+        hideSpinner();
     }
 });
 
@@ -67,7 +67,7 @@ Vue.component('entity', {
 const app = new Vue({
     el: '#container',
     data: {
-        user: "gm@storm =>",
+        user: "gm@Storm =>",
         commands: [],
         history: [],
         currentInputValue: "",
@@ -101,7 +101,7 @@ const app = new Vue({
             }
             window.scrollTo(0, document.body.scrollHeight);
             this.proposalsIndex = -1;
-            this.proposals = []
+            this.proposals = [];
         },
         setPositionHistory: function (message) {
             const downCode = 40;
@@ -122,7 +122,7 @@ const app = new Vue({
                 return;
             }
             if (this.proposalsIndex === -1) {
-                console.log("exec " + toExecute.function);
+                showSpinner();
                 window[toExecute.function]();
             }
             if (this.proposals.length > 0) {
@@ -140,9 +140,18 @@ const app = new Vue({
     }
 });
 
+$(document).keydown(function(e) {
+    if(e.ctrlKey && (e.which === 76)) {
+        e.preventDefault();
+        e.stopPropagation();
+        new ClearCommand().execute();
+        return false;
+    }
+});
+
 function getCommands() {
-    console.log(COMMANDS.map(c => c.name).sort());
     app.proposals = COMMANDS.map(c => c.name).sort();
+    hideSpinner();
 }
 
 const propEngine = [
@@ -164,7 +173,7 @@ function getBlocks() {
         });
         app.proposals = response.entity;
         app.proposalsIndex = (app.proposalsIndex + 1) % app.proposals.length;
-        console.log(JSON.stringify(response));
+        hideSpinner();
     })();
 }
 
@@ -193,7 +202,7 @@ class ClearCommand {
 
     execute(input, args) {
         app.commands = [];
-        document.getElementById("loader").style.display = "none";
+        hideSpinner();
     }
 }
 
@@ -215,7 +224,7 @@ class BlockCommand {
     execute(input, args) {
         if (args.length < 2) {
             console.log("error");
-            document.getElementById("loader").style.display = "none";
+            hideSpinner();
         } else {
             const blockName = args[1];
             $.ajax({
@@ -259,7 +268,7 @@ class NewCommand {
     execute(input, args) {
         if (args.length < 3) {
             console.log("error");
-            document.getElementById("loader").style.display = "none";
+            hideSpinner();
         } else {
             const monsterType = args[1];
             const monsterName = args[2];
@@ -285,7 +294,7 @@ class GetMonsterCommand {
     execute(input, args) {
         if (args.length < 2) {
             console.log("error");
-            document.getElementById("loader").style.display = "none";
+            hideSpinner();
         } else {
             const monsterName = args[1];
             $.ajax({
@@ -371,7 +380,7 @@ class DamageCommand {
     execute(input, args) {
         if (args.length < 3) {
             console.log("error");
-            document.getElementById("loader").style.display = "none";
+            hideSpinner();
         } else {
             const monsterName = args[1];
             const monsterDamage = args[2];
@@ -401,7 +410,7 @@ class HealCommand {
     execute(input, args) {
         if (args.length < 3) {
             console.log("error");
-            document.getElementById("loader").style.display = "none";
+            hideSpinner();
         } else {
             const monsterName = args[1];
             const monsterDamage = args[2];
@@ -484,7 +493,7 @@ class RemoveCommand {
     execute(input, args) {
         if (args.length < 2) {
             console.log("missing monster name");
-            document.getElementById("loader").style.display = "none";
+            hideSpinner();
         } else {
             const monsterName = args[1];
             $.ajax({
@@ -507,7 +516,7 @@ class SetInitiativeCommand {
     execute(input, args) {
         if (args.length < 3) {
             console.log("error");
-            document.getElementById("loader").style.display = "none";
+            hideSpinner();
         } else {
             const name = args[1];
             const value = args[2];
@@ -557,8 +566,17 @@ function eval(input) {
         if (typeof commandFound === "undefined") {
             app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
         } else {
-            document.getElementById("loader").style.display = "block";
+            showSpinner();
             commandFound.execute(input, arguments);
         }
     }
+}
+
+
+function showSpinner() {
+    document.getElementById("loader").style.display = "block";
+}
+
+function hideSpinner() {
+    document.getElementById("loader").style.display = "none";
 }
