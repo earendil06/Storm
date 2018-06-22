@@ -254,7 +254,7 @@ class BlockCommand {
 
     execute(input, args) {
         if (args.length < 2) {
-            console.log("error");
+            app.commands.push({input: input, output: "missing parameter (e.g.: block goblin)", templateName: "default"});
             hideSpinner();
         } else {
             const blockName = args[1];
@@ -298,7 +298,7 @@ class NewCommand {
 
     execute(input, args) {
         if (args.length < 3) {
-            console.log("error");
+            app.commands.push({input: input, output: "missing parameters (e.g.: new goblin adrien)", templateName: "default"});
             hideSpinner();
         } else {
             const monsterType = args[1];
@@ -324,7 +324,7 @@ class GetMonsterCommand {
 
     execute(input, args) {
         if (args.length < 2) {
-            console.log("error");
+            app.commands.push({input: input, output: "missing parameter (e.g.: monster adrien)", templateName: "default"});
             hideSpinner();
         } else {
             const monsterName = args[1];
@@ -410,7 +410,7 @@ class DamageCommand {
 
     execute(input, args) {
         if (args.length < 3) {
-            console.log("error");
+            app.commands.push({input: input, output: "missing parameters (e.g.: damage adrien 2)", templateName: "default"});
             hideSpinner();
         } else {
             const monsterName = args[1];
@@ -440,7 +440,7 @@ class HealCommand {
 
     execute(input, args) {
         if (args.length < 3) {
-            console.log("error");
+            app.commands.push({input: input, output: "missing parameters (e.g.: heal adrien 2)", templateName: "default"});
             hideSpinner();
         } else {
             const monsterName = args[1];
@@ -523,7 +523,7 @@ class RemoveCommand {
 
     execute(input, args) {
         if (args.length < 2) {
-            console.log("missing monster name");
+            app.commands.push({input: input, output: "missing parameter (e.g.: remove adrien)", templateName: "default"});
             hideSpinner();
         } else {
             const monsterName = args[1];
@@ -546,7 +546,7 @@ class SetInitiativeCommand {
 
     execute(input, args) {
         if (args.length < 3) {
-            console.log("error");
+            app.commands.push({input: input, output: "missing parameters (e.g: set-init adrien 12)", templateName: "default"});
             hideSpinner();
         } else {
             const name = args[1];
