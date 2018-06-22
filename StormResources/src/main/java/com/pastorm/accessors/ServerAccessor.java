@@ -7,7 +7,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -26,15 +25,10 @@ public class ServerAccessor implements Accessor {
 
     @Override
     public Optional<Block> getBlockByName(String blockName) {
-
         Client client = Client.create();
-
         WebResource resource = client.resource("http://" + host + ":" + port + "/" + "api/block/" + blockName);
-
         ClientResponse response = resource.get(ClientResponse.class);
-
         String blockDownloaded = response.getEntity(String.class);
-
         return parser.parseBlock(blockDownloaded);
     }
 
@@ -46,6 +40,9 @@ public class ServerAccessor implements Accessor {
 
     @Override
     public List<String> getBlockList() {
-        return new ArrayList<>();
+        Client client = Client.create();
+        WebResource resource = client.resource("http://" + host + ":" + port + "/" + "api/blocks/");
+        ClientResponse response = resource.get(ClientResponse.class);
+        return response.getEntity(List.class);
     }
 }
