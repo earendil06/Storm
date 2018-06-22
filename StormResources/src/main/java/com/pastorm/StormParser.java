@@ -36,4 +36,20 @@ public class StormParser {
             return Optional.empty();
         }
     }
+
+    public Optional<ParseCancellationException> checkBlock(String block) {
+        CharStream stream = CharStreams.fromString(block);
+        StormLexer lexer = new StormLexer(stream);
+        com.storm.antlr.grammar.StormParser parser = new com.storm.antlr.grammar.StormParser(new CommonTokenStream(lexer));
+        parser.addErrorListener(new StopErrorListener());
+        ParseTreeWalker walker = new ParseTreeWalker();
+        try {
+            com.storm.antlr.grammar.StormParser.BlockContext rootContext = parser.block();
+            StormListenerImpl stormListenerImpl = new StormListenerImpl();
+            walker.walk(stormListenerImpl, rootContext);
+            return Optional.empty();
+        } catch (ParseCancellationException e) {
+            return Optional.of(e);
+        }
+    }
 }

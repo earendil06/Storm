@@ -3,6 +3,7 @@ package com.pastorm.accessors;
 import com.ddmodel.Block;
 import com.pastorm.StormParser;
 import com.pastorm.utils.StormProperties;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,14 +23,22 @@ public class LocalAccessor implements Accessor {
     }
 
     @Override
-    public void saveBlock(String blockName, String block) {
+    public String saveBlock(String blockName, String block) {
+        StringBuilder resultBuilder = new StringBuilder();
         String dbPath = StormProperties.getStormProperties().getProperty("db_path", "./StormDB");
         Path path = Paths.get(dbPath, blockName + ".storm");
-        try {
-            Files.write(path, block.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
+        Optional<ParseCancellationException> exception = parser.checkBlock(block);
+        if (exception.isPresent()) {
+            resultBuilder.append(exception.get().getMessage());
+        } else {
+            try {
+                Files.write(path, block.getBytes());
+            } catch (IOException e) {
+                resultBuilder.append("\n").append(e.getMessage());
+                e.printStackTrace();
+            }
         }
+        return resultBuilder.toString();
     }
 
     private String getFileContent(String path) {

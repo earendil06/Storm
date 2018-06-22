@@ -43,13 +43,21 @@
         }
 
         @-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Add animation to "page content" */
@@ -62,15 +70,32 @@
         }
 
         @-webkit-keyframes animatebottom {
-            from { bottom:-100px; opacity:0 }
-            to { bottom:0px; opacity:1 }
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+            to {
+                bottom: 0px;
+                opacity: 1
+            }
         }
 
         @keyframes animatebottom {
-            from{ bottom:-100px; opacity:0 }
-            to{ bottom:0; opacity:1 }
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+            to {
+                bottom: 0;
+                opacity: 1
+            }
         }
-
+        .bootbox .modal-header h4 {
+            order: 0;
+        }
+        .bootbox .modal-header button {
+            order: 1;
+        }
     </style>
     <script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="storm-mode.js" data-ace-base="src" type="text/javascript" charset="utf-8"></script>
@@ -177,65 +202,84 @@ Nimble Escape =>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script>
-    function saveTextAsFile() {
-        let textToWrite = editor.getValue();
-        let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
-        let nameInput = prompt("Enter the name of the Storm file", "name");
-        let fileNameToSaveAs;
-        if (nameInput == null || nameInput === "") {
-            alert('Incorrect name, nothing has been saved.');
-            return;
-        } else {
-            fileNameToSaveAs = nameInput + ".storm";
-        }
-        let downloadLink = document.createElement("a");
-        downloadLink.download = fileNameToSaveAs;
-        downloadLink.innerHTML = "Download File";
-        if (window.webkitURL != null) {
-            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
-        } else {
-            downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-            downloadLink.onclick = destroyClickedElement;
-            downloadLink.style.display = "none";
-            document.body.appendChild(downloadLink);
-        }
-
-        downloadLink.click();
-    }
-
     function destroyClickedElement(event) {
         document.body.removeChild(event.target);
     }
 
-    function save() {
-        let nameInput = prompt("Enter the name of the Storm file", "name");
-        let fileNameToSaveAs;
-        if (nameInput == null || nameInput === "") {
-            alert('Incorrect name, nothing has been saved.');
-            return;
-        } else {
-            fileNameToSaveAs = nameInput;
-        }
-        document.getElementById("loader").style.display = "block";
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:8080/api/write/" + fileNameToSaveAs,
-            data: editor.getValue(),
-            contentType: "text/plain",
-            success: function (data) {
-                if (data.status === 200) {
-                    document.getElementById("loader").style.display = "none";
-                    alert(fileNameToSaveAs + " saved!");
-                } else {
-                    document.getElementById("loader").style.display = "none";
-                    alert("Something went wrong with error code " + data.status);
+    function saveTextAsFile() {
+        bootbox.prompt({
+            title: "Enter the name of the Storm file",
+            callback: function (nameInput) {
+                let textToWrite = editor.getValue();
+                let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
+                let fileNameToSaveAs;
+                if (nameInput == null) {
+                    return;
                 }
-            },
-            error: function (data) {
-                document.getElementById("loader").style.display = "none";
-                alert("Something went wrong with error code " + data.status);
+                if (nameInput === "" || /\s/.test(nameInput)) {
+                    bootbox.alert('Incorrect name, nothing has been saved.');
+                    return;
+                } else {
+                    fileNameToSaveAs = nameInput + ".storm";
+                }
+                let downloadLink = document.createElement("a");
+                downloadLink.download = fileNameToSaveAs;
+                downloadLink.innerHTML = "Download File";
+                if (window.webkitURL != null) {
+                    downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+                } else {
+                    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                    downloadLink.onclick = destroyClickedElement;
+                    downloadLink.style.display = "none";
+                    document.body.appendChild(downloadLink);
+                }
+
+                downloadLink.click();
+            }
+        });
+    }
+
+    function save() {
+        bootbox.prompt({
+            title: "Enter the name of the Storm file",
+            callback: function (nameInput) {
+                let fileNameToSaveAs;
+                if (nameInput == null) {
+                    return;
+                }
+                if (nameInput === "" || /\s/.test(nameInput)) {
+                    bootbox.alert('Incorrect name, nothing has been saved.');
+                    return;
+                } else {
+                    fileNameToSaveAs = nameInput;
+                }
+                document.getElementById("loader").style.display = "block";
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/api/write/" + fileNameToSaveAs,
+                    data: editor.getValue(),
+                    contentType: "text/plain",
+                    success: function (data) {
+                        if (data.status === 200) {
+                            document.getElementById("loader").style.display = "none";
+                            bootbox.alert(fileNameToSaveAs + " saved!");
+                        } else {
+                            document.getElementById("loader").style.display = "none";
+                            bootbox.alert("The file is not correct or something went wrong in the server:\n" + data.entity);
+                        }
+                    },
+                    error: function (data) {
+                        if (data.status === 0) {
+                            document.getElementById("loader").style.display = "none";
+                            bootbox.alert("Can't reach server.");
+                        } else {
+                            document.getElementById("loader").style.display = "none";
+                            bootbox.alert("Something went wrong with error code " + data.status);
+                        }
+                    }
+                });
             }
         });
     }

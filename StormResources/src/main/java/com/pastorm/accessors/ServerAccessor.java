@@ -37,7 +37,8 @@ public class ServerAccessor implements Accessor {
     }
 
     @Override
-    public void saveBlock(String blockName, String block) {
+    public String saveBlock(String blockName, String block) {
         //todo
+        return "to implement";
     }
 }
