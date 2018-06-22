@@ -70,7 +70,8 @@ body {
 }
 
 .bg-prop-current {
-    background-color: red;
+    /*background-color: #922610;*/
+    opacity: 1;
 }
 .input-line {
     display: -webkit-box;
@@ -123,3 +124,20 @@ body {
     column-width: 100px;
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+}
+
+li {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+    opacity: .5;
+}

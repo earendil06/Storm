@@ -34,13 +34,12 @@
                    @keyup.enter="executeCommand"
                    @keyup.38="setPositionHistory"
                    @keyup.40="setPositionHistory"
-                   @keydown.tab="invokeAutocomplete"
+                   @keydown.tab="invokeAutoComplete"
                    class="cmdline" autofocus/>
             <div id="loader" class="animate-bottom" style="display:none;"></div>
         </div>
-<!--        <div style="position: relative; color: white">{{ proposals }}</div>-->
     </div>
-    <ul style="color: white">
+    <ul>
         <li v-for="(prop, index) in proposals" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }">
             {{ prop }}
         </li>
