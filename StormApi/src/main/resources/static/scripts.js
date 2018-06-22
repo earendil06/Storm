@@ -76,8 +76,8 @@ function autoComplete() {
     if (toExecute === undefined) {
         console.log("no proposals");
         window.scrollTo(0, document.body.scrollHeight);
-        app.currentInputValue = "block";
-        autoComplete();
+        // app.currentInputValue = "block";
+        // autoComplete();
         return;
     }
     if (app.proposalsIndex === -1) {
