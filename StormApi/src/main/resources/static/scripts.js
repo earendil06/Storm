@@ -64,6 +64,34 @@ Vue.component('entity', {
     template: "<div>{{ data.entity }}</div>"
 });
 
+let invokeAutoComplete = function (message) {
+    message.preventDefault();
+    autoComplete();
+};
+
+function autoComplete() {
+    console.log(app.currentInputValue);
+    const pointer = app.currentInputValue.trim().split(" ")[0];
+    let toExecute = propEngine.find(f => f.name === pointer);
+    if (toExecute === undefined) {
+        console.log("no proposals");
+        window.scrollTo(0, document.body.scrollHeight);
+        app.currentInputValue = "block";
+        autoComplete();
+        return;
+    }
+    if (app.proposalsIndex === -1) {
+        showSpinner();
+        window[toExecute.function]();
+    }
+    if (app.proposals.length > 0) {
+        app.proposalsIndex = (app.proposalsIndex + 1) % app.proposals.length;
+    } else {
+        app.proposalsIndex = -1;
+    }
+    window.scrollTo(0, document.body.scrollHeight);
+}
+
 const app = new Vue({
     el: '#container',
     data: {
@@ -112,36 +140,19 @@ const app = new Vue({
                 this.positionHistory--;
             }
         },
-        invokeAutocomplete: function (message) {
-            message.preventDefault();
-            const pointer = this.currentInputValue.trim().split(" ")[0];
-            let toExecute = propEngine.find(f => f.name === pointer);
-            if (toExecute === undefined) {
-                console.log("no proposals");
-                window.scrollTo(0, document.body.scrollHeight);
-                return;
-            }
-            if (this.proposalsIndex === -1) {
-                showSpinner();
-                window[toExecute.function]();
-            }
-            if (this.proposals.length > 0) {
-                this.proposalsIndex = (this.proposalsIndex + 1) % this.proposals.length;
-            }
-            window.scrollTo(0, document.body.scrollHeight);
-        },
-        lambdaKey: function (message) {
-            const tabCode = 9;
-            if (message !== tabCode) {
-                this.proposals = [];
-                this.proposalsIndex = -1;
-            }
-        }
+        invokeAutocomplete: invokeAutoComplete,
     }
 });
 
-$(document).keydown(function(e) {
-    if(e.ctrlKey && (e.which === 76)) {
+$(document).keydown(function (e) {
+    const tabCode = 9;
+    const enterCode = 13;
+    if (e.which !== tabCode && e.which !== enterCode) {
+        app.proposals = [];
+        app.proposalsIndex = -1;
+    }
+    const lKey = 76;
+    if (e.ctrlKey && (e.which === lKey)) {
         e.preventDefault();
         e.stopPropagation();
         new ClearCommand().execute();
@@ -162,6 +173,14 @@ const propEngine = [
     {
         "name": "block",
         "function": "getBlocks"
+    },
+    {
+        "name": "monster",
+        "function": "getMonsters"
+    },
+    {
+        "name": "new",
+        "function": "getBlocks"
     }
 ];
 
@@ -170,6 +189,18 @@ function getBlocks() {
         let response = await $.ajax({
             contentType: "application/json",
             url: `http://${server}:${port}/api/blocks/`
+        });
+        app.proposals = response.entity;
+        app.proposalsIndex = (app.proposalsIndex + 1) % app.proposals.length;
+        hideSpinner();
+    })();
+}
+
+function getMonsters() {
+    (async function () {
+        let response = await $.ajax({
+            contentType: "application/json",
+            url: `http://${server}:${port}/api/data/names`
         });
         app.proposals = response.entity;
         app.proposalsIndex = (app.proposalsIndex + 1) % app.proposals.length;
@@ -571,7 +602,6 @@ function eval(input) {
         }
     }
 }
-
 
 function showSpinner() {
     document.getElementById("loader").style.display = "block";

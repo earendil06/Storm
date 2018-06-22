@@ -14,7 +14,9 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -48,7 +50,6 @@ public class Endpoint {
         } else {
             return Response.status(Response.Status.NOT_FOUND).entity(name + " does not exist in the encounter.").build();
         }
-
     }
 
     @RequestMapping(value = "/api/new", method = RequestMethod.POST)
@@ -193,5 +194,15 @@ public class Endpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response blockNames() {
         return Response.ok(accessor.getBlockList()).build();
+    }
+
+    @RequestMapping(value = "/api/data/names", method = RequestMethod.GET)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response monsterNames() {
+        EncounterDataJson data = new EncounterDataJson(gameEngine.getEncounterData());
+        List<String> names = data.getMonsters().stream()
+                .map(MonsterJson::getName)
+                .collect(Collectors.toList());
+        return Response.ok(names).build();
     }
 }
