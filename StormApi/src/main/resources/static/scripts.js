@@ -115,7 +115,7 @@ const app = new Vue({
             const pointer = this.currentInputValue.trim().split(" ")[0];
             let toExecute = propEngine.find(f => f.name === pointer);
             if (toExecute === undefined) {
-                console.log("no proposal");
+                console.log("no proposals");
                 window.scrollTo(0, document.body.scrollHeight);
                 return;
             }
@@ -162,6 +162,7 @@ function getBlocks() {
         });
         app.proposals = response.entity;
         app.proposalsIndex = (app.proposalsIndex + 1) % app.proposals.length;
+        console.log(JSON.stringify(response));
     })();
 }
 
