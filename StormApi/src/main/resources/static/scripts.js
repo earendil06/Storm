@@ -72,8 +72,8 @@ const app = new Vue({
         history: [],
         currentInputValue: "",
         positionHistory: 0,
-        propositions: "",
-        propositionsIndex: -1
+        proposals: "",
+        proposalsIndex: -1
     },
     watch: {
         positionHistory: function (newPosition, oldPosition) {
@@ -90,16 +90,16 @@ const app = new Vue({
             if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
                 this.history.push(this.currentInputValue);
             }
-            if (this.propositionsIndex === -1) {
+            if (this.proposalsIndex === -1) {
                 eval(this.currentInputValue);
                 this.currentInputValue = "";
                 this.positionHistory = 0;
             } else {
-                this.currentInputValue = this.currentInputValue += (" " + this.propositions[this.propositionsIndex] + " ");
+                this.currentInputValue = this.currentInputValue += (" " + this.proposals[this.proposalsIndex] + " ");
             }
             window.scrollTo(0, document.body.scrollHeight);
-            this.propositionsIndex = -1;
-            this.propositions = []
+            this.proposalsIndex = -1;
+            this.proposals = []
         },
         setPositionHistory: function (message) {
             const downCode = 40;
@@ -112,65 +112,75 @@ const app = new Vue({
         },
         invokeAutocomplete: function (message) {
             message.preventDefault();
-            const pointer = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-            pointer.unshift("");
-            var propositions = propEngine;
-            pointer.forEach(p => {
-                propositions = propositions.find(f => f.name === p).prop;
-            });
-            this.propositions = propositions.map(m => m.name);
-            this.propositionsIndex = (this.propositionsIndex + 1) % this.propositions.length;
+            const pointer = this.currentInputValue.trim().split(" ")[0];
+            let toExecute = propEngine.find(f => f.name === pointer);
+            if (toExecute === undefined) {
+                console.log("no proposal");
+                window.scrollTo(0, document.body.scrollHeight);
+                return;
+            }
+            if (this.proposalsIndex === -1) {
+                console.log("exec " + toExecute.function);
+                window[toExecute.function]();
+            }
+            if (this.proposals.length > 0) {
+                this.proposalsIndex = (this.proposalsIndex + 1) % this.proposals.length;
+            }
+            window.scrollTo(0, document.body.scrollHeight);
         },
         lambdaKey: function (message) {
             const tabCode = 9;
             if (message !== tabCode) {
-                this.propositions = [];
-                this.propositionsIndex = -1;
+                this.proposals = [];
+                this.proposalsIndex = -1;
             }
         }
     }
 });
 
-const propEngine = [{
-    "name": "",
-    "pointer": [""],
-    "prop": [
-        {
-            "name": "monster",
-            "prop": [
-                {
-                    "name": "toto",
-                    "prop": []
-                },
-                {
-                    "name": "titi",
-                    "prop": []
-                }
-            ]
-        },
-        {
-            "name": "block",
-            "prop": [
-                {
-                    "name": "goblin",
-                    "prop": []
-                },
-                {
-                    "name": "ork",
-                    "prop": []
-                },
-                {
-                    "name": "dragon",
-                    "prop": []
-                },
-                {
-                    "name": "drunkenmaster",
-                    "prop": []
-                }
-            ]
-        }
-    ]
-}];
+function getCommands() {
+    console.log(COMMANDS.map(c => c.name).sort());
+    app.proposals = COMMANDS.map(c => c.name).sort();
+}
+
+const propEngine = [
+    {
+        "name": "",
+        "function": "getCommands"
+    },
+    {
+        "name": "block",
+        "function": "getBlocks"
+    }
+];
+
+function getBlocks() {
+    (async function () {
+        let response = await $.ajax({
+            contentType: "application/json",
+            url: `http://${server}:${port}/api/blocks/`
+        });
+        app.proposals = response.entity;
+        app.proposalsIndex = (app.proposalsIndex + 1) % app.proposals.length;
+    })();
+}
+
+class GetBlocksCommand {
+    constructor() {
+        this.name = "get-blocks";
+    }
+    execute(input, args) {
+        const blockName = args[1];
+        $.ajax({
+            contentType: "application/json",
+            url: `http://${server}:${port}/api/blocks/`,
+            success: function (data) {
+                app.commands.push({input: input, output: data, templateName: "entity"});
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
+    }
+}
 
 class ClearCommand {
     constructor() {
@@ -529,7 +539,8 @@ const COMMANDS = [
     new ResetCommand(),
     new GetTurnCommand(),
     new RemoveCommand(),
-    new SetInitiativeCommand()
+    new SetInitiativeCommand(),
+    new GetBlocksCommand()
 ];
 
 function eval(input) {

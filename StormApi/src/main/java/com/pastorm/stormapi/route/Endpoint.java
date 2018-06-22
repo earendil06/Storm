@@ -5,18 +5,9 @@ import com.pastorm.accessors.Accessor;
 import com.pastorm.encounter.engine.GameEngine;
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent;
 import com.pastorm.encounter.model.Monster;
-import com.pastorm.stormapi.adapter.DamageJson;
-import com.pastorm.stormapi.adapter.EncounterDataJson;
-import com.pastorm.stormapi.adapter.MonsterJson;
-import com.pastorm.stormapi.adapter.NewMonster;
-import com.pastorm.stormapi.adapter.SetJson;
+import com.pastorm.stormapi.adapter.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import scala.Option;
 
 import javax.ws.rs.Consumes;
@@ -196,5 +187,11 @@ public class Endpoint {
         } else {
             return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
         }
+    }
+
+    @RequestMapping(value = "/api/blocks", method = RequestMethod.GET)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response blockNames() {
+        return Response.ok(accessor.getBlockList()).build();
     }
 }
