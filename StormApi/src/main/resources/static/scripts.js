@@ -95,7 +95,9 @@ const app = new Vue({
                 this.currentInputValue = "";
                 this.positionHistory = 0;
             } else {
-                this.currentInputValue = this.currentInputValue += (" " + this.proposals[this.proposalsIndex] + " ");
+                let inputArray = this.currentInputValue.trim().split(" ");
+                inputArray.push(this.proposals[this.proposalsIndex]);
+                this.currentInputValue = inputArray.filter(token => token !== "").join(" ");
             }
             window.scrollTo(0, document.body.scrollHeight);
             this.proposalsIndex = -1;
@@ -170,6 +172,7 @@ class GetBlocksCommand {
     constructor() {
         this.name = "get-blocks";
     }
+
     execute(input, args) {
         const blockName = args[1];
         $.ajax({
