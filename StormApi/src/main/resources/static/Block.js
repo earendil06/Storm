@@ -128,12 +128,13 @@ document.write(`
                 <div class="property-block">
                     <h4>{{ action.name }}</h4>
                     <p>
-                        {{ action.toHit }}
-                        {{ action.reach == null ? action.range : action.reach }}
-                        {{ action.hit }}
+                        {{ action.toHit != null ? action.toHit + "." : "" }}
+                        {{ action.reach != null ? action.reach + "." : "" }}
+                        {{ action.range != null ? action.range + "." : "" }}
+                        {{ action.hit   != null ? action.hit   + "." : "" }}
                         <!--{{ action.description == null ? "" : ". " + action.description }}-->
                         <p v-for="description in splitLine(action.description)">
-                            {{ description == null ? "" : ". " + description }}
+                            {{ description == null ? "" : description }}
                             <br />
                         </p>
                     </p>
