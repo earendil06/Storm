@@ -5,9 +5,18 @@ import com.pastorm.accessors.Accessor;
 import com.pastorm.encounter.engine.GameEngine;
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent;
 import com.pastorm.encounter.model.Monster;
-import com.pastorm.stormapi.adapter.*;
+import com.pastorm.stormapi.adapter.DamageJson;
+import com.pastorm.stormapi.adapter.EncounterDataJson;
+import com.pastorm.stormapi.adapter.MonsterJson;
+import com.pastorm.stormapi.adapter.NewMonster;
+import com.pastorm.stormapi.adapter.SetJson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import scala.Option;
 
 import javax.ws.rs.Consumes;
@@ -181,7 +190,11 @@ public class Endpoint {
     @RequestMapping(value = "/api/write/{name}", method = RequestMethod.POST)
     @Produces(MediaType.TEXT_PLAIN)
     public Response write(@RequestBody String storm, @PathVariable("name") String name) {
-        accessor.saveBlock(name, storm);
-        return Response.ok().build();
+        String response = accessor.saveBlock(name, storm);
+        if (response.isEmpty()) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+        }
     }
 }
