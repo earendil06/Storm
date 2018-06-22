@@ -1,6 +1,11 @@
 Vue.component('block', {
     props: ["data"],
     template: "#blockTemplate",
+    methods: {
+        splitLine: function (description) {
+            return description.split('\n');
+        }
+    },
     mounted: function () {
         window.scrollTo(0, document.body.scrollHeight);
     }
@@ -15,7 +20,7 @@ document.write(`
         <div class="creature-heading">
             <h1>{{ data.name }}</h1>
             <!--<h2>Medium construct, unaligned</h2>-->
-        </div> <!-- creature heading -->
+        </div>
         <svg height="5" width="100%" class="tapered-rule">
             <polyline points="0,0 400,2.5 0,5"></polyline>
         </svg>
@@ -78,7 +83,7 @@ document.write(`
                         {{ data.abilityScores.find(f => f.abilityType === "CHARISMA").score }}
                         ({{ data.abilityScores.find(f => f.abilityType === "CHARISMA").modifier }})
                     </p>
-                </div> <!-- ability charisma -->
+                </div>
             </div> <!-- abilities -->
             <!--<svg height="5" width="100%" class="tapered-rule">
                 <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -112,7 +117,13 @@ document.write(`
         </svg>
         <div v-for="feature in data.features" class="property-block">
             <h4>{{ feature.name }}</h4>
-            <p>{{ feature.description }}</p>
+            <!--<p>{{ feature.description.replace(new RegExp('\\r?\\n','g'), document.createElement('br').outerHTML) }}</p>-->
+            <!--{{
+                feature.description.forEach(function(s) {
+                    
+                }
+            }}-->
+            <p v-for="description in splitLine(feature.description)">{{ description }}<br /></p>
         </div> <!-- property block -->
     </div> <!-- section left -->
     <div class="section-right">

@@ -35,8 +35,9 @@ public class StormListenerImpl extends StormBaseListener {
             int number = Integer.parseInt(ctx.dice().NUMBER().get(0).getText());
             int faces = Integer.parseInt(ctx.dice().NUMBER().get(1).getText());
             Dice dice = new Dice(number, faces);
-            String modifier = ctx.dice().modifier().NUMBER().getText();
-            if (modifier != null) {
+            StormParser.ModifierContext modifierContext = ctx.dice().modifier();
+            if (modifierContext != null) {
+                String modifier = ctx.dice().modifier().NUMBER().getText();
                 int modifierValue = Integer.parseInt(modifier);
                 String op = ctx.dice().modifier().MODIFIER_OP().getText();
                 dice.setModifier("+".equals(op) ? modifierValue : -modifierValue);
