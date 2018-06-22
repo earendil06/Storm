@@ -7,6 +7,8 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -40,5 +42,10 @@ public class ServerAccessor implements Accessor {
     public String saveBlock(String blockName, String block) {
         //todo
         return "to implement";
+    }
+
+    @Override
+    public List<String> getBlockList() {
+        return new ArrayList<>();
     }
 }

@@ -38,10 +38,10 @@
                    class="cmdline" autofocus/>
             <div id="loader" class="animate-bottom" style="display:none;"></div>
         </div>
-<!--        <div style="position: relative; color: white">{{ propositions }}</div>-->
+<!--        <div style="position: relative; color: white">{{ proposals }}</div>-->
     </div>
     <ul style="color: white">
-        <li v-for="(prop, index) in propositions" v-bind:class="{ 'bg-prop-current' : index === propositionsIndex }">
+        <li v-for="(prop, index) in proposals" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }">
             {{ prop }}
         </li>
     </ul>
