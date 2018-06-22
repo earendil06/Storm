@@ -218,20 +218,19 @@ Challenge => {1/4 (50 XP)}
     }
 
     function saveTextAsFile() {
+        let textToWrite = editor.getValue();
         bootbox.prompt({
             title: "Enter the name of the Storm file",
+            value: textToWrite.split('\n')[0],
             callback: function (nameInput) {
-                let textToWrite = editor.getValue();
                 let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
                 let fileNameToSaveAs;
-                if (nameInput == null) {
-                    return;
-                }
+                if (nameInput == null) return;
                 if (nameInput === "" || /\s/.test(nameInput)) {
                     bootbox.alert('Incorrect name, nothing has been saved.');
                     return;
                 } else {
-                    fileNameToSaveAs = nameInput + ".storm";
+                    fileNameToSaveAs = nameInput.toLowerCase() + ".storm";
                 }
                 let downloadLink = document.createElement("a");
                 downloadLink.download = fileNameToSaveAs;
@@ -244,20 +243,19 @@ Challenge => {1/4 (50 XP)}
                     downloadLink.style.display = "none";
                     document.body.appendChild(downloadLink);
                 }
-
                 downloadLink.click();
             }
         });
     }
 
     function save() {
+        let textToWrite = editor.getValue();
         bootbox.prompt({
             title: "Enter the name of the Storm file",
+            value: textToWrite.split('\n')[0],
             callback: function (nameInput) {
                 let fileNameToSaveAs;
-                if (nameInput == null) {
-                    return;
-                }
+                if (nameInput == null) return;
                 if (nameInput === "" || /\s/.test(nameInput)) {
                     bootbox.alert('Incorrect name, nothing has been saved.');
                     return;
@@ -267,8 +265,8 @@ Challenge => {1/4 (50 XP)}
                 document.getElementById("loader").style.display = "block";
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:8080/api/write/" + fileNameToSaveAs,
-                    data: editor.getValue(),
+                    url: "http://localhost:8080/api/write/" + fileNameToSaveAs.toLowerCase(),
+                    data: textToWrite,
                     contentType: "text/plain",
                     success: function (data) {
                         if (data.status === 200) {
