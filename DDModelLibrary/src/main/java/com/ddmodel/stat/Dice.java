@@ -16,7 +16,10 @@ public class Dice implements StatValue {
 
     @Override
     public int getMeanValue() {
-        return number * (faces / 2) + modifier;
+        double facesUp = (faces + 1);
+        double div = facesUp / 2;
+        double res = number * div + modifier;
+        return (int) res;
     }
 
     @Override
