@@ -3,6 +3,7 @@ Vue.component('block', {
     template: "#blockTemplate",
     methods: {
         splitLine: function (description) {
+            if (description == null) return null;
             return description.split('\n');
         }
     },
@@ -117,12 +118,6 @@ document.write(`
         </svg>
         <div v-for="feature in data.features" class="property-block">
             <h4>{{ feature.name }}</h4>
-            <!--<p>{{ feature.description.replace(new RegExp('\\r?\\n','g'), document.createElement('br').outerHTML) }}</p>-->
-            <!--{{
-                feature.description.forEach(function(s) {
-                    
-                }
-            }}-->
             <p v-for="description in splitLine(feature.description)">{{ description }}<br /></p>
         </div> <!-- property block -->
     </div> <!-- section left -->
@@ -136,7 +131,11 @@ document.write(`
                         {{ action.toHit }}
                         {{ action.reach == null ? action.range : action.reach }}
                         {{ action.hit }}
-                        {{ action.description == null ? "" : ". " + action.description }}
+                        <!--{{ action.description == null ? "" : ". " + action.description }}-->
+                        <p v-for="description in splitLine(action.description)">
+                            {{ description == null ? "" : ". " + description }}
+                            <br />
+                        </p>
                     </p>
                 </div>
             </div> <!-- property block -->
