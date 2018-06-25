@@ -2,7 +2,7 @@
 
 ```shell
 npm install
-bower install //or use bower through ./node_modules if it not installed globally
+bower install #or use bower through ./node_modules if it not installed globally
 ```
 then open index.html.
 
