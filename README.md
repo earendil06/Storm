@@ -35,6 +35,4 @@ The principal features should be to enable faster battles and content generation
 
 #### Current state:
 
-(the gif will most likely never be up to date for now ;) ) :
-
 ![demo](./gifs/storm.gif)
