@@ -1,4 +1,4 @@
-// Generated from C:/GitClone/Storm/StormIDE\Storm.g4 by ANTLR 4.7
+// Generated from Storm.g4 by ANTLR 4.7.1
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 
@@ -167,6 +167,12 @@ function StormLexer(input) {
 
 StormLexer.prototype = Object.create(antlr4.Lexer.prototype);
 StormLexer.prototype.constructor = StormLexer;
+
+Object.defineProperty(StormLexer.prototype, "atn", {
+        get : function() {
+                return atn;
+        }
+});
 
 StormLexer.EOF = antlr4.Token.EOF;
 StormLexer.OPEN = 1;
