@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "antlr4": "^4.7.1",
-    "bower": "^1.8.4"
+    "bower": "^1.8.4",
+    "requirejs": "^2.3.5"
   }
 }
