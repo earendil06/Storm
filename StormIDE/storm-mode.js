@@ -85,7 +85,7 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
         };
         oop.inherits(Mode, TextMode);
 
-        /*(function() {
+        (function() {
 
             this.$id = "ace/mode/storm-mode";
 
@@ -110,7 +110,7 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
 
             };
 
-        }).call(Mode.prototype);*/
+        }).call(Mode.prototype);
 
         exports.Mode = Mode;
     });

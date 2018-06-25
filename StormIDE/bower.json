@@ -2,7 +2,7 @@
   "name": "antlr4-parser-storm",
   "dependencies": {
     "antlr4-ace-ext": "^1.0.0",
-    "ace-builds": "1.3.3",
+    "ace-builds": "1.2.3",
     "ace-worker": "1.2.3"
   }
 }

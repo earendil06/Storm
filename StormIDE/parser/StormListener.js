@@ -1,4 +1,4 @@
-// Generated from C:/GitClone/Storm/StormIDE\Storm.g4 by ANTLR 4.7
+// Generated from Storm.g4 by ANTLR 4.7.1
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 
