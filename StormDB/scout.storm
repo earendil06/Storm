@@ -1,0 +1,39 @@
+Scout
+
+AC 13
+HP 3d8+3
+speed 30
+pp 15
+
+str 11
+dex 14
+con 12
+int 11
+wis 13
+cha 11
+
+actions {
+
+Shortsword =>
++4 to hit
+reach 5
+hit 1d6+2 piercing
+
+Longbow =>
++4 to hit
+range 150/600
+hit 1d8+2 piercing
+
+}
+
+features {
+
+Multiattack => {The scout makes two Melee Attacks or two Ranged Attacks.}
+
+Languages => {Common}
+
+Challenge => {1/2 (100 XP)}
+Keen Hearing and Sight => {The scout has advantage on Wisdom (Perception) checks that rely on hearing or sight.}
+
+}
+

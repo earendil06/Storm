@@ -1,0 +1,42 @@
+Thug
+
+AC 11
+HP 5d8+10
+speed 30
+pp 10
+
+str 15
+dex 11
+con 14
+int 10
+wis 10
+cha 11
+
+actions {
+
+Mace =>
++4 to hit
+reach 5
+hit 1d6+2 bludgeoning
+
+Heavy Crossbow =>
++2 to hit
+range 100/400
+hit 1d10 piercing
+
+}
+
+features {
+
+Multiattack => {The thug makes two melee attacks}
+
+Languages => {Common}
+
+Challenge => {1/2 (100 XP)}
+
+Pack Tactics => {The thug has advantage on an Attack roll against a creature if at least one of the thug's allies is within 5 ft. of the creature and the ally isn't Incapacitated.}
+
+Skills => {Intimidation + 1}
+
+}
+
