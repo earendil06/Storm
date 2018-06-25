@@ -1,8 +1,7 @@
 # How to run
 
 ```shell
-npm install
-bower install #or use bower through ./node_modules if it not installed globally
+./install.sh
 ```
 then open index.html.
 
