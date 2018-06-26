@@ -7,7 +7,7 @@ import com.pastorm.encounter.model.{EncounterData, Monster}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.junit.Assert._
 
-class InitiativeEngineSteps extends ScalaDsl with EN {
+class GameEngineSteps extends ScalaDsl with EN {
   val engine: InitiativeEngine = new DefaultInitiativeEngine
   val defaultBlock: Block = new Block
   var encounterData: EncounterData = EncounterData(Seq(), "", 0)
