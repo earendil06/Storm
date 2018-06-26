@@ -7,8 +7,7 @@ import com.pastorm.encounter.model.{EncounterData, Monster}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.junit.Assert._
 
-class RollInitiativeStepDefinitions extends ScalaDsl with EN {
-
+class InitiativeEngineSteps extends ScalaDsl with EN {
   val engine: InitiativeEngine = new DefaultInitiativeEngine
   val defaultBlock: Block = new Block
   var encounterData: EncounterData = EncounterData(Seq(), "", 0)
@@ -62,8 +61,7 @@ class RollInitiativeStepDefinitions extends ScalaDsl with EN {
       .foreach(monster => assertFalse(monster.initiative.isEmpty))
   }
 
-  // Next Turn
-
+  //NextTurn specific
   When("""^Next turn is called$""") { () =>
     encounterData = engine.nextTurn(encounterData)
   }
