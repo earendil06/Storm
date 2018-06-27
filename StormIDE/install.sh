@@ -14,3 +14,6 @@ echo "=> generate Storm parser"
 java -jar ./antlr4/antlr-4.7.1-complete.jar -Dlanguage=JavaScript Storm.g4 -o ./parser
 
 echo "=> done"
+
+echo "=> install typescript"
+npm i typescript --save-dev

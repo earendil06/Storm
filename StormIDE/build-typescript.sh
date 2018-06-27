@@ -1,0 +1,2 @@
+echo "build typescript"
+tsc
