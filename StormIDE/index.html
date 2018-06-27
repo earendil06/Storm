@@ -90,9 +90,11 @@
                 opacity: 1
             }
         }
+
         .bootbox .modal-header h4 {
             order: 0;
         }
+
         .bootbox .modal-header button {
             order: 1;
         }
@@ -184,13 +186,13 @@ Challenge => {1/4 (50 XP)}
     editor.setTheme("ace/theme/solarized_dark");
     editor.$blockScrolling = Infinity;
     editor.setOptions({
-        enableLiveAutocompletion: true
+        enableLiveAutocompletion: false
     });
     editor.getSession().setMode("ace/mode/storm");
     let langTools = ace.require('ace/ext/language_tools');
     let tokens = ['AC ', 'ac ', 'PP ', 'pp ', 'HP ', 'hp ', 'speed ', 'str ', 'dex ', 'con ', 'int ', 'wis ', 'cha ',
-        'actions {\n', 'features {\n', 'hit ', 'reach ', 'range ', 'to hit\n',
-        'piercing\n', 'slashing\n', 'bludgeoning\n', 'fire\n', 'acid\n', 'ice\n', 'arcane\n', 'thunder\n', '=>\n'];
+        'actions {', 'features {', 'hit ', 'reach ', 'range ', 'to hit\n',
+        'piercing', 'slashing', 'bludgeoning', 'fire', 'acid', 'ice', 'arcane', 'thunder', '=>'];
     langTools.addCompleter({
         getCompletions: function (editor, session, pos, prefix, callback) {
             if (prefix.length === 0) {
@@ -221,7 +223,7 @@ Challenge => {1/4 (50 XP)}
         let textToWrite = editor.getValue();
         bootbox.prompt({
             title: "Enter the name of the Storm file",
-            value: textToWrite.split('\n')[0],
+            value: textToWrite.split('\n')[0].split(" ").join(""),
             callback: function (nameInput) {
                 let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
                 let fileNameToSaveAs;
@@ -252,7 +254,7 @@ Challenge => {1/4 (50 XP)}
         let textToWrite = editor.getValue();
         bootbox.prompt({
             title: "Enter the name of the Storm file",
-            value: textToWrite.split('\n')[0],
+            value: textToWrite.split('\n')[0].split(" ").join(""),
             callback: function (nameInput) {
                 let fileNameToSaveAs;
                 if (nameInput == null) return;
