@@ -42,16 +42,18 @@ Vue.component('encounter', {
 Vue.component('monster', {
     props: ["data"],
     template:
-    '    <div>' +
-    '        <div class="stat-block">' +
-    '            <hr class="orange-border"/>' +
-    '            <div class="creature-heading">' +
-    '                   <h1>{{ data.entity.name[0].toUpperCase() + data.entity.name.slice(1) }}</h1>' +
-    '                       HP: {{ data.entity.hitPoints }}</br>Initiative: {{ data.entity.initiative === null ? "not rolled" : data.entity.initiative }}' +
-    '            </div>' +
-    '            <block :data="data.entity.block"></block>' +
-    '        </div>' +
-    '    </div>'
+        `<div>
+            <div class="stat-block">
+                <hr class="orange-border"/>
+                <div class="creature-heading">
+                       <h1>{{ data.entity.name[0].toUpperCase() + data.entity.name.slice(1) }}</h1>
+                        HP: <input v-bind:id="data.entity.name +'_hp'" v-bind:value="data.entity.hitPoints">
+                        </br>
+                        Initiative: {{ data.entity.initiative === null ? "not rolled" : data.entity.initiative }}
+                </div>
+                <block :data="data.entity.block"></block>
+            </div>
+        </div>`
 });
 
 Vue.component('default', {
