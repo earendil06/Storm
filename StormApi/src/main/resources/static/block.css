@@ -25,6 +25,15 @@
     box-shadow: 0 0 1.5em #867453;
     color: black;
 }
+
+.stat-block input {
+    border: none;
+    background-color: #FDF1DC;
+    font-size: 16pt;
+    font-family: Inconsolata, monospace;
+    /*color: #922610 !important;*/
+}
+
 .stat-block.wide{
     width: 46.5%;
     min-width: 560px;
@@ -149,8 +158,6 @@
     display: inline;
     margin: 0;
 }
-
-
 
 .property-block h4{
     font-style: italic;
