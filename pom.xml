@@ -14,7 +14,7 @@
         <module>StormLang</module>
         <module>StormEngine</module>
         <module>StormResources</module>
-        <module>StormAKKA</module>
+        <!--<module>StormAKKA</module>-->
     </modules>
 
     <properties>
