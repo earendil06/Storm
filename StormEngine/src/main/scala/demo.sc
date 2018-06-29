@@ -1,3 +1,5 @@
+
+
 /*
 Prelude => Scala demo by me.
 First Part => The winner is the first one with all the tests validated.
@@ -155,3 +157,40 @@ users.foreach {
   case User(name, skill) => println(name + " is doing " + skill.getClass.getSimpleName)
   case _ => println("should never happen")
 }
+
+//Options
+
+val maybeFirstName = Some("toto")
+val maybeLastName = None
+
+val maybeFullName = maybeFirstName.flatMap { firstName =>
+  maybeLastName.map { lastName =>
+    firstName + " " + lastName
+  }
+}
+
+val maybeFullName2 = for {
+  firstName <- maybeFirstName
+  lastName <- maybeLastName
+} yield firstName + " " + lastName
+
+/* //inside main
+import scala.concurrent.ExecutionContext.Implicits.global
+val right = Future {
+  Thread.sleep(1000)
+  println("right")
+  24
+}
+
+val left = Future {
+  println("left")
+  42
+}
+
+for {
+  l <- left
+  r <- right
+} yield println(l + r)
+
+Thread.sleep(3000)
+*/
