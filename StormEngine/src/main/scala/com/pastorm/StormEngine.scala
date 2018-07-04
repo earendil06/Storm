@@ -1,6 +1,6 @@
 package com.pastorm
 
-import com.pastorm.accessors.{LocalAccessor, ServerAccessor}
+import com.pastorm.accessors.LocalAccessor
 import com.pastorm.encounter.engine.EncounterEngine
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent
 import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
@@ -8,7 +8,7 @@ import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
 object StormEngine {
   def main(args: Array[String]): Unit = {
     val accessor = new LocalAccessor
-    val goblinBlock = accessor.getBlockByName("Goblin")
+    val goblinBlock = accessor.getBlockByName("goblin")
       .orElseThrow(IllegalArgumentSupplier("the block could not be found"))
 
     implicit val encounter: EncounterEngine = EncounterEngineComponent.encounterEngine

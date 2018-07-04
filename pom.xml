@@ -14,11 +14,12 @@
         <module>StormLang</module>
         <module>StormEngine</module>
         <module>StormResources</module>
+        <!--<module>StormAKKA</module>-->
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <scala.version>2.11.4</scala.version>
+        <scala.version>2.12.6</scala.version>
     </properties>
 
     <build>
