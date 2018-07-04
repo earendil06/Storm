@@ -1,4 +1,4 @@
-                    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -16,6 +16,7 @@
 
     <!--Components-->
     <script src="js/Block.js"></script>
+
 
 </head>
 <body>
@@ -46,7 +47,7 @@
     </ul>
 </div>
 
-<script src="../dist/scripts/app.js"></script>
+<script src="js/scripts.js"></script>
 <script>
     function getQueryVariable(variable) {
         const query = window.location.search.substring(1);
@@ -54,13 +55,12 @@
         for (let i = 0; i < vars.length; i++) {
             const pair = vars[i].split("=");
             if(pair[0] === variable){return pair[1];}
-       }
-       return(false);
+        }
+        return(false);
     }
-
     const server = getQueryVariable("server") || "florentpastor.ddns.net";
 </script>
 
-
+<!--<script src="dist/build.js"></script>-->
 </body>
 </html>

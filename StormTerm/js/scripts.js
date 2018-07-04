@@ -226,6 +226,17 @@ class GetBlocksCommand {
     }
 }
 
+class ClearCommand {
+    constructor() {
+        this.name = "clear";
+    }
+
+    execute(input, args) {
+        app.commands = [];
+        hideSpinner();
+    }
+}
+
 class HelpCommand {
     constructor() {
         this.name = "help";
@@ -576,3 +587,26 @@ const COMMANDS = [
     new GetBlocksCommand()
 ];
 
+function eval(input) {
+    const arguments = input.trim().split(" ").filter(f => f !== "");
+    if (arguments.length === 0) {
+        app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
+    } else {
+        const commandName = arguments[0].toLowerCase();
+        let commandFound = COMMANDS.find(f => f.name === commandName);
+        if (typeof commandFound === "undefined") {
+            app.commands.push({input: input, output: "Command does not exists.", templateName: "default"});
+        } else {
+            showSpinner();
+            commandFound.execute(input, arguments);
+        }
+    }
+}
+
+function showSpinner() {
+    document.getElementById("loader").style.display = "block";
+}
+
+function hideSpinner() {
+    document.getElementById("loader").style.display = "none";
+}

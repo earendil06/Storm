@@ -3,17 +3,6 @@
     "antlr4": "^4.7.1",
     "bower": "^1.8.4"
   },
-  "devDependencies": {
-    "@types/jquery": "^3.3.1",
-    "css-loader": "^0.28.11",
-    "ts-loader": "^4.4.1",
-    "typescript": "^2.9.2",
-    "vue": "^2.5.16",
-    "vue-loader": "^14.2.2",
-    "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.12.2",
-    "webpack-cli": "^3.0.8"
-  },
   "scripts": {
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
