@@ -14,6 +14,7 @@ import {RemoveCommand} from "./RemoveCommand";
 import {SetInitiativeCommand} from "./SetInitiativeCommand";
 import {GetBlocksCommand} from "./GetBlocksCommand";
 import {GetPlayingMonsterCommand} from "./GetPlayingMonsterCommand";
+import {Application} from "../Application";
 
 export class StaticHelpers {
     static hideSpinner(): void {
@@ -127,6 +128,10 @@ export class StaticHelpers {
             (window as any).app.proposalsIndex = ((window as any).app.proposalsIndex + 1) % (window as any).app.proposals.length;
             StaticHelpers.hideSpinner();
         })();
+    }
+
+    static application(): Application {
+        return (window as any).app as Application;
     }
 
     static COMMANDS = [

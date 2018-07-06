@@ -8,7 +8,7 @@ export class BlockCommand extends Command {
 
     execute(inputText: string, args: string[]) : void {
         if (args.length < 2) {
-            (window as any).app.commands.push({input: inputText, output: "missing parameter (e.g.: block goblin)", templateName: "default"});
+            StaticHelpers.application().commands.push({input: inputText, output: "missing parameter (e.g.: block goblin)", templateName: "default"});
             StaticHelpers.hideSpinner();
         } else {
             const blockName = args[1];
@@ -17,16 +17,16 @@ export class BlockCommand extends Command {
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/block/` + blockName.toLowerCase(),
                 success: function (data) {
                     if (data.status === 200) {
-                        (window as any).app.commands.push({input: inputText, output: data.entity, templateName: "block-component"});
+                        StaticHelpers.application().commands.push({input: inputText, output: data.entity, templateName: "block-component"});
                         window.scrollTo(0, document.body.scrollHeight);
                     } else if (data.status === 404) {
-                        (window as any).app.commands.push({
+                        StaticHelpers.application().commands.push({
                             input: inputText,
                             output: blockName + " is not registered.",
                             templateName: "default"
                         });
                     } else {
-                        (window as any).app.commands.push({
+                        StaticHelpers.application().commands.push({
                             input: inputText,
                             output: "Error " + data.status + ", Something went wrong!",
                             templateName: "default"
@@ -34,7 +34,7 @@ export class BlockCommand extends Command {
                     }
                 },
                 error: function (data) {
-                    (window as any).app.commands.push({
+                    StaticHelpers.application().commands.push({
                         input: inputText,
                         output: "Error " + data.status + ", Something went wrong!",
                         templateName: "default"

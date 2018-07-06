@@ -2,12 +2,18 @@ import {StaticHelpers} from "./commands/StaticHelpers";
 
 interface Data {
     user: string;
-    commands: string[];
+    commands: HistoryCommand[];
     history: string[];
     currentInputValue: "";
     positionHistory: number;
     proposals: string[];
     proposalsIndex: number;
+}
+
+interface HistoryCommand {
+    input: string;
+    output: any;
+    templateName: string;
 }
 
 interface Watches {
@@ -22,8 +28,16 @@ interface Methods {
     invokeAutoComplete(message);
 }
 
+
 export interface Application {
-    data: Data;
+    user: string;
+    commands: HistoryCommand[];
+    history: string[];
+    currentInputValue: "";
+    positionHistory: number;
+    proposals: string[];
+    proposalsIndex: number;
+
     watch: Watches;
     methods: Methods;
 }
