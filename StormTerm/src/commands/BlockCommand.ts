@@ -14,10 +14,10 @@ export class BlockCommand extends Command {
             const blockName = args[1];
             $.ajax({
                 contentType: "application/json",
-                url: `http://${(window as any).server}:${(window as any).port}/api/block/` + blockName.toLowerCase(),
+                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/block/` + blockName.toLowerCase(),
                 success: function (data) {
                     if (data.status === 200) {
-                        (window as any).app.commands.push({input: inputText, output: data.entity, templateName: "block"});
+                        (window as any).app.commands.push({input: inputText, output: data.entity, templateName: "block-component"});
                         window.scrollTo(0, document.body.scrollHeight);
                     } else if (data.status === 404) {
                         (window as any).app.commands.push({
