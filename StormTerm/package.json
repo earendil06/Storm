@@ -13,5 +13,8 @@
   "scripts": {
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "vue-typed": "^2.1.4"
   }
 }

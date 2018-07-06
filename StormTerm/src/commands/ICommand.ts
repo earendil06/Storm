@@ -1,4 +1,4 @@
 export interface ICommand {
-    execute(inputText: string, args: Array<string>): void;
+    execute(inputText: string, args: string[]): void;
     getCommandName(): string;
 }

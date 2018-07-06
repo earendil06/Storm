@@ -7,7 +7,7 @@ export abstract class Command implements ICommand {
         this.commandName = commandName;
     }
 
-    abstract execute(inputText: string, args: Array<string>): void;
+    abstract execute(inputText: string, args: string[]): void;
 
     getCommandName(): string {
         return this.commandName;

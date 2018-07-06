@@ -7,7 +7,7 @@ export class ClearCommand extends Command {
         super("clear");
     }
 
-    execute(inputText: string, args: Array<string>): void {
+    execute(inputText: string, args: string[]): void {
         (window as any).app.commands = [];
         StaticHelpers.hideSpinner();
     }

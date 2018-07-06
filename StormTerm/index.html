@@ -6,6 +6,7 @@
     <title>Storm Web Client</title>
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/block.css">
 
     <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic" rel="stylesheet"
@@ -14,19 +15,17 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
-    <!--Components-->
-
 
 
 </head>
 <body>
 
 <div id="container">
-    <command
+    <command-component
             v-for="command in commands"
             v-bind:command="command"
             v-bind:user="user">
-    </command>
+    </command-component>
 
     <div id="input-line" class="input-line">
         <div class="prompt">{{ user }}</div>
@@ -47,20 +46,6 @@
     </ul>
 </div>
 
-<!--<script src="js/scripts.js"></script>-->
-<script>
-    function getQueryVariable(variable) {
-        const query = window.location.search.substring(1);
-        const vars = query.split("&");
-        for (let i = 0; i < vars.length; i++) {
-            const pair = vars[i].split("=");
-            if(pair[0] === variable){return pair[1];}
-        }
-        return(false);
-    }
-    const server = getQueryVariable("server") || "florentpastor.ddns.net";
-</script>
 <script src="dist/build.js"></script>
-<!--<script src="dist/build.js"></script>-->
 </body>
 </html>
