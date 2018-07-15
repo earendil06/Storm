@@ -1,8 +1,8 @@
 package com.pastorm.accessors;
 
-import com.ddmodel.Block;
 import com.pastorm.StormParser;
 import com.pastorm.utils.StormProperties;
+import com.storm.model.Block;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;

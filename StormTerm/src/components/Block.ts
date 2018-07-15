@@ -1,4 +1,5 @@
 import Vue from "vue";
+
 export default Vue.extend({
     template: `
             <div class="stat-block wide">
@@ -14,16 +15,16 @@ export default Vue.extend({
             <div class="top-stats">
                 <div class="property-line first">
                     <h4>Armor Class</h4>
-                    <p>{{ data.stats.find(f => f.type === "ARMOR_CLASS").formulae }}</p>
+                    <p>{{ data.stats.find(f => f.statType === "ac").formulae }}</p>
                 </div> <!-- property line -->
                 <div class="property-line">
                     <h4>Hit Points</h4>
-                    <p>{{ data.stats.find(f => f.type === "HIT_POINTS").formulae }}
-                        ({{data.stats.find(f => f.type === "HIT_POINTS").meanValue}})</p>
+                    <p>{{ data.stats.find(f => f.statType === "hp").formulae }}
+                        ({{data.stats.find(f => f.statType === "hp").meanValue}})</p>
                 </div> <!-- property line -->
                 <div class="property-line last">
                     <h4>Speed</h4>
-                    <p>{{ data.stats.find(f => f.type === "SPEED").formulae }}</p>
+                    <p>{{ data.stats.find(f => f.statType === "speed").formulae }}</p>
                 </div> <!-- property line -->
                 <svg height="5" width="100%" class="tapered-rule">
                     <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -32,43 +33,43 @@ export default Vue.extend({
                     <div class="ability-strength">
                         <h4>STR</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "STRENGTH").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "STRENGTH").modifier }})
+                            {{ data.abilityScores.find(f => f.abilityType === "str").score }}
+                            ({{ data.abilityScores.find(f => f.abilityType === "str").modifier }})
                         </p>
                     </div> <!-- ability strength -->
                     <div class="ability-dexterity">
                         <h4>DEX</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "DEXTERITY").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "DEXTERITY").modifier }})
+                            {{ data.abilityScores.find(f => f.abilityType === "dex").score }}
+                            ({{ data.abilityScores.find(f => f.abilityType === "dex").modifier }})
                         </p>
                     </div> <!-- ability dexterity -->
                     <div class="ability-constitution">
                         <h4>CON</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "CONSTITUTION").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "CONSTITUTION").modifier }})
+                            {{ data.abilityScores.find(f => f.abilityType === "con").score }}
+                            ({{ data.abilityScores.find(f => f.abilityType === "con").modifier }})
                         </p>
                     </div> <!-- ability constitution -->
                     <div class="ability-intelligence">
                         <h4>INT</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "INTELLIGENCE").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "INTELLIGENCE").modifier }})
+                            {{ data.abilityScores.find(f => f.abilityType === "int").score }}
+                            ({{ data.abilityScores.find(f => f.abilityType === "int").modifier }})
                         </p>
                     </div> <!-- ability intelligence -->
                     <div class="ability-wisdom">
                         <h4>WIS</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "WISDOM").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "WISDOM").modifier }})
+                            {{ data.abilityScores.find(f => f.abilityType === "wis").score }}
+                            ({{ data.abilityScores.find(f => f.abilityType === "wis").modifier }})
                         </p>
                     </div> <!-- ability wisdom -->
                     <div class="ability-charisma">
                         <h4>CHA</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "CHARISMA").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "CHARISMA").modifier }})
+                            {{ data.abilityScores.find(f => f.abilityType === "cha").score }}
+                            ({{ data.abilityScores.find(f => f.abilityType === "cha").modifier }})
                         </p>
                     </div>
                 </div> <!-- abilities -->

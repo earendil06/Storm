@@ -23,6 +23,10 @@ public class Stat {
         return type;
     }
 
+    public StatValue getStatValue() {
+        return statValue;
+    }
+
     public void setType(StatType type) {
         this.type = type;
     }
@@ -53,7 +57,6 @@ public class Stat {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(type);
     }
 

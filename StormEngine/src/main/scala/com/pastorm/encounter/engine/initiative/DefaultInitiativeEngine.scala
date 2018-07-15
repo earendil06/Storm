@@ -1,9 +1,7 @@
 package com.pastorm.encounter.engine.initiative
 
-import com.ddmodel.ability.AbilityType
 import com.pastorm.encounter.dice.Die
 import com.pastorm.encounter.model.{EncounterData, Monster}
-import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
 
 class DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)
@@ -13,9 +11,7 @@ class DefaultInitiativeEngine extends InitiativeEngine {
   }
 
   def rollInitiative(monster: Monster): Monster = {
-    val dexterityModifier = monster.block.getAbility(AbilityType.DEXTERITY)
-      .orElseThrow(IllegalArgumentSupplier(s"${monster.name} does not have a dexterity ability."))
-      .getModifier
+    val dexterityModifier = monster.block.findAbility("dex").map(_.modifier).get
     val roll = d20.roll
     val rolledInitiative = roll + dexterityModifier
     println(s"${monster.name} rolled $rolledInitiative (base:$dexterityModifier + roll:$roll)")

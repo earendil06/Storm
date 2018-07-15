@@ -1,7 +1,7 @@
 package com.pastorm.encounter.engine
 
-import com.ddmodel.Block
 import com.pastorm.encounter.model.{EncounterData, Monster}
+import com.storm.model.Block
 
 trait GameEngine {
 

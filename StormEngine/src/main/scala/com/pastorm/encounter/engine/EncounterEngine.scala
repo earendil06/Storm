@@ -1,22 +1,18 @@
 package com.pastorm.encounter.engine
 
-import com.ddmodel.Block
-import com.ddmodel.stat.StatType
 import com.pastorm.encounter.engine.configuration.InitiativeEngineComponent
 import com.pastorm.encounter.model.{EncounterData, Monster}
-import com.pastorm.utils.ExceptionSupplierFactory.IllegalArgumentSupplier
+import com.storm.model.Block
 
 class EncounterEngine() extends GameEngine {
   this: InitiativeEngineComponent =>
   private var encounterData: EncounterData = EncounterData(Seq(), "", 0)
 
-  override def newMonster(name: String, block: Block): Unit = {
-    if (getMonsterByName(name).nonEmpty) {
+  override def newMonster(name: String, block: Block): Unit =
+    if (getMonsterByName(name).nonEmpty)
       println(s"$name already exists in the encounter.")
-    } else {
+    else
       encounterData = encounterData.copy(monsters = encounterData.monsters :+ createBaseMonster(name, block))
-    }
-  }
 
   override def getEncounterData: EncounterData = encounterData
 
@@ -38,18 +34,12 @@ class EncounterEngine() extends GameEngine {
     encounterData =
       encounterData.copy(monsters = encounterData.monsters.filterNot(m => m.name.equals(monster.name)) :+ monster)
 
-  override def damage(name: String, damage: Int): Option[Monster] = {
-    getMonsterByName(name) match {
-      case Some(m) => Some(m.copy(hitPoints = m.hitPoints.map(hp => hp + damage)))
-      case None => None
-    }
-  }
+  override def damage(name: String, damage: Int): Option[Monster] =
+    getMonsterByName(name).map(m => m.copy(hitPoints = m.hitPoints.map(hp => hp + damage)))
 
-  private def createBaseMonster(name: String, block: Block): Monster = {
-    Monster(block, name, hitPoints = Option(block.getStat(StatType.HIT_POINTS)
-      .orElseThrow(IllegalArgumentSupplier(s"Missing HP for ${block.getName}"))
-      .instantiateValue()))
-  }
+  private def createBaseMonster(name: String, block: Block): Monster =
+//    Monster(block, name, hitPoints = block.findStat("hp").map(stat => stat.statValue.instantiateValue))
+    Monster(block, name, hitPoints = block.findStat("hp").map(stat => stat.statValue.instantiateValue))
 
   override def reset(): Unit = encounterData = EncounterData(Seq(), "", 0)
 
@@ -62,11 +52,7 @@ class EncounterEngine() extends GameEngine {
     }
   }
 
-  override def setInitiative(name: String, value: Int): Option[Monster] = {
-    getMonsterByName(name) match {
-      case Some(m) => Some(m.copy(initiative = Some(value)))
-      case None => None
-    }
-  }
+  override def setInitiative(name: String, value: Int): Option[Monster] =
+    getMonsterByName(name).map(_.copy(initiative = Some(value)))
 
 }

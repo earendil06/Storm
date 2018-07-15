@@ -15,30 +15,25 @@ export class BlockCommand extends Command {
             $.ajax({
                 contentType: "application/json",
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/block/` + blockName.toLowerCase(),
-                success: function (data) {
-                    if (data.status === 200) {
-                        StaticHelpers.application().commands.push({input: inputText, output: data.entity, templateName: "block-component"});
+                statusCode: {
+                    200: function(data) {
+                        StaticHelpers.application().commands.push({input: inputText, output: data, templateName: "block-component"});
                         window.scrollTo(0, document.body.scrollHeight);
-                    } else if (data.status === 404) {
+                    },
+                    404: function() {
                         StaticHelpers.application().commands.push({
                             input: inputText,
                             output: blockName + " is not registered.",
                             templateName: "default"
                         });
-                    } else {
+                    },
+                    500: function() {
                         StaticHelpers.application().commands.push({
                             input: inputText,
-                            output: "Error " + data.status + ", Something went wrong!",
+                            output: "Error 500, Something went wrong!",
                             templateName: "default"
                         });
                     }
-                },
-                error: function (data) {
-                    StaticHelpers.application().commands.push({
-                        input: inputText,
-                        output: "Error " + data.status + ", Something went wrong!",
-                        templateName: "default"
-                    });
                 }
             });
         }

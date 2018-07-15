@@ -6,7 +6,7 @@ public class Dice implements StatValue {
     private int number;
     private int faces;
     private int modifier;
-    private Die die;
+    private transient Die die;
 
     public Dice(int number, int faces) {
         this.number = number;

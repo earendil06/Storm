@@ -1,8 +1,8 @@
 package com.pastorm.accessors;
 
-import com.ddmodel.Block;
 import com.pastorm.StormParser;
 import com.pastorm.utils.StormProperties;
+import com.storm.model.Block;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import java.io.File;

@@ -1,22 +1,19 @@
 package pastorm.stormlanguage
 
-import com.ddmodel.ability.{Ability, AbilityType}
-import com.ddmodel.{Block, TypedSet}
 import com.pastorm.encounter.engine.initiative.{DefaultInitiativeEngine, InitiativeEngine}
 import com.pastorm.encounter.model.{EncounterData, Monster}
+import com.storm.model.BlockAdapter
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.junit.Assert._
 
 class GameEngineSteps extends ScalaDsl with EN {
   val engine: InitiativeEngine = new DefaultInitiativeEngine
-  val defaultBlock: Block = new Block
+  val defaultBlock: BlockAdapter = new BlockAdapter
   var encounterData: EncounterData = EncounterData(Seq(), "", 0)
 
   Before { scenario =>
     defaultBlock.setName("test")
-    val typedSet = new TypedSet[Ability]
-    typedSet.add(new Ability(AbilityType.DEXTERITY, 10))
-    defaultBlock.setAbilityScores(typedSet)
+    defaultBlock.putAbility("dex", 10, 0)
     encounterData = encounterData.copy(monsters = Seq())
     encounterData = encounterData.copy(playingMonsterName = "")
     encounterData = encounterData.copy(turn = 0)
@@ -25,7 +22,7 @@ class GameEngineSteps extends ScalaDsl with EN {
   Given("""^(\d+) default monsters are created$""") { n: Int =>
     for (i <- 0 to n) {
       encounterData
-        = encounterData.copy(monsters = encounterData.monsters :+ Monster(block = defaultBlock, name = "monster" + i))
+        = encounterData.copy(monsters = encounterData.monsters :+ Monster(block = defaultBlock.block, name = "monster" + i))
     }
   }
 
@@ -43,12 +40,12 @@ class GameEngineSteps extends ScalaDsl with EN {
 
   Given("""^A monster named "([^"]*)" with (\d+) initiative$""") { (newName: String, newInitiative: Int) =>
     encounterData = encounterData.copy(monsters = encounterData.monsters :+
-      Monster(block = defaultBlock, name = newName, initiative = Some(newInitiative)))
+      Monster(block = defaultBlock.block, name = newName, initiative = Some(newInitiative)))
   }
 
   Given("""^A monster named "([^"]*)" with None initiative$""") { newName: String =>
     encounterData = encounterData.copy(monsters = encounterData.monsters :+
-      Monster(block = defaultBlock, name = newName))
+      Monster(block = defaultBlock.block, name = newName))
   }
 
   Then("""^"([^"]*)"'s initiative is (\d+)$""") { (name: String, initiative: Int) =>

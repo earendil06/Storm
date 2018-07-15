@@ -1,9 +1,9 @@
 package com.pastorm;
 
-import com.ddmodel.Block;
 import com.storm.antlr.StopErrorListener;
 import com.storm.antlr.StormListenerImpl;
 import com.storm.antlr.grammar.StormLexer;
+import com.storm.model.Block;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;

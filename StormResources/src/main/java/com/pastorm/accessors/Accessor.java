@@ -1,6 +1,6 @@
 package com.pastorm.accessors;
 
-import com.ddmodel.Block;
+import com.storm.model.Block;
 
 import java.util.List;
 import java.util.Optional;
