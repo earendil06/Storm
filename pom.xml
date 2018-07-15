@@ -10,12 +10,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>DDModelLibrary</module>
+        <module>StormModel</module>
         <module>StormLang</module>
         <module>StormEngine</module>
         <module>StormResources</module>
-        <module>StormModel</module>
-        <!--<module>StormAKKA</module>-->
+        <module>StormAKKA</module>
     </modules>
 
     <properties>
