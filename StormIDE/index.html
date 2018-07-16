@@ -271,13 +271,9 @@ Challenge => {1/4 (50 XP)}
                     data: textToWrite,
                     contentType: "text/plain",
                     success: function (data) {
-                        if (data.status === 200) {
-                            document.getElementById("loader").style.display = "none";
-                            bootbox.alert(fileNameToSaveAs + " saved!");
-                        } else {
-                            document.getElementById("loader").style.display = "none";
-                            bootbox.alert("The file is not correct or something went wrong in the server:\n" + data.entity);
-                        }
+                        document.getElementById("loader").style.display = "none";
+                        bootbox.alert(fileNameToSaveAs + " saved!");
+
                     },
                     error: function (data) {
                         if (data.status === 0) {

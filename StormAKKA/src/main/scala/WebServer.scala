@@ -38,12 +38,12 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
           }
         }
       } ~
-        path("write") {
+        pathPrefix("write") {
           post {
             path(Segment) { name =>
               entity(as[String]) { storm: String =>
                 val response = accessor.saveBlock(name, storm)
-                if (response.nonEmpty)
+                if (response.isEmpty)
                   complete(StatusCodes.OK)
                 else
                   complete(StatusCodes.BadRequest)
