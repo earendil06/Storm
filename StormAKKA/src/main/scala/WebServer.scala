@@ -1,4 +1,3 @@
-import akka.http.javadsl.server.CustomRejection
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server._
@@ -12,8 +11,6 @@ import spray.json._
 import scala.collection.JavaConverters._
 import scala.util.Try
 
-final case class AlreadyInEncounter(name: String) extends CustomRejection
-
 object WebServer extends HttpApp with JsonSupport with CorsHandler {
 
   val accessor: Accessor = new LocalAccessor
@@ -26,9 +23,6 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
 
   implicit def myRejectionHandler: RejectionHandler =
     RejectionHandler.newBuilder()
-      .handle { case ValidationRejection(msg, _) =>
-        complete((BadRequest, msg))
-      }
       .handleNotFound {
         complete((NotFound, "Not here!"))
       }
@@ -82,7 +76,7 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
         post {
           entity(as[NewMonster]) { newMonster =>
             if (gameEngine.getMonsterByName(newMonster.name.toLowerCase()).nonEmpty) {
-              reject(ValidationRejection(s"${newMonster.name} already exists in the encounter."))
+              complete(StatusCodes.BadRequest)
             } else {
               val block = getBlockByName(newMonster.blockName.toLowerCase())
               block.foreach(block => gameEngine.newMonster(newMonster.name.toLowerCase(), block))
@@ -129,7 +123,7 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
         } ~
         pathPrefix("remove") {
           path(Segment) { name =>
-            put {
+            delete {
               if (name.isEmpty) {
                 complete(StatusCodes.BadRequest)
               } else if (gameEngine.getMonsterByName(name.toLowerCase()).isEmpty) {
@@ -141,7 +135,7 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
             }
           }
         } ~
-        path("damage") {
+        pathPrefix("damage") {
           put {
             entity(as[DamageMonster]) { damageMonster: DamageMonster =>
               val damage: Try[Int] = Try(damageMonster.damage.toInt)

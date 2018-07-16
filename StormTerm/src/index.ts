@@ -1,4 +1,4 @@
-import Vue, {ComponentOptions} from "vue";
+import Vue from "vue";
 import {StaticHelpers} from "./commands/StaticHelpers";
 import {ClearCommand} from "./commands/ClearCommand";
 
@@ -26,9 +26,15 @@ let v = new Vue({
             if (typeof command !== 'undefined') {
                 this.currentInputValue = command;
             } else {
-                this.currentInputValue = 0;
+                this.currentInputValue = "";
             }
         }
+    },
+    mounted: function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    },
+    updated : function() {
+        window.scrollTo(0, document.body.scrollHeight);
     },
     methods: {
         executeCommand: function (message) {
@@ -44,7 +50,6 @@ let v = new Vue({
                 inputArray.push(this.proposals[this.proposalsIndex]);
                 this.currentInputValue = inputArray.filter(token => token !== "").join(" ");
             }
-            window.scrollTo(0, document.body.scrollHeight);
             this.proposalsIndex = -1;
             this.proposals = [];
         },

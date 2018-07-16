@@ -18,7 +18,6 @@ export class BlockCommand extends Command {
                 statusCode: {
                     200: function(data) {
                         StaticHelpers.application().commands.push({input: inputText, output: data, templateName: "block-component"});
-                        window.scrollTo(0, document.body.scrollHeight);
                     },
                     404: function() {
                         StaticHelpers.application().commands.push({

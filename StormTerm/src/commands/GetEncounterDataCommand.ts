@@ -15,10 +15,11 @@ export class GetEncounterDataCommand extends Command{
             success: function (data) {
                 const monsters = data.monsters;
                 monsters.forEach(m => {
-                    m.ac = m.block.stats.find(f => f.type === "ARMOR_CLASS").formulae;
-                    m.blockName = m.block.name;
+                    m.ac = m.block.stats.find(f => f.statType === "ac").statValue.formulae;
+                    // m.blockName = m.block.name;
+                    m.blockName = m.block.name[0].toUpperCase() + m.block.name.slice(1)
                 });
-                (window as any).app.commands.push({input: inputText, output: data, templateName: "encounter"});
+                (window as any).app.commands.push({input: inputText, output: data, templateName: "encounter-component"});
             }
         });
     }

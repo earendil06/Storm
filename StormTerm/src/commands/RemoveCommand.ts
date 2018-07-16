@@ -17,8 +17,24 @@ export class RemoveCommand extends Command{
                 contentType: "application/json",
                 method: 'DELETE',
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/remove/` + monsterName,
-                success: function (data) {
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
+                statusCode: {
+                    200: function (data) {
+                        (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
+                    },
+                    404: function () {
+                        StaticHelpers.application().commands.push({
+                            input: inputText,
+                            output: monsterName + " does not exists in the encounter.",
+                            templateName: "default-component"
+                        });
+                    },
+                    500: function () {
+                        StaticHelpers.application().commands.push({
+                            input: inputText,
+                            output: "Error 500, Something went wrong!",
+                            templateName: "default-component"
+                        });
+                    }
                 }
             });
         }

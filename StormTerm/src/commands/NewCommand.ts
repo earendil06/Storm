@@ -17,10 +17,33 @@ export class NewCommand extends Command {
             $.ajax({
                 contentType: "application/json",
                 method: 'POST',
-                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/new/`,
+                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/new`,
                 data: JSON.stringify({"name": monsterName, "blockName": monsterType}),
-                success: function (data) {
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
+                statusCode: {
+                    200: function (data) {
+                        (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
+                    },
+                    400: function () {
+                        StaticHelpers.application().commands.push({
+                            input: inputText,
+                            output: monsterName + " already exists in the encounter.",
+                            templateName: "default-component"
+                        });
+                    },
+                    404: function () {
+                        StaticHelpers.application().commands.push({
+                            input: inputText,
+                            output: monsterType + " does not exists.",
+                            templateName: "default-component"
+                        });
+                    },
+                    500: function () {
+                        StaticHelpers.application().commands.push({
+                            input: inputText,
+                            output: "Error 500, Something went wrong!",
+                            templateName: "default-component"
+                        });
+                    }
                 }
             });
 

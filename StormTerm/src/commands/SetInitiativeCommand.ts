@@ -17,13 +17,32 @@ export class SetInitiativeCommand extends Command {
             $.ajax({
                 contentType: "application/json",
                 method: 'PUT',
-                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/set/`,
+                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/set`,
                 data: JSON.stringify({"name": name, "value": value}),
-                success: function (data) {
-                    if (data.status === 200) {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "monster"});
-                    } else {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
+                statusCode: {
+                    200: function (data) {
+                        (window as any).app.commands.push({input: inputText, output: data, templateName: "monster-component"});
+                    },
+                    400: function () {
+                        StaticHelpers.application().commands.push({
+                            input: inputText,
+                            output: 'The request should be like "set-init adrien 12".',
+                            templateName: "default-component"
+                        });
+                    },
+                    404: function () {
+                        StaticHelpers.application().commands.push({
+                            input: inputText,
+                            output: name + " does not exists in the encounter.",
+                            templateName: "default-component"
+                        });
+                    },
+                    500: function () {
+                        StaticHelpers.application().commands.push({
+                            input: inputText,
+                            output: "Error 500, Something went wrong!",
+                            templateName: "default-component"
+                        });
                     }
                 }
             });

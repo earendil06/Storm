@@ -10,7 +10,7 @@ export class GetTurnCommand extends Command {
         $.ajax({
             contentType: "application/json",
             method: 'GET',
-            url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/turn/`,
+            url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/turn`,
             success: function (data) {
                 let encounterCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "encounter");
                 encounterCommand.execute("", [""]);

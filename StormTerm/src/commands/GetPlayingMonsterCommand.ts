@@ -10,14 +10,25 @@ export class GetPlayingMonsterCommand extends Command {
         $.ajax({
             contentType: "application/json",
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/playing`,
-            success: function (data) {
-                if (data.status === 200) {
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "monster"});
-                } else {
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
+            statusCode: {
+                200: function (data) {
+                    (window as any).app.commands.push({input: inputText, output: data, templateName: "monster-component"});
+                },
+                404: function () {
+                    StaticHelpers.application().commands.push({
+                        input: inputText,
+                        output: "No one rolled initiative.",
+                        templateName: "default-component"
+                    });
+                },
+                500: function () {
+                    StaticHelpers.application().commands.push({
+                        input: inputText,
+                        output: "Error 500, Something went wrong!",
+                        templateName: "default-component"
+                    });
                 }
             }
         });
     }
-
 }

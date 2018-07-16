@@ -72,12 +72,10 @@ export class StaticHelpers {
                 "function": "getBlocks"
             }
         ];
-        //console.log((window as any).app.currentInputValue);
         const pointer = (window as any).app.currentInputValue.trim().split(" ")[0];
         let toExecute = propEngine.find(f => f.name === pointer);
         if (toExecute === undefined) {
             console.log("no proposals");
-            window.scrollTo(0, document.body.scrollHeight);
             //app.currentInputValue = "block";
             //autoComplete();
             return;
@@ -91,7 +89,6 @@ export class StaticHelpers {
         } else {
             (window as any).app.proposalsIndex = -1;
         }
-        window.scrollTo(0, document.body.scrollHeight);
     }
 
     static getQueryVariable(variable: string): string {
