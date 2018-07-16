@@ -41,7 +41,7 @@ public class ServerAccessor implements Accessor {
     @Override
     public List<String> getBlockList() {
         Client client = Client.create();
-        WebResource resource = client.resource("http://" + host + ":" + port + "/" + "api/blocks/");
+        WebResource resource = client.resource("http://" + host + ":" + port + "/" + "api/blocks");
         ClientResponse response = resource.get(ClientResponse.class);
         return response.getEntity(List.class);
     }

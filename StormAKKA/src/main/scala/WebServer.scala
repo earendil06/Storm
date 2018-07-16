@@ -1,7 +1,6 @@
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.model.StatusCodes._
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server._
-import com.pastorm.accessors.{Accessor, LocalAccessor}
+import com.pastorm.accessors.{Accessor, LocalAccessor, ServerAccessor}
 import com.pastorm.encounter.engine.GameEngine
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent
 import com.storm.model._
@@ -13,20 +12,32 @@ import scala.util.Try
 
 object WebServer extends HttpApp with JsonSupport with CorsHandler {
 
-  val accessor: Accessor = new LocalAccessor //todo should be configurable
+  val config: Config = ConfigFactory.load()
+  val accessor: Accessor =
+    if (config.getString("profiles.active").equals("dev")) new LocalAccessor else new ServerAccessor
+
   val gameEngine: GameEngine = EncounterEngineComponent.encounterEngine
+
+  implicit def myRejectionHandler: RejectionHandler =
+    RejectionHandler.newBuilder()
+      .handleAll[Rejection] { _ =>
+      complete(addCORSHeaders(HttpResponse(StatusCodes.InternalServerError)))
+    }
+      .handleNotFound {
+        complete(addCORSHeaders(HttpResponse(StatusCodes.NotFound)))
+      }
+      .result()
+
+  implicit def myExceptionHandler: ExceptionHandler =
+    ExceptionHandler {
+      case _ =>
+        complete(addCORSHeaders(HttpResponse(StatusCodes.InternalServerError)))
+    }
 
   def getBlockByName(name: String): Option[Block] = {
     val option = accessor.getBlockByName(name)
     if (option.isPresent) Some(option.get()) else None // java optional to scala option
   }
-
-  implicit def myRejectionHandler: RejectionHandler =
-    RejectionHandler.newBuilder()
-      .handleNotFound {
-        complete((NotFound, "Not here!"))
-      }
-      .result()
 
   def blockRoutes: Route =
     pathPrefix("api") {
@@ -204,8 +215,6 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
         blockRoutes ~
         monsterRoutes ~
         initiativeRoutes)
-
-  val config: Config = ConfigFactory.load()
 
   def main(args: Array[String]): Unit = {
     WebServer.startServer(config.getString("http.interface"), config.getInt("http.port"))
