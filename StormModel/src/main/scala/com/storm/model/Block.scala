@@ -25,32 +25,21 @@ case class DiceValue(number: Int, sides: Int, modifier: Int) extends StatValue {
   }
 
   override def meanValue: Int = {
-    number * ((sides + 1) / 2) + modifier
+    val facesUp : Double = sides + 1
+    val div : Double = facesUp / 2
+    val res : Double = number * div + modifier
+    res.toInt
   }
 
   override def formulae: String = {
-    s"${number}d$sides${if (modifier > 0) "+" else "-"}$modifier"
+    val modifierFormat = s"${if (modifier > 0) "+" else "-"}$modifier"
+    s"${number}d$sides${if (modifier != 0) modifierFormat else ""}"
   }
 }
 
 case class Ability(abilityType: String, score: Int, modifier: Int)
 
-/*STRENGTH("str"),
-    DEXTERITY("dex"),
-    CONSTITUTION("con"),
-    INTELLIGENCE("int"),
-    WISDOM("wis"),
-    CHARISMA("cha"),
-    NOT_APPLICABLE("na");*/
-
 case class Stat(statType: String, statValue: StatValue)
-
-/*ARMOR_CLASS("AC"),
-    SPEED("SPEED"),
-    HIT_POINTS("HP"),
-    CHALLENGE_RATING("CR"),
-    PASSIVE_PERCEPTION("PP"),
-    NOT_APPLICABLE("NA");*/
 
 case class Feature(name: String, description: String)
 

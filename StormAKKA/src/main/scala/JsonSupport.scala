@@ -18,7 +18,7 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit object statValue extends RootJsonFormat[StatValue] {
     override def write(obj: StatValue): JsValue = obj match {
       case c: ConstValue => c.toJson
-      case d: DiceValue => d.toJson
+      case d: DiceValue => ConstValue(d.formulae, d.meanValue).toJson
     }
 
     override def read(json: JsValue): StatValue = json.convertTo[ConstValue]

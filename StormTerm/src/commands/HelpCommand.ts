@@ -8,7 +8,7 @@ export class HelpCommand extends Command {
     }
 
     execute(inputText: string, args: string[]): void {
-        (window as any).app.commands.push({input: inputText, output: StaticHelpers.COMMANDS.map(c => c.getCommandName()), templateName: "default"});
+        (window as any).app.commands.push({input: inputText, output: StaticHelpers.COMMANDS.map(c => c.getCommandName()), templateName: "default-component"});
     }
 
 }

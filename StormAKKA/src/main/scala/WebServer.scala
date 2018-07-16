@@ -1,6 +1,6 @@
 import akka.http.javadsl.server.CustomRejection
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.StatusCodes._
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity, StatusCodes}
 import akka.http.scaladsl.server._
 import com.pastorm.accessors.{Accessor, LocalAccessor}
 import com.pastorm.encounter.engine.GameEngine
@@ -34,13 +34,6 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
       }
       .result()
 
-  def staticRoutes: Route =
-    path("") {
-      get {
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>main</h1>"))
-      }
-    }
-
   def blockRoutes: Route =
     pathPrefix("api") {
       pathPrefix("block") {
@@ -63,6 +56,11 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
               }
             }
           }
+        } ~
+        path("blocks") {
+          get {
+            complete(accessor.getBlockList.asScala.toList.toJson)
+          }
         }
     }
 
@@ -70,10 +68,10 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
     pathPrefix("api") {
       pathPrefix("monster") {
         path(Segment) { name =>
-            get {
-              val monster = gameEngine.getMonsterByName(name.toLowerCase())
-              if (monster.nonEmpty) complete(monster.get) else complete(StatusCodes.NotFound)
-            }
+          get {
+            val monster = gameEngine.getMonsterByName(name.toLowerCase())
+            if (monster.nonEmpty) complete(monster.get) else complete(StatusCodes.NotFound)
+          }
         }
       }
     }
@@ -143,11 +141,6 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
             }
           }
         } ~
-        path("blocks") {
-          get {
-            complete(accessor.getBlockList.asScala.toList.toJson)
-          }
-        } ~
         path("damage") {
           put {
             entity(as[DamageMonster]) { damageMonster: DamageMonster =>
@@ -212,11 +205,11 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
     }
 
   override def routes: Route =
-    corsHandler(staticRoutes ~
+    corsHandler(
       apiRoutes ~
-      blockRoutes ~
-      monsterRoutes ~
-      initiativeRoutes)
+        blockRoutes ~
+        monsterRoutes ~
+        initiativeRoutes)
 
   val config: Config = ConfigFactory.load()
 

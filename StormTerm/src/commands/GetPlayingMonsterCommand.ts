@@ -14,7 +14,7 @@ export class GetPlayingMonsterCommand extends Command {
                 if (data.status === 200) {
                     (window as any).app.commands.push({input: inputText, output: data, templateName: "monster"});
                 } else {
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "entity"});
+                    (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
                 }
             }
         });

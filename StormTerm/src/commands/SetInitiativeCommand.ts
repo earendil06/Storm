@@ -9,7 +9,7 @@ export class SetInitiativeCommand extends Command {
 
     execute(inputText: string, args: string[]): void {
         if (args.length < 3) {
-            (window as any).app.commands.push({input: inputText, output: "missing parameters (e.g: set-init adrien 12)", templateName: "default"});
+            (window as any).app.commands.push({input: inputText, output: "missing parameters (e.g: set-init adrien 12)", templateName: "default-component"});
             StaticHelpers.hideSpinner();
         } else {
             const name = args[1];
@@ -23,7 +23,7 @@ export class SetInitiativeCommand extends Command {
                     if (data.status === 200) {
                         (window as any).app.commands.push({input: inputText, output: data, templateName: "monster"});
                     } else {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "entity"});
+                        (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
                     }
                 }
             });

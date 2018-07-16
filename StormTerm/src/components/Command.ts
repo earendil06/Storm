@@ -3,7 +3,6 @@ import {StaticHelpers} from "../commands/StaticHelpers";
 import DefaultComponent from "./Default";
 import BlockComponent from "./Block";
 import EncounterComponent from "./Encounter";
-import EntityComponent from "./Entity";
 import MonsterComponent from "./Monster";
 
 export default Vue.extend({
@@ -23,7 +22,7 @@ export default Vue.extend({
     name: "command",
     props: ['command', 'user'],
     components: {
-        DefaultComponent, BlockComponent, MonsterComponent, EntityComponent, EncounterComponent
+        DefaultComponent, BlockComponent, MonsterComponent, EncounterComponent
     },
     mounted: function () {
         window.scrollTo(0, document.body.scrollHeight);

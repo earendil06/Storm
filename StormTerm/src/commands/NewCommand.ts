@@ -9,7 +9,7 @@ export class NewCommand extends Command {
 
     execute(inputText: string, args: string[]): void {
         if (args.length < 3) {
-            (window as any).app.commands.push({input: inputText, output: "missing parameters (e.g.: new goblin adrien)", templateName: "default"});
+            (window as any).app.commands.push({input: inputText, output: "missing parameters (e.g.: new goblin adrien)", templateName: "default-component"});
             StaticHelpers.hideSpinner();
         } else {
             const monsterType = args[1];
@@ -20,7 +20,7 @@ export class NewCommand extends Command {
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/new/`,
                 data: JSON.stringify({"name": monsterName, "blockName": monsterType}),
                 success: function (data) {
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "entity"});
+                    (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
                 }
             });
 

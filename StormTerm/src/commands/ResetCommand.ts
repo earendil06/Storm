@@ -12,7 +12,7 @@ export class ResetCommand extends Command {
             method: 'PUT',
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/reset/`,
             success: function (data) {
-                (window as any).app.commands.push({input: inputText, output: data, templateName: "entity"});
+                (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
             }
         });
     }

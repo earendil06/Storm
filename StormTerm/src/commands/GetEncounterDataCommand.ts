@@ -13,7 +13,7 @@ export class GetEncounterDataCommand extends Command{
             contentType: "application/json",
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data`,
             success: function (data) {
-                const monsters = data.entity.monsters;
+                const monsters = data.monsters;
                 monsters.forEach(m => {
                     m.ac = m.block.stats.find(f => f.type === "ARMOR_CLASS").formulae;
                     m.blockName = m.block.name;

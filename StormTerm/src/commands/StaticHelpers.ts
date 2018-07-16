@@ -26,7 +26,7 @@ export class StaticHelpers {
     }
 
     static port = 8080;
-    static server = StaticHelpers.getQueryVariable("server") === "" ? "florentpastor.ddns.net" : StaticHelpers.getQueryVariable("server");
+    static server = StaticHelpers.getQueryVariable("server") === "" ? "localhost" : StaticHelpers.getQueryVariable("server");
 
 
     static eval(input: string): void {
@@ -35,7 +35,7 @@ export class StaticHelpers {
             (window as any).app.commands.push({
                 input: input,
                 output: "Command does not exists.",
-                templateName: "default"
+                templateName: "default-component"
             });
         } else {
             const commandName = args[0].toLowerCase();
@@ -84,7 +84,7 @@ export class StaticHelpers {
         }
         if ((window as any).app.proposalsIndex === -1) {
             StaticHelpers.showSpinner();
-            window[toExecute.function]();
+            this[toExecute.function]();
         }
         if ((window as any).app.proposals.length > 0) {
             (window as any).app.proposalsIndex = ((window as any).app.proposalsIndex + 1) % (window as any).app.proposals.length;
@@ -106,13 +106,18 @@ export class StaticHelpers {
         return "";
     }
 
+    static getCommands() {
+        (window as any).app.proposals = StaticHelpers.COMMANDS.map(c => c.getCommandName()).sort();
+        StaticHelpers.hideSpinner();
+    }
+
     static getBlocks() {
         (async function () {
             let response = await $.ajax({
                 contentType: "application/json",
-                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks/`
+                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks`
             });
-            (window as any).app.proposals = response.entity;
+            (window as any).app.proposals = response;
             (window as any).app.proposalsIndex = ((window as any).app.proposalsIndex + 1) % (window as any).app.proposals.length;
             StaticHelpers.hideSpinner();
         })();
@@ -124,7 +129,7 @@ export class StaticHelpers {
                 contentType: "application/json",
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data/names`
             });
-            (window as any).app.proposals = response.entity;
+            (window as any).app.proposals = response;
             (window as any).app.proposalsIndex = ((window as any).app.proposalsIndex + 1) % (window as any).app.proposals.length;
             StaticHelpers.hideSpinner();
         })();

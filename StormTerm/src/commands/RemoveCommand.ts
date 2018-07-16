@@ -9,7 +9,7 @@ export class RemoveCommand extends Command{
 
     execute(inputText: string, args: string[]): void {
         if (args.length < 2) {
-            (window as any).app.commands.push({input: inputText, output: "missing parameter (e.g.: remove adrien)", templateName: "default"});
+            (window as any).app.commands.push({input: inputText, output: "missing parameter (e.g.: remove adrien)", templateName: "default-component"});
             StaticHelpers.hideSpinner();
         } else {
             const monsterName = args[1];
@@ -18,7 +18,7 @@ export class RemoveCommand extends Command{
                 method: 'DELETE',
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/remove/` + monsterName,
                 success: function (data) {
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "entity"});
+                    (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
                 }
             });
         }

@@ -4,8 +4,8 @@ export default Vue.extend({
     template: `
         <div class="stat-block">
         <hr class="orange-border"/>
-        <div v-for="monster in data.entity.monsters" class="creature-heading">
-            <h1>{{ monster.name === data.entity.playingMonsterName ? "=>" : "" }}
+        <div v-for="monster in data.monsters" class="creature-heading">
+            <h1>{{ monster.name === data.playingMonsterName ? "=>" : "" }}
                 {{ monster.blockName }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}
             </h1>
             HP: {{ monster.hitPoints }}, AC: {{ monster.ac }}
@@ -13,10 +13,10 @@ export default Vue.extend({
         </div>
         <div>
             <div class="creature-heading">
-                <h1>{{ data.entity.playingMonsterName === "" ? "Nobody rolled initiative" :
-                    data.entity.playingMonsterName + "\\'s turn" }}</h1>
+                <h1>{{ data.playingMonsterName === "" ? "Nobody rolled initiative" :
+                    data.playingMonsterName + "\\'s turn" }}</h1>
             </div>
-            <div>Turn {{ data.entity.turn }}</div>
+            <div>Turn {{ data.turn }}</div>
         </div>
     </div>
     `,

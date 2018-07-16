@@ -8,7 +8,7 @@ export class BlockCommand extends Command {
 
     execute(inputText: string, args: string[]) : void {
         if (args.length < 2) {
-            StaticHelpers.application().commands.push({input: inputText, output: "missing parameter (e.g.: block goblin)", templateName: "default"});
+            StaticHelpers.application().commands.push({input: inputText, output: "missing parameter (e.g.: block goblin)", templateName: "default-component"});
             StaticHelpers.hideSpinner();
         } else {
             const blockName = args[1];
@@ -24,14 +24,14 @@ export class BlockCommand extends Command {
                         StaticHelpers.application().commands.push({
                             input: inputText,
                             output: blockName + " is not registered.",
-                            templateName: "default"
+                            templateName: "default-component"
                         });
                     },
                     500: function() {
                         StaticHelpers.application().commands.push({
                             input: inputText,
                             output: "Error 500, Something went wrong!",
-                            templateName: "default"
+                            templateName: "default-component"
                         });
                     }
                 }

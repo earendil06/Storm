@@ -8,7 +8,7 @@ export class HealCommand extends Command {
 
     execute(inputText: string, args: string[]): void {
         if (args.length < 3) {
-            (window as any).app.commands.push({input: inputText, output: "missing parameters (e.g.: heal adrien 2)", templateName: "default"});
+            (window as any).app.commands.push({input: inputText, output: "missing parameters (e.g.: heal adrien 2)", templateName: "default-component"});
             StaticHelpers.hideSpinner();
         } else {
             const monsterName = args[1];
@@ -22,7 +22,7 @@ export class HealCommand extends Command {
                     if (data.status === 200) {
                         (window as any).app.commands.push({input: inputText, output: data, templateName: "monster"});
                     } else {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "entity"});
+                        (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
                     }
                 }
             });

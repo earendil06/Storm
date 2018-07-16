@@ -15,16 +15,16 @@ export default Vue.extend({
             <div class="top-stats">
                 <div class="property-line first">
                     <h4>Armor Class</h4>
-                    <p>{{ data.stats.find(f => f.statType === "ac").formulae }}</p>
+                    <p>{{ data.stats.find(f => f.statType === "ac").statValue.formulae }}</p>
                 </div> <!-- property line -->
                 <div class="property-line">
                     <h4>Hit Points</h4>
-                    <p>{{ data.stats.find(f => f.statType === "hp").formulae }}
-                        ({{data.stats.find(f => f.statType === "hp").meanValue}})</p>
+                    <p>{{ data.stats.find(f => f.statType === "hp").statValue.formulae }}
+                        ({{data.stats.find(f => f.statType === "hp").statValue.meanValue}})</p>
                 </div> <!-- property line -->
                 <div class="property-line last">
                     <h4>Speed</h4>
-                    <p>{{ data.stats.find(f => f.statType === "speed").formulae }}</p>
+                    <p>{{ data.stats.find(f => f.statType === "speed").statValue.formulae }}</p>
                 </div> <!-- property line -->
                 <svg height="5" width="100%" class="tapered-rule">
                     <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -142,7 +142,7 @@ export default Vue.extend({
             </div>-->
         </div> <!-- section right -->
         <hr class="orange-border bottom"/>
-    </div> <!-- stat block -->
+    </div>
     `,
     name: "block",
     props: ["data"],

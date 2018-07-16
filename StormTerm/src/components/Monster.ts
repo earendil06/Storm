@@ -7,12 +7,12 @@ export default Vue.extend({
         <div class="stat-block">
             <hr class="orange-border"/>
             <div class="creature-heading">
-                <h1>{{ data.entity.name[0].toUpperCase() + data.entity.name.slice(1) }}</h1>
-                <span>HP: {{ data.entity.hitPoints }}</span>
+                <h1>{{ data.name[0].toUpperCase() + data.name.slice(1) }}</h1>
+                <span>HP: {{ data.hitPoints }}</span>
                 <br/>
-                <span>Initiative: {{ data.entity.initiative === null ? "not rolled" : data.entity.initiative }}</span>
+                <span>Initiative: {{ data.initiative === null ? "not rolled" : data.initiative }}</span>
             </div>
-            <block-component :data="data.entity.block"></block-component>
+            <block-component :data="data.block"></block-component>
         </div>
     </div>
     `,
