@@ -13,7 +13,7 @@ import scala.util.Try
 
 object WebServer extends HttpApp with JsonSupport with CorsHandler {
 
-  val accessor: Accessor = new LocalAccessor
+  val accessor: Accessor = new LocalAccessor //todo should be configurable
   val gameEngine: GameEngine = EncounterEngineComponent.encounterEngine
 
   def getBlockByName(name: String): Option[Block] = {
