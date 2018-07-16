@@ -1,3 +1,5 @@
+package com.storm.api
+
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import com.pastorm.encounter.model.{EncounterData, Monster}
 import com.storm.model._

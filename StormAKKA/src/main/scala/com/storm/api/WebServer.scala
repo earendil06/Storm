@@ -1,3 +1,5 @@
+package com.storm.api
+
 import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server._
 import com.pastorm.accessors.{Accessor, LocalAccessor, ServerAccessor}
