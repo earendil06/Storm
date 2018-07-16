@@ -38,7 +38,6 @@ class EncounterEngine() extends GameEngine {
     getMonsterByName(name).map(m => m.copy(hitPoints = m.hitPoints.map(hp => hp + damage)))
 
   private def createBaseMonster(name: String, block: Block): Monster =
-//    Monster(block, name, hitPoints = block.findStat("hp").map(stat => stat.statValue.instantiateValue))
     Monster(block, name, hitPoints = block.findStat("hp").map(stat => stat.statValue.instantiateValue))
 
   override def reset(): Unit = encounterData = EncounterData(Seq(), "", 0)

@@ -16,7 +16,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 
-
 </head>
 <body>
 
@@ -44,6 +43,10 @@
             {{ prop }}
         </li>
     </ul>
+
+    <div id="divFix" >
+        <static-encounter-component v-bind:encounter="encounter"></static-encounter-component>
+    </div>
 </div>
 
 <script src="dist/build.js"></script>

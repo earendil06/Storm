@@ -1,3 +1,10 @@
+#divFix {
+    top: 0;
+    right: 10%;
+    position: fixed;
+    z-index: 3000;
+}
+
 #loader {
     position: center;
     left: 10%;

@@ -4,6 +4,7 @@ import {ClearCommand} from "./commands/ClearCommand";
 
 import CommandComponent from "./components/Command";
 import {Application} from "./Application";
+import StaticEncounterComponent from "./components/StaticEncounter";
 
 let v = new Vue({
 
@@ -15,10 +16,11 @@ let v = new Vue({
         currentInputValue: "",
         positionHistory: 0,
         proposals: "",
-        proposalsIndex: -1
+        proposalsIndex: -1,
+        encounter: ""
     },
     components: {
-        CommandComponent
+        CommandComponent, StaticEncounterComponent
     },
     watch: {
         positionHistory(newPosition: number, oldPosition: number): void {
@@ -28,16 +30,37 @@ let v = new Vue({
             } else {
                 this.currentInputValue = "";
             }
+        },
+        commands: function () {
+            this.encounterUpdate();
         }
     },
     mounted: function () {
+        this.encounterUpdate();
         window.scrollTo(0, document.body.scrollHeight);
     },
-    updated : function() {
+    updated: function () {
         window.scrollTo(0, document.body.scrollHeight);
     },
     methods: {
-        executeCommand: function (message) {
+        encounterUpdate: function () {
+            let vue = this;
+            $.ajax({
+                contentType: "application/json",
+                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data`,
+                statusCode: {
+                    200: function (data) {
+                        const monsters = data.monsters;
+                        monsters.forEach(m => {
+                            m.ac = m.block.stats.find(f => f.statType === "ac").statValue.formulae;
+                            m.blockName = m.block.name[0].toUpperCase() + m.block.name.slice(1)
+                        });
+                        vue.encounter = data;
+                    }
+                }
+            });
+        },
+        executeCommand: function () {
             if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
                 this.history.push(this.currentInputValue);
             }
@@ -52,6 +75,7 @@ let v = new Vue({
             }
             this.proposalsIndex = -1;
             this.proposals = [];
+            this.encounterUpdate()
         },
         setPositionHistory: function (message) {
             const downCode = 40;

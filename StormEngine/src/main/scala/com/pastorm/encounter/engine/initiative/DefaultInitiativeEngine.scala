@@ -6,9 +6,17 @@ import com.storm.model.dice.Die
 class DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)
 
-  override def rollInitiatives(monsters: Seq[Monster]): Seq[Monster] = {
-    monsters.map(monster => if (monster.initiative.isEmpty) rollInitiative(monster) else monster)
-  }
+  override def rollInitiatives(monsters: Seq[Monster]): Seq[Monster] =
+    monsters
+      .map(monster => if (monster.initiative.isEmpty) rollInitiative(monster) else monster)
+      .sortWith((l, r) => {
+        if (l.initiative == r.initiative) {
+          l.name < r.name
+        } else {
+          l.initiative.get < r.initiative.get
+        }
+      })
+      .reverse
 
   def rollInitiative(monster: Monster): Monster = {
     val dexterityModifier = monster.block.findAbility("dex").map(_.modifier).get
@@ -20,14 +28,22 @@ class DefaultInitiativeEngine extends InitiativeEngine {
 
   override def nextTurn(encounterData: EncounterData): EncounterData = {
     var resultEncounterData = encounterData
-    val initiatives = encounterData.monsters
+    val orderedInitiative = encounterData.monsters
       .filter(_.initiative.nonEmpty)
-      .map(monster => (monster.name, monster.initiative))
-    if (initiatives.isEmpty) {
+      .sortWith((l, r) => {
+        if (l.initiative == r.initiative) {
+          l.name < r.name
+        } else {
+          l.initiative.get < r.initiative.get
+        }
+      })
+      .reverse
+      .map(monster => monster.name)
+    if (orderedInitiative.isEmpty) {
       println("No one rolled initiative in the encounter")
       return resultEncounterData
     }
-    val orderedInitiative = initiatives.sortBy(_._2).reverse.map(_._1)
+    println(orderedInitiative)
     if (encounterData.playingMonsterName.isEmpty) {
       resultEncounterData = encounterData.copy(playingMonsterName = orderedInitiative.head)
     } else {
@@ -38,7 +54,6 @@ class DefaultInitiativeEngine extends InitiativeEngine {
         resultEncounterData = encounterData.copy(playingMonsterName = orderedInitiative(next))
       }
     }
-    println(s"${resultEncounterData.playingMonsterName}'s turn")
     resultEncounterData.copy(turn = resultEncounterData.turn + 1)
   }
 
