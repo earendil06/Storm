@@ -15,6 +15,7 @@ import {SetInitiativeCommand} from "./SetInitiativeCommand";
 import {GetBlocksCommand} from "./GetBlocksCommand";
 import {GetPlayingMonsterCommand} from "./GetPlayingMonsterCommand";
 import {Application} from "../Application";
+import * as $ from "jquery";
 
 export class StaticHelpers {
     static hideSpinner(): void {
