@@ -20,7 +20,8 @@ export class HealCommand extends Command {
                 data: JSON.stringify({"name": monsterName, "damage": monsterDamage}),
                 statusCode: {
                     200: function (data) {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "monster-component"});
+                        (window as any).app.commands.push({input: inputText, output: monsterName + ' took ' + monsterDamage + ' heals.'
+                            , templateName: "default-component"});
                     },
                     400: function () {
                         StaticHelpers.application().commands.push({

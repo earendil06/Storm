@@ -12,13 +12,13 @@ export class NextTurnCommand extends Command {
             method: 'PUT',
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/nextTurn`,
             statusCode: {
-                200: function (data) {
-                    let encounterCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "encounter");
-                    encounterCommand.execute("", [""]);
+                200: function () {
+                    let playingCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "playing");
+                    playingCommand.execute("", [""]);
                 },
                 404: function () {
-                    let encounterCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "encounter");
-                    encounterCommand.execute("", [""]);
+                    let playingCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "playing");
+                    playingCommand.execute("", [""]);
                 },
                 500: function () {
                     StaticHelpers.application().commands.push({

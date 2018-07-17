@@ -21,7 +21,10 @@ export class SetInitiativeCommand extends Command {
                 data: JSON.stringify({"name": name, "value": value}),
                 statusCode: {
                     200: function (data) {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "monster-component"});
+                        (window as any).app.commands.push({
+                            input: inputText,
+                            output: name + " initiative has been set to " + value + ".",
+                            templateName: "default-component"});
                     },
                     400: function () {
                         StaticHelpers.application().commands.push({

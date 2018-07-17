@@ -14,7 +14,18 @@ class EncounterEngine() extends GameEngine {
     else
       encounterData = encounterData.copy(monsters = encounterData.monsters :+ createBaseMonster(name, block))
 
-  override def getEncounterData: EncounterData = encounterData
+  override def getEncounterData: EncounterData = {
+    val ordered = encounterData.monsters
+      .sortWith((l, r) => {
+        if (l.initiative == r.initiative) {
+          l.name < r.name
+        } else {
+          l.initiative.getOrElse(0) < r.initiative.getOrElse(0)
+        }
+      })
+      .reverse
+    encounterData.copy(monsters = ordered)
+  }
 
   override def getMonsterByName(name: String): Option[Monster] =
     encounterData.monsters.find(monster => monster.name == name)

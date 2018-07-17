@@ -1,3 +1,4 @@
+
 #divFix {
     height: 100%;
     width: fit-content;
@@ -8,21 +9,6 @@
     overflow: auto;
 }
 
-::-webkit-scrollbar-track {
-    background-color: #b46868;
-} /* the new scrollbar will have a flat appearance with the set background color */
-
-::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-} /* this will style the thumb, ignoring the track */
-
-::-webkit-scrollbar-button {
-    background-color: #7c2929;
-} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
-
-::-webkit-scrollbar-corner {
-    background-color: black;
-}
 #loader {
     position: center;
     left: 10%;
@@ -155,14 +141,20 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: black;
+    left: 10%;
+    position: relative;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+    width: 30%;
 }
 
 li {
-    float: left;
     display: block;
     color: white;
-    text-align: center;
-    padding: 16px;
+    text-align: left;
+    padding: 1px;
+    margin: 1px;
     text-decoration: none;
     opacity: .5;
 }

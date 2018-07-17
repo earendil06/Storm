@@ -153,7 +153,6 @@ object WebServer extends HttpApp with JsonSupport with CorsHandler {
             entity(as[DamageMonster]) { damageMonster: DamageMonster =>
               val damage: Try[Int] = Try(damageMonster.damage.toInt)
               if (damage.isSuccess) {
-                println(damage.get)
                 val damaged = gameEngine.damage(damageMonster.name.toLowerCase(), damage.get)
                 if (damaged.nonEmpty) {
                   gameEngine.updateMonster(damaged.get)

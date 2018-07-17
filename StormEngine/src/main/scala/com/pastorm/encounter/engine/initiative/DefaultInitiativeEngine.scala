@@ -43,7 +43,6 @@ class DefaultInitiativeEngine extends InitiativeEngine {
       println("No one rolled initiative in the encounter")
       return resultEncounterData
     }
-    println(orderedInitiative)
     if (encounterData.playingMonsterName.isEmpty) {
       resultEncounterData = encounterData.copy(playingMonsterName = orderedInitiative.head)
     } else {
