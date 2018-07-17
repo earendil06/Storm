@@ -56,7 +56,7 @@ export default Vue.extend({
             if (inputInit.val() !== '') {
                 let args = ['set-init', monster.name, inputInit.val()];
                 let init = new SetInitiativeCommand();
-                init.execute('heal ' + monster.name + ' ' + inputInit.val(), args);
+                init.execute('set-init ' + monster.name + ' ' + inputInit.val(), args);
                 inputInit.val('');
             }
         },
