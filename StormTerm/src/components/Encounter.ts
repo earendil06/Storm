@@ -3,6 +3,7 @@ import {HealCommand} from "../commands/HealCommand";
 import {SetInitiativeCommand} from "../commands/SetInitiativeCommand";
 import {NextTurnCommand} from "../commands/NextTurnCommand";
 import {GetMonsterCommand} from "../commands/GetMonsterCommand";
+import * as $ from "jquery";
 
 export default Vue.extend({
     template: `
@@ -26,7 +27,9 @@ export default Vue.extend({
             <input v-bind:id='staticId + monster.name + "hp"' type="text" v-bind:placeholder="monster.hitPoints" autocomplete="off"/>
             <br />AC: {{ monster.ac }}
             <br/>Initiative:
-            <input v-bind:id='staticId + monster.name + "init"' type="text" v-bind:placeholder="monster.initiative" autocomplete="off"/>
+            <input v-bind:id='staticId + monster.name + "init"' type="text"
+                v-bind:placeholder="monster.initiative === undefined ? 'none' : monster.initiative"
+                autocomplete="off"/>
         </form>
         </div>
         
@@ -37,7 +40,7 @@ export default Vue.extend({
                         data.playingMonsterName + "\\'s turn" }}
                 </h1>
             </div>
-            <div>Turn {{ data.turn }}</div>
+            <!--<div>Turn {{ data.turn }}</div>-->
         </div>
     </div>
     `,

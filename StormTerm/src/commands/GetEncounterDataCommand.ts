@@ -1,5 +1,6 @@
 import {Command} from "./Command";
 import {StaticHelpers} from "./StaticHelpers";
+import * as $ from "jquery";
 
 export class GetEncounterDataCommand extends Command{
 

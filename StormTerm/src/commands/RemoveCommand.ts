@@ -1,5 +1,6 @@
 import {Command} from "./Command";
 import {StaticHelpers} from "./StaticHelpers";
+import * as $ from "jquery";
 
 export class RemoveCommand extends Command{
 
@@ -18,8 +19,11 @@ export class RemoveCommand extends Command{
                 method: 'DELETE',
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/remove/` + monsterName,
                 statusCode: {
-                    200: function (data) {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
+                    200: function () {
+                        (window as any).app.commands.push({
+                            input: inputText,
+                            output: monsterName + " has been removed from the encounter.",
+                            templateName: "default-component"});
                     },
                     404: function () {
                         StaticHelpers.application().commands.push({

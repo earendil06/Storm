@@ -1,5 +1,6 @@
 import {Command} from "./Command";
 import {StaticHelpers} from "./StaticHelpers";
+import * as $ from "jquery";
 
 export class RollInitiativeCommand extends Command{
     constructor() {
@@ -11,9 +12,21 @@ export class RollInitiativeCommand extends Command{
             contentType: "application/json",
             method: 'PUT',
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/roll/initiative`,
-            success: function (data) {
-                let encounterCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "encounter");
-                encounterCommand.execute("", [""]);
+            statusCode: {
+                200: function (data) {
+                    (window as any).app.commands.push({
+                        input: inputText,
+                        output: "initiative rolled.",
+                        templateName: "default-component"
+                    });
+                },
+                500: function () {
+                    StaticHelpers.application().commands.push({
+                        input: inputText,
+                        output: "Error 500, Something went wrong!",
+                        templateName: "default-component"
+                    });
+                }
             }
         });
     }
