@@ -25,7 +25,7 @@ export default Vue.extend({
         DefaultComponent, BlockComponent, MonsterComponent, EncounterComponent
     },
     mounted: function () {
-        window.scrollTo(0, document.body.scrollHeight);
+        StaticHelpers.scrollWindow();
         StaticHelpers.hideSpinner();
     }
 });

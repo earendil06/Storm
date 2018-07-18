@@ -26,6 +26,11 @@ export class StaticHelpers {
         document.getElementById("loader").style.display = "block";
     }
 
+    static scrollWindow(): void {
+        let container = document.getElementById('commandsContainer');
+        container.scrollTop = container.scrollHeight;
+    }
+
     static port = 8080;
     static server = StaticHelpers.getQueryVariable("server") === "" ? "localhost" : StaticHelpers.getQueryVariable("server");
 

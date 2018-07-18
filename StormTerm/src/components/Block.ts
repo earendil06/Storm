@@ -1,4 +1,5 @@
 import Vue from "vue";
+import {StaticHelpers} from "../commands/StaticHelpers";
 
 export default Vue.extend({
     template: `
@@ -153,6 +154,6 @@ export default Vue.extend({
         }
     },
     mounted: function () {
-        window.scrollTo(0, document.body.scrollHeight);
+        StaticHelpers.scrollWindow()
     }
 });
