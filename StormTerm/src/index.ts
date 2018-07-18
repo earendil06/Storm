@@ -38,10 +38,10 @@ let v = new Vue({
     },
     mounted: function () {
         this.encounterUpdate();
-        window.scrollTo(0, document.body.scrollHeight);
+        StaticHelpers.scrollWindow()
     },
     updated: function () {
-        window.scrollTo(0, document.body.scrollHeight);
+        StaticHelpers.scrollWindow()
     },
     methods: {
         encounterUpdate: function () {
