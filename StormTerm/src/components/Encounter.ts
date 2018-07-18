@@ -7,7 +7,7 @@ import * as $ from "jquery";
 
 export default Vue.extend({
     template: `
-    <div class="stat-block">
+    <div class="stat-block encounter">
         <hr class="orange-border"/>
         <div v-for="monster in data.monsters" class="creature-heading">
         <form v-on:submit.prevent="modify(monster)">
@@ -23,9 +23,10 @@ export default Vue.extend({
                         {{ monster.blockName }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}
                     </span>
             </h1>
-            HP: 
+           AC: {{ monster.ac }},
+           HP: 
             <input v-bind:id='staticId + monster.name + "hp"' type="text" v-bind:placeholder="monster.hitPoints" autocomplete="off"/>
-            <br />AC: {{ monster.ac }}
+            
             <br/>Initiative:
             <input v-bind:id='staticId + monster.name + "init"' type="text"
                 v-bind:placeholder="monster.initiative === undefined ? 'none' : monster.initiative"

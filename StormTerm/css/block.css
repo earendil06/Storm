@@ -1,4 +1,48 @@
 
+.stat-block.encounter {
+    width: 30%;
+    min-width:380px;
+
+}
+
+.stat-block.encounter div {
+    font-size: 18px;
+    font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.stat-block.encounter h1 {
+    font-size: 20px;
+}
+
+.stat-block input {
+    background: #FDF1DC;
+    outline: none;
+    border: none;
+    color: darkred;
+    width: 50%;
+
+    font-size: 18px;
+    font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    opacity: 1; /* Firefox */
+}
+
+::-webkit-input-placeholder { color:black; }
+::-moz-placeholder { color:black; } /* firefox 19+ */
+:-ms-input-placeholder { color:black; } /* ie */
+input:-moz-placeholder { color:black; }
+
+.playing {
+    color: #3498db;
+}
+
 .stat-block.wide {
     text-align: center;
     font-size: 13.5px;
@@ -93,7 +137,7 @@
 .creature-heading h2{
     font-weight: normal;
     font-style: italic;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2em;
     margin: 0 0 10px;
 }
@@ -208,31 +252,4 @@
     .stat-block{
         margin: 20px 0;
     }
-}
-
-.stat-block input {
-    background: #FDF1DC;
-    outline: none;
-    border: none;
-    color: darkred;
-    width: 50%;
-
-    font-size: 18px;
-    font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
-    font-weight: normal;
-    letter-spacing: 1px;
-}
-
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: black;
-    opacity: 1; /* Firefox */
-}
-
-::-webkit-input-placeholder { color:black; }
-::-moz-placeholder { color:black; } /* firefox 19+ */
-:-ms-input-placeholder { color:black; } /* ie */
-input:-moz-placeholder { color:black; }
-
-.playing {
-    color: #3498db;
 }
