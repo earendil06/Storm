@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -35,13 +36,19 @@ public class Main {
                     JsonObject block = jsonElement.getAsJsonObject();
                     StringBuilder result = new StringBuilder();
 
+                    int value = block.getAsJsonObject("Abilities").get("Dex").getAsInt();
+                    int roundingMode = (value - 10) > 0 ? BigDecimal.ROUND_DOWN : BigDecimal.ROUND_UP;
+                    BigDecimal decimal = new BigDecimal(value - 10).divide(new BigDecimal(2), roundingMode);
+                    int modifier = decimal.intValue();
+                    int pp = modifier + 10;
+
                     result
                             .append(block.get("Name").getAsString()).append("\n")
                             .append("\n")
                             .append("AC " + block.getAsJsonObject("AC").get("Value").getAsString()).append("\n")
                             .append("HP " + block.getAsJsonObject("HP").get("Notes").getAsString().replaceAll("\\(", "").replaceAll("\\)", "")).append("\n")
                             .append("speed " + block.getAsJsonArray("Speed").get(0).getAsString().replaceAll(" ft.", "")).append("\n")
-                            .append("PP " + block.getAsJsonObject("HP").get("Notes").getAsString().replaceAll("\\(", "").replaceAll("\\)", "")).append("\n")
+                            .append("PP " + pp).append("\n")
                             .append("\n")
                             .append("str " + block.getAsJsonObject("Abilities").get("Str").getAsInt()).append("\n")
                             .append("dex " + block.getAsJsonObject("Abilities").get("Dex").getAsInt()).append("\n")
