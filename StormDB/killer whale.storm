@@ -1,0 +1,41 @@
+Killer Whale
+
+AC 12
+HP 12d12+12
+speed swim 60
+PP 12d12+12
+
+str 19
+dex 10
+con 13
+int 3
+wis 12
+cha 7
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 21 (5d6 + 4) piercing damage.}
+
+}
+features {
+
+Skills => {perception 3}
+
+Echolocation =>
+{The whale can't use its blindsight while deafened.}
+
+Hold Breath =>
+{The whale can hold its breath for 30 minutes}
+
+Keen Hearing =>
+{The whale has advantage on Wisdom (Perception) checks that rely on hearing.}
+
+Senses => {blindsight 120 ft.}
+
+Languages => {}
+
+Challenge => {3}
+
+
+}

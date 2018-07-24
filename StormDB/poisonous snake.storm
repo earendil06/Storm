@@ -1,0 +1,30 @@
+Poisonous Snake
+
+AC 13
+HP 1d4
+speed 30
+PP 1d4
+
+str 2
+dex 16
+con 11
+int 1
+wis 10
+cha 3
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 1 piercing damage, and the target must make a DC 10 Constitution saving throw, taking 5 (2d4) poison damage on a failed save, or half as much damage on a successful one.}
+
+}
+features {
+
+Senses => {blindsight 10 ft.}
+
+Languages => {}
+
+Challenge => {1/8}
+
+
+}

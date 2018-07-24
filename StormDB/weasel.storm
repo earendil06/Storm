@@ -1,0 +1,33 @@
+Weasel
+
+AC 13
+HP 1d4-1
+speed 30
+PP 1d4-1
+
+str 3
+dex 16
+con 8
+int 2
+wis 12
+cha 3
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 1 piercing damage.}
+
+}
+features {
+
+Skills => {stealth 5, perception 3}
+
+Keen Hearing and Smell =>
+{The weasel has advantage on Wisdom (Perception) checks that rely on hearing or smell.}
+
+Languages => {}
+
+Challenge => {0}
+
+
+}

@@ -1,0 +1,33 @@
+Flying Snake
+
+AC 14
+HP 2d4
+speed 30
+PP 2d4
+
+str 4
+dex 18
+con 11
+int 2
+wis 12
+cha 5
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 1 piercing damage plus 7 (3d4) poison damage.}
+
+}
+features {
+
+Flyby =>
+{The snake doesn't provoke opportunity attacks when it flies out of an enemy's reach.}
+
+Senses => {blindsight 10 ft.}
+
+Languages => {}
+
+Challenge => {1/8}
+
+
+}

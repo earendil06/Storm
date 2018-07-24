@@ -1,0 +1,33 @@
+Badger
+
+AC 10
+HP 1d4+1
+speed 20
+PP 1d4+1
+
+str 4
+dex 11
+con 12
+int 2
+wis 12
+cha 5
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 1 piercing damage.}
+
+}
+features {
+
+Keen Smell =>
+{The badger has advantage on Wisdom (Perception) checks that rely on smell.}
+
+Senses => {darkvision 30 ft.}
+
+Languages => {}
+
+Challenge => {0}
+
+
+}

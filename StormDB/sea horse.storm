@@ -1,0 +1,28 @@
+Sea Horse
+
+AC 11
+HP 1d4-1
+speed swim 20
+PP 1d4-1
+
+str 1
+dex 12
+con 8
+int 1
+wis 10
+cha 2
+
+actions {
+
+}
+features {
+
+Water Breathing =>
+{The sea horse can breathe only underwater.}
+
+Languages => {}
+
+Challenge => {0}
+
+
+}

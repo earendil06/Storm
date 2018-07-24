@@ -1,0 +1,36 @@
+Bat
+
+AC 12
+HP 1d4-1
+speed 5
+PP 1d4-1
+
+str 2
+dex 15
+con 8
+int 2
+wis 12
+cha 4
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +0 to hit, reach 5 ft., one creature. Hit: 1 piercing damage.}
+
+}
+features {
+
+Echolocation =>
+{The bat can't use its blindsight while deafened.}
+
+Keen Hearing =>
+{The bat has advantage on Wisdom (Perception) checks that rely on hearing.}
+
+Senses => {blindsight 60 ft.}
+
+Languages => {}
+
+Challenge => {0}
+
+
+}

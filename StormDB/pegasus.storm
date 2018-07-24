@@ -1,0 +1,32 @@
+Pegasus
+
+AC 12
+HP 7d10+21
+speed 60
+PP 7d10+21
+
+str 18
+dex 15
+con 16
+int 10
+wis 15
+cha 13
+
+actions {
+
+Hooves =>
+{Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage.}
+
+}
+features {
+
+Saves => {wis 4, dex 4, cha 3}
+
+Skills => {perception 6}
+
+Languages => {understands Celestial,Common,Elvish,and Sylvan but can't speak}
+
+Challenge => {2}
+
+
+}

@@ -1,0 +1,30 @@
+Lizard
+
+AC 10
+HP 1d4
+speed 20
+PP 1d4
+
+str 2
+dex 11
+con 10
+int 1
+wis 8
+cha 3
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +0 to hit, reach 5 ft., one target. Hit: 1 piercing damage.}
+
+}
+features {
+
+Senses => {darkvision 30 ft.}
+
+Languages => {}
+
+Challenge => {0}
+
+
+}

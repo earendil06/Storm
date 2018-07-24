@@ -1,0 +1,37 @@
+Skeleton
+
+AC 13
+HP 2d8+4
+speed 30
+PP 2d8+4
+
+str 10
+dex 14
+con 15
+int 6
+wis 8
+cha 5
+
+actions {
+
+Shortsword =>
+{Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage.}
+
+Shortbow =>
+{Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.}
+
+}
+features {
+
+Senses => {darkvision 60 ft.}
+
+Damage Vulnerabilities => {bludgeoning}
+
+Condition Immunities => {poisoned}
+
+Languages => {understands all languages it spoke in life but can't speak}
+
+Challenge => {1/4}
+
+
+}

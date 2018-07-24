@@ -1,0 +1,38 @@
+Hunter Shark
+
+AC 12
+HP 6d10+12
+speed swim 40
+PP 6d10+12
+
+str 18
+dex 13
+con 15
+int 1
+wis 10
+cha 4
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) piercing damage.}
+
+}
+features {
+
+Skills => {perception 2}
+
+Blood Frenzy =>
+{The shark has advantage on melee attack rolls against any creature that doesn't have all its hit points.}
+
+Water Breathing =>
+{The shark can breathe only underwater.}
+
+Senses => {darkvision 30 ft.}
+
+Languages => {}
+
+Challenge => {2}
+
+
+}

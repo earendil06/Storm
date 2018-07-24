@@ -1,0 +1,28 @@
+Draft Horse
+
+AC 10
+HP 3d10+3
+speed 40
+PP 3d10+3
+
+str 18
+dex 10
+con 12
+int 2
+wis 11
+cha 7
+
+actions {
+
+Hooves =>
+{Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 9 (2d4 + 4) bludgeoning damage.}
+
+}
+features {
+
+Languages => {}
+
+Challenge => {1/4}
+
+
+}

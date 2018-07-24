@@ -1,0 +1,35 @@
+Worg
+
+AC 13
+HP 4d10+4
+speed 50
+PP 4d10+4
+
+str 16
+dex 13
+con 13
+int 7
+wis 11
+cha 8
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) piercing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone.}
+
+}
+features {
+
+Skills => {perception 4}
+
+Keen Hearing and Smell =>
+{The worg has advantage on Wisdom (Perception) checks that rely on hearing or smell.}
+
+Senses => {darkvision 60 ft.}
+
+Languages => {Goblin,Worg}
+
+Challenge => {1/2}
+
+
+}

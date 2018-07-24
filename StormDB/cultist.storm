@@ -1,0 +1,33 @@
+Cultist
+
+AC 12
+HP 2d8
+speed 30
+PP 2d8
+
+str 11
+dex 12
+con 10
+int 10
+wis 11
+cha 10
+
+actions {
+
+Scimitar =>
+{Melee Weapon Attack: +3 to hit, reach 5 ft., one creature. Hit: 4 (1d6 + 1) slashing damage.}
+
+}
+features {
+
+Skills => {deception 2, religion 2}
+
+Dark Devotion =>
+{The cultist has advantage on saving throws against being charmed or frightened.}
+
+Languages => {any one language (usually Common)}
+
+Challenge => {1/8}
+
+
+}

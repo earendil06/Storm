@@ -1,0 +1,28 @@
+Deer
+
+AC 13
+HP 1d8
+speed 50
+PP 1d8
+
+str 11
+dex 16
+con 11
+int 2
+wis 14
+cha 5
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) piercing damage.}
+
+}
+features {
+
+Languages => {}
+
+Challenge => {0}
+
+
+}

@@ -1,0 +1,28 @@
+Riding Horse
+
+AC 10
+HP 2d10+2
+speed 60
+PP 2d10+2
+
+str 16
+dex 10
+con 12
+int 2
+wis 11
+cha 7
+
+actions {
+
+Hooves =>
+{Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) bludgeoning damage.}
+
+}
+features {
+
+Languages => {}
+
+Challenge => {1/4}
+
+
+}

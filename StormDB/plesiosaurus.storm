@@ -1,0 +1,33 @@
+Plesiosaurus
+
+AC 13
+HP 8d10+24
+speed 20
+PP 8d10+24
+
+str 18
+dex 15
+con 16
+int 2
+wis 12
+cha 5
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 14 (3d6 + 4) piercing damage.}
+
+}
+features {
+
+Skills => {stealth 4, perception 3}
+
+Hold Breath =>
+{The plesiosaurus can hold its breath for 1 hour.}
+
+Languages => {}
+
+Challenge => {2}
+
+
+}
