@@ -10,5 +10,5 @@ public interface Accessor {
 
     String saveBlock(String blockName, String block);
 
-    List getBlockList();
+    List<String> getBlockList();
 }
