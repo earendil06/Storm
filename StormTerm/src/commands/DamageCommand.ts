@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 
 export class DamageCommand extends Command {
@@ -10,7 +10,7 @@ export class DamageCommand extends Command {
 
     execute(inputText: string, args: string[]): void {
         if (args.length < 3) {
-            (window as any).app.commands.push({input: inputText, output: "missing parameters (e.g.: damage adrien 2)", templateName: "default-component"});
+            StaticHelpers.application().commands.push({input: inputText, output: "missing parameters (e.g.: damage adrien 2)", templateName: "default-component"});
             StaticHelpers.hideSpinner();
         } else {
             const monsterName = args[1];
@@ -23,7 +23,7 @@ export class DamageCommand extends Command {
                 data: JSON.stringify({"name": monsterName, "damage": damageString}),
                 statusCode: {
                     200: function (data) {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "monster-component"});
+                        StaticHelpers.application().commands.push({input: inputText, output: data, templateName: "monster-component"});
                     },
                     400: function () {
                         StaticHelpers.application().commands.push({

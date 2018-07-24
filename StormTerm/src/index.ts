@@ -1,5 +1,5 @@
 import Vue from "vue";
-import {StaticHelpers} from "./commands/StaticHelpers";
+import {StaticHelpers} from "./StaticHelpers";
 import {ClearCommand} from "./commands/ClearCommand";
 
 import CommandComponent from "./components/Command";
@@ -43,6 +43,17 @@ let v = new Vue({
     updated: function () {
         StaticHelpers.scrollWindow()
     },
+    computed: {
+        proposalsDisplayed: function () {
+            let input = this.currentInputValue;
+            let args = input.trim().split(" ")
+                .filter(f => f !== "");
+            if (args.length === 2) {
+                return this.proposals.filter(f => f.includes(args[1]));
+            }
+            return this.proposals;
+        }
+    },
     methods: {
         encounterUpdate: function () {
             let vue = this;
@@ -70,8 +81,11 @@ let v = new Vue({
                 this.currentInputValue = "";
                 this.positionHistory = 0;
             } else {
-                let inputArray = this.currentInputValue.trim().split(" ");
-                inputArray.push(this.proposals[this.proposalsIndex]);
+                let inputArray = this.currentInputValue.trim().split(" ").filter(f => f !== "");
+                if (inputArray.length === 2){
+                    inputArray.splice(-1, 1);
+                }
+                inputArray.push(this.proposalsDisplayed[this.proposalsIndex]);
                 this.currentInputValue = inputArray.filter(token => token !== "").join(" ");
             }
             this.proposalsIndex = -1;
@@ -100,8 +114,8 @@ $(document as any).keydown(function (e) {
     const tabCode = 9;
     const enterCode = 13;
     if (e.which !== tabCode && e.which !== enterCode) {
-        (window as any).app.proposals = [];
-        (window as any).app.proposalsIndex = -1;
+        StaticHelpers.application().proposals = [];
+        StaticHelpers.application().proposalsIndex = -1;
     }
     const lKey = 76;
     if (e.ctrlKey && (e.which === lKey)) {
@@ -112,4 +126,3 @@ $(document as any).keydown(function (e) {
     }
     return true;
 });
-//(window as any).main = Main;

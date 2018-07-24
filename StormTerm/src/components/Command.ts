@@ -1,5 +1,5 @@
 import Vue from "vue";
-import {StaticHelpers} from "../commands/StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import DefaultComponent from "./Default";
 import BlockComponent from "./Block";
 import EncounterComponent from "./Encounter";

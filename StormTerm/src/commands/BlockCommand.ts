@@ -1,6 +1,7 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
+import {HistoryCommand} from "../poco/HistoryCommand";
 
 export class BlockCommand extends Command {
     constructor() {
@@ -9,7 +10,7 @@ export class BlockCommand extends Command {
 
     execute(inputText: string, args: string[]) : void {
         if (args.length < 2) {
-            StaticHelpers.application().commands.push({input: inputText, output: "missing parameter (e.g.: block goblin)", templateName: "default-component"});
+            StaticHelpers.application().commands.push(new HistoryCommand(inputText, "missing parameter (e.g.: block goblin)", "default-component"));
             StaticHelpers.hideSpinner();
         } else {
             const blockName = args[1];

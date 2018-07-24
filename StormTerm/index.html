@@ -36,7 +36,7 @@
         </div>
     </div>
     <ul>
-        <li v-for="(prop, index) in proposals" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }">
+        <li v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }">
             {{ prop }}
         </li>
     </ul>

@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 
 export class RollInitiativeCommand extends Command{
@@ -14,7 +14,7 @@ export class RollInitiativeCommand extends Command{
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/roll/initiative`,
             statusCode: {
                 200: function (data) {
-                    (window as any).app.commands.push({
+                    StaticHelpers.application().commands.push({
                         input: inputText,
                         output: "initiative rolled.",
                         templateName: "default-component"

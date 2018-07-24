@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 
 export class HelpCommand extends Command {
 
@@ -8,7 +8,7 @@ export class HelpCommand extends Command {
     }
 
     execute(inputText: string, args: string[]): void {
-        (window as any).app.commands.push({input: inputText, output: StaticHelpers.COMMANDS.map(c => c.getCommandName()), templateName: "default-component"});
+        StaticHelpers.application().commands.push({input: inputText, output: StaticHelpers.COMMANDS.map(c => c.getCommandName()), templateName: "default-component"});
     }
 
 }

@@ -1,20 +1,20 @@
-import {ClearCommand} from "./ClearCommand";
-import {BlockCommand} from "./BlockCommand";
-import {HelpCommand} from "./HelpCommand";
-import {NewCommand} from "./NewCommand";
-import {GetMonsterCommand} from "./GetMonsterCommand";
-import {GetEncounterDataCommand} from "./GetEncounterDataCommand";
-import {RollInitiativeCommand} from "./RollInitiativeCommand";
-import {DamageCommand} from "./DamageCommand";
-import {GetTurnCommand} from "./GetTurnCommand";
-import {ResetCommand} from "./ResetCommand";
-import {NextTurnCommand} from "./NextTurnCommand";
-import {HealCommand} from "./HealCommand";
-import {RemoveCommand} from "./RemoveCommand";
-import {SetInitiativeCommand} from "./SetInitiativeCommand";
-import {GetBlocksCommand} from "./GetBlocksCommand";
-import {GetPlayingMonsterCommand} from "./GetPlayingMonsterCommand";
-import {Application} from "../Application";
+import {ClearCommand} from "./commands/ClearCommand";
+import {BlockCommand} from "./commands/BlockCommand";
+import {HelpCommand} from "./commands/HelpCommand";
+import {NewCommand} from "./commands/NewCommand";
+import {GetMonsterCommand} from "./commands/GetMonsterCommand";
+import {GetEncounterDataCommand} from "./commands/GetEncounterDataCommand";
+import {RollInitiativeCommand} from "./commands/RollInitiativeCommand";
+import {DamageCommand} from "./commands/DamageCommand";
+import {GetTurnCommand} from "./commands/GetTurnCommand";
+import {ResetCommand} from "./commands/ResetCommand";
+import {NextTurnCommand} from "./commands/NextTurnCommand";
+import {HealCommand} from "./commands/HealCommand";
+import {RemoveCommand} from "./commands/RemoveCommand";
+import {SetInitiativeCommand} from "./commands/SetInitiativeCommand";
+import {GetBlocksCommand} from "./commands/GetBlocksCommand";
+import {GetPlayingMonsterCommand} from "./commands/GetPlayingMonsterCommand";
+import {Application} from "./Application";
 import * as $ from "jquery";
 
 export class StaticHelpers {
@@ -38,7 +38,7 @@ export class StaticHelpers {
     static eval(input: string): void {
         const args = input.trim().split(" ").filter(f => f !== "");
         if (args.length === 0) {
-            (window as any).app.commands.push({
+            StaticHelpers.application().commands.push({
                 input: input,
                 output: "Command does not exists.",
                 templateName: "default-component"
@@ -47,7 +47,7 @@ export class StaticHelpers {
             const commandName = args[0].toLowerCase();
             let commandFound = StaticHelpers.COMMANDS.find(f => f.getCommandName() === commandName);
             if (typeof commandFound === "undefined") {
-                (window as any).app.commands.push({
+                StaticHelpers.application().commands.push({
                     input: input,
                     output: "Command does not exists.",
                     templateName: "default-component"
@@ -78,7 +78,7 @@ export class StaticHelpers {
                 "function": "getBlocks"
             }
         ];
-        const pointer = (window as any).app.currentInputValue.trim().split(" ")[0];
+        const pointer = StaticHelpers.application().currentInputValue.trim().split(" ")[0];
         let toExecute = propEngine.find(f => f.name === pointer);
         if (toExecute === undefined) {
             console.log("no proposals");
@@ -86,14 +86,14 @@ export class StaticHelpers {
             //autoComplete();
             return;
         }
-        if ((window as any).app.proposalsIndex === -1) {
+        if (StaticHelpers.application().proposalsIndex === -1) {
             StaticHelpers.showSpinner();
             this[toExecute.function]();
         }
-        if ((window as any).app.proposals.length > 0) {
-            (window as any).app.proposalsIndex = ((window as any).app.proposalsIndex + 1) % (window as any).app.proposals.length;
+        if (StaticHelpers.application().proposalsDisplayed.length > 0) {
+            StaticHelpers.application().proposalsIndex = (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
         } else {
-            (window as any).app.proposalsIndex = -1;
+            StaticHelpers.application().proposalsIndex = -1;
         }
     }
 
@@ -110,30 +110,28 @@ export class StaticHelpers {
     }
 
     static getCommands() {
-        (window as any).app.proposals = StaticHelpers.COMMANDS.map(c => c.getCommandName()).sort();
+        StaticHelpers.application().proposals = StaticHelpers.COMMANDS.map(c => c.getCommandName()).sort();
         StaticHelpers.hideSpinner();
     }
 
     static getBlocks() {
         (async function () {
-            let response = await $.ajax({
+            StaticHelpers.application().proposals = await $.ajax({
                 contentType: "application/json",
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks`
             });
-            (window as any).app.proposals = response;
-            (window as any).app.proposalsIndex = ((window as any).app.proposalsIndex + 1) % (window as any).app.proposals.length;
+            StaticHelpers.application().proposalsIndex = (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
             StaticHelpers.hideSpinner();
         })();
     }
 
     static getMonsters() {
         (async function () {
-            let response = await $.ajax({
+            StaticHelpers.application().proposals = await $.ajax({
                 contentType: "application/json",
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data/names`
             });
-            (window as any).app.proposals = response;
-            (window as any).app.proposalsIndex = ((window as any).app.proposalsIndex + 1) % (window as any).app.proposals.length;
+            StaticHelpers.application().proposalsIndex = (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
             StaticHelpers.hideSpinner();
         })();
     }

@@ -1,16 +1,4 @@
-import {StaticHelpers} from "./commands/StaticHelpers";
-
-interface Data {
-    user: string;
-    commands: HistoryCommand[];
-    history: string[];
-    currentInputValue: "";
-    positionHistory: number;
-    proposals: string[];
-    proposalsIndex: number;
-}
-
-interface HistoryCommand {
+export interface IHistoryCommand {
     input: string;
     output: any;
     templateName: string;
@@ -18,26 +6,37 @@ interface HistoryCommand {
 
 interface Watches {
     positionHistory(newPosition: number, oldPosition: number): void;
+    commands();
 }
 
 interface Methods {
-    executeCommand(message);
-
+    encounterUpdate();
+    executeCommand();
     setPositionHistory(message);
-
     invokeAutoComplete(message);
+}
+
+interface Computeds {
+    proposalsDisplayed();
 }
 
 
 export interface Application {
     user: string;
-    commands: HistoryCommand[];
+    commands: IHistoryCommand[];
     history: string[];
-    currentInputValue: "";
+    currentInputValue: string;
     positionHistory: number;
     proposals: string[];
     proposalsIndex: number;
 
     watch: Watches;
     methods: Methods;
+    computed: Computeds
+
+    proposalsDisplayed();
+    encounterUpdate();
+    executeCommand();
+    setPositionHistory(message);
+    invokeAutoComplete(message);
 }

@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 
 export class GetEncounterDataCommand extends Command{
@@ -19,7 +19,7 @@ export class GetEncounterDataCommand extends Command{
                         m.ac = m.block.stats.find(f => f.statType === "ac").statValue.formulae;
                         m.blockName = m.block.name[0].toUpperCase() + m.block.name.slice(1)
                     });
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "encounter-component"});
+                    StaticHelpers.application().commands.push({input: inputText, output: data, templateName: "encounter-component"});
                 },
                 500: function () {
                     StaticHelpers.application().commands.push({

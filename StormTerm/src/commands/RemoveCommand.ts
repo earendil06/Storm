@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 
 export class RemoveCommand extends Command{
@@ -10,7 +10,7 @@ export class RemoveCommand extends Command{
 
     execute(inputText: string, args: string[]): void {
         if (args.length < 2) {
-            (window as any).app.commands.push({input: inputText, output: "missing parameter (e.g.: remove adrien)", templateName: "default-component"});
+            StaticHelpers.application().commands.push({input: inputText, output: "missing parameter (e.g.: remove adrien)", templateName: "default-component"});
             StaticHelpers.hideSpinner();
         } else {
             const monsterName = args[1];
@@ -20,7 +20,7 @@ export class RemoveCommand extends Command{
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/remove/` + monsterName,
                 statusCode: {
                     200: function () {
-                        (window as any).app.commands.push({
+                        StaticHelpers.application().commands.push({
                             input: inputText,
                             output: monsterName + " has been removed from the encounter.",
                             templateName: "default-component"});

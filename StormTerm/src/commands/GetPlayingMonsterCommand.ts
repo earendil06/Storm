@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 
 export class GetPlayingMonsterCommand extends Command {
@@ -13,7 +13,7 @@ export class GetPlayingMonsterCommand extends Command {
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/playing`,
             statusCode: {
                 200: function (data) {
-                    (window as any).app.commands.push({input: inputText, output: data, templateName: "monster-component"});
+                    StaticHelpers.application().commands.push({input: inputText, output: data, templateName: "monster-component"});
                 },
                 404: function () {
                     StaticHelpers.application().commands.push({

@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 
 export class GetBlocksCommand extends Command {
@@ -12,7 +12,7 @@ export class GetBlocksCommand extends Command {
             contentType: "application/json",
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks`,
             success: function (data) {
-                (window as any).app.commands.push({input: inputText, output: data, templateName: "default-component"});
+                StaticHelpers.application().commands.push({input: inputText, output: data, templateName: "default-component"});
             }
         });
     }

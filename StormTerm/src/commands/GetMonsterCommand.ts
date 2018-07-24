@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 
 export class GetMonsterCommand extends Command {
@@ -9,7 +9,7 @@ export class GetMonsterCommand extends Command {
 
     execute(inputText: string, args: string[]): void {
         if (args.length < 2) {
-            (window as any).app.commands.push({
+            StaticHelpers.application().commands.push({
                 input: inputText,
                 output: "missing parameter (e.g.: monster adrien)",
                 templateName: "default-component"
@@ -22,7 +22,7 @@ export class GetMonsterCommand extends Command {
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/monster/` + monsterName,
                 statusCode: {
                     200: function (data) {
-                        (window as any).app.commands.push({input: inputText, output: data, templateName: "monster-component"});
+                        StaticHelpers.application().commands.push({input: inputText, output: data, templateName: "monster-component"});
                     },
                     404: function () {
                         StaticHelpers.application().commands.push({

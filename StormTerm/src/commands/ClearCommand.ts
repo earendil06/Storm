@@ -1,5 +1,5 @@
 import {Command} from "./Command";
-import {StaticHelpers} from "./StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 
 export class ClearCommand extends Command {
 
@@ -8,7 +8,7 @@ export class ClearCommand extends Command {
     }
 
     execute(inputText: string, args: string[]): void {
-        (window as any).app.commands = [];
+        StaticHelpers.application().commands = [];
         StaticHelpers.hideSpinner();
     }
 

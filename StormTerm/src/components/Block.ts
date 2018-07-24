@@ -1,5 +1,5 @@
 import Vue from "vue";
-import {StaticHelpers} from "../commands/StaticHelpers";
+import {StaticHelpers} from "../StaticHelpers";
 
 export default Vue.extend({
     template: `
