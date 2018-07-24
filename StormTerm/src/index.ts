@@ -5,6 +5,7 @@ import {ClearCommand} from "./commands/ClearCommand";
 import CommandComponent from "./components/Command";
 import {Application} from "./Application";
 import StaticEncounterComponent from "./components/StaticEncounter";
+import * as $ from "jquery";
 
 let v = new Vue({
 
@@ -37,10 +38,10 @@ let v = new Vue({
     },
     mounted: function () {
         this.encounterUpdate();
-        window.scrollTo(0, document.body.scrollHeight);
+        StaticHelpers.scrollWindow()
     },
     updated: function () {
-        window.scrollTo(0, document.body.scrollHeight);
+        StaticHelpers.scrollWindow()
     },
     methods: {
         encounterUpdate: function () {

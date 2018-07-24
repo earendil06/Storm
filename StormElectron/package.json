@@ -1,0 +1,37 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^2.0.0",
+    "@types/jquery": "^3.3.1",
+    "css-loader": "^0.28.11",
+    "ts-loader": "^4.4.1",
+    "typescript": "^2.9.2",
+    "vue": "^2.5.16",
+    "vue-loader": "^14.2.2",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.12.2",
+    "webpack-cli": "^3.0.8",
+    "jquery": "^3.2.1"
+  },
+  "scripts": {
+    "start": "runServer.sh | electron .",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "vue-typed": "^2.1.4",
+    "jquery": "^3.2.1"
+  }
+}

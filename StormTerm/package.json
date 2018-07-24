@@ -2,6 +2,7 @@
   "devDependencies": {
     "@types/jquery": "^3.3.1",
     "css-loader": "^0.28.11",
+    "jquery": "^3.2.1",
     "ts-loader": "^4.4.1",
     "typescript": "^2.9.2",
     "vue": "^2.5.16",
@@ -15,6 +16,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "vue-typed": "^2.1.4"
+    "vue-typed": "^2.1.4",
+    "jquery": "^3.2.1"
   }
 }

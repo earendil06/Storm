@@ -15,6 +15,7 @@ import {SetInitiativeCommand} from "./SetInitiativeCommand";
 import {GetBlocksCommand} from "./GetBlocksCommand";
 import {GetPlayingMonsterCommand} from "./GetPlayingMonsterCommand";
 import {Application} from "../Application";
+import * as $ from "jquery";
 
 export class StaticHelpers {
     static hideSpinner(): void {
@@ -23,6 +24,11 @@ export class StaticHelpers {
 
     static showSpinner(): void {
         document.getElementById("loader").style.display = "block";
+    }
+
+    static scrollWindow(): void {
+        let container = document.getElementById('commandsContainer');
+        container.scrollTop = container.scrollHeight;
     }
 
     static port = 8080;
