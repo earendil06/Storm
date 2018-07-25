@@ -4,6 +4,7 @@ import {NextTurnCommand} from "../commands/NextTurnCommand";
 import {GetMonsterCommand} from "../commands/GetMonsterCommand";
 import * as $ from "jquery";
 import {DamageCommand} from "../commands/DamageCommand";
+import {RollInitiativeCommand} from "../commands/RollInitiativeCommand";
 
 export default Vue.extend({
     template: `
@@ -35,7 +36,7 @@ export default Vue.extend({
         
         <div>
             <div class="creature-heading">
-                <h1 @click="next" style="cursor: pointer; user-select: none; -moz-user-select: none; -ms-user-select: none;">
+                <h1 @click="next(data)" style="cursor: pointer; user-select: none; -moz-user-select: none; -ms-user-select: none;">
                     {{ data.playingMonsterName === "" ? "Nobody rolled initiative" :
                         data.playingMonsterName + "\\'s turn" }}
                 </h1>
@@ -63,9 +64,14 @@ export default Vue.extend({
                 inputInit.val('');
             }
         },
-        next: function () {
-            let nextCommand = new NextTurnCommand();
-            nextCommand.execute("next", [])
+        next: function (data) {
+            if (data.playingMonsterName === "") {
+                let initiativeCommand = new RollInitiativeCommand();
+                initiativeCommand.execute("initiative", [])
+            } else {
+                let nextCommand = new NextTurnCommand();
+                nextCommand.execute("next", [])
+            }
         },
         get: function (name) {
             let monsterCommand = new GetMonsterCommand();

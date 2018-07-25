@@ -13,10 +13,17 @@ export class RollInitiativeCommand extends Command{
             method: 'PUT',
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/roll/initiative`,
             statusCode: {
-                200: function (data) {
+                200: function () {
                     StaticHelpers.application().commands.push({
                         input: inputText,
                         output: "initiative rolled.",
+                        templateName: "default-component"
+                    });
+                },
+                404: function () {
+                    StaticHelpers.application().commands.push({
+                        input: inputText,
+                        output: "No one can roll initiative in the encounter.",
                         templateName: "default-component"
                     });
                 },
