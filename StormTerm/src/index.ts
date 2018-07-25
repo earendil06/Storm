@@ -49,7 +49,7 @@ let v = new Vue({
             let args = input.trim().split(" ")
                 .filter(f => f !== "");
             if (args.length === 2) {
-                return this.proposals.filter(f => f.includes(args[1]));
+                return this.proposals.filter(f => f.startsWith(args[1]));
             }
             return this.proposals;
         }
