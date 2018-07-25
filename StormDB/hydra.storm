@@ -3,7 +3,7 @@ Hydra
 AC 15
 HP 15d12+75
 speed 30
-PP 15d12+75
+pp 16
 
 str 20
 dex 12
@@ -14,36 +14,34 @@ cha 7
 
 actions {
 
-Multiattack =>
-{The hydra makes as many bite attacks as it has heads.}
-
 Bite =>
-{Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 10 (1d10 + 5) piercing damage.}
++8 to hit
+reach 10
+hit 1d10 + 5 piercing
 
 }
+
 features {
 
-Skills => {perception 6}
+Multiattack => {The hydra makes as many bite attacks as it has heads}
 
-Hold Breath =>
-{The hydra can hold its breath for 1 hour.}
+Challenge => {8 (3900 XP)}
 
-Multiple Heads =>
-{The hydra has five heads. While it has more than one head, the hydra has advantage on saving throws against being blinded, charmed, deafened, frightened, stunned, and knocked unconscious.
+Darkvision => {60ft}
+
+Hold Breath => {The Hydra can hold its breath for 1 hour.}
+
+Multiple Heads => {The hydra has five heads. While it has more than one head,
+the hydra has advantage on saving throws against being blinded, charmed, deafened, frightened
+stunned, and knocked uncounscious.
 Whenever the hydra takes 25 or more damage in a single turn, one of its heads dies. If all its heads die, the hydra dies.
-At the end of its turn, it grows two heads for each of its heads that died since its last turn, unless it has taken fire damage since its last turn. The hydra regains 10 hit points for each head regrown in this way.}
+At the end of its turn, it grows two heads for each of its head that died since its last turn, unless it has taken fire damage
+since last turn. The hydra regains 10 hit points for each head regrown in this way.}
 
-Reactive Heads =>
-{For each head the hydra has beyond one, it gets an extra reaction that can be used only for opportunity attacks.}
+Reactive Heads => {For each head the hydra has beyound one, it gets an extra reaction that cas be used only for opportunity
+attacks.}
 
-Wakeful =>
-{While the hydra sleeps, at least one of its heads is awake.}
-
-Senses => {darkvision 60 ft.}
-
-Languages => {}
-
-Challenge => {8}
-
+Wakeful => {While the hydra sleeps, at least one of its heads is awake.}
 
 }
+

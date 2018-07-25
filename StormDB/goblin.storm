@@ -3,7 +3,7 @@ Goblin
 AC 15
 HP 2d6
 speed 30
-PP 2d6
+pp 9
 
 str 8
 dex 14
@@ -14,25 +14,31 @@ cha 8
 
 actions {
 
-Scimitar =>
-{Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage.}
+scimitar =>
++4 to hit
+reach 5
+hit 1d6+2 slashing
+{badass sword yo}
 
-Shortbow =>
-{Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.}
+shortbow =>
++4 to hit
+range 80/320
+hit 1d6 + 2 piercing
+{its a cool bow}
 
 }
+
 features {
 
-Skills => {stealth 6}
-
 Nimble Escape =>
-{The goblin can take the Disengage or Hide action as a bonus action on each of its turns.}
+{The goblin can take the Disengage or Hide action as a bonus action on each of its turns}
 
-Senses => {darkvision 60 ft.}
+Skills => {Stealth +6}
 
-Languages => {Common,Goblin}
+Senses => {Darkvision 60 Ft., passive Perception 9}
 
-Challenge => {1/4}
+Languages => {Common, Goblin}
 
+Challenge => {1/4 (50 XP)}
 
 }

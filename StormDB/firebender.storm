@@ -1,0 +1,37 @@
+Fire Bender
+
+AC 13
+HP 4d8+4
+speed 35
+pp 12
+
+str 10
+dex 14
+con 12
+int 10
+wis 14
+cha 12
+
+actions {
+
+Multiattack =>
+{The bender makes two Fangs of the Fire Snake attacks. }
+
+Fangs of Fire Snake =>
++4 to hit
+reach 10
+hit 2d10 + 2 fire 
+{Melee Spell Attack.}
+
+}
+
+features {
+
+Damage Resistances => {cold, fire}
+
+Languages => {Primordial plus any one language}
+
+Challenge => {2 (450 XP)}
+
+}
+
