@@ -9,6 +9,7 @@
     "target": "es6",
     "experimentalDecorators": true
   },
+  "compileOnSave": true,
   "include": [
     "../StormTerm/src/**/*"
   ]

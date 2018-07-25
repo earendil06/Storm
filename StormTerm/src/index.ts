@@ -73,6 +73,18 @@ let v = new Vue({
             });
         },
         executeCommand: function () {
+            let inputArray = this.currentInputValue.trim().split(" ").filter(f => f !== "");
+            if (inputArray.length > 0 && inputArray[inputArray.length - 1] === "$!") {
+                if (this.history.length > 0) {
+                    let previousCommand = this.history[this.history.length - 1];
+                    let previousArgs = previousCommand.trim().split(" ").filter(f => f !== "").slice(1).join(" ");
+                    this.currentInputValue = inputArray[0] + " " + previousArgs;
+                    return;
+                } else {
+                    this.currentInputValue = "";
+                    return;
+                }
+            }
             if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
                 this.history.push(this.currentInputValue);
             }
@@ -80,6 +92,7 @@ let v = new Vue({
                 StaticHelpers.eval(this.currentInputValue);
                 this.currentInputValue = "";
                 this.positionHistory = 0;
+
             } else {
                 let inputArray = this.currentInputValue.trim().split(" ").filter(f => f !== "");
                 if (inputArray.length === 2){
@@ -90,7 +103,7 @@ let v = new Vue({
             }
             this.proposalsIndex = -1;
             this.proposals = [];
-            this.encounterUpdate()
+            this.encounterUpdate();
         },
         setPositionHistory: function (message) {
             const downCode = 40;
