@@ -36,8 +36,8 @@
         </div>
     </div>
     <ul>
-        <li v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }">
-            {{ prop }}
+        <li  v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }">
+            <span style="cursor: pointer" v-on:click="onClickProposition(index)">{{ prop }}</span>
         </li>
     </ul>
         </div>

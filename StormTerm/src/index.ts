@@ -55,6 +55,10 @@ let v = new Vue({
         }
     },
     methods: {
+        onClickProposition: function(index){
+            this.proposalsIndex = index;
+            this.executeCommand();
+        },
         encounterUpdate: function () {
             let vue = this;
             $.ajax({
