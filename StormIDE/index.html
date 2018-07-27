@@ -121,17 +121,13 @@
                             <button id="download" class="btn btn-dark" type="button">Download</button>
                         </li>
                     </ul>
-
-                    <span class="navbar-text">
-      Adrien + Steven = <3
-    </span>
                 </div>
             </nav>
         </div>
     </div>
     <div class="row flex-fill d-flex justify-content-start">
         <pre id="editor" class="col">
-Goblin
+My Goblin
 
 AC 15
 HP 2d6
@@ -254,7 +250,7 @@ Challenge => {1/4 (50 XP)}
         let textToWrite = editor.getValue();
         bootbox.prompt({
             title: "Enter the name of the Storm file",
-            value: textToWrite.split('\n')[0].split(" ").join(""),
+            value: textToWrite.split('\n')[0].split(" ").join("_"),
             callback: function (nameInput) {
                 let fileNameToSaveAs;
                 if (nameInput == null) return;
@@ -270,10 +266,9 @@ Challenge => {1/4 (50 XP)}
                     url: "http://localhost:8080/api/write/" + fileNameToSaveAs.toLowerCase(),
                     data: textToWrite,
                     contentType: "text/plain",
-                    success: function (data) {
+                    success: function () {
                         document.getElementById("loader").style.display = "none";
                         bootbox.alert(fileNameToSaveAs + " saved!");
-
                     },
                     error: function (data) {
                         if (data.status === 0) {

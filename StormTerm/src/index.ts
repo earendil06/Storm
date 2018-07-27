@@ -111,6 +111,7 @@ let v = new Vue({
             this.proposalsIndex = -1;
             this.proposals = [];
             this.encounterUpdate();
+            document.getElementById("inputLine").focus()
         },
         setPositionHistory: function (message) {
             const downCode = 40;
