@@ -13,5 +13,10 @@ abstract class StormRoute(gameEngine: GameEngine, accessor: Accessor) extends Js
     if (option.isPresent) Some(option.get()) else None // java optional to scala option
   }
 
+  def getBlockFromStorm(storm: String): Option[Block] = {
+    val option = accessor.getBlockFromStorm(storm)
+    if (option.isPresent) Some(option.get()) else None // java optional to scala option
+  }
+
   def route: Route
 }

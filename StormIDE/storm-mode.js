@@ -102,6 +102,29 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
                     session.setAnnotations(e.data);
                 });
 
+                this.$worker.on("storm-modified", function (storm) {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:8080/api/convert",
+                        data: storm.data,
+                        contentType: "text/plain",
+                        success: function (data) {
+                            //document.getElementById("loader").style.display = "none";
+
+                        },
+                        error: function (data) {
+                            /*if (data.status === 0) {
+                                document.getElementById("loader").style.display = "none";
+                                bootbox.alert("Can't reach server.");
+                            } else {
+                                document.getElementById("loader").style.display = "none";
+                                bootbox.alert("Something went wrong with error code " + data.status);
+                            }*/
+                        }
+                    });
+
+                });
+
                 this.$worker.on("terminate", function() {
                     session.clearAnnotations();
                 });

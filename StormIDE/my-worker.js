@@ -3,7 +3,7 @@ importScripts("bower_components/ace-builds/src-min/ace.js");
 importScripts("bower_components/ace-worker/mirror.js");
 
 ace.define('ace/worker/my-worker', ["require", "exports", "module", "ace/lib/oop", "ace/worker/mirror"],
-    function (require, exports, module) {
+    function (require, exports, module, document) {
         "use strict";
 
         var oop = require("ace/lib/oop");
@@ -23,15 +23,10 @@ ace.define('ace/worker/my-worker', ["require", "exports", "module", "ace/lib/oop
         (function () {
             this.onUpdate = function () {
                 let value = this.doc.getValue();
-                // let annotations = validate(value);
-                // this.sender.emit("annotate", annotations);
+                this.sender.emit("storm-modified", value);
             };
 
         }).call(MyWorker.prototype);
 
         exports.MyWorker = MyWorker;
     });
-
-let validate = function (input) {
-    return [{row: 0, column: 0, text: "MyMode says Hello!", type: "error"}];
-};
