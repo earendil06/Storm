@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic" rel="stylesheet"
           type="text/css">
+
+    <link rel="icon" type="image/png" href="images/favicon.png" />
 
 </head>
 <body>
@@ -32,8 +34,9 @@
                    @keyup.40="setPositionHistory"
                    @keydown.tab="invokeAutoComplete"
                    class="cmdline" autofocus/>
-            <div id="loader" class="animate-bottom" style="display:none;"></div>
+            <img id="loader-img" style="display: none; width: 150px; height: 120px; position: absolute; left: 20px" src="images/waiting.gif"/>
         </div>
+
     </div>
     <ul>
         <li  v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }">

@@ -19,11 +19,11 @@ import * as $ from "jquery";
 
 export class StaticHelpers {
     static hideSpinner(): void {
-        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader-img").style.display = "none";
     }
 
     static showSpinner(): void {
-        document.getElementById("loader").style.display = "block";
+        document.getElementById("loader-img").style.display = "block";
     }
 
     static scrollWindow(): void {
