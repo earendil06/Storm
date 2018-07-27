@@ -1,9 +1,10 @@
 import Vue from "vue";
-import {HealCommand} from "../commands/HealCommand";
 import {SetInitiativeCommand} from "../commands/SetInitiativeCommand";
 import {NextTurnCommand} from "../commands/NextTurnCommand";
 import {GetMonsterCommand} from "../commands/GetMonsterCommand";
 import * as $ from "jquery";
+import {DamageCommand} from "../commands/DamageCommand";
+import {RollInitiativeCommand} from "../commands/RollInitiativeCommand";
 
 export default Vue.extend({
     template: `
@@ -18,7 +19,6 @@ export default Vue.extend({
                 -moz-user-select: none;
                 -ms-user-select: none;"
                 >
-                    <!--{{ monster.name === data.playingMonsterName ? "=>" : "" }}-->
                     <span v-bind:style='{ color: isPlaying(monster.name) }'>
                         {{ monster.blockName }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}
                     </span>
@@ -36,7 +36,7 @@ export default Vue.extend({
         
         <div>
             <div class="creature-heading">
-                <h1 @click="next" style="cursor: pointer; user-select: none; -moz-user-select: none; -ms-user-select: none;">
+                <h1 @click="next(data)" style="cursor: pointer; user-select: none; -moz-user-select: none; -ms-user-select: none;">
                     {{ data.playingMonsterName === "" ? "Nobody rolled initiative" :
                         data.playingMonsterName + "\\'s turn" }}
                 </h1>
@@ -51,9 +51,9 @@ export default Vue.extend({
         modify: function (monster) {
             let inputHp = $('#' + this.staticId + monster.name + 'hp');
             if (inputHp.val() !== '') {
-                let args = ['heal', monster.name, inputHp.val()];
-                let heal = new HealCommand();
-                heal.execute('heal ' + monster.name + ' ' + inputHp.val(), args);
+                let args = ['damage', monster.name, inputHp.val()];
+                let damageCommand = new DamageCommand();
+                damageCommand.execute('damage ' + monster.name + ' ' + inputHp.val(), args);
                 inputHp.val('');
             }
             let inputInit = $('#' + this.staticId + monster.name + 'init');
@@ -64,9 +64,14 @@ export default Vue.extend({
                 inputInit.val('');
             }
         },
-        next: function () {
-            let nextCommand = new NextTurnCommand();
-            nextCommand.execute("next", [])
+        next: function (data) {
+            if (data.playingMonsterName === "") {
+                let initiativeCommand = new RollInitiativeCommand();
+                initiativeCommand.execute("initiative", [])
+            } else {
+                let nextCommand = new NextTurnCommand();
+                nextCommand.execute("next", [])
+            }
         },
         get: function (name) {
             let monsterCommand = new GetMonsterCommand();

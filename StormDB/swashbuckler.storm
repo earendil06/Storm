@@ -1,0 +1,45 @@
+Swashbuckler
+
+AC 17
+HP 12d8+12
+speed 30
+pp 10
+
+str 12
+dex 18
+con 12
+int 14
+wis 11
+cha 15
+
+actions {
+
+Dagger =>
++6 to hit
+reach 5
+range 20/60
+hit 1d4+4 piercing
+
+Rapier =>
++6 to hit
+reach 5
+hit 1d8+4 piercing
+
+}
+
+features {
+
+Multiattack => {The swashbuckler makes three attacks: one with a dagger and two with its rapier.}
+
+Languages => {Common}
+
+Challenge => {3 (700 XP)}
+
+Skills => {Acrobatics + 8, Athletics + 5, Persuasion + 6}
+
+Lightfooted => {The swashbuckler can take the Dash or Disengage action as a bonus action on each of its turn.}
+
+Suave Defense => {While the swashbuckler is wearing light or no armor and wielding no shield, its AC includes its charisma modifier.}
+
+}
+

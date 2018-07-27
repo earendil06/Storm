@@ -3,7 +3,7 @@ Scout
 AC 13
 HP 3d8+3
 speed 30
-PP 3d8+3
+pp 15
 
 str 11
 dex 14
@@ -14,26 +14,26 @@ cha 11
 
 actions {
 
-Multiattack =>
-{The scout makes two melee attacks or two ranged attacks.}
-
 Shortsword =>
-{Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage.}
++4 to hit
+reach 5
+hit 1d6+2 piercing
 
 Longbow =>
-{Ranged Weapon Attack: +4 to hit, ranged 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage.}
++4 to hit
+range 150/600
+hit 1d8+2 piercing
 
 }
+
 features {
 
-Skills => {nature 4, stealth 6, perception 5, survival 5}
+Multiattack => {The scout makes two Melee Attacks or two Ranged Attacks.}
 
-Keen Hearing and Sight =>
-{The scout has advantage on Wisdom (Perception) checks that rely on hearing or sight.}
+Languages => {Common}
 
-Languages => {any one language (usually Common)}
-
-Challenge => {1/2}
-
+Challenge => {1/2 (100 XP)}
+Keen Hearing and Sight => {The scout has advantage on Wisdom (Perception) checks that rely on hearing or sight.}
 
 }
+

@@ -3,7 +3,7 @@ Thug
 AC 11
 HP 5d8+10
 speed 30
-PP 5d8+10
+pp 10
 
 str 15
 dex 11
@@ -14,26 +14,29 @@ cha 11
 
 actions {
 
-Multiattack =>
-{The thug makes two melee attacks.}
-
 Mace =>
-{Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6 + 2) bludgeoning damage.}
++4 to hit
+reach 5
+hit 1d6+2 bludgeoning
 
 Heavy Crossbow =>
-{Ranged Weapon Attack: +2 to hit, range 100/400 ft., one target. Hit: 5 (1d10) piercing damage.}
++2 to hit
+range 100/400
+hit 1d10 piercing
 
 }
+
 features {
 
-Skills => {intimidation 2}
+Multiattack => {The thug makes two melee attacks}
 
-Pack Tactics =>
-{The thug has advantage on an attack roll against a creature if at least one of the thug's allies is within 5 ft. of the creature and the ally isn't incapacitated.}
+Languages => {Common}
 
-Languages => {any one language (usually Common)}
+Challenge => {1/2 (100 XP)}
 
-Challenge => {1/2}
+Pack Tactics => {The thug has advantage on an Attack roll against a creature if at least one of the thug's allies is within 5 ft. of the creature and the ally isn't Incapacitated.}
 
+Skills => {Intimidation + 1}
 
 }
+
