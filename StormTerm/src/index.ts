@@ -59,6 +59,9 @@ let v = new Vue({
             this.proposalsIndex = index;
             this.executeCommand();
         },
+        onMouseOverProposition: function(index){
+            this.proposalsIndex = index;
+        },
         encounterUpdate: function () {
             let vue = this;
             $.ajax({

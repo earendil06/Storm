@@ -41,7 +41,7 @@
     </div>
     <ul>
         <li  v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }">
-            <span style="cursor: pointer" v-on:click="onClickProposition(index)">{{ prop }}</span>
+            <span style="cursor: pointer" v-on:click="onClickProposition(index)" v-on:mouseover="onMouseOverProposition(index)">{{ prop }}</span>
         </li>
     </ul>
         </div>
