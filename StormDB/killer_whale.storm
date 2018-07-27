@@ -3,7 +3,7 @@ Killer Whale
 AC 12
 HP 12d12+12
 speed swim 60
-PP 12d12+12
+pp 10
 
 str 19
 dex 10

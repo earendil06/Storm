@@ -3,7 +3,7 @@ Iron Golem
 AC 20
 HP 20d10+100
 speed 30
-PP 20d10+100
+pp 9
 
 str 24
 dex 9

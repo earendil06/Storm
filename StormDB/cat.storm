@@ -3,7 +3,7 @@ Cat
 AC 12
 HP 1d4
 speed 40
-PP 1d4
+pp 12
 
 str 3
 dex 15

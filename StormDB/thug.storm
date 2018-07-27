@@ -14,29 +14,26 @@ cha 11
 
 actions {
 
+Multiattack =>
+{The thug makes two melee attacks.}
+
 Mace =>
-+4 to hit
-reach 5
-hit 1d6+2 bludgeoning
+{Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6 + 2) bludgeoning damage.}
 
 Heavy Crossbow =>
-+2 to hit
-range 100/400
-hit 1d10 piercing
+{Ranged Weapon Attack: +2 to hit, range 100/400 ft., one target. Hit: 5 (1d10) piercing damage.}
 
 }
-
 features {
 
-Multiattack => {The thug makes two melee attacks}
+Skills => {intimidation 2}
 
-Languages => {Common}
+Pack Tactics =>
+{The thug has advantage on an attack roll against a creature if at least one of the thug's allies is within 5 ft. of the creature and the ally isn't incapacitated.}
 
-Challenge => {1/2 (100 XP)}
+Languages => {any one language (usually Common)}
 
-Pack Tactics => {The thug has advantage on an Attack roll against a creature if at least one of the thug's allies is within 5 ft. of the creature and the ally isn't Incapacitated.}
+Challenge => {1/2}
 
-Skills => {Intimidation + 1}
 
 }
-

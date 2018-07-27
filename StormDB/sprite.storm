@@ -3,7 +3,7 @@ Sprite
 AC 15
 HP 1d4
 speed 10
-PP 1d4
+pp 14
 
 str 3
 dex 18

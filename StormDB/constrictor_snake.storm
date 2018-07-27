@@ -3,7 +3,7 @@ Constrictor Snake
 AC 12
 HP 2d10+2
 speed 30
-PP 2d10+2
+pp 12
 
 str 15
 dex 14

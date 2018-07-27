@@ -3,7 +3,7 @@ Goat
 AC 10
 HP 1d8
 speed 40
-PP 1d8
+pp 10
 
 str 12
 dex 10

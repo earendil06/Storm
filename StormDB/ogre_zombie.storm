@@ -3,7 +3,7 @@ Ogre Zombie
 AC 8
 HP 9d10+36
 speed 30
-PP 9d10+36
+pp 8
 
 str 19
 dex 6

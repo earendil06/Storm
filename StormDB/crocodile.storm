@@ -3,7 +3,7 @@ Crocodile
 AC 12
 HP 3d10+3
 speed 20
-PP 3d10+3
+pp 10
 
 str 15
 dex 10

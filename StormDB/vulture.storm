@@ -3,7 +3,7 @@ Vulture
 AC 10
 HP 1d8+1
 speed 10
-PP 1d8+1
+pp 10
 
 str 7
 dex 10

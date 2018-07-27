@@ -3,7 +3,7 @@ Rat
 AC 10
 HP 1d4-1
 speed 20
-PP 1d4-1
+pp 10
 
 str 2
 dex 11

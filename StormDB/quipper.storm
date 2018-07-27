@@ -3,7 +3,7 @@ Quipper
 AC 13
 HP 1d4-1
 speed swim 40
-PP 1d4-1
+pp 13
 
 str 2
 dex 16

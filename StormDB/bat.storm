@@ -3,7 +3,7 @@ Bat
 AC 12
 HP 1d4-1
 speed 5
-PP 1d4-1
+pp 12
 
 str 2
 dex 15
