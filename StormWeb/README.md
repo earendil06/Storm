@@ -2,6 +2,7 @@
 
 ```shell
 ./install.sh
+./compile-all.sh
 ```
 then open index.html.
 
