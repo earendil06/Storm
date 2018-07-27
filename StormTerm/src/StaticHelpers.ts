@@ -92,11 +92,14 @@ export class StaticHelpers {
             StaticHelpers.showSpinner();
             this[toExecute.function]();
         }
+
         if (StaticHelpers.application().proposalsDisplayed.length > 0) {
-            StaticHelpers.application().proposalsIndex = (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
+            StaticHelpers.application().proposalsIndex =
+                (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
         } else {
             StaticHelpers.application().proposalsIndex = -1;
         }
+
     }
 
     static getQueryVariable(variable: string): string {
@@ -122,7 +125,8 @@ export class StaticHelpers {
                 contentType: "application/json",
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks`
             });
-            StaticHelpers.application().proposalsIndex = (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
+            StaticHelpers.application().proposalsIndex =
+                (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
             StaticHelpers.hideSpinner();
         })();
     }
@@ -133,7 +137,8 @@ export class StaticHelpers {
                 contentType: "application/json",
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data/names`
             });
-            StaticHelpers.application().proposalsIndex = (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
+            StaticHelpers.application().proposalsIndex =
+                (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
             StaticHelpers.hideSpinner();
         })();
     }

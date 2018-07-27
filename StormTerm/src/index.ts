@@ -81,7 +81,7 @@ let v = new Vue({
         },
         executeCommand: function () {
             let inputArray = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-            if (inputArray.length > 0 && inputArray[inputArray.length - 1] === "$!") {
+            if (inputArray.length > 0 && inputArray[inputArray.length - 1] === "!$") {
                 if (this.history.length > 0) {
                     let previousCommand = this.history[this.history.length - 1];
                     let previousArgs = previousCommand.trim().split(" ").filter(f => f !== "").slice(1).join(" ");
