@@ -2,103 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Storm IDE</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style type="text/css" media="screen">
-        html, body {
-            height: 100%;
-        }
+    <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/ide.css">
 
-        .flex-fill {
-            flex: 1;
-        }
+    <script src="bower_components/jQuery/dist/jquery.min.js"></script>
 
-        .navbar {
-            margin-left: -15px;
-            margin-right: -15px;
-        }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-        #editor {
-            position: relative;
-            font-size: 14px;
-            font-family: monospace;
-        }
+    <script src="bower_components/bootbox/bootbox.js"></script>
 
-        #loader {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            z-index: 1;
-            margin: -30px 0 0 -75px;
-            border: 12px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 12px solid #3498db;
-            width: 12px;
-            height: 12px;
-            -webkit-animation: spin 2s linear infinite;
-            animation: spin 2s linear infinite;
-        }
-
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Add animation to "page content" */
-        .animate-bottom {
-            position: relative;
-            -webkit-animation-name: animatebottom;
-            -webkit-animation-duration: 1s;
-            animation-name: animatebottom;
-            animation-duration: 1s
-        }
-
-        @-webkit-keyframes animatebottom {
-            from {
-                bottom: -100px;
-                opacity: 0
-            }
-            to {
-                bottom: 0px;
-                opacity: 1
-            }
-        }
-
-        @keyframes animatebottom {
-            from {
-                bottom: -100px;
-                opacity: 0
-            }
-            to {
-                bottom: 0;
-                opacity: 1
-            }
-        }
-
-        .bootbox .modal-header h4 {
-            order: 0;
-        }
-
-        .bootbox .modal-header button {
-            order: 1;
-        }
-    </style>
     <script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="storm-mode.js" data-ace-base="src" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/ace-builds/src-noconflict/ext-language_tools.js"></script>
@@ -185,6 +102,7 @@ Challenge => {1/4 (50 XP)}
         enableLiveAutocompletion: false
     });
     editor.getSession().setMode("ace/mode/storm");
+    ace.$ = $;
     let langTools = ace.require('ace/ext/language_tools');
     let tokens = ['AC ', 'ac ', 'PP ', 'pp ', 'HP ', 'hp ', 'speed ', 'str ', 'dex ', 'con ', 'int ', 'wis ', 'cha ',
         'actions {', 'features {', 'hit ', 'reach ', 'range ', 'to hit\n',
@@ -202,14 +120,7 @@ Challenge => {1/4 (50 XP)}
         }
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
 <script>
     function destroyClickedElement(event) {
         document.body.removeChild(event.target);
@@ -248,6 +159,7 @@ Challenge => {1/4 (50 XP)}
 
     function save() {
         let textToWrite = editor.getValue();
+        console.log(textToWrite)
         bootbox.prompt({
             title: "Enter the name of the Storm file",
             value: textToWrite.split('\n')[0].split(" ").join("_"),

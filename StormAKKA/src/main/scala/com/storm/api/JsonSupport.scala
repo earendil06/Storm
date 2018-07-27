@@ -8,6 +8,7 @@ import spray.json.{DefaultJsonProtocol, JsValue, RootJsonFormat, _}
 final case class NewMonster(name: String, blockName: String)
 final case class DamageMonster(name: String, damage: String)
 final case class SetJson(name: String, value: String)
+final case class StormToBlock(storm: String)
 
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val ability: RootJsonFormat[Ability] = jsonFormat3(Ability)
@@ -35,4 +36,5 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val newMonsterFormat: RootJsonFormat[NewMonster] = jsonFormat2(NewMonster)
   implicit val damageMonsterFormat: RootJsonFormat[DamageMonster] = jsonFormat2(DamageMonster)
   implicit val setJsonFormat: RootJsonFormat[SetJson] = jsonFormat2(SetJson)
+  implicit val stormToBlockFormat: RootJsonFormat[StormToBlock] = jsonFormat1(StormToBlock)
 }

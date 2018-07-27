@@ -3,6 +3,7 @@ package com.storm.api.route
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server._
+import com.pastorm.StormParser
 import com.pastorm.accessors.Accessor
 import com.pastorm.encounter.engine.GameEngine
 import com.storm.api._
@@ -144,6 +145,16 @@ class ApiRoute(gameEngine: GameEngine, accessor: Accessor) extends StormRoute(ga
                 })
               }
             }
+          }
+        } ~
+        path("convert") {
+          post {
+              entity(as[String]) { storm: String =>
+                complete(getBlockFromStorm(storm) match {
+                  case Some(block) => OK -> block
+                  case None => NotFound
+                })
+              }
           }
         } ~
         path("blocks") {
