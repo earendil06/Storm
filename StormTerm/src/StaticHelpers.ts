@@ -16,6 +16,8 @@ import {GetBlocksCommand} from "./commands/GetBlocksCommand";
 import {GetPlayingMonsterCommand} from "./commands/GetPlayingMonsterCommand";
 import {Application} from "./Application";
 import * as $ from "jquery";
+import {ExportEncounterCommand} from "./commands/ExportEncounterCommand";
+import {LoadEncounterCommand} from "./commands/LoadEncounterCommand";
 
 export class StaticHelpers {
     static hideSpinner(): void {
@@ -156,6 +158,8 @@ export class StaticHelpers {
         new GetTurnCommand(),
         new RemoveCommand(),
         new SetInitiativeCommand(),
-        new GetBlocksCommand()
+        new GetBlocksCommand(),
+        new ExportEncounterCommand(),
+        new LoadEncounterCommand()
     ];
 }
