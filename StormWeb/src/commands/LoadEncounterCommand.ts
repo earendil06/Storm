@@ -1,6 +1,7 @@
 import {Command} from "./Command";
 import * as $ from "jquery";
 import {StaticHelpers} from "../StaticHelpers";
+import {IHistoryCommand} from "../Application";
 
 export class LoadEncounterCommand extends Command {
 
@@ -8,8 +9,8 @@ export class LoadEncounterCommand extends Command {
         super("load");
     }
 
-    execute(inputText: string, args: string[]): void {
-        StaticHelpers.hideSpinner();
+    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+        //StaticHelpers.hideSpinner();
         const $elt = $("#file") as any;
         $elt.off();
         $elt.on("change", function(evt) {
@@ -38,5 +39,6 @@ export class LoadEncounterCommand extends Command {
             }
         });
         $elt.trigger( "click" );
+        return null;
     }
 }

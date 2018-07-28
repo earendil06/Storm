@@ -147,7 +147,7 @@ if ($("#container").length > 0) {
         return true;
     });
 } else {
-    window.createVue = function(data) {
+    (window as any).createVue = function(data) {
         (window as any).ideBlockApplication = new Vue({
             el: '#ideBlock',
             data: {

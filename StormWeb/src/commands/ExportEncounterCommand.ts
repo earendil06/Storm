@@ -1,5 +1,7 @@
 import {StaticHelpers} from "../StaticHelpers";
 import {Command} from "./Command";
+import {IHistoryCommand} from "../Application";
+import {HistoryCommand} from "../poco/HistoryCommand";
 
 export class ExportEncounterCommand extends Command {
 
@@ -7,14 +9,9 @@ export class ExportEncounterCommand extends Command {
         super("export");
     }
 
-    execute(inputText: string, args: string[]): void {
-        StaticHelpers.hideSpinner();
+    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
         if (args.length < 2) {
-            StaticHelpers.application().commands.push({
-                input: inputText,
-                output: "missing filename (e.g.: export [filename])",
-                templateName: "default-component"
-            });
+            return new HistoryCommand(inputText, "missing filename (e.g.: export [filename])", "default-component");
         } else {
             const filename = args[1];
             console.log(filename);
@@ -28,6 +25,8 @@ export class ExportEncounterCommand extends Command {
                 {type: "text/plain;charset=utf-8"}
                 );
             (window as any).saveAs(blob, filename + ".encounter");
+            return null;
+
         }
     }
 }

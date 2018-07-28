@@ -1,41 +1,29 @@
 import {Command} from "./Command";
 import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
+import {IHistoryCommand} from "../Application";
+import {HistoryCommand} from "../poco/HistoryCommand";
 
 export class RollInitiativeCommand extends Command{
     constructor() {
         super("initiative");
     }
 
-    execute(inputText: string, args: string[]): void {
-        $.ajax({
-            contentType: "application/json",
-            method: 'PUT',
-            url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/roll/initiative`,
-            statusCode: {
-                200: function () {
-                    StaticHelpers.application().commands.push({
-                        input: inputText,
-                        output: "initiative rolled.",
-                        templateName: "default-component"
-                    });
-                },
-                404: function () {
-                    StaticHelpers.application().commands.push({
-                        input: inputText,
-                        output: "No one can roll initiative in the encounter.",
-                        templateName: "default-component"
-                    });
-                },
-                500: function () {
-                    StaticHelpers.application().commands.push({
-                        input: inputText,
-                        output: "Error 500, Something went wrong!",
-                        templateName: "default-component"
-                    });
-                }
+    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+        try {
+            const result = await $.ajax({
+                contentType: "application/json",
+                method: 'PUT',
+                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/roll/initiative`
+            });
+            return new HistoryCommand(inputText, "initiative rolled.", "default-component");
+        } catch (e) {
+            switch (e.status) {
+                case 404 : return new HistoryCommand(inputText, "No one can roll initiative in the encounter.", "default-component");
+                case 500 : return new HistoryCommand(inputText, "Error 500, Something went wrong!", "default-component");
+                default : return null;
             }
-        });
+        }
     }
 
 }

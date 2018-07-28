@@ -1,5 +1,7 @@
 import {Command} from "./Command";
 import {StaticHelpers} from "../StaticHelpers";
+import {IHistoryCommand} from "../Application";
+import {HistoryCommand} from "../poco/HistoryCommand";
 
 export class HelpCommand extends Command {
 
@@ -7,8 +9,8 @@ export class HelpCommand extends Command {
         super("help");
     }
 
-    execute(inputText: string, args: string[]): void {
-        StaticHelpers.application().commands.push({input: inputText, output: StaticHelpers.COMMANDS.map(c => c.getCommandName()), templateName: "default-component"});
+    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+        return new HistoryCommand(inputText, StaticHelpers.COMMANDS.map(c => c.getCommandName()).join(", "), "default-component");
     }
 
 }

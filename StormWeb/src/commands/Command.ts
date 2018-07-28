@@ -1,4 +1,5 @@
 import {ICommand} from "./ICommand";
+import {IHistoryCommand} from "../Application";
 
 export abstract class Command implements ICommand {
     private readonly commandName: string;
@@ -7,7 +8,7 @@ export abstract class Command implements ICommand {
         this.commandName = commandName;
     }
 
-    abstract execute(inputText: string, args: string[]): void;
+    abstract async execute(inputText: string, args: string[]): Promise<IHistoryCommand>;
 
     getCommandName(): string {
         return this.commandName;

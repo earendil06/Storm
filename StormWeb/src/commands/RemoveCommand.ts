@@ -1,6 +1,8 @@
 import {Command} from "./Command";
 import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
+import {IHistoryCommand} from "../Application";
+import {HistoryCommand} from "../poco/HistoryCommand";
 
 export class RemoveCommand extends Command{
 
@@ -8,39 +10,25 @@ export class RemoveCommand extends Command{
         super("remove");
     }
 
-    execute(inputText: string, args: string[]): void {
+    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
         if (args.length < 2) {
-            StaticHelpers.application().commands.push({input: inputText, output: "missing parameter (e.g.: remove adrien)", templateName: "default-component"});
-            StaticHelpers.hideSpinner();
+            return new HistoryCommand(inputText, "missing parameter (e.g.: remove adrien)", "default-component");
         } else {
             const monsterName = args[1];
-            $.ajax({
-                contentType: "application/json",
-                method: 'DELETE',
-                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/remove/` + monsterName,
-                statusCode: {
-                    200: function () {
-                        StaticHelpers.application().commands.push({
-                            input: inputText,
-                            output: monsterName + " has been removed from the encounter.",
-                            templateName: "default-component"});
-                    },
-                    404: function () {
-                        StaticHelpers.application().commands.push({
-                            input: inputText,
-                            output: monsterName + " does not exists in the encounter.",
-                            templateName: "default-component"
-                        });
-                    },
-                    500: function () {
-                        StaticHelpers.application().commands.push({
-                            input: inputText,
-                            output: "Error 500, Something went wrong!",
-                            templateName: "default-component"
-                        });
-                    }
+            try {
+                const result = await $.ajax({
+                    contentType: "application/json",
+                    method: 'DELETE',
+                    url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/remove/` + monsterName
+                });
+                return new HistoryCommand(inputText, monsterName + " has been removed from the encounter.", "default-component");
+            } catch (e) {
+                switch (e.status) {
+                    case 404 : return new HistoryCommand(inputText, monsterName + " does not exists in the encounter.", "default-component");
+                    case 500 : return new HistoryCommand(inputText, "Error 500, Something went wrong!", "default-component");
+                    default : return null;
                 }
-            });
+            }
         }
     }
 

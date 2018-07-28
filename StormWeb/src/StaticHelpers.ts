@@ -18,6 +18,7 @@ import {Application} from "./Application";
 import * as $ from "jquery";
 import {ExportEncounterCommand} from "./commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./commands/LoadEncounterCommand";
+import {ICommand} from "./commands/ICommand";
 
 export class StaticHelpers {
     static hideSpinner(): void {
@@ -39,7 +40,7 @@ export class StaticHelpers {
     static server = StaticHelpers.getQueryVariable("server") === "" ? "localhost" : StaticHelpers.getQueryVariable("server");
 
 
-    static eval(input: string): void {
+    static async eval(input: string): Promise<any> {
         const args = input.trim().split(" ").filter(f => f !== "");
         if (args.length === 0) {
             StaticHelpers.application().commands.push({
@@ -49,7 +50,7 @@ export class StaticHelpers {
             });
         } else {
             const commandName = args[0].toLowerCase();
-            let commandFound = StaticHelpers.COMMANDS.find(f => f.getCommandName() === commandName);
+            let commandFound = StaticHelpers.COMMANDS.find(f => f.getCommandName() === commandName) as ICommand;
             if (typeof commandFound === "undefined") {
                 StaticHelpers.application().commands.push({
                     input: input,
@@ -57,8 +58,12 @@ export class StaticHelpers {
                     templateName: "default-component"
                 });
             } else {
-                this.showSpinner();
-                commandFound.execute(input, args);
+                StaticHelpers.showSpinner();
+                const res = await commandFound.execute(input, args);
+                if (res != null) {
+                    StaticHelpers.application().commands.push(res);
+                }
+                StaticHelpers.hideSpinner();
             }
         }
     }
