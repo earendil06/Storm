@@ -27,7 +27,7 @@ ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "a
                     }, {
                         token: "keyword",
                         regex: /(actions|features)\s*{/,
-                       next: "block"
+                        next: "block"
                     }
                 ],
                 "block": [
@@ -85,20 +85,20 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
         };
         oop.inherits(Mode, TextMode);
 
-        (function() {
+        (function () {
 
             this.$id = "ace/mode/storm-mode";
 
             var WorkerClient = require("ace/worker/worker_client").WorkerClient;
-            this.createWorker = function(session) {
+            this.createWorker = function (session) {
                 this.$worker = new WorkerClient(["ace"], "ace/worker/my-worker", "MyWorker", "my-worker.js");
                 this.$worker.attachToDocument(session.getDocument());
 
-                this.$worker.on("errors", function(e) {
+                this.$worker.on("errors", function (e) {
                     session.setAnnotations(e.data);
                 });
 
-                this.$worker.on("annotate", function(e) {
+                this.$worker.on("annotate", function (e) {
                     session.setAnnotations(e.data);
                 });
 
@@ -109,23 +109,19 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
                         data: storm.data,
                         contentType: "text/plain",
                         success: function (data) {
-                            //document.getElementById("loader").style.display = "none";
-
+                            if (window.ideBlockApplication == null) {
+                                createVue(data);
+                            } else {
+                                window.ideBlockApplication.currentStorm = data
+                            }
                         },
                         error: function (data) {
-                            /*if (data.status === 0) {
-                                document.getElementById("loader").style.display = "none";
-                                bootbox.alert("Can't reach server.");
-                            } else {
-                                document.getElementById("loader").style.display = "none";
-                                bootbox.alert("Something went wrong with error code " + data.status);
-                            }*/
                         }
                     });
 
                 });
 
-                this.$worker.on("terminate", function() {
+                this.$worker.on("terminate", function () {
                     session.clearAnnotations();
                 });
 

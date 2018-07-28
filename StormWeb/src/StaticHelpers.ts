@@ -30,7 +30,9 @@ export class StaticHelpers {
 
     static scrollWindow(): void {
         let container = document.getElementById('commandsContainer');
-        container.scrollTop = container.scrollHeight;
+        if (container != null) {
+            container.scrollTop = container.scrollHeight;
+        }
     }
 
     static port = 8080;
