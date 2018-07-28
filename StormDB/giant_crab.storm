@@ -1,0 +1,35 @@
+Giant Crab
+
+AC 15
+HP 3d8
+speed 30
+pp 12
+
+str 13
+dex 15
+con 11
+int 1
+wis 9
+cha 3
+
+actions {
+
+Claw =>
+{Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) bludgeoning damage, and the target is grappled (escape DC 11). The crab has two claws, each of which can grapple only one target.}
+
+}
+features {
+
+Skills => {stealth 4}
+
+Amphibious =>
+{The crab can breathe air and water.}
+
+Senses => {blindsight 30 ft.}
+
+Languages => {}
+
+Challenge => {1/8}
+
+
+}

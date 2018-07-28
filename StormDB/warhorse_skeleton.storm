@@ -1,0 +1,36 @@
+Warhorse Skeleton
+
+AC 13
+HP 3d10+6
+speed 60
+pp 11
+
+str 18
+dex 12
+con 15
+int 2
+wis 8
+cha 5
+
+actions {
+
+Hooves =>
+{Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage.}
+
+}
+features {
+
+Senses => {darkvision 60 ft.}
+
+Damage Vulnerabilities => {bludgeoning}
+
+Damage Immunities => {poison}
+
+Condition Immunities => {exhaustion,poisoned}
+
+Languages => {}
+
+Challenge => {1/2}
+
+
+}

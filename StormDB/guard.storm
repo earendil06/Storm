@@ -1,0 +1,30 @@
+Guard
+
+AC 16
+HP 2d8+2
+speed 30
+pp 11
+
+str 13
+dex 12
+con 12
+int 10
+wis 11
+cha 10
+
+actions {
+
+Spear =>
+{Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d6 + 1) piercing damage or 5 (1d8 + 1) piercing damage if used with two hands to make a melee attack.}
+
+}
+features {
+
+Skills => {perception 2}
+
+Languages => {any one language (usually Common)}
+
+Challenge => {1/8}
+
+
+}

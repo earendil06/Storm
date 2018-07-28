@@ -1,0 +1,39 @@
+Brown Bear
+
+AC 11
+HP 4d10+12
+speed 40
+pp 10
+
+str 19
+dex 10
+con 16
+int 2
+wis 13
+cha 7
+
+actions {
+
+Multiattack =>
+{The bear makes two attacks: one with its bite and one with its claws.}
+
+Bite =>
+{Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage.}
+
+Claws =>
+{Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage.}
+
+}
+features {
+
+Skills => {perception 3}
+
+Keen Smell =>
+{The bear has advantage on Wisdom (Perception) checks that rely on smell.}
+
+Languages => {}
+
+Challenge => {1}
+
+
+}

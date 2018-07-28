@@ -1,0 +1,57 @@
+Gynosphinx
+
+AC 17
+HP 16d10+48
+speed 40
+pp 12
+
+str 18
+dex 15
+con 16
+int 18
+wis 18
+cha 18
+
+actions {
+
+Multiattack =>
+{The sphinx makes two claw attacks.}
+
+Claw =>
+{Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) slashing damage.}
+
+}
+features {
+
+Skills => {religion 8, perception 8, history 12, arcana 12}
+
+Inscrutable =>
+{The sphinx is immune to any effect that would sense its emotions or read its thoughts, as well as any divination spell that it refuses. Wisdom (Insight) checks made to ascertain the sphinx's intentions or sincerity have disadvantage.}
+
+Magic Weapons =>
+{The sphinx's weapon attacks are magical.}
+
+Spellcasting =>
+{The sphinx is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 16, +8 to hit with spell attacks). It requires no material components to cast its spells. The sphinx has the following wizard spells prepared: 
+
+• Cantrips (at will): mage hand, minor illusion, prestidigitation
+• 1st level (4 slots): detect magic, identify, shield
+• 2nd level (3 slots): darkness, locate object, suggestion
+• 3rd level (3 slots): dispel magic, remove curse, tongues
+• 4th level (3 slots): banishment, greater invisibility
+• 5th level (1 slot): legend lore}
+
+Senses => {truesight 120 ft.}
+
+Damage Resistances => {bludgeoning,piercing,and slashing from nonmagical weapons}
+
+Damage Immunities => {psychic}
+
+Condition Immunities => {charmed,frightened}
+
+Languages => {Common,Sphinx}
+
+Challenge => {11}
+
+
+}

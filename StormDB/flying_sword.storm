@@ -1,0 +1,42 @@
+Flying Sword
+
+AC 17
+HP 5d6
+speed 0
+pp 12
+
+str 12
+dex 15
+con 11
+int 1
+wis 5
+cha 1
+
+actions {
+
+Longsword =>
+{Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) slashing damage.}
+
+}
+features {
+
+Saves => {dex 4}
+
+Antimagic Susceptibility =>
+{The sword is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the sword must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute.}
+
+False Appearance =>
+{While the sword remains motionless and isn't flying, it is indistinguishable from a normal sword.}
+
+Senses => {blindsight 60 ft. (blind beyond this radius)}
+
+Damage Immunities => {poison,psychic}
+
+Condition Immunities => {blinded,charmed,deafened,frightened,paralyzed,petrified,poisoned}
+
+Languages => {}
+
+Challenge => {1/4}
+
+
+}

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "./built/",
+    "sourceMap": true,
+    "strict": false,
+    "noImplicitReturns": true,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es6",
+    "experimentalDecorators": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "./src/**/*"
+  ]
+}

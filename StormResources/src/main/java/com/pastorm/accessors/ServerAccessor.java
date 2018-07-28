@@ -34,8 +34,10 @@ public class ServerAccessor implements Accessor {
 
     @Override
     public String saveBlock(String blockName, String block) {
-        //todo
-        return "to implement";
+        Client client = Client.create();
+        WebResource resource = client.resource("http://" + host + ":" + port + "/" + "api/block");
+        resource.post(block);
+        return "";
     }
 
     @Override

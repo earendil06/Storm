@@ -1,0 +1,33 @@
+Giant Hyena
+
+AC 12
+HP 6d10+12
+speed 50
+pp 12
+
+str 16
+dex 14
+con 14
+int 2
+wis 12
+cha 7
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) piercing damage.}
+
+}
+features {
+
+Skills => {perception 3}
+
+Rampage =>
+{When the hyena reduces a creature to 0 hit points with a melee attack on its turn, the hyena can take a bonus action to move up to half its speed and make a bite attack.}
+
+Languages => {}
+
+Challenge => {1}
+
+
+}

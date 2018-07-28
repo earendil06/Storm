@@ -1,0 +1,37 @@
+Druid
+
+AC 11
+HP 5d8+5
+speed 30
+pp 11
+
+str 10
+dex 12
+con 13
+int 12
+wis 15
+cha 11
+
+actions {
+
+Quarterstaff =>
+{Melee Weapon Attack: +2 to hit (+4 to hit with shillelagh), reach 5 ft., one target. Hit: 3 (1d6) bludgeoning damage, or 6 (1d8 + 2) bludgeoning damage with shillelagh or if wielded with two hands.}
+
+}
+features {
+
+Skills => {medicine 4, nature 3, perception 4}
+
+Spellcasting =>
+{The druid is a 4th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). It has the following druid spells prepared: 
+
+• Cantrips (at will): druidcraft, produce flame, shillelagh
+• 1st level (4 slots): entangle, longstrider, speak with animals, thunderwave
+• 2nd level (3 slots): animal messenger, barkskin}
+
+Languages => {Druidic plus any two languages}
+
+Challenge => {2}
+
+
+}

@@ -123,7 +123,7 @@ public class Main {
 
                     result.append("\n}");
 
-                    String filename = block.getAsJsonObject().get("Name").getAsString().toLowerCase().replaceAll("/", "-") + ".storm";
+                    String filename = block.getAsJsonObject().get("Name").getAsString().toLowerCase().replaceAll("/", "-").replaceAll(" ", "_") + ".storm";
                     BufferedWriter writer = new BufferedWriter(new FileWriter("generated_files/" + filename));
                     writer.write(result.toString());
 

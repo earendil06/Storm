@@ -1,0 +1,33 @@
+Rat
+
+AC 10
+HP 1d4-1
+speed 20
+pp 10
+
+str 2
+dex 11
+con 9
+int 2
+wis 10
+cha 4
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +0 to hit, reach 5 ft., one target. Hit: 1 piercing damage.}
+
+}
+features {
+
+Keen Smell =>
+{The rat has advantage on Wisdom (Perception) checks that rely on smell.}
+
+Senses => {darkvision 30 ft.}
+
+Languages => {}
+
+Challenge => {0}
+
+
+}

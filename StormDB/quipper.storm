@@ -1,0 +1,36 @@
+Quipper
+
+AC 13
+HP 1d4-1
+speed swim 40
+pp 13
+
+str 2
+dex 16
+con 9
+int 1
+wis 7
+cha 2
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 1 piercing damage.}
+
+}
+features {
+
+Blood Frenzy =>
+{The quipper has advantage on melee attack rolls against any creature that doesn't have all its hit points.}
+
+Water Breathing =>
+{The quipper can breathe only underwater.}
+
+Senses => {darkvision 60 ft.}
+
+Languages => {}
+
+Challenge => {0}
+
+
+}

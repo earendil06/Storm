@@ -1,0 +1,36 @@
+Blink Dog
+
+AC 13
+HP 4d8+4
+speed 40
+pp 13
+
+str 12
+dex 17
+con 12
+int 10
+wis 13
+cha 11
+
+actions {
+
+Bite =>
+{Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) piercing damage.}
+
+Teleport (Recharge 4-6) =>
+{The dog magically teleports, along with any equipment it is wearing or carrying, up to 40 ft. to an unoccupied space it can see. Before or after teleporting, the dog can make one bite attack.}
+
+}
+features {
+
+Skills => {stealth 5, perception 3}
+
+Keen Hearing and Smell =>
+{The dog has advantage on Wisdom (Perception) checks that rely on hearing or smell.}
+
+Languages => {Blink Dog,understands Sylvan but can't speak it}
+
+Challenge => {1/4}
+
+
+}

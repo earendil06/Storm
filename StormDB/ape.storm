@@ -1,0 +1,36 @@
+Ape
+
+AC 12
+HP 3d8+6
+speed 30
+pp 12
+
+str 16
+dex 14
+con 14
+int 6
+wis 12
+cha 7
+
+actions {
+
+Multiattack =>
+{The ape makes two fist attacks.}
+
+Fist =>
+{Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) bludgeoning damage.}
+
+Rock =>
+{Ranged Weapon Attack: +5 to hit, range 25/50 ft., one target. Hit: 6 (1d6 + 3) bludgeoning damage.}
+
+}
+features {
+
+Skills => {athletics 5, perception 3}
+
+Languages => {}
+
+Challenge => {1/2}
+
+
+}
