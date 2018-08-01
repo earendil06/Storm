@@ -16,15 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import org.apache.commons.io.FileUtils;
-
-public class Main {
+public class ResourcesRetriever {
     public static void main(String[] args) {
-        /*try {
-            FileUtils.copyURLToFile(new URL("https://github.com/cynicaloptimist/improved-initiative/blob/master/ogl_creatures.json"), new File("blocks.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         try {
             List<String> lst = Files.readAllLines(Paths.get("blocks.json"));
             StringBuilder builder = new StringBuilder();
@@ -137,4 +130,5 @@ public class Main {
             System.out.println(e.getMessage());
         }
     }
+
 }
