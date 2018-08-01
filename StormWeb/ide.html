@@ -50,10 +50,10 @@
     </div>
     <div class="row flex-fill d-flex justify-content-start">
         <pre id="editor" class="col">
-blockname
+Blockname
 
-AC 0
-HP 0d0
+AC 10
+HP 0d0 + 0
 speed 0
 pp 0
 
@@ -69,7 +69,12 @@ actions {
 structured action =>
 +0 to hit
 reach 0
-hit 0d0+0 slashing
+hit 0d0+0 arcane
+
+structured action with details =>
++0 to hit
+reach 0
+hit 0d0 slashing
 {more details...}
 
 unstructured action =>
@@ -82,7 +87,7 @@ features {
 Feature name =>
 {explanation}
 
-Skills => {skill1 +0, skill2}
+Skills => {skill1 + 0, skill2}
 
 Senses => {sense1, sense2, ...}
 
@@ -93,7 +98,7 @@ Challenge => {1/4 (50 XP)}
 }
 
 </pre>
-        <div class="col-md-4" id="ideBlock">
+        <div id="ideBlock" style="text-align: center; background-color: #002B36;">
             <block-component v-bind:data="currentStorm"></block-component>
         </div>
         <div id="loader" class="animate-bottom" style="display:none;"></div>
