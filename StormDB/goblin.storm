@@ -14,13 +14,18 @@ cha 8
 
 actions {
 
-Scimitar =>
-{Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage.}
+scimitar =>
++4 to hit
+reach 5
+hit 1d6+2 slashing
 
-Shortbow =>
-{Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.}
-
+shortbow =>
++4 to hit
+range 80/320
+hit 1d6 + 2 piercing
+{cool bow}
 }
+
 features {
 
 Skills => {stealth 6}

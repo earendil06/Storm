@@ -1,18 +1,9 @@
 {
-  "name": "electron-quick-start",
+  "name": "StormElectron",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Storm Electron",
   "main": "main.js",
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "AnthonyFusco",
   "devDependencies": {
     "electron": "^2.0.0",
     "@types/jquery": "^3.3.1",
