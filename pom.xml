@@ -15,7 +15,6 @@
         <module>StormEngine</module>
         <module>StormResources</module>
         <module>StormAKKA</module>
-        <module>StormResourcesRetriever</module>
     </modules>
 
     <properties>
