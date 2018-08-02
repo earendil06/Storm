@@ -29,7 +29,7 @@
     <div id="input-line" class="input-line">
         <div class="prompt">{{ user }}</div>
         <div>
-            <input id="inputLine" v-model="currentInputValue" style="color: white"
+            <input id="inputLine" v-model="currentInputValue"
                    @keyup.enter="executeCommand"
                    @keyup.38="setPositionHistory"
                    @keyup.40="setPositionHistory"
@@ -46,11 +46,9 @@
     </ul>
         </div>
 
-    <!--<div id="divFix">-->
     <div class="split right" align="center">
         <static-encounter-component v-bind:encounter="encounter"></static-encounter-component>
     </div>
-    <!--</div>-->
 </div>
 
 <input hidden id="file" type="file" accept=".encounter"/>
