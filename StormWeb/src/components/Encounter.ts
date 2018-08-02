@@ -5,6 +5,7 @@ import {GetMonsterCommand} from "../commands/GetMonsterCommand";
 import * as $ from "jquery";
 import {DamageCommand} from "../commands/DamageCommand";
 import {RollInitiativeCommand} from "../commands/RollInitiativeCommand";
+import {StaticHelpers} from "../StaticHelpers";
 
 export default Vue.extend({
     template: `
@@ -48,37 +49,48 @@ export default Vue.extend({
     name: "encounter",
     props: ['data', 'staticId'],
     methods: {
-        modify: function (monster) {
+        modify: async function (monster) {
             let inputHp = $('#' + this.staticId + monster.name + 'hp');
             if (inputHp.val() !== '') {
                 let args = ['damage', monster.name, inputHp.val()];
                 let damageCommand = new DamageCommand();
-                damageCommand.execute('damage ' + monster.name + ' ' + inputHp.val(), args);
+                const res = await damageCommand.execute('damage ' + monster.name + ' ' + inputHp.val(), args);
+                this.push(res);
                 inputHp.val('');
+
             }
             let inputInit = $('#' + this.staticId + monster.name + 'init');
             if (inputInit.val() !== '') {
                 let args = ['set-init', monster.name, inputInit.val()];
                 let init = new SetInitiativeCommand();
-                init.execute('set-init ' + monster.name + ' ' + inputInit.val(), args);
+                const res = await init.execute('set-init ' + monster.name + ' ' + inputInit.val(), args);
+                this.push(res);
                 inputInit.val('');
             }
         },
-        next: function (data) {
+        next: async function (data) {
             if (data.playingMonsterName === "") {
                 let initiativeCommand = new RollInitiativeCommand();
-                initiativeCommand.execute("initiative", [])
+                const res = await initiativeCommand.execute("initiative", []);
+                this.push(res);
             } else {
                 let nextCommand = new NextTurnCommand();
-                nextCommand.execute("next", [])
+                const res = await nextCommand.execute("next", []);
+                this.push(res);
             }
         },
-        get: function (name) {
+        get: async function (name) {
             let monsterCommand = new GetMonsterCommand();
-            monsterCommand.execute('monster ' + name, ['monster', name])
+            const res = await monsterCommand.execute('monster ' + name, ['monster', name]);
+            this.push(res);
         },
         isPlaying: function (name) {
             return name === this.data.playingMonsterName ? "#191947" : "#922610"
+        },
+        push: function (res) {
+            if (res != null) {
+                StaticHelpers.application().commands.push(res);
+            }
         }
     }
 });
