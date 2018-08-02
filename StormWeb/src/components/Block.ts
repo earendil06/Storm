@@ -117,18 +117,16 @@ export default Vue.extend({
                         <h4>{{ action.name }}</h4>
                         <p>
                             {{ action.toHit.length != 0 ? action.toHit + "." : "" }}
-                            <br v-if="action.toHit.length != 0">
-                            {{ action.reach.length != 0 ? action.reach + "." : "" }}
                             <br v-if="action.reach.length != 0">
-                            {{ action.range.length != 0 ? action.range + "." : "" }}
+                            {{ action.reach.length != 0 ? action.reach + "." : "" }}
                             <br v-if="action.range.length != 0">
-                            {{ action.hit.length != 0 ? action.hit + "." : "" }}
+                            {{ action.range.length != 0 ? action.range + "." : "" }}
                             <br v-if="action.hit.length != 0">
-                            <!--{{ action.description == null ? "" : ". " + action.description }}-->
+                            {{ action.hit.length != 0 ? action.hit + "." : "" }}
+                            <br v-if="action.description.length != 0">
                         </p>
                         <p v-for="description in splitLine(action.description)">
                             {{ description.length == 0 ? "" : description }}
-                            <br/>
                         </p>
                     </div>
                 </div> <!-- property block -->

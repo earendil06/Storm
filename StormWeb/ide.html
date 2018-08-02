@@ -68,13 +68,13 @@ actions {
 
 structured action =>
 +0 to hit
-reach 0
-hit 0d0+0 piercing
+reach 5
+hit 0d0+0 slashing
 
 structured action with details =>
 +0 to hit
 range 80/320
-hit 0d0 slashing
+hit 0d0 piercing
 {more details...}
 
 unstructured action =>
@@ -140,7 +140,7 @@ Challenge => {1/4 (50 XP)}
 
     function saveTextAsFile() {
         let textToWrite = editor.getValue();
-        let nameInput = textToWrite.split('\n')[0].split(" ").join("");
+        let nameInput = textToWrite.split('\n')[0].split(" ").join("_");
         let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
         let fileNameToSaveAs;
         if (nameInput == null) return;
@@ -166,7 +166,7 @@ Challenge => {1/4 (50 XP)}
 
     function save() {
         let textToWrite = editor.getValue();
-        let nameInput = textToWrite.split('\n')[0].split(" ").join("");
+        let nameInput = textToWrite.split('\n')[0].split(" ").join("_");
         let fileNameToSaveAs;
         if (nameInput == null) return;
         if (nameInput === "" || /\s/.test(nameInput)) {
