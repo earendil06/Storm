@@ -1,9 +1,11 @@
 :root {
     /*--background-color: #EEEEEE;*/
     /*--font-color: black;*/
+    /*--prompt-color: black;*/
 
     --background-color: black;
-    --font-color: #96b38a;
+    --font-color: white;
+    --prompt-color: #96b38a;
 }
 
 .split {
@@ -142,7 +144,7 @@ body {
 }
 .prompt {
     white-space: nowrap;
-    color: var(--font-color);
+    color: var(--prompt-color);
     margin-right: 7px;
     display: -webkit-box;
     -webkit-box-pack: center;
