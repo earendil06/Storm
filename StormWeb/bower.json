@@ -4,7 +4,6 @@
     "antlr4-ace-ext": "^1.0.0",
     "ace-builds": "1.2.3",
     "ace-worker": "1.2.3",
-    "jQuery": "3.2.1",
-    "bootbox": "4.4.0"
+    "jQuery": "3.2.1"
   }
 }

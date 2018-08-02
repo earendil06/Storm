@@ -9,11 +9,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-    <script src="bower_components/bootbox/bootbox.js"></script>
-
     <script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="storm-mode.js" data-ace-base="src" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/ace-builds/src-noconflict/ext-language_tools.js"></script>
@@ -59,7 +54,7 @@ Blockname
 
 AC 10
 HP 0d0 + 0
-speed 0
+speed 30
 pp 0
 
 str 0
@@ -74,11 +69,11 @@ actions {
 structured action =>
 +0 to hit
 reach 0
-hit 0d0+0 arcane
+hit 0d0+0 piercing
 
 structured action with details =>
 +0 to hit
-reach 0
+range 80/320
 hit 0d0 slashing
 {more details...}
 
@@ -145,69 +140,59 @@ Challenge => {1/4 (50 XP)}
 
     function saveTextAsFile() {
         let textToWrite = editor.getValue();
-        bootbox.prompt({
-            title: "Enter the name of the Storm file",
-            value: textToWrite.split('\n')[0].split(" ").join(""),
-            callback: function (nameInput) {
-                let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
-                let fileNameToSaveAs;
-                if (nameInput == null) return;
-                if (nameInput === "" || /\s/.test(nameInput)) {
-                    bootbox.alert('Incorrect name, nothing has been saved.');
-                    return;
-                } else {
-                    fileNameToSaveAs = nameInput.toLowerCase() + ".storm";
-                }
-                let downloadLink = document.createElement("a");
-                downloadLink.download = fileNameToSaveAs;
-                downloadLink.innerHTML = "Download File";
-                if (window.webkitURL != null) {
-                    downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
-                } else {
-                    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-                    downloadLink.onclick = destroyClickedElement;
-                    downloadLink.style.display = "none";
-                    document.body.appendChild(downloadLink);
-                }
-                downloadLink.click();
-            }
-        });
+        let nameInput = textToWrite.split('\n')[0].split(" ").join("");
+        let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
+        let fileNameToSaveAs;
+        if (nameInput == null) return;
+        if (nameInput === "" || /\s/.test(nameInput)) {
+            console.log('Incorrect name, nothing has been saved.');
+            return;
+        } else {
+            fileNameToSaveAs = nameInput.toLowerCase() + ".storm";
+        }
+        let downloadLink = document.createElement("a");
+        downloadLink.download = fileNameToSaveAs;
+        downloadLink.innerHTML = "Download File";
+        if (window.webkitURL != null) {
+            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+        } else {
+            downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+            downloadLink.onclick = destroyClickedElement;
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+        }
+        downloadLink.click();
     }
 
     function save() {
         let textToWrite = editor.getValue();
-        bootbox.prompt({
-            title: "Enter the name of the Storm file",
-            value: textToWrite.split('\n')[0].split(" ").join("_"),
-            callback: function (nameInput) {
-                let fileNameToSaveAs;
-                if (nameInput == null) return;
-                if (nameInput === "" || /\s/.test(nameInput)) {
-                    bootbox.alert('Incorrect name, nothing has been saved.');
-                    return;
+        let nameInput = textToWrite.split('\n')[0].split(" ").join("");
+        let fileNameToSaveAs;
+        if (nameInput == null) return;
+        if (nameInput === "" || /\s/.test(nameInput)) {
+            console.log('Incorrect name, nothing has been saved.');
+            return;
+        } else {
+            fileNameToSaveAs = nameInput;
+        }
+        document.getElementById("loader").style.display = "block";
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/write/" + fileNameToSaveAs.toLowerCase(),
+            data: textToWrite,
+            contentType: "text/plain",
+            success: function () {
+                document.getElementById("loader").style.display = "none";
+                console.log(fileNameToSaveAs + " saved!");
+            },
+            error: function (data) {
+                if (data.status === 0) {
+                    document.getElementById("loader").style.display = "none";
+                    console.log("Can't reach server.");
                 } else {
-                    fileNameToSaveAs = nameInput;
+                    document.getElementById("loader").style.display = "none";
+                    console.log("Something went wrong with error code " + data.status);
                 }
-                document.getElementById("loader").style.display = "block";
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/api/write/" + fileNameToSaveAs.toLowerCase(),
-                    data: textToWrite,
-                    contentType: "text/plain",
-                    success: function () {
-                        document.getElementById("loader").style.display = "none";
-                        bootbox.alert(fileNameToSaveAs + " saved!");
-                    },
-                    error: function (data) {
-                        if (data.status === 0) {
-                            document.getElementById("loader").style.display = "none";
-                            bootbox.alert("Can't reach server.");
-                        } else {
-                            document.getElementById("loader").style.display = "none";
-                            bootbox.alert("Something went wrong with error code " + data.status);
-                        }
-                    }
-                });
             }
         });
     }
