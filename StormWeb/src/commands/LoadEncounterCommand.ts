@@ -2,6 +2,7 @@ import {Command} from "./Command";
 import * as $ from "jquery";
 import {StaticHelpers} from "../StaticHelpers";
 import {IHistoryCommand} from "../Application";
+import {HistoryCommand} from "../poco/HistoryCommand";
 
 export class LoadEncounterCommand extends Command {
 
@@ -12,36 +13,35 @@ export class LoadEncounterCommand extends Command {
     async execute(args: string[]): Promise<IHistoryCommand> {
         //StaticHelpers.hideSpinner();
         const $elt = $("#file") as any;
-        var self = this;
+        const commandName = this.getCommandName();
         $elt.off();
-        $elt.on("change", function(evt) {
+        $elt.on("change", function (evt) {
             const f = evt.target.files[0];
 
             if (f) {
                 const r = new FileReader();
-                r.onload = function(e) {
+                r.onload = function (e) {
                     const commandsHistory = e.target.result.split("\n");
                     commandsHistory.forEach(command => {
-                        StaticHelpers.eval(command);
+
+                        const values = command.trim().split(" ").filter(f => f !== "");
+                        const name = values.length > 0 ? values[0].toLowerCase() : "";
+                        const addArgs = values.slice(1);
+
+                        const result = StaticHelpers.eval(name, addArgs);
+                        console.log(result);
                     });
-                    StaticHelpers.application().commands.push({
-                        command: self.getCommandName(),
-                        args: args,
-                        output: "encounter loaded successfully",
-                        templateName: "default-component"
-                    });
+                    StaticHelpers.application().commands.push(
+                        new HistoryCommand(commandName, args, "encounter loaded successfully", "default-component")
+                    );
                 };
                 r.readAsText(f);
             } else {
-                StaticHelpers.application().commands.push({
-                    command: self.getCommandName(),
-                    args: args,
-                    output: "no encounter loaded",
-                    templateName: "default-component"
-                });
+                StaticHelpers.application().commands.push(new HistoryCommand(commandName, args, "no encounter loaded", "default-component")
+                );
             }
         });
-        $elt.trigger( "click" );
+        $elt.trigger("click");
         return null;
     }
 }

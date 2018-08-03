@@ -52,18 +52,18 @@ export default Vue.extend({
         modify: async function (monster) {
             let inputHp = $('#' + this.staticId + monster.name + 'hp');
             if (inputHp.val() !== '') {
-                let args = ['damage', monster.name, inputHp.val()];
+                let args = [monster.name, inputHp.val()];
                 let damageCommand = new DamageCommand();
-                const res = await damageCommand.execute('damage ' + monster.name + ' ' + inputHp.val(), args);
+                const res = await damageCommand.execute(args);
                 this.push(res);
                 inputHp.val('');
 
             }
             let inputInit = $('#' + this.staticId + monster.name + 'init');
             if (inputInit.val() !== '') {
-                let args = ['set-init', monster.name, inputInit.val()];
+                let args = [monster.name, inputInit.val()];
                 let init = new SetInitiativeCommand();
-                const res = await init.execute('set-init ' + monster.name + ' ' + inputInit.val(), args);
+                const res = await init.execute(args);
                 this.push(res);
                 inputInit.val('');
             }
@@ -71,17 +71,17 @@ export default Vue.extend({
         next: async function (data) {
             if (data.playingMonsterName === "") {
                 let initiativeCommand = new RollInitiativeCommand();
-                const res = await initiativeCommand.execute("initiative", []);
+                const res = await initiativeCommand.execute([]);
                 this.push(res);
             } else {
                 let nextCommand = new NextTurnCommand();
-                const res = await nextCommand.execute("next", []);
+                const res = await nextCommand.execute([]);
                 this.push(res);
             }
         },
         get: async function (name) {
             let monsterCommand = new GetMonsterCommand();
-            const res = await monsterCommand.execute('monster ' + name, ['monster', name]);
+            const res = await monsterCommand.execute([name]);
             this.push(res);
         },
         isPlaying: function (name) {

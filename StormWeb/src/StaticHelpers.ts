@@ -41,7 +41,6 @@ export class StaticHelpers {
 
 
     static async eval(command:string, additionalArgs: string[]): Promise<any> {
-        //const args = input.trim().split(" ").filter(f => f !== "");
         if (command === "") {
             StaticHelpers.application().commands.push({
                 command: command,
@@ -60,7 +59,7 @@ export class StaticHelpers {
                 });
             } else {
                 StaticHelpers.showSpinner();
-                const res = await commandFound.execute(command, additionalArgs);
+                const res = await commandFound.execute(additionalArgs);
                 if (res != null) {
                     StaticHelpers.application().commands.push(res);
                 }

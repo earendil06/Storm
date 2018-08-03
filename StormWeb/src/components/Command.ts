@@ -11,7 +11,7 @@ export default Vue.extend({
         <div class="input-line line">
             <div class="prompt">{{ user }}</div>
             <div>
-                <input class="cmdline" v-bind:value="command.completeInput" readonly="" autofocus>
+                <input class="cmdline" v-bind:value="completeInput" readonly="" disabled>
             </div>
         </div>
         <div style="padding-bottom: 10px; padding-top: 5px;">

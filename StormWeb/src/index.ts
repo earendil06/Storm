@@ -54,7 +54,7 @@ if ($("#container").length > 0) {
             },
             currentCommand: function () {
                 const values = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-                return values > 0 ? values[0].toLowerCase() : "";
+                return values.length > 0 ? values[0].toLowerCase() : "";
             },
             currentArguments: function() {
                 return this.currentInputValue.trim().split(" ").filter(f => f !== "").slice(1);
@@ -102,7 +102,7 @@ if ($("#container").length > 0) {
                     this.history.push(this.currentInputValue);
                 }
                 if (this.proposalsIndex === -1) {
-                    StaticHelpers.eval(this.currentCommand, this.currentArguments);
+                    const result = StaticHelpers.eval(this.currentCommand, this.currentArguments);
                     this.currentInputValue = "";
                     this.positionHistory = 0;
 
@@ -145,7 +145,7 @@ if ($("#container").length > 0) {
         if (e.ctrlKey && (e.which === lKey)) {
             e.preventDefault();
             e.stopPropagation();
-            new ClearCommand().execute(null, null);
+            new ClearCommand().execute(null);
             return false;
         }
         return true;
