@@ -30,7 +30,7 @@
         <div class="prompt">{{ user }}</div>
         <div>
             <input id="inputLine" v-model="currentInputValue"
-                   @keyup.enter="executeCommand"
+                   @keyup.enter="pressEnter"
                    @keyup.38="setPositionHistory"
                    @keyup.40="setPositionHistory"
                    @keydown.tab="invokeAutoComplete"
