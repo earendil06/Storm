@@ -9,12 +9,12 @@ export class GetBlocksCommand extends Command {
         super("get-blocks");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+    async execute(args: string[]): Promise<IHistoryCommand> {
         const result = await $.ajax({
             contentType: "application/json",
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks`,
         });
-        return new HistoryCommand(inputText, result, "default-component");
+        return new HistoryCommand(this.getCommandName(), args, result, "default-component");
     }
 
 }

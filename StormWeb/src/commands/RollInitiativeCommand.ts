@@ -9,18 +9,18 @@ export class RollInitiativeCommand extends Command{
         super("initiative");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+    async execute(args: string[]): Promise<IHistoryCommand> {
         try {
             const result = await $.ajax({
                 contentType: "application/json",
                 method: 'PUT',
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/roll/initiative`
             });
-            return new HistoryCommand(inputText, "initiative rolled.", "default-component");
+            return new HistoryCommand(this.getCommandName(), args, "initiative rolled.", "default-component");
         } catch (e) {
             switch (e.status) {
-                case 404 : return new HistoryCommand(inputText, "No one can roll initiative in the encounter.", "default-component");
-                case 500 : return new HistoryCommand(inputText, "Error 500, Something went wrong!", "default-component");
+                case 404 : return new HistoryCommand(this.getCommandName(), args, "No one can roll initiative in the encounter.", "default-component");
+                case 500 : return new HistoryCommand(this.getCommandName(), args, "Error 500, Something went wrong!", "default-component");
                 default : return null;
             }
         }

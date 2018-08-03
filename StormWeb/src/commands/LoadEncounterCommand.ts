@@ -9,9 +9,10 @@ export class LoadEncounterCommand extends Command {
         super("load");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+    async execute(args: string[]): Promise<IHistoryCommand> {
         //StaticHelpers.hideSpinner();
         const $elt = $("#file") as any;
+        var self = this;
         $elt.off();
         $elt.on("change", function(evt) {
             const f = evt.target.files[0];
@@ -24,7 +25,8 @@ export class LoadEncounterCommand extends Command {
                         StaticHelpers.eval(command);
                     });
                     StaticHelpers.application().commands.push({
-                        input: inputText,
+                        command: self.getCommandName(),
+                        args: args,
                         output: "encounter loaded successfully",
                         templateName: "default-component"
                     });
@@ -32,7 +34,8 @@ export class LoadEncounterCommand extends Command {
                 r.readAsText(f);
             } else {
                 StaticHelpers.application().commands.push({
-                    input: inputText,
+                    command: self.getCommandName(),
+                    args: args,
                     output: "no encounter loaded",
                     templateName: "default-component"
                 });

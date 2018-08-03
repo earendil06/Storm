@@ -10,12 +10,12 @@ export class NewCommand extends Command {
         super("new");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
-        if (args.length < 3) {
-            return new HistoryCommand(inputText, "missing parameters (e.g.: new goblin adrien)", "default-component");
+    async execute(args: string[]): Promise<IHistoryCommand> {
+        if (args.length < 2) {
+            return new HistoryCommand(this.getCommandName(), args, "missing parameters (e.g.: new goblin adrien)", "default-component");
         } else {
-            const monsterType = args[1];
-            const monsterName = args[2];
+            const monsterType = args[0];
+            const monsterName = args[1];
 
             try {
                 const result = await $.ajax({
@@ -24,12 +24,12 @@ export class NewCommand extends Command {
                     url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/new`,
                     data: JSON.stringify({"name": monsterName, "blockName": monsterType}),
                 });
-                return new HistoryCommand(inputText, monsterName + " has been added to the encounter.", "default-component");
+                return new HistoryCommand(this.getCommandName(), args, monsterName + " has been added to the encounter.", "default-component");
             } catch (e) {
                 switch (e.status) {
-                    case 400 : return new HistoryCommand(inputText, monsterName + " already exists in the encounter.", "default-component");
-                    case 404 : return new HistoryCommand(inputText, monsterType + " does not exists.", "default-component");
-                    case 500 : return new HistoryCommand(inputText, "Error 500, Something went wrong!", "default-component");
+                    case 400 : return new HistoryCommand(this.getCommandName(), args, monsterName + " already exists in the encounter.", "default-component");
+                    case 404 : return new HistoryCommand(this.getCommandName(), args, monsterType + " does not exists.", "default-component");
+                    case 500 : return new HistoryCommand(this.getCommandName(), args, "Error 500, Something went wrong!", "default-component");
                     default: return null;
                 }
             }

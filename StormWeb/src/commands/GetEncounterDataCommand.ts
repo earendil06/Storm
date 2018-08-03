@@ -10,7 +10,7 @@ export class GetEncounterDataCommand extends Command{
         super("encounter");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+    async execute(args: string[]): Promise<IHistoryCommand> {
         try {
             const result = await $.ajax({
                 contentType: "application/json",
@@ -21,10 +21,10 @@ export class GetEncounterDataCommand extends Command{
                 m.ac = m.block.stats.find(f => f.statType === "ac").statValue.formulae;
                 m.blockName = m.block.name[0].toUpperCase() + m.block.name.slice(1)
             });
-            return new HistoryCommand(inputText, result, "encounter-component");
+            return new HistoryCommand(this.getCommandName(), args, result, "encounter-component");
         } catch (e) {
             switch (e.status) {
-                case 500 : return new HistoryCommand(inputText, "Error 500, Something went wrong!", "default-component");
+                case 500 : return new HistoryCommand(this.getCommandName(), args, "Error 500, Something went wrong!", "default-component");
                 default: return null;
             }
         }

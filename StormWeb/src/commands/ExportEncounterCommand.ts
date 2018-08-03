@@ -9,11 +9,11 @@ export class ExportEncounterCommand extends Command {
         super("export");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
-        if (args.length < 2) {
-            return new HistoryCommand(inputText, "missing filename (e.g.: export [filename])", "default-component");
+    async execute(args: string[]): Promise<IHistoryCommand> {
+        if (args.length < 1) {
+            return new HistoryCommand(this.getCommandName(), args, "missing filename (e.g.: export [filename])", "default-component");
         } else {
-            const filename = args[1];
+            const filename = args[0];
             console.log(filename);
             let blob = new Blob(
                 StaticHelpers.application().history

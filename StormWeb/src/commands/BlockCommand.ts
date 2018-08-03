@@ -9,21 +9,21 @@ export class BlockCommand extends Command {
         super("block");
     }
 
-    async execute(inputText: string, args: string[]) : Promise<IHistoryCommand> {
-        if (args.length < 2) {
-            return new HistoryCommand(inputText, "missing parameter (e.g.: block goblin)", "default-component")
+    async execute(args: string[]) : Promise<IHistoryCommand> {
+        if (args.length < 1) {
+            return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: block goblin)", "default-component")
         } else {
-            const blockName = args[1];
+            const blockName = args[0];
             try {
                 const result = await $.ajax({
                     contentType: "application/json",
                     url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/block/` + blockName.toLowerCase(),
                 });
-                return new HistoryCommand(inputText, result, "block-component")
+                return new HistoryCommand(this.getCommandName(), args, result, "block-component")
             } catch (e) {
                 switch (e.status) {
-                    case 404 : return new HistoryCommand(inputText, blockName + " is not registered.", "default-component");
-                    case 500 : return new HistoryCommand(inputText, "Error 500, Something went wrong!", "default-component");
+                    case 404 : return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "default-component");
+                    case 500 : return new HistoryCommand(this.getCommandName(), args, "Error 500, Something went wrong!", "default-component");
                     default: return null;
                 }
             }

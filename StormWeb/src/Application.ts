@@ -1,5 +1,6 @@
 export interface IHistoryCommand {
-    input: string;
+    command: string;
+    args: string[],
     output: any;
     templateName: string;
 }

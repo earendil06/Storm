@@ -9,13 +9,13 @@ export class GetTurnCommand extends Command {
         super("turn");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+    async execute(args: string[]): Promise<IHistoryCommand> {
         const result = await $.ajax({
             contentType: "application/json",
             method: 'GET',
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/turn`
         });
         let encounterCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "encounter") as ICommand;
-        return encounterCommand.execute(inputText, [""]);
+        return encounterCommand.execute(args);
     }
 }

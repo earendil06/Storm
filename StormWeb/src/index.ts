@@ -47,13 +47,17 @@ if ($("#container").length > 0) {
         },
         computed: {
             proposalsDisplayed: function () {
-                let input = this.currentInputValue;
-                let args = input.trim().split(" ")
-                    .filter(f => f !== "");
-                if (args.length === 2) {
-                    return this.proposals.filter(f => f.startsWith(args[1]));
+                if (this.currentArguments.length === 1) {
+                    return this.proposals.filter(f => f.startsWith(this.currentArguments[0]));
                 }
                 return this.proposals;
+            },
+            currentCommand: function () {
+                const values = this.currentInputValue.trim().split(" ").filter(f => f !== "");
+                return values > 0 ? values[0].toLowerCase() : "";
+            },
+            currentArguments: function() {
+                return this.currentInputValue.trim().split(" ").filter(f => f !== "").slice(1);
             }
         },
         methods: {
@@ -98,7 +102,7 @@ if ($("#container").length > 0) {
                     this.history.push(this.currentInputValue);
                 }
                 if (this.proposalsIndex === -1) {
-                    StaticHelpers.eval(this.currentInputValue);
+                    StaticHelpers.eval(this.currentCommand, this.currentArguments);
                     this.currentInputValue = "";
                     this.positionHistory = 0;
 

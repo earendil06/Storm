@@ -9,8 +9,8 @@ export class HelpCommand extends Command {
         super("help");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
-        return new HistoryCommand(inputText, StaticHelpers.COMMANDS.map(c => c.getCommandName()).join(", "), "default-component");
+    async execute(args: string[]): Promise<IHistoryCommand> {
+        return new HistoryCommand(this.getCommandName(), args, StaticHelpers.COMMANDS.map(c => c.getCommandName()).join(", "), "default-component");
     }
 
 }

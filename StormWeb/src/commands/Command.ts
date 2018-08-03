@@ -8,7 +8,7 @@ export abstract class Command implements ICommand {
         this.commandName = commandName;
     }
 
-    abstract async execute(inputText: string, args: string[]): Promise<IHistoryCommand>;
+    abstract async execute(args: string[]): Promise<IHistoryCommand>;
 
     getCommandName(): string {
         return this.commandName;

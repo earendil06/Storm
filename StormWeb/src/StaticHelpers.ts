@@ -40,26 +40,27 @@ export class StaticHelpers {
     static server = StaticHelpers.getQueryVariable("server") === "" ? "localhost" : StaticHelpers.getQueryVariable("server");
 
 
-    static async eval(input: string): Promise<any> {
-        const args = input.trim().split(" ").filter(f => f !== "");
-        if (args.length === 0) {
+    static async eval(command:string, additionalArgs: string[]): Promise<any> {
+        //const args = input.trim().split(" ").filter(f => f !== "");
+        if (command === "") {
             StaticHelpers.application().commands.push({
-                input: input,
+                command: command,
+                args: additionalArgs,
                 output: "Command does not exists.",
                 templateName: "default-component"
             });
         } else {
-            const commandName = args[0].toLowerCase();
-            let commandFound = StaticHelpers.COMMANDS.find(f => f.getCommandName() === commandName) as ICommand;
+            let commandFound = StaticHelpers.COMMANDS.find(f => f.getCommandName() === command) as ICommand;
             if (typeof commandFound === "undefined") {
                 StaticHelpers.application().commands.push({
-                    input: input,
+                    command: command,
+                    args: additionalArgs,
                     output: "Command does not exists.",
                     templateName: "default-component"
                 });
             } else {
                 StaticHelpers.showSpinner();
-                const res = await commandFound.execute(input, args);
+                const res = await commandFound.execute(command, additionalArgs);
                 if (res != null) {
                     StaticHelpers.application().commands.push(res);
                 }

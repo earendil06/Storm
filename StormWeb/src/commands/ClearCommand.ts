@@ -8,7 +8,7 @@ export class ClearCommand extends Command {
         super("clear");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+    async execute(args: string[]): Promise<IHistoryCommand> {
         StaticHelpers.application().commands = [];
         StaticHelpers.hideSpinner();
         return null;

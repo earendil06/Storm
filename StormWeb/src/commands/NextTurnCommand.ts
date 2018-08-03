@@ -10,7 +10,7 @@ export class NextTurnCommand extends Command {
         super("next");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+    async execute(args: string[]): Promise<IHistoryCommand> {
         try {
             const result = await $.ajax({
                 contentType: "application/json",
@@ -18,13 +18,13 @@ export class NextTurnCommand extends Command {
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/nextTurn`,
             });
             let playingCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "playing") as ICommand;
-            return playingCommand.execute("", [""]);
+            return playingCommand.execute([""]);
         } catch (e) {
             switch (e.status) {
                 case 400:
                     let playingCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "playing") as ICommand;
-                    return playingCommand.execute(inputText, [""]);
-                case 500: return new HistoryCommand(inputText, "Error 500, Something went wrong!", "default-component");
+                    return playingCommand.execute([""]);
+                case 500: return new HistoryCommand(this.getCommandName(), args, "Error 500, Something went wrong!", "default-component");
                 default: return null;
             }
         }

@@ -9,18 +9,18 @@ export class ResetCommand extends Command {
         super("reset");
     }
 
-    async execute(inputText: string, args: string[]): Promise<IHistoryCommand> {
+    async execute(args: string[]): Promise<IHistoryCommand> {
         try {
             const result = await $.ajax({
                 contentType: "application/json",
                 method: 'PUT',
                 url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/reset`,
             });
-            return new HistoryCommand(inputText, result, "default-component");
+            return new HistoryCommand(this.getCommandName(), args, result, "default-component");
         }
         catch (e) {
             switch (e.status) {
-                case 500 : return new HistoryCommand(inputText, "Error 500, Something went wrong!", "default-component");
+                case 500 : return new HistoryCommand(this.getCommandName(), args, "Error 500, Something went wrong!", "default-component");
                 default : return null;
             }
         }
