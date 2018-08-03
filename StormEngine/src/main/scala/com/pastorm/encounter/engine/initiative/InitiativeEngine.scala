@@ -1,6 +1,6 @@
 package com.pastorm.encounter.engine.initiative
 
-import com.pastorm.encounter.model.{EncounterData, Monster}
+import com.pastorm.model.{EncounterData, Monster}
 
 trait InitiativeEngine {
   def rollInitiatives(monsters: Seq[Monster]): Seq[Monster]

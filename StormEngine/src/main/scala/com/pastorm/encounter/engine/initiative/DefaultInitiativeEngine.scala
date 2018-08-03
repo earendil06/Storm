@@ -1,7 +1,8 @@
 package com.pastorm.encounter.engine.initiative
 
-import com.pastorm.encounter.model.{EncounterData, Monster}
-import com.storm.model.dice.Die
+import com.pastorm.model.dice.Die
+import com.pastorm.model.{EncounterData, Monster}
+
 
 class DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)

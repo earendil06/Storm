@@ -1,7 +1,7 @@
 package com.storm.api
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import com.pastorm.encounter.model.{EncounterData, Monster}
+import com.pastorm.model.EncounterData
 import com.storm.model._
 import spray.json.{DefaultJsonProtocol, JsValue, RootJsonFormat, _}
 
@@ -30,7 +30,7 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val stat: RootJsonFormat[Stat] = jsonFormat2(Stat)
 
   implicit val monsterBlockFormat: RootJsonFormat[Block] = jsonFormat5(Block)
-  implicit val monsterFormat: RootJsonFormat[Monster] = jsonFormat4(Monster)
+  implicit val monsterFormat: RootJsonFormat[com.pastorm.model.Monster] = jsonFormat4(Monster)
   implicit val encounterFormat: RootJsonFormat[EncounterData] = jsonFormat3(EncounterData)
 
   implicit val newMonsterFormat: RootJsonFormat[NewMonster] = jsonFormat2(NewMonster)

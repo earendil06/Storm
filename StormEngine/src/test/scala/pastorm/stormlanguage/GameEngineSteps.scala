@@ -1,8 +1,7 @@
 package pastorm.stormlanguage
 
 import com.pastorm.encounter.engine.initiative.{DefaultInitiativeEngine, InitiativeEngine}
-import com.pastorm.encounter.model.{EncounterData, Monster}
-import com.storm.model.BlockAdapter
+import com.pastorm.model.{BlockAdapter, EncounterData, Monster}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.junit.Assert._
 
