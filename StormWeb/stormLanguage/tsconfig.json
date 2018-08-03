@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "./built/",
+    "sourceMap": true,
+    "strict": false,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "target": "es6",
+    /*"lib": [ //comme dans le projet example mais si je le rajoute ca compile plus (je sais pas ce que ca fait)
+      "es6"
+    ],*/
+    "experimentalDecorators": true,
+    "isolatedModules": false,
+    "allowSyntheticDefaultImports": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "src/**/*", "parser/**/*.ts"
+  ]
+}
