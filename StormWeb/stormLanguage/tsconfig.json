@@ -4,17 +4,13 @@
     "sourceMap": true,
     "strict": false,
     "noImplicitReturns": true,
+    "module": "es2015",
     "moduleResolution": "node",
     "target": "es6",
-    /*"lib": [ //comme dans le projet example mais si je le rajoute ca compile plus (je sais pas ce que ca fait)
-      "es6"
-    ],*/
-    "experimentalDecorators": true,
-    "isolatedModules": false,
-    "allowSyntheticDefaultImports": true
+    "experimentalDecorators": true
   },
   "compileOnSave": true,
   "include": [
-    "src/**/*", "parser/**/*.ts"
+    "./src/**/*"
   ]
 }
