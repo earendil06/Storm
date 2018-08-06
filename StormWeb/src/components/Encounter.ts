@@ -1,10 +1,10 @@
 import Vue from "vue";
-import {SetInitiativeCommand} from "../commands/SetInitiativeCommand";
-import {NextTurnCommand} from "../commands/NextTurnCommand";
-import {GetMonsterCommand} from "../commands/GetMonsterCommand";
+import {SetInitiativeCommand} from "../term/commands/SetInitiativeCommand";
+import {NextTurnCommand} from "../term/commands/NextTurnCommand";
+import {GetMonsterCommand} from "../term/commands/GetMonsterCommand";
 import * as $ from "jquery";
-import {DamageCommand} from "../commands/DamageCommand";
-import {RollInitiativeCommand} from "../commands/RollInitiativeCommand";
+import {DamageCommand} from "../term/commands/DamageCommand";
+import {RollInitiativeCommand} from "../term/commands/RollInitiativeCommand";
 import {StaticHelpers} from "../StaticHelpers";
 
 export default Vue.extend({

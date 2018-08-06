@@ -1,8 +1,8 @@
 import Command from "./Command";
-import {StaticHelpers} from "../StaticHelpers";
+import {StaticHelpers} from "../../StaticHelpers";
 import * as $ from "jquery";
-import {HistoryCommand} from "../poco/HistoryCommand";
-import {IHistoryCommand} from "../Application";
+import {HistoryCommand} from "../../poco/HistoryCommand";
+import {IHistoryCommand} from "../../Application";
 
 export class BlockCommand extends Command {
     constructor() {

@@ -1,9 +1,9 @@
 import Command from "./Command";
-import {StaticHelpers} from "../StaticHelpers";
+import {StaticHelpers} from "../../StaticHelpers";
 import * as $ from "jquery";
-import {IHistoryCommand} from "../Application";
+import {IHistoryCommand} from "../../Application";
 import ICommand from "./ICommand";
-import {HistoryCommand} from "../poco/HistoryCommand";
+import {HistoryCommand} from "../../poco/HistoryCommand";
 
 export class NextTurnCommand extends Command {
     constructor(){

@@ -1,7 +1,7 @@
 import Command from "./Command";
-import {StaticHelpers} from "../StaticHelpers";
+import {StaticHelpers} from "../../StaticHelpers";
 import * as $ from "jquery";
-import {IHistoryCommand} from "../Application";
+import {IHistoryCommand} from "../../Application";
 import ICommand from "./ICommand";
 
 export class GetTurnCommand extends Command {

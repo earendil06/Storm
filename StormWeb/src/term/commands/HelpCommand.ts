@@ -1,7 +1,7 @@
 import Command from "./Command";
-import {StaticHelpers} from "../StaticHelpers";
-import {IHistoryCommand} from "../Application";
-import {HistoryCommand} from "../poco/HistoryCommand";
+import {StaticHelpers} from "../../StaticHelpers";
+import {IHistoryCommand} from "../../Application";
+import {HistoryCommand} from "../../poco/HistoryCommand";
 
 export default class HelpCommand extends Command {
 

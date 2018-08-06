@@ -1,6 +1,6 @@
 import Command from "./Command";
-import {StaticHelpers} from "../StaticHelpers";
-import {IHistoryCommand} from "../Application";
+import {StaticHelpers} from "../../StaticHelpers";
+import {IHistoryCommand} from "../../Application";
 
 export default class ClearCommand extends Command {
 
