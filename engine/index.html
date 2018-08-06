@@ -7,15 +7,21 @@
 <body>
 <script type="text/javascript" src="target/scala-2.12/engine-fastopt.js"></script>
 <script>
-    let engine = EncounterEngineComponent.encounterEngine
+    // let engine = EncounterEngineComponent.encounterEngine
 
-    console.log(engine.getPlayingMonsterName)
-    console.log(engine.nextTurn())
+    // console.log(engine.getPlayingMonsterName)
+    // console.log(engine.nextTurn())
 
-    console.log("create")
-    engine.newMonster("toto", null)
-    console.log("get")
-    console.log(engine.getEncounterData)
+    // console.log("create")
+    // engine.newMonster("toto", null)
+    // console.log("get")
+    // console.log(engine.getEncounterData)
+    let eng = EncounterEngineComponent.encounterEngine
+    // console.log(eng)
+
+    let b = new BlockAdapter()
+    b.setName("goblin")
+    console.log(b)
 </script>
 </body>
 </html>

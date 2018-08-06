@@ -2,6 +2,8 @@ package com.pastorm.model
 
 import com.pastorm.model.dice.Die
 
+import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSExportTopLevel}
+
 sealed trait StatValue {
   def formulae: String
 
@@ -64,21 +66,27 @@ case class Block(name: String,
 
 }
 
+@JSExportTopLevel("BlockAdapter")
 class BlockAdapter() {
   var block = Block("", Nil, Nil, Nil, Nil)
 
+  @JSExport
   def setName(name: String): Unit =
     block = block.copy(name = name)
 
+  @JSExport
   def putAbility(typeName: String, value: Int, modifier: Int): Unit =
     block = block.copy(abilityScores = Ability(typeName, value, modifier) :: block.abilityScores)
 
+  @JSExport
   def putStat(typeName: String, statValue: StatValue): Unit =
     block = block.copy(stats = Stat(typeName, statValue) :: block.stats)
 
+  @JSExport
   def putFeature(name: String, description: String): Unit =
     block = block.copy(features = Feature(name, description) :: block.features)
 
+  @JSExport
   def putAction(action: Action): Unit =
     block = block.copy(actions = action :: block.actions)
 }
