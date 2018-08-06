@@ -12,7 +12,7 @@ interface Watches {
 
 interface Methods {
     encounterUpdate();
-    executeCommand();
+    pressEnter();
     setPositionHistory(message);
     invokeAutoComplete(message);
 }
@@ -30,6 +30,9 @@ export interface Application {
     positionHistory: number;
     proposals: string[];
     proposalsIndex: number;
+
+    currentCommand: string;
+    currentArguments: string[];
 
     watch: Watches;
     methods: Methods;

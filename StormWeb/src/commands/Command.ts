@@ -1,7 +1,7 @@
-import {ICommand} from "./ICommand";
+import ICommand from "./ICommand";
 import {IHistoryCommand} from "../Application";
 
-export abstract class Command implements ICommand {
+export default abstract class Command implements ICommand {
     private readonly commandName: string;
 
     protected constructor(commandName: string) {

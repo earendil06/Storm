@@ -1,8 +1,8 @@
-import {Command} from "./Command";
+import Command from "./Command";
 import {StaticHelpers} from "../StaticHelpers";
 import {IHistoryCommand} from "../Application";
 
-export class ClearCommand extends Command {
+export default class ClearCommand extends Command {
 
     constructor(){
         super("clear");
@@ -10,7 +10,7 @@ export class ClearCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         StaticHelpers.application().commands = [];
-        StaticHelpers.hideSpinner();
+        // StaticHelpers.hideSpinner();
         return null;
     }
 

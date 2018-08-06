@@ -3,7 +3,7 @@ import {StaticHelpers} from "./StaticHelpers";
 import {ClearCommand} from "./commands/ClearCommand";
 
 import CommandComponent from "./components/Command";
-import {Application} from "./Application";
+import {Application, IHistoryCommand} from "./Application";
 import StaticEncounterComponent from "./components/StaticEncounter";
 import BlockComponent from "./components/Block";
 import * as $ from "jquery";
@@ -18,7 +18,7 @@ if ($("#container").length > 0) {
             history: [],
             currentInputValue: "",
             positionHistory: 0,
-            proposals: "",
+            proposals: [],
             proposalsIndex: -1,
             encounter: ""
         },
@@ -47,8 +47,9 @@ if ($("#container").length > 0) {
         },
         computed: {
             proposalsDisplayed: function () {
-                if (this.currentArguments.length === 1) {
-                    return this.proposals.filter(f => f.startsWith(this.currentArguments[0]));
+                if (this.currentArguments.length <= 1) {
+                    const inputFilter = this.currentArguments.length === 1 ? this.currentArguments[0] : this.currentCommand;
+                    return this.proposals.filter(f => f.startsWith(inputFilter));
                 }
                 return this.proposals;
             },
@@ -63,7 +64,7 @@ if ($("#container").length > 0) {
         methods: {
             onClickProposition: function (index) {
                 this.proposalsIndex = index;
-                this.executeCommand();
+                this.pressEnter();
             },
             onMouseOverProposition: function (index) {
                 this.proposalsIndex = index;
@@ -85,34 +86,32 @@ if ($("#container").length > 0) {
                     }
                 });
             },
-            executeCommand: function () {
-                let inputArray = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-                if (inputArray.length > 0 && inputArray[inputArray.length - 1] === "!$") {
-                    if (this.history.length > 0) {
-                        let previousCommand = this.history[this.history.length - 1];
-                        let previousArgs = previousCommand.trim().split(" ").filter(f => f !== "").slice(1).join(" ");
-                        this.currentInputValue = inputArray[0] + " " + previousArgs;
+            pressEnter: function () {
+                if (this.currentCommand !== "" && this.currentArguments[0] === "!!") {
+                    if (this.commands.length > 0) {
+                        let previousCommand = this.commands[this.commands.length - 1] as IHistoryCommand;
+                        this.currentInputValue = this.currentCommand + " " + previousCommand.args.join(" ");
                         return;
                     } else {
                         this.currentInputValue = "";
                         return;
                     }
                 }
-                if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
-                    this.history.push(this.currentInputValue);
-                }
                 if (this.proposalsIndex === -1) {
                     const result = StaticHelpers.eval(this.currentCommand, this.currentArguments);
+                    if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
+                        this.history.push(this.currentInputValue);
+                    }
                     this.currentInputValue = "";
                     this.positionHistory = 0;
 
                 } else {
-                    let inputArray = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-                    if (inputArray.length === 2) {
-                        inputArray.splice(-1, 1);
+                    if (this.currentArguments.length === 0) {
+                        this.currentInputValue = this.proposalsDisplayed[this.proposalsIndex];
+                    } else {
+                        this.currentInputValue = this.currentCommand + " " + this.proposalsDisplayed[this.proposalsIndex];
                     }
-                    inputArray.push(this.proposalsDisplayed[this.proposalsIndex]);
-                    this.currentInputValue = inputArray.filter(token => token !== "").join(" ");
+
                 }
                 this.proposalsIndex = -1;
                 this.proposals = [];
@@ -128,9 +127,48 @@ if ($("#container").length > 0) {
                     this.positionHistory--;
                 }
             },
-            invokeAutoComplete: function (message) {
+            invokeAutoComplete: async function (message) {
                 message.preventDefault();
-                StaticHelpers.autoComplete();
+                const propEngine = [
+                    {
+                        "name": "",
+                        "function": "getCommands"
+                    },
+                    {
+                        "name": "block",
+                        "function": "getBlocks"
+                    },
+                    {
+                        "name": "monster",
+                        "function": "getMonsters"
+                    },
+                    {
+                        "name": "new",
+                        "function": "getBlocks"
+                    }
+                ];
+
+                const pointer = this.currentArguments.length === 0 ? "" : this.currentCommand;
+                let toExecute = propEngine.find(f => f.name === pointer);
+                if (toExecute === undefined) {
+                    return;
+                }
+                if (this.proposalsIndex === -1) {
+                    StaticHelpers.showSpinner();
+                    this.proposals = await StaticHelpers[toExecute.function]();
+                    this.proposalsIndex = (this.proposalsIndex + 1) % this.proposalsDisplayed.length;
+                    StaticHelpers.hideSpinner();
+                    if (this.proposalsDisplayed.length === 1) {
+                        this.pressEnter();
+                    }
+                    return;
+                }
+
+                if (this.proposalsDisplayed.length > 0) {
+                    this.proposalsIndex = (this.proposalsIndex + 1) % this.proposalsDisplayed.length;
+                } else {
+                    this.proposalsIndex = -1;
+                }
             }
         }
     }) as Application;

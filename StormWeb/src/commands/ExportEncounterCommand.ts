@@ -1,5 +1,5 @@
 import {StaticHelpers} from "../StaticHelpers";
-import {Command} from "./Command";
+import Command from "./Command";
 import {IHistoryCommand} from "../Application";
 import {HistoryCommand} from "../poco/HistoryCommand";
 

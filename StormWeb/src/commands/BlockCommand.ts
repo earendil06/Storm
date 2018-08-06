@@ -1,4 +1,4 @@
-import {Command} from "./Command";
+import Command from "./Command";
 import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 import {HistoryCommand} from "../poco/HistoryCommand";
