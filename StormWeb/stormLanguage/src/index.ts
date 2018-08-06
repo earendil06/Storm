@@ -1,26 +1,52 @@
 'use strict';
 
 import {ANTLRInputStream, CommonTokenStream} from 'antlr4ts';
-import {StormLexer} from '../parser/StormLexer';
-import {Action_block_nameContext, Block_nameContext, StormParser} from '../parser/StormParser';
-import {StormListener} from '../parser/StormListener';
+import {StormLexer} from '../parser/src/StormLexer';
+import {
+    BlockContext,
+    StormParser,
+    Ability_blockContext,
+    Action_blockContext,
+    Feature_blockContext,
+    StatContext, AbilityContext
+} from '../parser/src/StormParser';
+import {StormListener} from '../parser/src/StormListener';
 import {ParseTreeWalker} from "antlr4ts/tree";
-
+import {ParseTreeListener} from "antlr4ts/tree/ParseTreeListener";
+import * as Engine from "./../../../engine/target/scala-2.12/engine-fastopt.js"
 
 class MyListener implements StormListener {
-
+    private blockAdapter = new Engine.BlockAdapter();
     private parser : StormParser;
     constructor(parser: StormParser){
         this.parser = parser;
     }
 
-    enterBlock_name (ctx: Block_nameContext) {
-        console.log('name: ' + ctx.text);
-    };
+    enterBlock (ctx: BlockContext) {
+        const name = ctx.block_name().text.toLowerCase();
+        this.blockAdapter.setName(name);
+        console.log(this.blockAdapter);
+        //todo set name adapter
+    }
 
-    exitAction_block_name (ctx: Action_block_nameContext) {
-        console.log('action: ' + ctx.text);
-    };
+    enterAbility (ctx: AbilityContext){
+        const type = ctx.STAT_ID().symbol;
+    }
+
+
+    enterAction_block(ctx: Action_blockContext) {
+
+    }
+    enterFeature_block (ctx: Feature_blockContext){
+        const name = ctx.feature_name().text;
+        const description = ctx.description().text;
+        //todo put feature
+    }
+    enterStat (ctx: StatContext){}
+
+
+
+
 
 }
 
@@ -67,7 +93,7 @@ Challenge => {1/4}
 
         parser.buildParseTree = true;
         let tree = parser.block();
-        let listener = new MyListener(parser);
+        let listener = new MyListener(parser) as ParseTreeListener;
         ParseTreeWalker.DEFAULT.walk(listener, tree);
 
 
