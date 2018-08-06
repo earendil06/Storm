@@ -1,12 +1,13 @@
 import Vue from "vue";
 import {StaticHelpers} from "./StaticHelpers";
-import {ClearCommand} from "./commands/ClearCommand";
+import ClearCommand from "./commands/ClearCommand";
 
 import CommandComponent from "./components/Command";
 import {Application, IHistoryCommand} from "./Application";
 import StaticEncounterComponent from "./components/StaticEncounter";
 import BlockComponent from "./components/Block";
 import * as $ from "jquery";
+import {Action} from "./engine/Adapters";
 
 if ($("#container").length > 0) {
     (window as any).app = new Vue({
@@ -188,6 +189,11 @@ if ($("#container").length > 0) {
         }
         return true;
     });
+    let action = new (window as any).Action("a","a","q","s","e","f") as Action;
+    console.log("ototototot");
+    console.log("ototototot");
+    console.log(action);
+    console.log(action.description);
 } else {
     (window as any).createVue = function(data) {
         (window as any).ideBlockApplication = new Vue({
