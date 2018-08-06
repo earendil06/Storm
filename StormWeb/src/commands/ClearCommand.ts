@@ -10,7 +10,7 @@ export default class ClearCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         StaticHelpers.application().commands = [];
-        // StaticHelpers.hideSpinner();
+        StaticHelpers.hideSpinner();
         return null;
     }
 

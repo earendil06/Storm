@@ -1,7 +1,7 @@
 'use strict';
 
 import {ANTLRInputStream, CommonTokenStream} from 'antlr4ts';
-import {StormLexer} from '../parser/src/StormLexer';
+import {StormLexer} from '../parser/StormLexer';
 import {
     BlockContext,
     StormParser,
@@ -9,14 +9,15 @@ import {
     Action_blockContext,
     Feature_blockContext,
     StatContext, AbilityContext
-} from '../parser/src/StormParser';
-import {StormListener} from '../parser/src/StormListener';
+} from '../parser/StormParser';
+import {StormListener} from '../parser/StormListener';
 import {ParseTreeWalker} from "antlr4ts/tree";
 import {ParseTreeListener} from "antlr4ts/tree/ParseTreeListener";
-import * as Engine from "./../../../engine/target/scala-2.12/engine-fastopt.js"
+
+// import * as Engine from "./../../../engine/target/scala-2.12/engine-fastopt.js"
 
 class MyListener implements StormListener {
-    private blockAdapter = new Engine.BlockAdapter();
+    private blockAdapter = new (window as any).BlockAdapter();
     private parser : StormParser;
     constructor(parser: StormParser){
         this.parser = parser;
