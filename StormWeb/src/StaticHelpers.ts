@@ -69,7 +69,7 @@ export class StaticHelpers {
     }
 
     static getQueryVariable(variable: string): string {
-        const query = window.location.search.substring(1);
+        const query = (window as any).location.search.substring(1);
         const vars = query.split("&");
         for (let i = 0; i < vars.length; i++) {
             const pair = vars[i].split("=");
