@@ -4,6 +4,7 @@ import com.pastorm.model.dice.Die
 
 import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSExportTopLevel}
 
+@JSExportAll
 sealed trait StatValue {
   def formulae: String
 
@@ -12,10 +13,14 @@ sealed trait StatValue {
   def instantiateValue: Int
 }
 
+@JSExportTopLevel("ConstValue")
+@JSExportAll
 case class ConstValue(formulae: String, meanValue: Int) extends StatValue {
   override def instantiateValue: Int = meanValue
 }
 
+@JSExportTopLevel("DiceValue")
+@JSExportAll
 case class DiceValue(number: Int, sides: Int, modifier: Int) extends StatValue {
   override def instantiateValue: Int = {
     val die = new Die(sides)
@@ -45,6 +50,8 @@ case class Stat(statType: String, statValue: StatValue)
 
 case class Feature(name: String, description: String)
 
+@JSExportTopLevel("Action")
+@JSExportAll
 case class Action(name: String,
                   toHit: String,
                   reach: String,
@@ -68,6 +75,7 @@ case class Block(name: String,
 
 @JSExportTopLevel("BlockAdapter")
 class BlockAdapter() {
+  @JSExport
   var block = Block("", Nil, Nil, Nil, Nil)
 
   @JSExport
