@@ -8,5 +8,9 @@ echo "=> bower install"
 echo "=> typescript dependencies install"
 npm i typescript --save-dev
 
+echo "=> generate antlr files"
+npm run antlr
+
+
 echo "=> done"
 
