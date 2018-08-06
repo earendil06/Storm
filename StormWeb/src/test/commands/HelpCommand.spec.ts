@@ -1,4 +1,4 @@
-import {HelpCommand} from "../../commands/HelpCommand";
+import HelpCommand from "../../commands/HelpCommand";
 
 test('basic', async () => {
     const command = new HelpCommand();

@@ -1,4 +1,4 @@
-import {Command} from "./Command";
+import Command from "./Command";
 import * as $ from "jquery";
 import {StaticHelpers} from "../StaticHelpers";
 import {IHistoryCommand} from "../Application";

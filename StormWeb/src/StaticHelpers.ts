@@ -1,6 +1,6 @@
-import {ClearCommand} from "./commands/ClearCommand";
+import ClearCommand from "./commands/ClearCommand";
 import {BlockCommand} from "./commands/BlockCommand";
-import {HelpCommand} from "./commands/HelpCommand";
+import HelpCommand from "./commands/HelpCommand";
 import {NewCommand} from "./commands/NewCommand";
 import {GetMonsterCommand} from "./commands/GetMonsterCommand";
 import {GetEncounterDataCommand} from "./commands/GetEncounterDataCommand";
@@ -18,7 +18,7 @@ import {Application} from "./Application";
 import * as $ from "jquery";
 import {ExportEncounterCommand} from "./commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./commands/LoadEncounterCommand";
-import {ICommand} from "./commands/ICommand";
+import ICommand from "./commands/ICommand";
 
 export class StaticHelpers {
     static hideSpinner(): void {
@@ -49,7 +49,7 @@ export class StaticHelpers {
                 templateName: "default-component"
             });
         } else {
-            let commandFound = StaticHelpers.COMMANDS.find(f => f.getCommandName() === command) as ICommand;
+            let commandFound = StaticHelpers.COMMANDS().find(f => f.getCommandName() === command) as ICommand;
             if (typeof commandFound === "undefined") {
                 StaticHelpers.application().commands.push({
                     command: command,
@@ -81,7 +81,7 @@ export class StaticHelpers {
     }
 
     static getCommands(): string[] {
-        return StaticHelpers.COMMANDS.map(c => c.getCommandName()).sort();
+        return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
     }
 
     static async getBlocks() {
@@ -104,24 +104,26 @@ export class StaticHelpers {
         return (window as any).app as Application;
     }
 
-    static COMMANDS = [
-        new ClearCommand(),
-        new HelpCommand(),
-        new BlockCommand(),
-        new NewCommand(),
-        new GetMonsterCommand(),
-        new GetEncounterDataCommand(),
-        new GetPlayingMonsterCommand(),
-        new RollInitiativeCommand(),
-        new DamageCommand(),
-        new HealCommand(),
-        new NextTurnCommand(),
-        new ResetCommand(),
-        new GetTurnCommand(),
-        new RemoveCommand(),
-        new SetInitiativeCommand(),
-        new GetBlocksCommand(),
-        new ExportEncounterCommand(),
-        new LoadEncounterCommand()
-    ];
+    static COMMANDS() {
+        return [
+            new ClearCommand(),
+            new HelpCommand(),
+            new BlockCommand(),
+            new NewCommand(),
+            new GetMonsterCommand(),
+            new GetEncounterDataCommand(),
+            new GetPlayingMonsterCommand(),
+            new RollInitiativeCommand(),
+            new DamageCommand(),
+            new HealCommand(),
+            new NextTurnCommand(),
+            new ResetCommand(),
+            new GetTurnCommand(),
+            new RemoveCommand(),
+            new SetInitiativeCommand(),
+            new GetBlocksCommand(),
+            new ExportEncounterCommand(),
+            new LoadEncounterCommand()
+        ];
+    }
 }

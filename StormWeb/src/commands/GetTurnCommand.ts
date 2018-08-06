@@ -1,8 +1,8 @@
-import {Command} from "./Command";
+import Command from "./Command";
 import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 import {IHistoryCommand} from "../Application";
-import {ICommand} from "./ICommand";
+import ICommand from "./ICommand";
 
 export class GetTurnCommand extends Command {
     constructor() {
@@ -15,7 +15,7 @@ export class GetTurnCommand extends Command {
             method: 'GET',
             url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/turn`
         });
-        let encounterCommand = StaticHelpers.COMMANDS.find(f => f.getCommandName() === "encounter") as ICommand;
+        let encounterCommand = StaticHelpers.COMMANDS().find(f => f.getCommandName() === "encounter") as ICommand;
         return encounterCommand.execute(args);
     }
 }
