@@ -52,12 +52,7 @@ Challenge => {1/4}
 engine.newMonster("toto", block.get());
 let ed = engine.getEncounterData() as EncounterData;
 console.log(ed);
-console.log(ed.turn);
-console.log(ed.playingMonsterName);
-console.log(ed.monsters);
-let block = accessor.getBlockNameList();
 
-console.log(block);
 if ($("#container").length > 0) {
     Term.main();
 } else {
