@@ -1,26 +1,22 @@
 import {Block, EncounterData, Monster} from "./Adapters";
 
 export default class Engine {
-    // private blockAdapter = new (window as any).BlockAdapter();
     private engine = new (window as any).JSAdapter() as any;
 
     private static MISSING_BLOCK = "missing block.";
 
     constructor() {
-        // console.log(this.engine.getEncounterData)
-        // console.log(this.engine.getEncounterData.turn)
     }
 
     newMonster(name: string, block: Block): void {
-        console.log(block);
         if (name == null) {
             throw new Error("missing name")
         }
         if (block == null) {
             throw new Error(Engine.MISSING_BLOCK)
         }
-        // this.engine.newMonster(name, JSON.stringify(block));
-        this.engine.newMonster(name, this.toBlockAdapter(block));
+        let ba = this.toBlockAdapter(block);
+        this.engine.newMonster(name, ba);
     }
 
     getEncounterData(): EncounterData {
@@ -54,7 +50,6 @@ export default class Engine {
             adapter.putAction(action)
         });
 
-        console.log(adapter);
         return adapter
     }
 
@@ -62,7 +57,7 @@ export default class Engine {
         if (name == null) {
             throw new Error("Missing name.")
         }
-        return this.engine.getMonsterByName(name);
+        return JSON.parse(this.engine.getMonsterByName(name));
     }
 
     getPlayingMonsterName(): string {
@@ -78,24 +73,27 @@ export default class Engine {
     }
 
     getPlayingMonster(): Monster {
-        return this.engine.getPlayingMonster();
+        return JSON.parse(this.engine.getPlayingMonster());
     }
 
     updateMonster(monster: Monster): void {
         if (monster == null) {
             throw new Error("Missing monster.")
         }
-        this.engine.updateMonster(monster);
+        this.engine.updateMonster(JSON.stringify(monster));
     }
 
-    damage(name: string, damage: number): void {
+    damage(name: string, damage: number): Monster {
         if (name == null) {
             throw new Error("Missing name.")
         }
         if (damage == null) {
             throw new Error("Missing damage.")
         }
-        this.engine.damage(name, damage);
+        // this.engine.updateMonster(JSON.parse(this.engine.damage(name, damage)));
+        let damaged = JSON.parse(this.engine.damage(name, damage));
+        this.updateMonster(damaged[0]);
+        return this.getMonsterByName(name);
     }
 
     reset(): void {
@@ -103,7 +101,7 @@ export default class Engine {
     }
 
     getTurn(): number {
-        return this.engine.getTurn();
+        return this.engine.getTurn;
     }
 
     remove(name: string): void {
@@ -120,6 +118,6 @@ export default class Engine {
         if (value == null) {
             throw new Error("Missing value.")
         }
-        return this.engine.setInitiative(name, value);
+        return JSON.parse(this.engine.setInitiative(name, value));
     }
 }

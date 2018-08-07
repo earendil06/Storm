@@ -50,8 +50,15 @@ Challenge => {1/4}
 );
 
 engine.newMonster("toto", block.get());
-let ed = engine.getEncounterData();
-console.log(ed);
+// console.log(engine.getEncounterData());
+// console.log(engine.getMonsterByName("toto"));
+// console.log(engine.getMonsterByName("jj"));
+// console.log(engine.getTurn());
+// engine.nextTurn();
+engine.rollInitiative();
+console.log(engine.getEncounterData());
+console.log(engine.damage("toto", -10));;
+// console.log(engine.getMonsterByName("toto"));
 
 if ($("#container").length > 0) {
     Term.main();
