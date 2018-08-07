@@ -19,18 +19,26 @@ export interface Stat {
 }
 
 export interface StatValue {
-    formulae: string;
-    meanValue: number;
+    /*
+    def formulae: String
+    def meanValue: Int
+    def instantiateValue: Int
+    */
+    // formulae: string;
+    // meanValue: number;
 }
 
 export interface ConstValue extends StatValue {
+    //formulae: String, meanValue: Int
     formulae: string;
     meanValue: number;
 }
 
 export interface DiceValue extends StatValue {
-    formulae: string;
-    description: string;
+    //number: Int, sides: Int, modifier: Int
+    number: number;
+    sides: number;
+    modifier: number;
 }
 
 export interface Feature {
