@@ -1,5 +1,6 @@
 language: node_js
 before_script:
+  - npm install -g npm@latest
   - cd ./StormWeb/
   - npm install
   - bower install
