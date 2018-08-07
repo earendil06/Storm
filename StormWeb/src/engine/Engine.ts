@@ -68,12 +68,13 @@ export default class Engine {
         this.engine.rollInitiative();
     }
 
-    nextTurn(): void {
+    nextTurn(): Monster {
         this.engine.nextTurn();
+        return this.getPlayingMonster();
     }
 
     getPlayingMonster(): Monster {
-        return JSON.parse(this.engine.getPlayingMonster());
+        return JSON.parse(this.engine.getPlayingMonster)[0];
     }
 
     updateMonster(monster: Monster): void {
@@ -118,6 +119,8 @@ export default class Engine {
         if (value == null) {
             throw new Error("Missing value.")
         }
-        return JSON.parse(this.engine.setInitiative(name, value));
+        let updated = JSON.parse(this.engine.setInitiative(name, value));
+        this.updateMonster(updated[0]);
+        return this.getMonsterByName(name);
     }
 }
