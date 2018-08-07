@@ -1,3 +1,10 @@
 language: node_js
-before_script: ./install-all.sh
+before_script:
+  - cd StormWeb
+  - npm install
+  - ./node_modules/bower/bin/bower install
+  - npm i typescript --save-dev
+  - npm run antlr
+  - npm run build
+
 script: npm run test
