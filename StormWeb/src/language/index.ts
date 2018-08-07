@@ -9,7 +9,7 @@ import {
     StatContext, AbilityContext
 } from '../parser/StormParser';
 import {StormListener} from '../parser/StormListener';
-import {Block} from "../src/engine/Adapters";
+import {Block} from "../engine/Adapters";
 import {ANTLRErrorListener} from "antlr4ts/ANTLRErrorListener";
 
 class MyErrorListener implements ANTLRErrorListener<Token>{

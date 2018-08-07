@@ -1,8 +1,8 @@
 import {Block} from "../engine/Adapters";
 import {ANTLRInputStream, CommonTokenStream} from "antlr4ts";
-import {StormLexer} from "../../parser/StormLexer";
+import {StormLexer} from "../parser/StormLexer";
 import {ParseTreeListener, ParseTreeWalker} from "antlr4ts/tree";
-import {MyListener, MyStormParser} from "../../language";
+import {MyListener, MyStormParser} from "../language";
 import Optional from 'typescript-optional';
 
 interface IAccessor {

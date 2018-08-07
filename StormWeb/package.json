@@ -18,7 +18,7 @@
   "scripts": {
     "build": "webpack",
     "test": "jest",
-    "antlr": "antlr4ts -listener ./language/Storm.g4 -o parser"
+    "antlr": "antlr4ts -listener ./src/language/Storm.g4 -o ./src/parser"
   },
   "dependencies": {
     "antlr4": "^4.7.1",
