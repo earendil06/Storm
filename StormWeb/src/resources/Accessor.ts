@@ -3,7 +3,7 @@ import {StormParser} from "../../parser/StormParser";
 import {ANTLRInputStream, CommonTokenStream} from "antlr4ts";
 import {StormLexer} from "../../parser/StormLexer";
 import {ParseTreeListener, ParseTreeWalker} from "antlr4ts/tree";
-import {MyListener} from "../../language";
+import {MyListener, MyStormParser} from "../../language";
 import Optional from 'typescript-optional';
 
 interface IAccessor {
@@ -20,13 +20,17 @@ export abstract class Accessor implements IAccessor {
         let inputStream = new ANTLRInputStream(stormText);
         let lexer = new StormLexer(inputStream);
         let tokenStream = new CommonTokenStream(lexer);
-        const parser = new StormParser(tokenStream);
+        const parser = new MyStormParser(tokenStream);
         parser.buildParseTree = true;
-        let tree = parser.block();
-        let listener = new MyListener(parser) as ParseTreeListener;
-        ParseTreeWalker.DEFAULT.walk(listener, tree);
-        const result = (listener as MyListener).getResult();
-        return result == null ? Optional.empty() : Optional.of(result);
+        try {
+            let tree = parser.block();
+            let listener = new MyListener(parser) as ParseTreeListener;
+            ParseTreeWalker.DEFAULT.walk(listener, tree);
+            const result = (listener as MyListener).getResult();
+            return Optional.of(result);
+        }catch (e) {
+            return Optional.empty();
+        }
     }
 
     async abstract getBlockNameList(): Promise<string[]>;

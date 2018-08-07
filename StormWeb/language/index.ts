@@ -1,7 +1,9 @@
 'use strict';
 
-import {ANTLRInputStream, CommonTokenStream} from 'antlr4ts';
-import {StormLexer} from '../parser/StormLexer';
+import {
+    Token,
+    TokenStream
+} from 'antlr4ts';
 import {
     BlockContext,
     StormParser,
@@ -10,15 +12,30 @@ import {
     StatContext, AbilityContext
 } from '../parser/StormParser';
 import {StormListener} from '../parser/StormListener';
-import {ParseTreeWalker} from "antlr4ts/tree";
-import {ParseTreeListener} from "antlr4ts/tree/ParseTreeListener";
 import {Block} from "../src/engine/Adapters";
+import {ANTLRErrorListener} from "antlr4ts/ANTLRErrorListener";
+
+export class MyStormParser extends StormParser {
+
+    constructor(input: TokenStream) {
+        super(input);
+        this.removeErrorListeners();
+        this.addErrorListener(new ErrorListener())
+    }
+}
+
+class ErrorListener implements ANTLRErrorListener<Token> {
+    syntaxError(recognizer:any, offendingSymbol: any, line: number, charPositionInLine: number, msg: string, e: any) {
+        throw new Error("Bad syntax on storm => line " + line + " position " + charPositionInLine);
+    }
+
+}
 
 export class MyListener implements StormListener {
     private blockAdapter = new (window as any).BlockAdapter();
-    private parser: StormParser;
+    private parser: MyStormParser;
 
-    constructor(parser: StormParser) {
+    constructor(parser: MyStormParser) {
         this.parser = parser;
     }
 
@@ -89,68 +106,7 @@ export class MyListener implements StormListener {
 
 
     public getResult(): Block {
-        console.log(this.blockAdapter.block as Block)
         return this.blockAdapter.block;
     }
 
 }
-
-class Startup {
-    public static main(): number {
-        let b =
-            `Acolyte
-
-AC 10
-HP 2d8
-speed 30
-pp 10
-
-str 10
-dex 10
-con 10
-int 10
-wis 14
-cha 11
-
-actions {
-
-scimitar =>
-+4 to hit
-reach 5
-hit 1d6+2 slashing
-
-shortbow =>
-+4 to hit
-range 80/320
-hit 1d6 + 2 piercing
-{cool bow}
-}
-
-features {
-
-Skills => {medicine 4, religion 2}
-
-Languages => {any one language (usually Common)}
-
-Challenge => {1/4}
-
-}
-`;
-        let inputStream = new ANTLRInputStream(b);
-        let lexer = new StormLexer(inputStream);
-        let tokenStream = new CommonTokenStream(lexer);
-        let parser = new StormParser(tokenStream);
-
-        parser.buildParseTree = true;
-        let tree = parser.block();
-        let listener = new MyListener(parser) as ParseTreeListener;
-        ParseTreeWalker.DEFAULT.walk(listener, tree);
-        // console.log((listener as MyListener).getResult());
-
-        return 0;
-    }
-
-}
-
-
-Startup.main();

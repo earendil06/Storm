@@ -55,7 +55,9 @@ console.log(ed);
 console.log(ed.turn);
 console.log(ed.playingMonsterName);
 console.log(ed.monsters);
+let block = accessor.getBlockNameList();
 
+console.log(block);
 if ($("#container").length > 0) {
     Term.main();
 } else {
