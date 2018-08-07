@@ -1,5 +1,4 @@
 import {Block} from "../engine/Adapters";
-import {StormParser} from "../../parser/StormParser";
 import {ANTLRInputStream, CommonTokenStream} from "antlr4ts";
 import {StormLexer} from "../../parser/StormLexer";
 import {ParseTreeListener, ParseTreeWalker} from "antlr4ts/tree";

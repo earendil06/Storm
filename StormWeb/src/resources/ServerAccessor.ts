@@ -7,10 +7,7 @@ export default class ServerAccessor extends Accessor {
 
     async getBlockByName(blockName: string): Promise<Optional<Block>> {
         const path = "blocks";
-        var res = await $.ajax(
-            this.host + path
-        );
-        return res;
+        return null;
     }
 
     async getBlockNameList(): Promise<string[]> {
