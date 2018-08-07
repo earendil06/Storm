@@ -1,8 +1,7 @@
 import {Block} from "../engine/Adapters";
 import {ANTLRInputStream, CommonTokenStream} from "antlr4ts";
-import {StormLexer} from "../parser/StormLexer";
 import {ParseTreeListener, ParseTreeWalker} from "antlr4ts/tree";
-import {MyListener, MyStormParser} from "../language";
+import {MyListener, MyStormLexer, MyStormParser} from "../language";
 import Optional from 'typescript-optional';
 
 interface IAccessor {
@@ -17,7 +16,7 @@ export abstract class Accessor implements IAccessor {
 
     getBlockFromStormText(stormText: string): Optional<Block> {
         let inputStream = new ANTLRInputStream(stormText);
-        let lexer = new StormLexer(inputStream);
+        let lexer = new MyStormLexer(inputStream);
         let tokenStream = new CommonTokenStream(lexer);
         const parser = new MyStormParser(tokenStream);
         parser.buildParseTree = true;

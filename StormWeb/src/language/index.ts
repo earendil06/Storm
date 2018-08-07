@@ -1,16 +1,14 @@
-'use strict';
-
-import {RecognitionException, Token, TokenStream} from 'antlr4ts';
+import {CharStream, RecognitionException, Token, TokenStream} from 'antlr4ts';
 import {
     BlockContext,
-    StormParser,
     Action_blockContext,
     Feature_blockContext,
-    StatContext, AbilityContext
+    StatContext, AbilityContext, StormParser
 } from '../parser/StormParser';
 import {StormListener} from '../parser/StormListener';
 import {Block} from "../engine/Adapters";
 import {ANTLRErrorListener} from "antlr4ts/ANTLRErrorListener";
+import {StormLexer} from "../parser/StormLexer";
 
 class MyErrorListener implements ANTLRErrorListener<Token>{
     syntaxError<T extends Token>(recognizer: any, offendingSymbol: (T | undefined), line: number, charPositionInLine: number, msg: string, e: (RecognitionException | undefined)){
@@ -25,6 +23,13 @@ export class MyStormParser extends StormParser {
         super(input);
         this.removeErrorListeners();
         this.addErrorListener(new MyErrorListener())
+    }
+}
+
+export class MyStormLexer extends StormLexer {
+
+    constructor(input: CharStream) {
+        super(input);
     }
 }
 
