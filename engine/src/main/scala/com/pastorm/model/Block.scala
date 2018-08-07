@@ -3,7 +3,9 @@ package com.pastorm.model
 import com.pastorm.model.dice.Die
 
 import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSExportTopLevel}
+import upickle.default._
 import upickle.default.{macroRW, ReadWriter => RW}
+
 @JSExportAll
 sealed trait StatValue {
   def formulae: String
@@ -118,4 +120,8 @@ class BlockAdapter() {
   @JSExport
   def putAction(action: Action): Unit =
     block = block.copy(actions = action :: block.actions)
+
+  @JSExport
+  def getBlock: String =
+    write(block)
 }

@@ -89,6 +89,7 @@ export class MyListener implements StormListener {
 
 
     public getResult(): Block {
+        console.log(this.blockAdapter.block as Block)
         return this.blockAdapter.block;
     }
 
@@ -144,7 +145,7 @@ Challenge => {1/4}
         let tree = parser.block();
         let listener = new MyListener(parser) as ParseTreeListener;
         ParseTreeWalker.DEFAULT.walk(listener, tree);
-        console.log((listener as MyListener).getResult());
+        // console.log((listener as MyListener).getResult());
 
         return 0;
     }
