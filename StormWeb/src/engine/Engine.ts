@@ -4,6 +4,8 @@ export default class Engine {
     // private blockAdapter = new (window as any).BlockAdapter();
     private engine = new (window as any).JSAdapter() as any;
 
+    private static MISSING_BLOCK = "missing block.";
+
     constructor() {
         // console.log(this.engine.getEncounterData)
         // console.log(this.engine.getEncounterData.turn)
@@ -21,8 +23,7 @@ export default class Engine {
             throw new Error("missing name")
         }
         if (block == null) {
-            console.log("bbbb")
-            throw new Error("missing block")
+            throw new Error(Engine.MISSING_BLOCK)
         }
         this.engine.newMonster(name, this.toBlockAdapter(block));
     }
@@ -32,6 +33,9 @@ export default class Engine {
     }
 
     toBlockAdapter(block: Block): any {
+        if (block == null) {
+            throw new Error(Engine.MISSING_BLOCK)
+        }
         let adapter = new (window as any).BlockAdapter();
         adapter.setName(block.name);
         block.abilityScores.forEach(ability => adapter.putAbility(ability.abilityType, ability.score, ability.modifier));
@@ -42,6 +46,9 @@ export default class Engine {
     }
 
     getMonsterByName(name: string): Monster {
+        if (name == null) {
+            throw new Error("Missing name.")
+        }
         return this.engine.getMonsterByName(name);
     }
 
@@ -62,10 +69,19 @@ export default class Engine {
     }
 
     updateMonster(monster: Monster): void {
+        if (monster == null) {
+            throw new Error("Missing monster.")
+        }
         this.engine.updateMonster(monster);
     }
 
     damage(name: string, damage: number): void {
+        if (name == null) {
+            throw new Error("Missing name.")
+        }
+        if (damage == null) {
+            throw new Error("Missing damage.")
+        }
         this.engine.damage(name, damage);
     }
 
@@ -78,10 +94,19 @@ export default class Engine {
     }
 
     remove(name: string): void {
+        if (name == null) {
+            throw new Error("Missing name.")
+        }
         this.engine.remove(name);
     }
 
     setInitiative(name: string, value: number): Monster {
+        if (name == null) {
+            throw new Error("Missing name.")
+        }
+        if (value == null) {
+            throw new Error("Missing value.")
+        }
         return this.engine.setInitiative(name, value);
     }
 }

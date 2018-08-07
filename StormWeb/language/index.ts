@@ -89,8 +89,8 @@ export class MyListener implements StormListener {
 
 
     public getResult(): Block {
-        console.log(this.blockAdapter.block as Block)
-        return this.blockAdapter.block;
+        // console.log(this.blockAdapter.block as Block)
+        return JSON.parse(this.blockAdapter.getBlock);
     }
 
 }
