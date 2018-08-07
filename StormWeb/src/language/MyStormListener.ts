@@ -1,4 +1,4 @@
-import {StormListener} from "../parser/StormListener";
+import {StormListener} from "parser/StormListener";
 import {
     AbilityContext,
     Action_blockContext,
