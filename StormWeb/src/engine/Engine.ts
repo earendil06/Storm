@@ -1,4 +1,4 @@
-import {Block} from "./Adapters";
+import {Block, EncounterData} from "./Adapters";
 
 export default class Engine {
     // private blockAdapter = new (window as any).BlockAdapter();
@@ -13,6 +13,10 @@ export default class Engine {
         this.engine.newMonster(name, this.toBlockAdapter(block))
     }
 
+    getEncounterData(): EncounterData {
+        return this.engine.getEncounterData
+    }
+
     toBlockAdapter(block: Block) : any {
         let adapter = new (window as any).BlockAdapter();
         adapter.setName(block.name);
@@ -20,7 +24,7 @@ export default class Engine {
         block.stats.forEach(stat => adapter.putStat(stat.statType, stat.statValue));
         block.features.forEach(feature => adapter.putFeature(feature.name, feature.description));
         block.actions.forEach(action => adapter.putAction(action));
-        return adapter.block
+        return adapter
     }
 
 }

@@ -1,11 +1,5 @@
 package com.pastorm
 
-import com.pastorm.encounter.engine.EncounterEngine
-import com.pastorm.encounter.engine.configuration.EncounterEngineComponent
-import com.pastorm.model.{Block, BlockAdapter, EncounterData, Monster}
-
-import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
-
 @JSExportTopLevel("JSAdapter")
 class JSAdapter {
   val engine: EncounterEngine = EncounterEngineComponent.encounterEngine
@@ -18,12 +12,12 @@ class JSAdapter {
   @JSExport
   //todo
   def getEncounterData: EncounterData =
-    engine.getEncounterData
+    write(engine.getEncounterData)
 
   @JSExport
   //todo
   def getMonsterByName(name: String): Option[Monster] =
-    engine.getMonsterByName(name)
+    write(engine.getMonsterByName(name))
 
   @JSExport
   def getPlayingMonsterName: String =
@@ -40,16 +34,16 @@ class JSAdapter {
   @JSExport
   //todo
   def getPlayingMonster: Option[Monster] =
-    engine.getPlayingMonster
+    write(engine.getPlayingMonster)
 
   @JSExport
   //todo
-  def updateMonster(monster: Monster): Unit =
-    engine.updateMonster(monster)
+  def updateMonster(monster: String): Unit =
+    engine.updateMonster(read[Monster](monster))
 
   @JSExport
   def damage(name: String, damage: Int): Option[Monster] =
-    engine.damage(name, damage)
+    write(engine.damage(name, damage))
 
   @JSExport
   def reset(): Unit =
@@ -66,5 +60,5 @@ class JSAdapter {
   @JSExport
   //todo
   def setInitiative(name: String, value: Int): Option[Monster] =
-    engine.setInitiative(name, value)
+    write(engine.setInitiative(name, value))
 }

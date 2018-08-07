@@ -7,5 +7,6 @@ lazy val storm = (project in file("."))
     scalaJSUseMainModuleInitializer := true,
 
       libraryDependencies ++= Seq(
+        libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.6.6"
     )
   )

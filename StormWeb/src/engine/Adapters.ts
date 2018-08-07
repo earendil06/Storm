@@ -46,3 +46,15 @@ export interface Block {
     actions: Action[];
 }
 
+export interface Monster {
+    block: Block;
+    name: String;
+    hitPoints: number;
+    initiative: number;
+}
+
+export interface EncounterData {
+    monsters: Monster[];
+    playingMonsterName: string;
+    turn: number;
+}

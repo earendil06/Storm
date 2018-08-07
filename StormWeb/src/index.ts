@@ -9,7 +9,8 @@ console.log(action);
 console.log(action.description);*/
 
 let engine = new Engine();
-// engine.toBlockAdapter(new Block())
+engine.newMonster("toto", {name:"goblin", actions: [], stats: [], abilityScores: [], features:[]});
+console.log(engine.getEncounterData().monsters);
 
 if ($("#container").length > 0) {
     Term.main();
