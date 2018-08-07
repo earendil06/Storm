@@ -21,10 +21,11 @@
     "antlr": "antlr4ts -listener -o parser ./language/Storm.g4"
   },
   "dependencies": {
-    "vue-typed": "^2.1.4",
-    "jquery": "^3.2.1",
-    "bower": "^1.8.4",
     "antlr4": "^4.7.1",
-    "antlr4ts": "^0.4.1-alpha.0"
+    "antlr4ts": "^0.4.1-alpha.0",
+    "bower": "^1.8.4",
+    "jquery": "^3.2.1",
+    "typescript-optional": "^1.8.0",
+    "vue-typed": "^2.1.4"
   }
 }

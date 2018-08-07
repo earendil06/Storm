@@ -1,4 +1,9 @@
 package com.pastorm
+import scala.scalajs.js.annotation._
+import com.pastorm.encounter.engine.EncounterEngine
+import com.pastorm.encounter.engine.configuration.EncounterEngineComponent
+import com.pastorm.model.{Block, BlockAdapter, EncounterData, Monster}
+import upickle.default._
 
 @JSExportTopLevel("JSAdapter")
 class JSAdapter {
@@ -11,12 +16,12 @@ class JSAdapter {
 
   @JSExport
   //todo
-  def getEncounterData: EncounterData =
+  def getEncounterData: String =
     write(engine.getEncounterData)
 
   @JSExport
   //todo
-  def getMonsterByName(name: String): Option[Monster] =
+  def getMonsterByName(name: String): String =
     write(engine.getMonsterByName(name))
 
   @JSExport
@@ -33,7 +38,7 @@ class JSAdapter {
 
   @JSExport
   //todo
-  def getPlayingMonster: Option[Monster] =
+  def getPlayingMonster: String =
     write(engine.getPlayingMonster)
 
   @JSExport
@@ -42,7 +47,7 @@ class JSAdapter {
     engine.updateMonster(read[Monster](monster))
 
   @JSExport
-  def damage(name: String, damage: Int): Option[Monster] =
+  def damage(name: String, damage: Int): String =
     write(engine.damage(name, damage))
 
   @JSExport
@@ -59,6 +64,6 @@ class JSAdapter {
 
   @JSExport
   //todo
-  def setInitiative(name: String, value: Int): Option[Monster] =
+  def setInitiative(name: String, value: Int): String =
     write(engine.setInitiative(name, value))
 }

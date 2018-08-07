@@ -3,7 +3,7 @@ package com.pastorm.model
 import com.pastorm.model.dice.Die
 
 import scala.scalajs.js.annotation.{JSExport, JSExportAll, JSExportTopLevel}
-
+import upickle.default.{macroRW, ReadWriter => RW}
 @JSExportAll
 sealed trait StatValue {
   def formulae: String
@@ -12,11 +12,17 @@ sealed trait StatValue {
 
   def instantiateValue: Int
 }
+object StatValue{
+  implicit val rw: RW[StatValue] = macroRW
+}
 
 @JSExportTopLevel("ConstValue")
 @JSExportAll
 case class ConstValue(formulae: String, meanValue: Int) extends StatValue {
   override def instantiateValue: Int = meanValue
+}
+object ConstValue{
+  implicit val rw: RW[ConstValue] = macroRW
 }
 
 @JSExportTopLevel("DiceValue")
@@ -43,13 +49,22 @@ case class DiceValue(number: Int, sides: Int, modifier: Int) extends StatValue {
     s"${number}d$sides${if (modifier != 0) modifierFormat else ""}"
   }
 }
+object DiceValue{
+  implicit val rw: RW[DiceValue] = macroRW
+}
 
 case class Ability(abilityType: String, score: Int, modifier: Int)
-
+object Ability{
+  implicit val rw: RW[Ability] = macroRW
+}
 case class Stat(statType: String, statValue: StatValue)
-
+object Stat{
+  implicit val rw: RW[Stat] = macroRW
+}
 case class Feature(name: String, description: String)
-
+object Feature{
+  implicit val rw: RW[Feature] = macroRW
+}
 @JSExportTopLevel("Action")
 @JSExportAll
 case class Action(name: String,
@@ -58,6 +73,9 @@ case class Action(name: String,
                   range: String,
                   hit: String,
                   description: String)
+object Action{
+  implicit val rw: RW[Action] = macroRW
+}
 
 case class Block(name: String,
                  abilityScores: List[Ability],
@@ -71,6 +89,9 @@ case class Block(name: String,
   def findAbility(abilityType: String): Option[Ability] =
     abilityScores.find(a => a.abilityType.equals(abilityType.toLowerCase))
 
+}
+object Block{
+  implicit val rw: RW[Block] = macroRW
 }
 
 @JSExportTopLevel("BlockAdapter")

@@ -12,8 +12,9 @@ import {
 import {StormListener} from '../parser/StormListener';
 import {ParseTreeWalker} from "antlr4ts/tree";
 import {ParseTreeListener} from "antlr4ts/tree/ParseTreeListener";
+import {Block} from "../src/engine/Adapters";
 
-class MyListener implements StormListener {
+export class MyListener implements StormListener {
     private blockAdapter = new (window as any).BlockAdapter();
     private parser: StormParser;
 
@@ -87,7 +88,7 @@ class MyListener implements StormListener {
     }
 
 
-    public getResult() {
+    public getResult(): Block {
         return this.blockAdapter.block;
     }
 
