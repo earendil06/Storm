@@ -50,7 +50,7 @@ Challenge => {1/4}
 );
 
 engine.newMonster("toto", block.get());
-let ed = engine.getEncounterData() as EncounterData;
+let ed = engine.getEncounterData();
 console.log(ed);
 
 if ($("#container").length > 0) {
