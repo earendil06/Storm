@@ -1,4 +1,4 @@
-import {StormLexer} from "parser/StormLexer";
+import {StormLexer} from "../parser/StormLexer";
 import {CharStream} from "antlr4ts";
 
 export class MyStormLexer extends StormLexer {
