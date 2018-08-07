@@ -11,7 +11,7 @@ class EncounterEngine() extends GameEngine {
     if (getMonsterByName(name).nonEmpty)
       println(s"$name already exists in the encounter.")
     else
-      encounterData = encounterData.copy(monsters = encounterData.monsters :+ createBaseMonster(name, Block("goblin", List(), List(), List(), List())))
+      encounterData = encounterData.copy(monsters = encounterData.monsters :+ createBaseMonster(name, block))
 
   override def getEncounterData: EncounterData = {
     val ordered = encounterData.monsters
