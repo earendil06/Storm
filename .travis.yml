@@ -3,8 +3,8 @@ before_script:
   - cd StormWeb
   - npm install
   - ./node_modules/bower/bin/bower install
-  - npm i typescript --save-dev
   - npm run antlr
+  - npm i typescript --save-dev
   - npm run build
 
 script: npm run test
