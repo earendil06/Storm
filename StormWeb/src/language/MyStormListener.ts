@@ -1,39 +1,14 @@
-import {CharStream, RecognitionException, Token, TokenStream} from 'antlr4ts';
+import {StormListener} from "../parser/StormListener";
 import {
-    BlockContext,
+    AbilityContext,
     Action_blockContext,
-    Feature_blockContext,
-    StatContext, AbilityContext, StormParser
-} from '../parser/StormParser';
-import {StormListener} from '../parser/StormListener';
+    BlockContext,
+    Feature_blockContext, StatContext,
+    StormParser
+} from "../parser/StormParser";
 import {Block} from "../engine/Adapters";
-import {ANTLRErrorListener} from "antlr4ts/ANTLRErrorListener";
-import {StormLexer} from "../parser/StormLexer";
 
-class MyErrorListener implements ANTLRErrorListener<Token>{
-    syntaxError<T extends Token>(recognizer: any, offendingSymbol: (T | undefined), line: number, charPositionInLine: number, msg: string, e: (RecognitionException | undefined)){
-        throw new Error("error line :" + line);
-    }
-
-}
-
-export class MyStormParser extends StormParser {
-
-    constructor(input: TokenStream) {
-        super(input);
-        this.removeErrorListeners();
-        this.addErrorListener(new MyErrorListener())
-    }
-}
-
-export class MyStormLexer extends StormLexer {
-
-    constructor(input: CharStream) {
-        super(input);
-    }
-}
-
-export class MyListener implements StormListener {
+export class MyStormListener implements StormListener {
     private blockAdapter = new (window as any).BlockAdapter();
     private parser: StormParser;
 
