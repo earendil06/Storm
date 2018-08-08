@@ -9,6 +9,7 @@ import Engine from "../engine/Engine";
 
 export default class Term {
     static main() {
+        (window as any).engine = new Engine();
         (window as any).app = new Vue({
 
             el: '#container',
@@ -71,7 +72,8 @@ export default class Term {
                 },
                 encounterUpdate: function () {
                     let vue = this;
-                    $.ajax({
+                    vue.encounter = StaticHelpers.engine().getEncounterData()
+                    /*$.ajax({
                         contentType: "application/json",
                         url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data`,
                         statusCode: {
@@ -84,7 +86,7 @@ export default class Term {
                                 vue.encounter = data;
                             }
                         }
-                    });
+                    });*/
                 },
                 pressEnter: function () {
                     if (this.currentCommand !== "" && this.currentArguments[0] === "!!") {
@@ -172,7 +174,6 @@ export default class Term {
                 }
             }
         }) as Application;
-        (window as any).engine = new Engine();
         $(document as any).keydown(function (e) {
             const tabCode = 9;
             const enterCode = 13;

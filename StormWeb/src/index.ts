@@ -30,9 +30,9 @@ import LocalAccessor from "./resources/LocalAccessor";
 // localStorage.setItem(key, 'Value');
 // let myItem = localStorage.getItem(key);
 // console.log(myItem);
-let accessor = new LocalAccessor();
-console.log("in dir");
-console.log(accessor.getFilesInDirectory());
+// let accessor = new LocalAccessor();
+// console.log("in dir");
+// console.log(accessor.getFilesInDirectory());
 
 // accessor.getBlockByName("airbender").then(value => console.log(value)); // already loaded in browser memory
 

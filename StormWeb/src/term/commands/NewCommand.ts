@@ -1,9 +1,8 @@
 import Command from "./Command";
 import {StaticHelpers} from "../../StaticHelpers";
-import * as $ from "jquery";
 import {IHistoryCommand} from "../../Application";
 import {HistoryCommand} from "../../poco/HistoryCommand";
-import LocalAccessor from "../../resources/LocalAccessor";
+import {BlockCommand} from "./BlockCommand";
 
 export class NewCommand extends Command {
 
@@ -18,27 +17,18 @@ export class NewCommand extends Command {
             const monsterType = args[0];
             const monsterName = args[1];
 
-            try {
-                const block = await new LocalAccessor().getBlockByName(monsterType);
-                const result = StaticHelpers.engine().newMonster(monsterName, block);
-                /*const result = await $.ajax({
-                    contentType: "application/json",
-                    method: 'POST',
-                    url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/new`,
-                    data: JSON.stringify({"name": monsterName, "blockName": monsterType}),
-                });*/
-                return new HistoryCommand(this.getCommandName(), args, monsterName + " has been added to the encounter.", "default-component");
-            } catch (e) {
-                switch (e.status) {
-                    case 400 : return new HistoryCommand(this.getCommandName(), args, monsterName + " already exists in the encounter.", "default-component");
-                    case 404 : return new HistoryCommand(this.getCommandName(), args, monsterType + " does not exists.", "default-component");
-                    case 500 : return new HistoryCommand(this.getCommandName(), args, "Error 500, Something went wrong!", "default-component");
-                    default: return null;
+            // const block = await new LocalAccessor().getBlockByName(monsterType);
+            const block = await new BlockCommand().execute([monsterType]);
+            if ("block-component" === block.templateName) { //todo this is bad code
+                try {
+                    StaticHelpers.engine().newMonster(monsterName, block.output);
+                    return new HistoryCommand(this.getCommandName(), args, monsterName + " has been added to the encounter.", "default-component");
+                } catch (e) {
+                    return new HistoryCommand(this.getCommandName(), args, monsterName + " already exists in the encounter.", "default-component");
                 }
+            } else {
+                return new HistoryCommand(this.getCommandName(), args, monsterType + " does not exists.", "default-component");
             }
-
-
         }
     }
-
 }

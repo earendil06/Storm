@@ -9,13 +9,14 @@ export default class Engine {
     }
 
     newMonster(name: string, block: Block): void {
-        if (name == null) {
-            throw new Error("missing name")
-        }
-        if (block == null) {
-            throw new Error(Engine.MISSING_BLOCK)
-        }
         let ba = this.toBlockAdapter(block);
+
+        let ed = this.getEncounterData();
+        let existing = ed.monsters.find(monster => monster.name === name);
+        if (existing) {
+            throw new Error(name + " already exists in the encounter.")
+        }
+
         this.engine.newMonster(name, ba);
     }
 
