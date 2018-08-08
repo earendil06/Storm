@@ -20,36 +20,6 @@ export abstract class Accessor implements IAccessor {
 
     abstract async getBlockByName(blockName: string): Promise<Block>;
 
-    async loadBlockFromBrowserDB(blockName: string): Promise<string> {
-        return new Promise<string>((resolve, reject) => {
-            let block;
-            let xhr = new XMLHttpRequest(),
-                blob,
-                fileReader = new FileReader();
-            xhr.open("GET", "db/" + blockName + ".storm", true);
-            xhr.responseType = "arraybuffer";
-            xhr.addEventListener("load", function () {
-                if (xhr.status === 200) {
-                    blob = new Blob([xhr.response]);
-                    fileReader.onload = function (evt) {
-                        block = evt.target.result;
-                        try {
-                            localStorage.setItem(blockName, block);
-                            resolve(block);
-                        } catch (e) {
-                            console.log("Storage failed: " + e);
-                            reject(xhr.status);
-                        }
-                    };
-                    fileReader.readAsText(blob);
-                } else {
-                    reject(xhr.status);
-                }
-            }, false);
-            xhr.send();
-        });
-    }
-
     getBlockFromStormText(stormText: string): Optional<Block> {
         let inputStream = new ANTLRInputStream(stormText);
         let lexer = new MyStormLexer(inputStream);

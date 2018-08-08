@@ -5,6 +5,7 @@ import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 import {Application, IHistoryCommand} from "../Application";
 import ClearCommand from "./commands/ClearCommand";
+import Engine from "../engine/Engine";
 
 export default class Term {
     static main() {
@@ -171,6 +172,7 @@ export default class Term {
                 }
             }
         }) as Application;
+        (window as any).engine = new Engine();
         $(document as any).keydown(function (e) {
             const tabCode = 9;
             const enterCode = 13;

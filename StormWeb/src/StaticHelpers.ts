@@ -19,6 +19,7 @@ import * as $ from "jquery";
 import {ExportEncounterCommand} from "./term/commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
+import Engine from "./engine/Engine";
 
 export class StaticHelpers {
     static hideSpinner(): void {
@@ -102,6 +103,10 @@ export class StaticHelpers {
 
     static application(): Application {
         return (window as any).app as Application;
+    }
+
+    static engine(): Engine {
+        return (window as any).engine as Engine;
     }
 
     static COMMANDS() {

@@ -15,16 +15,19 @@ export class DamageCommand extends Command {
             return new HistoryCommand(this.getCommandName(), args, "missing parameters (e.g.: damage adrien 2)", "default-component");
         } else {
             const monsterName = args[0];
-            const monsterDamage = args[1];
-            const damageString = -monsterDamage + "";
+            const monsterDamage = - parseInt(args[1]);
+
+
+
             try {
-                const res = await $.ajax({
+                const result = StaticHelpers.engine().damage(monsterName, monsterDamage);
+                /*const res = await $.ajax({
                     contentType: "application/json",
                     method: 'PUT',
                     url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/damage`,
                     data: JSON.stringify({"name": monsterName, "damage": damageString}),
-                });
-                return new HistoryCommand(this.getCommandName(), args, res, "monster-component");
+                });*/
+                return new HistoryCommand(this.getCommandName(), args, result, "monster-component");
             } catch (e) {
                 switch (e.status) {
                     case 400 : return new HistoryCommand(this.getCommandName(), args, 'The request should be like "damage adrien 2".', "default-component")

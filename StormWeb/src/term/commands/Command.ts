@@ -5,8 +5,6 @@ import Engine from "../../engine/Engine";
 
 export default abstract class Command implements ICommand {
     private readonly commandName: string;
-    accessor = new LocalAccessor();
-    engine = new Engine();
 
     protected constructor(commandName: string) {
         this.commandName = commandName;

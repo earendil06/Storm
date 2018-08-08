@@ -18,7 +18,7 @@
   "scripts": {
     "build": "webpack --display-error-details",
     "test": "jest",
-    "antlr": "antlr4ts -listener ./src/language/Storm.g4 -o ./src/language"
+    "antlr": "antlr4ts -listener ./src/language/Storm.g4 -o ./src/parser"
   },
   "dependencies": {
     "antlr4": "^4.7.1",

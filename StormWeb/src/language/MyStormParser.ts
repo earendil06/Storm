@@ -1,4 +1,4 @@
-import {StormParser} from "./StormParser";
+import {StormParser} from "../parser/StormParser";
 import {TokenStream} from "antlr4ts";
 import {MyErrorListener} from "./MyErrorListener";
 

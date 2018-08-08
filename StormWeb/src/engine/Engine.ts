@@ -57,7 +57,11 @@ export default class Engine {
         if (name == null) {
             throw new Error("Missing name.")
         }
-        return JSON.parse(this.engine.getMonsterByName(name));
+        const result = JSON.parse(this.engine.getMonsterByName(name)) as Monster[];
+        if (result.length === 0) {
+            throw new Error("No monster found");
+        }
+        return result[0];
     }
 
     getPlayingMonsterName(): string {
@@ -92,7 +96,10 @@ export default class Engine {
             throw new Error("Missing damage.")
         }
         // this.engine.updateMonster(JSON.parse(this.engine.damage(name, damage)));
-        let damaged = JSON.parse(this.engine.damage(name, damage));
+        let damaged = JSON.parse(this.engine.damage(name, damage)) as Monster[];
+        if (damaged.length === 0) {
+            throw Error("Not found");
+        }
         this.updateMonster(damaged[0]);
         return this.getMonsterByName(name);
     }
