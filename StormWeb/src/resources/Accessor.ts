@@ -38,10 +38,12 @@ export abstract class Accessor implements IAccessor {
                             resolve(block);
                         } catch (e) {
                             console.log("Storage failed: " + e);
-                            reject(xhr.statusText);
+                            reject(xhr.status);
                         }
                     };
                     fileReader.readAsText(blob);
+                } else {
+                    reject(xhr.status);
                 }
             }, false);
             xhr.send();

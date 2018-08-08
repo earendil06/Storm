@@ -30,15 +30,11 @@ let engine = new Engine();
 // localStorage.setItem(key, 'Value');
 // let myItem = localStorage.getItem(key);
 // console.log(myItem);
-let accessor = new LocalAccessor();
+// let accessor = new LocalAccessor();
 
-accessor.getBlockByName("airbender").then(value => console.log(value)); // already loaded in browser memory
+// accessor.getBlockByName("airbender").then(value => console.log(value)); // already loaded in browser memory
 
-localStorage.clear();
-
-accessor.getBlockByName("airbender").then(value => console.log(value)); // dynamically loaded from filesystem
-
-accessor.getBlockByName("dontexists").then(value => console.log(value)); // returns 404
+// accessor.getBlockByName("goblin").then(value => console.log(value)); // dynamically loaded from filesystem
 
 if ($("#container").length > 0) {
     Term.main();

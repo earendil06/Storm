@@ -7,13 +7,15 @@ export default class LocalAccessor extends Accessor {
         let blockStored = localStorage.getItem(blockName);
         if (blockStored) {
             return new Promise<Block>((resolve, reject) => {
-                let blockOpt = this.getBlockFromStormText(localStorage.getItem(blockName));
+                let blockOpt = this.getBlockFromStormText(blockStored);
                 resolve(blockOpt.get())
             });
         } else {
-            return await this.loadBlock(blockName)
-                .then(blockText => this.getBlockFromStormText(blockText).get())
-                .catch(reason => reason);
+            return new Promise<Block>((resolve, reject) => {
+                this.loadBlock(blockName)
+                    .then(blockText => resolve(this.getBlockFromStormText(blockText).get()))
+                    .catch(reason => reject(reason))
+            });
         }
     }
 
