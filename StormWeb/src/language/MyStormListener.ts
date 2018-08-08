@@ -1,11 +1,11 @@
-import {StormListener} from "../parser/StormListener";
+import {StormListener} from "./StormListener";
 import {
     AbilityContext,
     Action_blockContext,
     BlockContext,
     Feature_blockContext, StatContext,
     StormParser
-} from "../parser/StormParser";
+} from "./StormParser";
 import {Block} from "../engine/Adapters";
 
 export class MyStormListener implements StormListener {
