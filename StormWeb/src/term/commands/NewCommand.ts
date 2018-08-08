@@ -16,8 +16,6 @@ export class NewCommand extends Command {
         } else {
             const monsterType = args[0];
             const monsterName = args[1];
-
-            // const block = await new LocalAccessor().getBlockByName(monsterType);
             const block = await new BlockCommand().execute([monsterType]);
             if ("block-component" === block.templateName) { //todo this is bad code
                 try {

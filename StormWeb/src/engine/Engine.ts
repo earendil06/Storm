@@ -96,13 +96,17 @@ export default class Engine {
         if (damage == null) {
             throw new Error("Missing damage.")
         }
-        // this.engine.updateMonster(JSON.parse(this.engine.damage(name, damage)));
         let damaged = JSON.parse(this.engine.damage(name, damage)) as Monster[];
         if (damaged.length === 0) {
             throw Error("Not found");
         }
         this.updateMonster(damaged[0]);
         return this.getMonsterByName(name);
+    }
+
+    isMonsterInEncounter(name: string): boolean {
+        const result = JSON.parse(this.engine.getMonsterByName(name)) as Monster[];
+        return result.length > 0;
     }
 
     reset(): void {
