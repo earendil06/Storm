@@ -29,20 +29,32 @@ export interface StatValue {
 }
 
 export interface ConstValue extends StatValue {
-    //formulae: String, meanValue: Int
     formulae: string;
     meanValue: number;
     instantiateValue: number;
 }
 
-export interface DiceValue extends StatValue {
-    //number: Int, sides: Int, modifier: Int
+export class DiceValue implements StatValue {
     number: number;
     sides: number;
     modifier: number;
-    instantiateValue: number;
-    meanValue: number;
-    formulae: number;
+    meanValue(): number {
+        let facesUp = this.sides + 1;
+        let div = facesUp / 2;
+        let res = this.number * div + this.modifier;
+        return Math.floor(res);
+    };
+    formulae(): string {
+        let modifierFormat = '+';
+        if (this.modifier > 0) {
+            modifierFormat = '-';
+        }
+        let res = `${this.number}d${this.sides}`;
+        if (this.modifier != 0) {
+            res += modifierFormat.toString() + this.modifier.toString()
+        }
+        return res;
+    };
 }
 
 export interface Feature {

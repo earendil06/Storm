@@ -81,7 +81,6 @@ export class MyStormListener implements StormListener {
         this.blockAdapter.putStat(ctx.STAT().symbol.text.toLowerCase(), statValue);
     }
 
-
     public getResult(): Block {
         return JSON.parse(this.blockAdapter.getBlock);
     }

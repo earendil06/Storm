@@ -2,6 +2,7 @@ import Command from "./Command";
 import {HistoryCommand} from "../../poco/HistoryCommand";
 import {IHistoryCommand} from "../../Application";
 import LocalAccessor from "../../resources/LocalAccessor";
+import {DiceValue} from "../../engine/Adapters";
 
 export class BlockCommand extends Command {
     private accessor = new LocalAccessor();
@@ -18,6 +19,10 @@ export class BlockCommand extends Command {
             return this.accessor.getBlockByName(blockName)
                 .then(block => {
                     if (block.isPresent) {
+                        let dv = block.get().stats.find(f => f.statType === "hp").statValue as DiceValue;
+                        console.log(dv);
+                        console.log(dv.meanValue());
+                        console.log(dv.formulae());
                         return new HistoryCommand(this.getCommandName(), args, block.get(), "block-component");
                     }
                     return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "default-component");
