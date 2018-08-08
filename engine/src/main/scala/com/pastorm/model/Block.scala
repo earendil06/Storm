@@ -30,6 +30,7 @@ object ConstValue{
 @JSExportTopLevel("DiceValue")
 @JSExportAll
 case class DiceValue(number: Int, sides: Int, modifier: Int) extends StatValue {
+  @JSExport
   override def instantiateValue: Int = {
     val die = new Die(sides)
     var acc = modifier
@@ -39,6 +40,7 @@ case class DiceValue(number: Int, sides: Int, modifier: Int) extends StatValue {
     acc
   }
 
+  @JSExport
   override def meanValue: Int = {
     val facesUp : Double = sides + 1
     val div : Double = facesUp / 2
@@ -46,6 +48,7 @@ case class DiceValue(number: Int, sides: Int, modifier: Int) extends StatValue {
     res.toInt
   }
 
+  @JSExport
   override def formulae: String = {
     val modifierFormat = s"${if (modifier > 0) "+" else "-"}$modifier"
     s"${number}d$sides${if (modifier != 0) modifierFormat else ""}"

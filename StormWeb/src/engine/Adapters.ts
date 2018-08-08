@@ -32,6 +32,7 @@ export interface ConstValue extends StatValue {
     //formulae: String, meanValue: Int
     formulae: string;
     meanValue: number;
+    instantiateValue: number;
 }
 
 export interface DiceValue extends StatValue {
@@ -39,6 +40,9 @@ export interface DiceValue extends StatValue {
     number: number;
     sides: number;
     modifier: number;
+    instantiateValue: number;
+    meanValue: number;
+    formulae: number;
 }
 
 export interface Feature {
