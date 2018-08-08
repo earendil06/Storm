@@ -4,7 +4,7 @@ import * as $ from "jquery"
 import Engine from "./engine/Engine";
 import LocalAccessor from "./resources/LocalAccessor";
 
-let engine = new Engine();
+// let engine = new Engine();
 
 // engine.newMonster("toto", block.get());
 // engine.newMonster("ddd", block.get());
@@ -30,7 +30,9 @@ let engine = new Engine();
 // localStorage.setItem(key, 'Value');
 // let myItem = localStorage.getItem(key);
 // console.log(myItem);
-// let accessor = new LocalAccessor();
+let accessor = new LocalAccessor();
+console.log("in dir");
+console.log(accessor.getFilesInDirectory());
 
 // accessor.getBlockByName("airbender").then(value => console.log(value)); // already loaded in browser memory
 

@@ -20,7 +20,7 @@ export abstract class Accessor implements IAccessor {
 
     abstract async getBlockByName(blockName: string): Promise<Block>;
 
-    async loadBlock(blockName: string): Promise<string> {
+    async loadBlockFromBrowserDB(blockName: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let block;
             let xhr = new XMLHttpRequest(),
