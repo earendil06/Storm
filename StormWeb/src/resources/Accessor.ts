@@ -18,21 +18,7 @@ interface IAccessor {
 
 export abstract class Accessor implements IAccessor {
 
-    async getBlockByName(blockName: string): Promise<Block> {
-        let blockStored = localStorage.getItem(blockName);
-        if (blockStored) {
-            console.log("already loaded");
-            return new Promise<Block>((resolve, reject) => {
-                let blockOpt = this.getBlockFromStormText(localStorage.getItem(blockName));
-                resolve(blockOpt.get())
-            });
-        } else {
-            console.log("have to load");
-            return await this.loadBlock(blockName)
-                .then(blockText => this.getBlockFromStormText(blockText).get())
-                .catch(reason => reason);
-        }
-    }
+    abstract async getBlockByName(blockName: string): Promise<Block>;
 
     async loadBlock(blockName: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
