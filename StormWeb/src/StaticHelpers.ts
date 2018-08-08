@@ -20,6 +20,7 @@ import {ExportEncounterCommand} from "./term/commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
 import Engine from "./engine/Engine";
+import LocalAccessor from "./resources/LocalAccessor";
 
 export class StaticHelpers {
     static hideSpinner(): void {
@@ -86,11 +87,8 @@ export class StaticHelpers {
     }
 
     static async getBlocks() {
-        return await $.ajax({
-            contentType: "application/json",
-            url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks`
-        });
-
+        const accessor = new LocalAccessor();
+        return await accessor.getBlockNameList();
     }
 
     static async getMonsters() {

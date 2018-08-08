@@ -17,7 +17,10 @@ export class BlockCommand extends Command {
             const blockName = args[0];
             return this.accessor.getBlockByName(blockName)
                 .then(block => {
-                    return new HistoryCommand(this.getCommandName(), args, block, "block-component")
+                    if (block.isPresent) {
+                        return new HistoryCommand(this.getCommandName(), args, block.get(), "block-component");
+                    }
+                    return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "default-component");
                 })
                 .catch(statusCode => {
                     switch (statusCode) {

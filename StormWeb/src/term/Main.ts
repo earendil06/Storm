@@ -133,7 +133,7 @@ export default class Term {
                     message.preventDefault();
                     const propEngine = [
                         {
-                            "name": "",
+                            "name": "root",
                             "function": "getCommands"
                         },
                         {
@@ -150,7 +150,7 @@ export default class Term {
                         }
                     ];
 
-                    const pointer = this.currentArguments.length === 0 ? "" : this.currentCommand;
+                    let pointer = this.currentArguments.length === 0 ? "root" : this.currentCommand;
                     let toExecute = propEngine.find(f => f.name === pointer);
                     if (toExecute === undefined) {
                         return;

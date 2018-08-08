@@ -7,7 +7,7 @@ import {MyStormParser} from "../language/MyStormParser";
 import {MyStormListener} from "../language/MyStormListener";
 
 interface IAccessor {
-    getBlockByName(blockName: string): Promise<Block>;
+    getBlockByName(blockName: string): Promise<Optional<Block>>;
 
     getBlockFromStormText(stormText: string): Optional<Block>;
 
@@ -18,7 +18,7 @@ interface IAccessor {
 
 export abstract class Accessor implements IAccessor {
 
-    abstract async getBlockByName(blockName: string): Promise<Block>;
+    abstract async getBlockByName(blockName: string): Promise<Optional<Block>>;
 
     getBlockFromStormText(stormText: string): Optional<Block> {
         let inputStream = new ANTLRInputStream(stormText);
