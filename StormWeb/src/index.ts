@@ -4,11 +4,12 @@ import * as $ from "jquery"
 import Engine from "./engine/Engine";
 import {EncounterData} from "./engine/Adapters";
 import ServerAccessor from "./resources/ServerAccessor";
+import {Accessor} from "./resources/Accessor";
 
 let engine = new Engine();
 
 let accessor = new ServerAccessor();
-let block = accessor.getBlockFromStormText(
+/*let block = accessor.getBlockFromStormText(
     `Acolyte
 
 AC 10
@@ -47,19 +48,19 @@ Challenge => {1/4}
 
 }
 `
-);
+);*/
 
-engine.newMonster("toto", block.get());
-engine.newMonster("ddd", block.get());
+// engine.newMonster("toto", block.get());
+// engine.newMonster("ddd", block.get());
 // console.log(engine.getMonsterByName("toto"));
 // console.log(engine.getMonsterByName("jj"));
-engine.rollInitiative();
+// engine.rollInitiative();
 // console.log(engine.getPlayingMonster());
-console.log(engine.getPlayingMonsterName());
-console.log(engine.nextTurn());;
-engine.reset()
+// console.log(engine.getPlayingMonsterName());
+// console.log(engine.nextTurn());
+// engine.reset();
 // console.log(engine.getTurn());
-console.log(engine.getEncounterData());
+// console.log(engine.getEncounterData());
 
 // console.log(engine.damage("toto", -10));
 // console.log(engine.setInitiative("toto", 42));
@@ -67,6 +68,20 @@ console.log(engine.getEncounterData());
 // engine.remove("rgrg");
 // engine.remove("toto");
 // console.log(engine.getEncounterData());
+
+// localStorage.clear();
+// let key = 'Item 1';
+// localStorage.setItem(key, 'Value');
+// let myItem = localStorage.getItem(key);
+// console.log(myItem);
+
+accessor.getBlockByName("airbender").then(value => console.log(value)); // already loaded in browser memory
+
+localStorage.clear();
+
+accessor.getBlockByName("airbender").then(value => console.log(value)); // dynamically loaded from filesystem
+
+accessor.getBlockByName("dontexists").then(value => console.log(value)); // returns 404
 
 if ($("#container").length > 0) {
     Term.main();
