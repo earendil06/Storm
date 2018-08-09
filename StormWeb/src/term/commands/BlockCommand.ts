@@ -29,12 +29,6 @@ export class BlockCommand extends Command {
             return this.accessor.getBlockByName(blockName)
                 .then(block => {
                     if (block.isPresent) {
-                        let dv : DiceValue = block.get().stats.find(f => f.statType === "hp").statValue as DiceValue;
-                        let dv2 = BlockCommand.castTo(DiceValue, dv);
-                        console.log(dv);
-                        console.log("cou");
-                        console.log(dv2.meanValue());
-                        console.log(dv.formulae());
                         return new HistoryCommand(this.getCommandName(), args, block.get(), "block-component");
                     }
                     return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "default-component");

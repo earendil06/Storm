@@ -22,6 +22,7 @@ export class NewCommand extends Command {
                     StaticHelpers.engine().newMonster(monsterName, block.output);
                     return new HistoryCommand(this.getCommandName(), args, monsterName + " has been added to the encounter.", "default-component");
                 } catch (e) {
+                    console.log(e);
                     return new HistoryCommand(this.getCommandName(), args, monsterName + " already exists in the encounter.", "default-component");
                 }
             } else {

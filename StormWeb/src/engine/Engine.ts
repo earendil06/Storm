@@ -1,4 +1,4 @@
-import {Block, EncounterData, Monster} from "./Adapters";
+import {Ability, Action, Block, ConstValue, DiceValue, EncounterData, Feature, Monster, Stat} from "./Adapters";
 
 export default class Engine {
     private engine = new (window as any).JSAdapter() as any;
@@ -34,11 +34,11 @@ export default class Engine {
         block.abilityScores.forEach(ability => adapter.putAbility(ability.abilityType, ability.score, ability.modifier));
 
         block.stats.forEach(function (stat) {
-            let sv = (stat.statValue as any);
-            if (sv.$type === "com.pastorm.model.ConstValue") {
-                let cv = new (window as any).ConstValue(sv.formulae, sv.meanValue);
+            let sv = stat.statValue;
+            if (sv instanceof ConstValue) {
+                let cv = new (window as any).ConstValue(sv.formulae(), sv.meanValue());
                 adapter.putStat(stat.statType, cv);
-            } else {
+            } else if (sv instanceof DiceValue) {
                 let dv = new (window as any).DiceValue(sv.number, sv.sides, sv.modifier);
                 adapter.putStat(stat.statType, dv);
             }
@@ -62,7 +62,26 @@ export default class Engine {
         if (result.length === 0) {
             throw new Error("No monster found");
         }
-        return result[0];
+        let m = result[0];
+        return new Monster(this.fromScalaBlock(m.block), m.name, m.hitPoints, m.initiative);
+    }
+
+    fromScalaBlock(scalaBlock: Block): Block {
+        let b = new Block();
+        b.name = scalaBlock.name;
+        scalaBlock.actions.forEach(value => b.actions.push(new Action(value.name, value.toHit, value.reach, value.range, value.hit, value.description)));
+        scalaBlock.features.forEach(value => b.features.push(new Feature(value.name, value.description)));
+        scalaBlock.stats.forEach(value => {
+            if ((value.statValue as any).$type == "com.pastorm.model.ConstValue") {
+                let cv = value.statValue as ConstValue;
+                b.stats.push(new Stat(value.statType, new ConstValue(cv.formulaeField, cv.meanValueField)))
+            } else {
+                let dv = value.statValue as DiceValue;
+                b.stats.push(new Stat(value.statType, new DiceValue(dv.number, dv.sides, dv.modifier)))
+            }
+        });
+        scalaBlock.abilityScores.forEach(value => b.abilityScores.push(new Ability(value.abilityType, value.score, value.modifier)));
+        return b;
     }
 
     getPlayingMonsterName(): string {

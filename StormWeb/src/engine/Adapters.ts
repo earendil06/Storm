@@ -1,49 +1,87 @@
-export interface Action {
+export class Action {
     name: string;
     toHit: string;
     reach: string;
     range: string;
     hit: string;
     description: string;
+
+    constructor(name: string, toHit: string, reach: string, range: string, hit: string, description: string) {
+        this.name = name;
+        this.toHit = toHit;
+        this.reach = reach;
+        this.range = range;
+        this.hit = hit;
+        this.description = description;
+    }
 }
 
-export interface Ability {
+export class Ability {
     abilityType: string;
     score: number;
     modifier: number;
+
+    constructor(abilityType: string, score: number, modifier: number) {
+        this.abilityType = abilityType;
+        this.score = score;
+        this.modifier = modifier;
+    }
 }
 
-export interface Stat {
+export class Stat {
     statType: string;
     statValue: StatValue;
+
+    constructor(statType: string, statValue: StatValue) {
+        this.statType = statType;
+        this.statValue = statValue;
+    }
 }
 
 export interface StatValue {
-    /*
-    def formulae: String
-    def meanValue: Int
-    def instantiateValue: Int
-    */
-    // formulae: string;
-    // meanValue: number;
+    meanValue(): number;
+
+    formulae(): string;
 }
 
-export interface ConstValue extends StatValue {
-    formulae: string;
-    meanValue: number;
+export class ConstValue implements StatValue {
+    formulaeField: string;
+    meanValueField: number;
     instantiateValue: number;
+
+    constructor(formulae: string, meanValue: number) {
+        this.formulaeField = formulae;
+        this.meanValueField = meanValue;
+        this.instantiateValue = meanValue;
+    }
+
+    formulae(): string {
+        return this.formulaeField;
+    }
+
+    meanValue(): number {
+        return this.meanValueField;
+    }
 }
 
 export class DiceValue implements StatValue {
     number: number;
     sides: number;
     modifier: number;
+
+    constructor(number: number, sides: number, modifier: number) {
+        this.number = number;
+        this.sides = sides;
+        this.modifier = modifier;
+    }
+
     meanValue(): number {
         let facesUp = this.sides + 1;
         let div = facesUp / 2;
         let res = this.number * div + this.modifier;
         return Math.floor(res);
     };
+
     formulae(): string {
         let modifierFormat = '+';
         if (this.modifier > 0) {
@@ -57,28 +95,53 @@ export class DiceValue implements StatValue {
     };
 }
 
-export interface Feature {
+export class Feature {
     name: string;
-    description: number;
+    description: string;
+
+    constructor(name: string, description: string) {
+        this.name = name;
+        this.description = description;
+    }
 }
 
-export interface Block {
+export class Block {
     name: string;
     abilityScores: Ability[];
     stats: Stat[];
     features: Feature[];
     actions: Action[];
+
+    constructor() {
+        this.abilityScores = [];
+        this.stats = [];
+        this.features = [];
+        this.actions = [];
+    }
 }
 
-export interface Monster {
+export class Monster {
     block: Block;
     name: String;
     hitPoints: number;
     initiative: number;
+
+    constructor(block: Block, name: String, hitPoints: number, initiative: number) {
+        this.block = block;
+        this.name = name;
+        this.hitPoints = hitPoints;
+        this.initiative = initiative;
+    }
 }
 
-export interface EncounterData {
+export class EncounterData {
     monsters: Monster[];
     playingMonsterName: string;
     turn: number;
+
+    constructor(monsters: Monster[], playingMonsterName: string, turn: number) {
+        this.monsters = monsters;
+        this.playingMonsterName = playingMonsterName;
+        this.turn = turn;
+    }
 }

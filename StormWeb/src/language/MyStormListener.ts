@@ -6,10 +6,10 @@ import {
     Feature_blockContext, StatContext,
     StormParser
 } from "../parser/StormParser";
-import {Block} from "../engine/Adapters";
+import {Ability, Action, Block, ConstValue, DiceValue, Feature, Stat} from "../engine/Adapters";
 
 export class MyStormListener implements StormListener {
-    private blockAdapter = new (window as any).BlockAdapter();
+    private block = new Block();
     private parser: StormParser;
 
     constructor(parser: StormParser) {
@@ -17,8 +17,7 @@ export class MyStormListener implements StormListener {
     }
 
     enterBlock(ctx: BlockContext) {
-        const name = ctx.block_name().text.toLowerCase();
-        this.blockAdapter.setName(name);
+        this.block.name = ctx.block_name().text.toLowerCase();
     }
 
     enterAbility(ctx: AbilityContext) {
@@ -27,7 +26,7 @@ export class MyStormListener implements StormListener {
         const f = (value - 10) > 0 ? Math.floor : Math.ceil;
         const substractValue = value < 10 ? -1 : 0;
         const modifier = f((value - 10) / 2) + substractValue;
-        this.blockAdapter.putAbility(type, value, modifier);
+        this.block.abilityScores.push(new Ability(type, value, modifier));
     }
 
 
@@ -51,18 +50,17 @@ export class MyStormListener implements StormListener {
         if (ctx.description() != null) {
             description = ctx.description().text;
         }
-        const action = new (window as any).Action(ctx.action_block_name().text.replace("\n", ""), toHit, reach, range, hit, description);
-        this.blockAdapter.putAction(action);
+        this.block.actions.push(new Action(ctx.action_block_name().text.replace("\n", ""), toHit, reach, range, hit, description));
     }
 
     enterFeature_block(ctx: Feature_blockContext) {
         const name = ctx.feature_name().text;
         const description = ctx.description().text;
-        this.blockAdapter.putFeature(name, description.replace("[{}]", ""));
+        this.block.features.push(new Feature(name, description.replace("[{}]", "")));
     }
 
     enterStat(ctx: StatContext) {
-        let statValue = "";
+        let statValue;
         if (ctx.NUMBER() == null) {
             const number = parseInt(ctx.dice().NUMBER(0).text);
             const faces = parseInt(ctx.dice().NUMBER(1).text);
@@ -74,15 +72,16 @@ export class MyStormListener implements StormListener {
                 const op = modifierContext.MODIFIER_OP().text;
                 modifierValue = "+" === op ? modifierValue : -modifierValue;
             }
-            statValue = new (window as any).DiceValue(number, faces, modifierValue);
+            statValue = new DiceValue(number, faces, modifierValue);
         } else {
-            statValue = new (window as any).ConstValue(ctx.NUMBER().text, parseInt(ctx.NUMBER().text));
+            statValue = new ConstValue(ctx.NUMBER().text, parseInt(ctx.NUMBER().text));
         }
-        this.blockAdapter.putStat(ctx.STAT().symbol.text.toLowerCase(), statValue);
+        let stat = new Stat(ctx.STAT().symbol.text.toLowerCase(), statValue);
+        this.block.stats.push(stat);
     }
 
     public getResult(): Block {
-        return JSON.parse(this.blockAdapter.getBlock);
+        return this.block;
     }
 
 }
