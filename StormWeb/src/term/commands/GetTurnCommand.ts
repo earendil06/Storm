@@ -1,8 +1,7 @@
 import Command from "./Command";
 import {StaticHelpers} from "../../StaticHelpers";
-import * as $ from "jquery";
 import {IHistoryCommand} from "../../Application";
-import ICommand from "./ICommand";
+import {HistoryCommand} from "../../poco/HistoryCommand";
 
 export class GetTurnCommand extends Command {
     constructor() {
@@ -10,12 +9,6 @@ export class GetTurnCommand extends Command {
     }
 
     async execute(args: string[]): Promise<IHistoryCommand> {
-        const result = await $.ajax({
-            contentType: "application/json",
-            method: 'GET',
-            url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/turn`
-        });
-        let encounterCommand = StaticHelpers.COMMANDS().find(f => f.getCommandName() === "encounter") as ICommand;
-        return encounterCommand.execute(args);
+        return new HistoryCommand(this.getCommandName(), args, StaticHelpers.engine().getTurn(), "default-component");
     }
 }
