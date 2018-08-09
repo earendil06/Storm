@@ -19,8 +19,14 @@ jobs:
     steps:
       - checkout
       - run:
+          name: list directory
+          command: ls
+      - run:
           name: change directory to storm
           command: cd StormWeb
+      - run:
+           name: list directory
+           command: ls
       - run: npm install
       - run: bower install
       - run: npm i typescript --save-dev
