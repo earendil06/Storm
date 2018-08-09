@@ -18,23 +18,28 @@ jobs:
 
     steps:
       - checkout
+      #- run:
+      #    name: list directory
+      #    command: ls
+      #- run:
+      #    name: change directory to storm
+      #    command: cd StormWeb
+      #- run:
+      #     name: list directory
+      #     command: ls
+      #- run: npm install
+      #- run: bower install
+      #- run: npm i typescript --save-dev
+      #- run: npm run antlr
+      #- run: npm run build
       - run:
-          name: list directory
-          command: ls
+          name: exec
+          command: chmod +x install-all.sh
       - run:
-          name: change directory to storm
-          command: cd StormWeb
-      - run:
-           name: list directory
-           command: ls
-      - run: npm install
-      - run: bower install
-      - run: npm i typescript --save-dev
-      - run: npm run antlr
-      - run: npm run build
-
+          name: install-all
+          command: ./install-all.sh
 
 
       # run tests!
-      - run: yarn test
+      #- run: yarn test
 
