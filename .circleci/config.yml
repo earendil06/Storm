@@ -19,8 +19,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: List files
-          command: ls
+          name: executable
+          command: chmod +x install-all.sh
       - run: ./install-all.sh
 
 
