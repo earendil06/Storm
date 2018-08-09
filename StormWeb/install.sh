@@ -11,6 +11,9 @@ npm i typescript --save-dev
 echo "=> generate antlr files"
 npm run antlr
 
+cd ./src/parser
+ls
+
 
 echo "=> done"
 
