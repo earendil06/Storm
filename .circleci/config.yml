@@ -33,6 +33,9 @@ jobs:
       #- run: npm run antlr
       #- run: npm run build
       - run:
+          name: version
+          command: npm --version && node --version && java -version
+      - run:
           name: exec
           command: chmod +x install-all.sh
       - run:
