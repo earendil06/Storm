@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-  - "7"
+  - "8"
 before_script:
   - cd ./StormWeb/
   - npm install
   - bower install
-  - npm run antlr
   - npm i typescript --save-dev
+  - npm run antlr
   - npm run build
 
 script: npm run test
