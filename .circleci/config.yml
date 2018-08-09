@@ -18,6 +18,9 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: List files
+          command: ls
       - run: ./install-all.sh
 
 
