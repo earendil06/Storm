@@ -7,8 +7,7 @@ before_script:
   - bower install
   - npm i typescript --save-dev
   - npm run antlr
-  - ls ./src/
-  - ls ./src/parser/src/language
+  - find ./src
   - npm run build
 
 script: npm run test
