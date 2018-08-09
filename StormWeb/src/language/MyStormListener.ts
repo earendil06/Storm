@@ -50,7 +50,8 @@ export class MyStormListener implements StormListener {
         if (ctx.description() != null) {
             description = ctx.description().text;
         }
-        this.block.actions.push(new Action(ctx.action_block_name().text.replace("\n", ""), toHit, reach, range, hit, description));
+        let cleanDescription = description.replace(new RegExp(/[{}]/, 'g'), "");
+        this.block.actions.push(new Action(ctx.action_block_name().text.replace("\n", ""), toHit, reach, range, hit, cleanDescription));
     }
 
     enterFeature_block(ctx: Feature_blockContext) {
