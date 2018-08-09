@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "8"
+scala:
+  - "2.12.4"
 before_script:
   - cd ./StormWeb/
   - npm install
