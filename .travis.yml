@@ -9,5 +9,8 @@ before_script:
   - npm run antlr
   - find ./src
   - npm run build
+  - cd ../engine 
+  - sbt "fastOptJS"
+  - cp target/scala-2.12/engine-fastopt.js ../StormWeb/js/
 
 script: npm run test
