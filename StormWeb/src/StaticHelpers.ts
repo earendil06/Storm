@@ -1,24 +1,26 @@
-import {ClearCommand} from "./commands/ClearCommand";
-import {BlockCommand} from "./commands/BlockCommand";
-import {HelpCommand} from "./commands/HelpCommand";
-import {NewCommand} from "./commands/NewCommand";
-import {GetMonsterCommand} from "./commands/GetMonsterCommand";
-import {GetEncounterDataCommand} from "./commands/GetEncounterDataCommand";
-import {RollInitiativeCommand} from "./commands/RollInitiativeCommand";
-import {DamageCommand} from "./commands/DamageCommand";
-import {GetTurnCommand} from "./commands/GetTurnCommand";
-import {ResetCommand} from "./commands/ResetCommand";
-import {NextTurnCommand} from "./commands/NextTurnCommand";
-import {HealCommand} from "./commands/HealCommand";
-import {RemoveCommand} from "./commands/RemoveCommand";
-import {SetInitiativeCommand} from "./commands/SetInitiativeCommand";
-import {GetBlocksCommand} from "./commands/GetBlocksCommand";
-import {GetPlayingMonsterCommand} from "./commands/GetPlayingMonsterCommand";
+import ClearCommand from "./term/commands/ClearCommand";
+import {BlockCommand} from "./term/commands/BlockCommand";
+import HelpCommand from "./term/commands/HelpCommand";
+import {NewCommand} from "./term/commands/NewCommand";
+import {GetMonsterCommand} from "./term/commands/GetMonsterCommand";
+import {GetEncounterDataCommand} from "./term/commands/GetEncounterDataCommand";
+import {RollInitiativeCommand} from "./term/commands/RollInitiativeCommand";
+import {DamageCommand} from "./term/commands/DamageCommand";
+import {GetTurnCommand} from "./term/commands/GetTurnCommand";
+import {ResetCommand} from "./term/commands/ResetCommand";
+import {NextTurnCommand} from "./term/commands/NextTurnCommand";
+import {HealCommand} from "./term/commands/HealCommand";
+import {RemoveCommand} from "./term/commands/RemoveCommand";
+import {SetInitiativeCommand} from "./term/commands/SetInitiativeCommand";
+import {GetBlocksCommand} from "./term/commands/GetBlocksCommand";
+import {GetPlayingMonsterCommand} from "./term/commands/GetPlayingMonsterCommand";
 import {Application} from "./Application";
 import * as $ from "jquery";
-import {ExportEncounterCommand} from "./commands/ExportEncounterCommand";
-import {LoadEncounterCommand} from "./commands/LoadEncounterCommand";
-import {ICommand} from "./commands/ICommand";
+import {ExportEncounterCommand} from "./term/commands/ExportEncounterCommand";
+import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
+import ICommand from "./term/commands/ICommand";
+import Engine from "./engine/Engine";
+import LocalAccessor from "./resources/LocalAccessor";
 
 export class StaticHelpers {
     static hideSpinner(): void {
@@ -40,26 +42,26 @@ export class StaticHelpers {
     static server = StaticHelpers.getQueryVariable("server") === "" ? "localhost" : StaticHelpers.getQueryVariable("server");
 
 
-    static async eval(input: string): Promise<any> {
-        const args = input.trim().split(" ").filter(f => f !== "");
-        if (args.length === 0) {
+    static async eval(command: string, additionalArgs: string[]): Promise<any> {
+        if (command === "") {
             StaticHelpers.application().commands.push({
-                input: input,
+                command: command,
+                args: additionalArgs,
                 output: "Command does not exists.",
                 templateName: "default-component"
             });
         } else {
-            const commandName = args[0].toLowerCase();
-            let commandFound = StaticHelpers.COMMANDS.find(f => f.getCommandName() === commandName) as ICommand;
+            let commandFound = StaticHelpers.COMMANDS().find(f => f.getCommandName() === command) as ICommand;
             if (typeof commandFound === "undefined") {
                 StaticHelpers.application().commands.push({
-                    input: input,
+                    command: command,
+                    args: additionalArgs,
                     output: "Command does not exists.",
                     templateName: "default-component"
                 });
             } else {
                 StaticHelpers.showSpinner();
-                const res = await commandFound.execute(input, args);
+                const res = await commandFound.execute(additionalArgs);
                 if (res != null) {
                     StaticHelpers.application().commands.push(res);
                 }
@@ -68,49 +70,8 @@ export class StaticHelpers {
         }
     }
 
-    static autoComplete(): void {
-        const propEngine = [
-            {
-                "name": "",
-                "function": "getCommands"
-            },
-            {
-                "name": "block",
-                "function": "getBlocks"
-            },
-            {
-                "name": "monster",
-                "function": "getMonsters"
-            },
-            {
-                "name": "new",
-                "function": "getBlocks"
-            }
-        ];
-        const pointer = StaticHelpers.application().currentInputValue.trim().split(" ")[0];
-        let toExecute = propEngine.find(f => f.name === pointer);
-        if (toExecute === undefined) {
-            console.log("no proposals");
-            //app.currentInputValue = "block";
-            //autoComplete();
-            return;
-        }
-        if (StaticHelpers.application().proposalsIndex === -1) {
-            StaticHelpers.showSpinner();
-            this[toExecute.function]();
-        }
-
-        if (StaticHelpers.application().proposalsDisplayed.length > 0) {
-            StaticHelpers.application().proposalsIndex =
-                (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
-        } else {
-            StaticHelpers.application().proposalsIndex = -1;
-        }
-
-    }
-
     static getQueryVariable(variable: string): string {
-        const query = window.location.search.substring(1);
+        const query = (window as any).location.search.substring(1);
         const vars = query.split("&");
         for (let i = 0; i < vars.length; i++) {
             const pair = vars[i].split("=");
@@ -121,57 +82,51 @@ export class StaticHelpers {
         return "";
     }
 
-    static getCommands() {
-        StaticHelpers.application().proposals = StaticHelpers.COMMANDS.map(c => c.getCommandName()).sort();
-        StaticHelpers.hideSpinner();
+    static getCommands(): string[] {
+        return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
     }
 
-    static getBlocks() {
-        (async function () {
-            StaticHelpers.application().proposals = await $.ajax({
-                contentType: "application/json",
-                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks`
-            });
-            StaticHelpers.application().proposalsIndex =
-                (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
-            StaticHelpers.hideSpinner();
-        })();
+    static async getBlocks() {
+        const accessor = new LocalAccessor();
+        return await accessor.getBlockNameList();
     }
 
-    static getMonsters() {
-        (async function () {
-            StaticHelpers.application().proposals = await $.ajax({
-                contentType: "application/json",
-                url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data/names`
-            });
-            StaticHelpers.application().proposalsIndex =
-                (StaticHelpers.application().proposalsIndex + 1) % StaticHelpers.application().proposalsDisplayed.length;
-            StaticHelpers.hideSpinner();
-        })();
+    static async getMonsters() {
+        return await $.ajax({
+            contentType: "application/json",
+            url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data/names`
+        });
+
     }
 
     static application(): Application {
         return (window as any).app as Application;
     }
 
-    static COMMANDS = [
-        new ClearCommand(),
-        new HelpCommand(),
-        new BlockCommand(),
-        new NewCommand(),
-        new GetMonsterCommand(),
-        new GetEncounterDataCommand(),
-        new GetPlayingMonsterCommand(),
-        new RollInitiativeCommand(),
-        new DamageCommand(),
-        new HealCommand(),
-        new NextTurnCommand(),
-        new ResetCommand(),
-        new GetTurnCommand(),
-        new RemoveCommand(),
-        new SetInitiativeCommand(),
-        new GetBlocksCommand(),
-        new ExportEncounterCommand(),
-        new LoadEncounterCommand()
-    ];
+    static engine(): Engine {
+        return (window as any).engine as Engine;
+    }
+
+    static COMMANDS() {
+        return [
+            new ClearCommand(),
+            new HelpCommand(),
+            new BlockCommand(),
+            new NewCommand(),
+            new GetMonsterCommand(),
+            new GetEncounterDataCommand(),
+            new GetPlayingMonsterCommand(),
+            new RollInitiativeCommand(),
+            new DamageCommand(),
+            new HealCommand(),
+            new NextTurnCommand(),
+            new ResetCommand(),
+            new GetTurnCommand(),
+            new RemoveCommand(),
+            new SetInitiativeCommand(),
+            new GetBlocksCommand(),
+            new ExportEncounterCommand(),
+            new LoadEncounterCommand()
+        ];
+    }
 }

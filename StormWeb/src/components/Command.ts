@@ -11,10 +11,10 @@ export default Vue.extend({
         <div class="input-line line">
             <div class="prompt">{{ user }}</div>
             <div>
-                <input style="color: white;" class="cmdline" v-bind:value="command.input" readonly="" autofocus>
+                <input class="cmdline" v-bind:value="completeInput" readonly="" disabled>
             </div>
         </div>
-        <div style="padding-bottom: 10px; padding-top: 5px; color: white">
+        <div style="padding-bottom: 10px; padding-top: 5px;">
             <component :is="command.templateName" :data="command.output"></component>
         </div>
     </div>
@@ -23,6 +23,11 @@ export default Vue.extend({
     props: ['command', 'user'],
     components: {
         DefaultComponent, BlockComponent, MonsterComponent, EncounterComponent
+    },
+    computed: {
+        completeInput: function() {
+            return this.command.command + " " + this.command.args.join(" ");
+        }
     },
     mounted: function () {
         StaticHelpers.scrollWindow();

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ScalaJS</title>
+</head>
+<body>
+<script type="text/javascript" src="target/scala-2.12/engine-fastopt.js"></script>
+<script>
+    let engine = new JSAdapter();
+    // console.log(engine.getEncounterData)
+    // console.log(engine.getEncounterData.turn)
+    // console.log(engine.getEncounterData.monsters)
+
+    let block = new BlockAdapter()
+    block.setName("goblin")
+    // console.log(block)
+
+    engine.newMonster("toto", block)
+    // console.log(engine.getEncounterData)
+
+    engine.updateMonster(Monster.fromJS(block, "toto", 10, 20))
+
+    // console.log(engine.getMonsterByName("toto"))
+
+    let constvalue = new ConstValue("1d1", 10)
+    // console.log(constvalue)
+    // console.log(constvalue.formulae)
+
+    let dicevalue = new DiceValue(1, 5, 10)
+    // console.log(dicevalue)
+    // console.log(dicevalue.instantiateValue)
+    // console.log(dicevalue.meanValue)
+    // console.log(dicevalue.formulae)
+
+    let action = new Action("a","a","q","s","e","f")
+    // console.log(action.name)
+
+</script>
+</body>
+</html>

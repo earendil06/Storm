@@ -1,4 +1,13 @@
-/* Split the screen in half */
+:root {
+    /*--background-color: #EEEEEE;*/
+    /*--font-color: black;*/
+    /*--prompt-color: black;*/
+
+    --background-color: black;
+    --font-color: white;
+    --prompt-color: #96b38a;
+}
+
 .split {
     height: 100%;
     width: 30%;
@@ -8,16 +17,14 @@
     overflow-x: hidden;
 }
 
-/* Control the left side */
 .left {
     left: 0;
     width: 100%;
 }
 
-/* Control the right side */
 .right {
     right: 0;
-    background-color: #111;
+    background-color: var(--background-color);
 }
 
 ul {
@@ -25,7 +32,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: black;
+    background-color: var(--background-color);
     left: 10%;
     position: relative;
     -webkit-column-count: 3;
@@ -36,22 +43,12 @@ ul {
 
 li {
     display: block;
-    color: white;
+    color: var(--font-color);
     text-align: left;
     padding: 1px;
     margin: 1px;
     text-decoration: none;
     opacity: .5;
-}
-
-#divFix {
-    height: 100%;
-    width: fit-content;
-    top: 0;
-    right: 10%;
-    position: fixed;
-    z-index: 3000;
-    overflow: auto;
 }
 
 #loader {
@@ -105,11 +102,12 @@ html, body {
     width: 100%;
     height: 100%;
     margin: 0;
+    color: var(--font-color);
 }
 body {
     font-size: 16pt;
     font-family: Inconsolata, monospace;
-    background-color: black;
+    background-color: var(--background-color);
 }
 #container {
     padding: .1em 1.5em 1em 1em;
@@ -126,7 +124,6 @@ body {
 }
 
 .bg-prop-current {
-    /*background-color: #922610;*/
     opacity: 1;
 }
 .input-line {
@@ -148,7 +145,7 @@ body {
 }
 .prompt {
     white-space: nowrap;
-    color: #96b38a;
+    color: var(--prompt-color);
     margin-right: 7px;
     display: -webkit-box;
     -webkit-box-pack: center;
@@ -170,7 +167,7 @@ body {
     width: 100%;
     font: inherit;
     border: none;
-    color: inherit;
+    color: var(--font-color);
 }
 .ls-files {
     height: 45px;

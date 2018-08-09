@@ -16,16 +16,16 @@ export default Vue.extend({
             <div class="top-stats">
                 <div class="property-line first">
                     <h4>Armor Class</h4>
-                    <p>{{ data.stats.find(f => f.statType === "ac").statValue.formulae }}</p>
+                    <p>{{ data.stats.find(f => f.statType === "ac").statValue.formulae() }}</p>
                 </div> <!-- property line -->
                 <div class="property-line">
                     <h4>Hit Points</h4>
-                    <p>{{ data.stats.find(f => f.statType === "hp").statValue.formulae }}
-                        ({{data.stats.find(f => f.statType === "hp").statValue.meanValue}})</p>
+                    <p>{{ data.stats.find(f => f.statType === "hp").statValue.formulae() }}
+                        ({{ data.stats.find(f => f.statType === "hp").statValue.meanValue() }})</p>
                 </div> <!-- property line -->
                 <div class="property-line last">
                     <h4>Speed</h4>
-                    <p>{{ data.stats.find(f => f.statType === "speed").statValue.formulae }}</p>
+                    <p>{{ data.stats.find(f => f.statType === "speed").statValue.formulae() }}</p>
                 </div> <!-- property line -->
                 <svg height="5" width="100%" class="tapered-rule">
                     <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -116,15 +116,17 @@ export default Vue.extend({
                     <div class="property-block">
                         <h4>{{ action.name }}</h4>
                         <p>
-                            {{ action.toHit != null ? action.toHit + "." : "" }}
-                            {{ action.reach != null ? action.reach + "." : "" }}
-                            {{ action.range != null ? action.range + "." : "" }}
-                            {{ action.hit != null ? action.hit + "." : "" }}
-                            <!--{{ action.description == null ? "" : ". " + action.description }}-->
+                            {{ action.toHit.length != 0 ? action.toHit + "." : "" }}
+                            <br v-if="action.reach.length != 0">
+                            {{ action.reach.length != 0 ? action.reach + "." : "" }}
+                            <br v-if="action.range.length != 0">
+                            {{ action.range.length != 0 ? action.range + "." : "" }}
+                            <br v-if="action.hit.length != 0">
+                            {{ action.hit.length != 0 ? action.hit + "." : "" }}
+                            <br v-if="action.description.length != 0">
                         </p>
                         <p v-for="description in splitLine(action.description)">
-                            {{ description == null ? "" : description }}
-                            <br/>
+                            {{ description.length == 0 ? "" : description }}
                         </p>
                     </div>
                 </div> <!-- property block -->

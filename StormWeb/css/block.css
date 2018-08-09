@@ -220,6 +220,10 @@ input:-moz-placeholder { color:black; }
     margin: 0;
 }
 
+h4 {
+    font-weight: bold;
+}
+
 @media print{
     .orange-border{
         display: none;

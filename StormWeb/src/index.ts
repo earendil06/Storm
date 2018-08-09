@@ -1,167 +1,45 @@
-import Vue from "vue";
-import {StaticHelpers} from "./StaticHelpers";
-import {ClearCommand} from "./commands/ClearCommand";
+import Term from "./term/Main";
+import Ide from "./ide/Main";
+import * as $ from "jquery"
+import Engine from "./engine/Engine";
+import LocalAccessor from "./resources/LocalAccessor";
 
-import CommandComponent from "./components/Command";
-import {Application} from "./Application";
-import StaticEncounterComponent from "./components/StaticEncounter";
-import BlockComponent from "./components/Block";
-import * as $ from "jquery";
+// let engine = new Engine();
+
+// engine.newMonster("toto", block.get());
+// engine.newMonster("ddd", block.get());
+// console.log(engine.getMonsterByName("toto"));
+// console.log(engine.getMonsterByName("jj"));
+// engine.rollInitiative();
+// console.log(engine.getPlayingMonster());
+// console.log(engine.getPlayingMonsterName());
+// console.log(engine.nextTurn());
+// engine.reset();
+// console.log(engine.getTurn());
+// console.log(engine.getEncounterData());
+
+// console.log(engine.damage("toto", -10));
+// console.log(engine.setInitiative("toto", 42));
+// console.log(engine.getMonsterByName("toto"));
+// engine.remove("rgrg");
+// engine.remove("toto");
+// console.log(engine.getEncounterData());
+
+// localStorage.clear();
+// let key = 'Item 1';
+// localStorage.setItem(key, 'Value');
+// let myItem = localStorage.getItem(key);
+// console.log(myItem);
+// let accessor = new LocalAccessor();
+// console.log("in dir");
+// console.log(accessor.getFilesInDirectory());
+
+// accessor.getBlockByName("airbender").then(value => console.log(value)); // already loaded in browser memory
+
+// accessor.getBlockByName("goblin").then(value => console.log(value)); // dynamically loaded from filesystem
 
 if ($("#container").length > 0) {
-    (window as any).app = new Vue({
-
-        el: '#container',
-        data: {
-            user: "gm@Storm =>",
-            commands: [],
-            history: [],
-            currentInputValue: "",
-            positionHistory: 0,
-            proposals: "",
-            proposalsIndex: -1,
-            encounter: ""
-        },
-        components: {
-            CommandComponent, StaticEncounterComponent
-        },
-        watch: {
-            positionHistory(newPosition: number, oldPosition: number): void {
-                let command = this.history[this.history.length - newPosition];
-                if (typeof command !== 'undefined') {
-                    this.currentInputValue = command;
-                } else {
-                    this.currentInputValue = "";
-                }
-            },
-            commands: function () {
-                this.encounterUpdate();
-            }
-        },
-        mounted: function () {
-            this.encounterUpdate();
-            StaticHelpers.scrollWindow()
-        },
-        updated: function () {
-            StaticHelpers.scrollWindow()
-        },
-        computed: {
-            proposalsDisplayed: function () {
-                let input = this.currentInputValue;
-                let args = input.trim().split(" ")
-                    .filter(f => f !== "");
-                if (args.length === 2) {
-                    return this.proposals.filter(f => f.startsWith(args[1]));
-                }
-                return this.proposals;
-            }
-        },
-        methods: {
-            onClickProposition: function (index) {
-                this.proposalsIndex = index;
-                this.executeCommand();
-            },
-            onMouseOverProposition: function (index) {
-                this.proposalsIndex = index;
-            },
-            encounterUpdate: function () {
-                let vue = this;
-                $.ajax({
-                    contentType: "application/json",
-                    url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data`,
-                    statusCode: {
-                        200: function (data) {
-                            const monsters = data.monsters;
-                            monsters.forEach(m => {
-                                m.ac = m.block.stats.find(f => f.statType === "ac").statValue.formulae;
-                                m.blockName = m.block.name[0].toUpperCase() + m.block.name.slice(1)
-                            });
-                            vue.encounter = data;
-                        }
-                    }
-                });
-            },
-            executeCommand: function () {
-                let inputArray = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-                if (inputArray.length > 0 && inputArray[inputArray.length - 1] === "!$") {
-                    if (this.history.length > 0) {
-                        let previousCommand = this.history[this.history.length - 1];
-                        let previousArgs = previousCommand.trim().split(" ").filter(f => f !== "").slice(1).join(" ");
-                        this.currentInputValue = inputArray[0] + " " + previousArgs;
-                        return;
-                    } else {
-                        this.currentInputValue = "";
-                        return;
-                    }
-                }
-                if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
-                    this.history.push(this.currentInputValue);
-                }
-                if (this.proposalsIndex === -1) {
-                    StaticHelpers.eval(this.currentInputValue);
-                    this.currentInputValue = "";
-                    this.positionHistory = 0;
-
-                } else {
-                    let inputArray = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-                    if (inputArray.length === 2) {
-                        inputArray.splice(-1, 1);
-                    }
-                    inputArray.push(this.proposalsDisplayed[this.proposalsIndex]);
-                    this.currentInputValue = inputArray.filter(token => token !== "").join(" ");
-                }
-                this.proposalsIndex = -1;
-                this.proposals = [];
-                this.encounterUpdate();
-                document.getElementById("inputLine").focus()
-            },
-            setPositionHistory: function (message) {
-                const downCode = 40;
-                const upCode = 38;
-                if (message.keyCode === upCode && this.positionHistory < this.history.length) {
-                    this.positionHistory++;
-                } else if (message.keyCode === downCode && this.positionHistory > 0) {
-                    this.positionHistory--;
-                }
-            },
-            invokeAutoComplete: function (message) {
-                message.preventDefault();
-                StaticHelpers.autoComplete();
-            }
-        }
-    }) as Application;
-    $(document as any).keydown(function (e) {
-        const tabCode = 9;
-        const enterCode = 13;
-        if (e.which !== tabCode && e.which !== enterCode) {
-            StaticHelpers.application().proposals = [];
-            StaticHelpers.application().proposalsIndex = -1;
-        }
-        const lKey = 76;
-        if (e.ctrlKey && (e.which === lKey)) {
-            e.preventDefault();
-            e.stopPropagation();
-            new ClearCommand().execute(null, null);
-            return false;
-        }
-        return true;
-    });
+    Term.main();
 } else {
-    (window as any).createVue = function(data) {
-        (window as any).ideBlockApplication = new Vue({
-            el: '#ideBlock',
-            data: {
-                currentStorm: data
-            },
-            components: {
-                BlockComponent
-            }
-        });
-    }
-
-
-
+    Ide.main();
 }
-
-
-

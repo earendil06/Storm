@@ -2,13 +2,15 @@ import {IHistoryCommand} from "../Application";
 
 export class HistoryCommand implements IHistoryCommand {
 
-    constructor(input: string, output: string, templateName: string){
-        this.input = input;
+    constructor(command: string, args : string[], output: any, templateName: string){
+        this.command = command;
         this.output = output;
+        this.args = args;
         this.templateName = templateName;
     }
 
-    input: string;
+    command: string;
+    args: string[];
     output: any;
     templateName: string;
 
