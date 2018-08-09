@@ -98,7 +98,8 @@ export default class Engine {
     }
 
     getPlayingMonster(): Monster {
-        return JSON.parse(this.engine.getPlayingMonster)[0];
+        let m = JSON.parse(this.engine.getPlayingMonster)[0];
+        return new Monster(this.fromScalaBlock(m.block), m.name, m.hitPoints, m.initiative);
     }
 
     updateMonster(monster: Monster): void {
