@@ -1,18 +1,20 @@
-language: node_js
-node_js:
-  - "8"
-scala:
-  - "2.12.4"
-before_script:
-  - cd ./StormWeb/
-  - npm install
-  - bower install
-  - npm i typescript --save-dev
-  - npm run antlr
-  - find ./src
-  - npm run build
-  - cd ../engine 
-  - sbt clean fastOptJS
-  - cp target/scala-2.12/engine-fastopt.js ../StormWeb/js/
-
-script: npm run test
+matrix:
+  include:
+    - language: node_js
+      node_js: 8
+      before_script:
+        - cd ./StormWeb/
+        - npm install
+        - bower install
+        - npm i typescript --save-dev
+        - npm run antlr
+        - find ./src
+        - npm run build
+      script: npm run test
+      
+    - language: scala
+      scala: 2.12.4
+      before_script:   
+        - cd ./engine/
+        - sbt clean "fastOptJS"
+        - cp target/scala-2.12/engine-fastopt.js ../StormWeb/js/
