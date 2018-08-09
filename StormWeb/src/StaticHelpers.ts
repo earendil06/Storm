@@ -23,6 +23,8 @@ import Engine from "./engine/Engine";
 import LocalAccessor from "./resources/LocalAccessor";
 
 export class StaticHelpers {
+    private static accessor = new LocalAccessor();
+
     static hideSpinner(): void {
         document.getElementById("loader-img").style.display = "none";
     }
@@ -87,8 +89,11 @@ export class StaticHelpers {
     }
 
     static async getBlocks() {
-        const accessor = new LocalAccessor();
-        return await accessor.getBlockNameList();
+        return await this.accessor.getBlockNameList();
+    }
+
+    static getAccessor() {
+        return this.accessor;
     }
 
     static async getMonsters() {
