@@ -9,7 +9,8 @@ echo "=> typescript dependencies install"
 npm i typescript --save-dev
 
 echo "=> generate antlr files"
-./node_modules/.bin/antlr4ts -listener ./src/language/Storm.g4 -o ./src/parser
+#./node_modules/.bin/antlr4ts -listener ./src/language/Storm.g4 -o ./src/parser
+npm run antlr
 
 cd ./src/parser
 ls
