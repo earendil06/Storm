@@ -21,9 +21,7 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: install java
-          command: apt-get install java
+
       #- run:
       #    name: list directory
       #    command: ls
