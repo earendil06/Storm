@@ -18,10 +18,13 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: executable
-          command: chmod +x install-all.sh
-      - run: ./install-all.sh
+      - run: cd StormWeb
+      - run: npm install
+      - run: bower install
+      - run: npm i typescript --save-dev
+      - run: npm run antlr
+      - run: npm run build
+
 
 
       # run tests!
