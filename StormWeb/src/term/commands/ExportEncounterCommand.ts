@@ -14,7 +14,6 @@ export class ExportEncounterCommand extends Command {
             return new HistoryCommand(this.getCommandName(), args, "missing filename (e.g.: export [filename])", "default-component");
         } else {
             const filename = args[0];
-            console.log(filename);
             let blob = new Blob(
                 StaticHelpers.application().history
                     .filter(command => !command.includes("clear"))
