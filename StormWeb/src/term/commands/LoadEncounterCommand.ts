@@ -25,7 +25,6 @@ export class LoadEncounterCommand extends Command {
                         const name = values.length > 0 ? values[0].toLowerCase() : "";
                         const addArgs = values.slice(1);
                         const result = StaticHelpers.eval(name, addArgs);
-                        console.log(result);
                     });
                     StaticHelpers.application().commands.push(
                         new HistoryCommand(commandName, args, "encounter loaded successfully", "default-component")
