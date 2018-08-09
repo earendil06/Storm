@@ -65,26 +65,22 @@ function save() {
     } else {
         fileNameToSaveAs = nameInput;
     }
-    document.getElementById("loader").style.display = "block";
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:8080/api/write/" + fileNameToSaveAs.toLowerCase(),
-        data: textToWrite,
-        contentType: "text/plain",
-        success: function () {
-            document.getElementById("loader").style.display = "none";
-            console.log(fileNameToSaveAs + " saved!");
-        },
-        error: function (data) {
-            if (data.status === 0) {
-                document.getElementById("loader").style.display = "none";
-                console.log("Can't reach server.");
-            } else {
-                document.getElementById("loader").style.display = "none";
-                console.log("Something went wrong with error code " + data.status);
-            }
+    let accessor = window.StaticHelpers.getAccessor();
+    accessor.saveBlock(fileNameToSaveAs.toLowerCase(), textToWrite);
+}
+
+async function load() {
+    let name = prompt("Name of the monster to load", "goblin");
+    if (name == null || name === "") {
+        console.log("invalid input");
+    } else {
+        let localBlock = await window.StaticHelpers.getAccessor().loadLocalBlock(name);
+        if (localBlock != null && localBlock !== "") {
+            editor.setValue(localBlock, 1);
+        } else {
+            console.log(name + " not found");
         }
-    });
+    }
 }
 
 let download = document.getElementById('download');
@@ -93,5 +89,5 @@ download.addEventListener('click', saveTextAsFile);
 let saveButton = document.getElementById('save');
 saveButton.addEventListener('click', save);
 
-// let load = document.getElementById('load');
-// button.addEventListener('click', ???);
+let loadButton = document.getElementById('load');
+loadButton.addEventListener('click', load);
