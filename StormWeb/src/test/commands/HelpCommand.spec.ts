@@ -5,5 +5,5 @@ test('basic', async () => {
     const result = await command.execute([]);
     expect(result.templateName).toBe("default-component");
 
-    expect("toto").toBe("default-component");
+    //expect("toto").toBe("default-component");
 });
