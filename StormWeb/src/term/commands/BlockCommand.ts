@@ -11,6 +11,16 @@ export class BlockCommand extends Command {
         super("block");
     }
 
+    static castTo<T>(a : { new() : T}, obj : object): T {
+        let result = new a();
+        for (let property in obj){
+            if (obj.hasOwnProperty(property)) {
+                result[property] = obj[property];
+            }
+        }
+        return result;
+    }
+
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 1) {
             return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: block goblin)", "default-component")
@@ -19,9 +29,11 @@ export class BlockCommand extends Command {
             return this.accessor.getBlockByName(blockName)
                 .then(block => {
                     if (block.isPresent) {
-                        let dv = block.get().stats.find(f => f.statType === "hp").statValue as DiceValue;
+                        let dv : DiceValue = block.get().stats.find(f => f.statType === "hp").statValue as DiceValue;
+                        let dv2 = BlockCommand.castTo(DiceValue, dv);
                         console.log(dv);
-                        console.log(dv.meanValue());
+                        console.log("cou");
+                        console.log(dv2.meanValue());
                         console.log(dv.formulae());
                         return new HistoryCommand(this.getCommandName(), args, block.get(), "block-component");
                     }
