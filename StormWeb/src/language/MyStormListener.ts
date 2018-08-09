@@ -56,7 +56,7 @@ export class MyStormListener implements StormListener {
     enterFeature_block(ctx: Feature_blockContext) {
         const name = ctx.feature_name().text;
         const description = ctx.description().text;
-        this.block.features.push(new Feature(name, description.replace("[{}]", "")));
+        this.block.features.push(new Feature(name, description.replace(new RegExp(/[{}]/, 'g'), "")));
     }
 
     enterStat(ctx: StatContext) {
