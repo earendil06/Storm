@@ -1,20 +1,16 @@
 import Command from "./Command";
-import {StaticHelpers} from "../../StaticHelpers";
-import * as $ from "jquery";
 import {IHistoryCommand} from "../../Application";
 import {HistoryCommand} from "../../poco/HistoryCommand";
+import {StaticHelpers} from "../../StaticHelpers";
 
 export class GetBlocksCommand extends Command {
-    constructor(){
+    constructor() {
         super("get-blocks");
     }
 
     async execute(args: string[]): Promise<IHistoryCommand> {
-        const result = await $.ajax({
-            contentType: "application/json",
-            url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/blocks`,
-        });
-        return new HistoryCommand(this.getCommandName(), args, result, "default-component");
+        let blocks = await StaticHelpers.getBlocks();
+        return new HistoryCommand(this.getCommandName(), args, blocks, "default-component");
     }
 
 }
