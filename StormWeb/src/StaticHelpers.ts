@@ -21,6 +21,7 @@ import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
 import Engine from "./engine/Engine";
 import LocalAccessor from "./resources/LocalAccessor";
+import IdeCommand from "./term/commands/IdeCommand";
 
 export class StaticHelpers {
     private static accessor = new LocalAccessor();
@@ -116,6 +117,7 @@ export class StaticHelpers {
         return [
             new ClearCommand(),
             new HelpCommand(),
+            new IdeCommand(),
             new BlockCommand(),
             new NewCommand(),
             new GetMonsterCommand(),

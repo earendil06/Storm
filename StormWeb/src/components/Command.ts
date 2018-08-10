@@ -4,6 +4,7 @@ import DefaultComponent from "./Default";
 import BlockComponent from "./Block";
 import EncounterComponent from "./Encounter";
 import MonsterComponent from "./Monster";
+import NavigatorComponent from "./Navigator";
 
 export default Vue.extend({
     template: `
@@ -22,7 +23,7 @@ export default Vue.extend({
     name: "command",
     props: ['command', 'user'],
     components: {
-        DefaultComponent, BlockComponent, MonsterComponent, EncounterComponent
+        DefaultComponent, BlockComponent, MonsterComponent, EncounterComponent, NavigatorComponent
     },
     computed: {
         completeInput: function() {
