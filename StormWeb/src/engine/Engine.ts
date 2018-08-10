@@ -8,9 +8,27 @@ export default class Engine {
     constructor() {
     }
 
+    bakeCookie(): void {
+        let encounter = this.getEncounterData();
+        document.cookie = JSON.stringify(encounter);
+        console.log(document.cookie);
+    }
+
+    readCookie(): EncounterData {
+        let result = document.cookie;
+        if (result) {
+            return JSON.parse(result) as EncounterData;
+        }
+        return null;
+    }
+
+    updateEncounter(): void {
+        this.bakeCookie();
+        //need to read it and send to scala
+    }
+
     newMonster(name: string, block: Block): void {
         let ba = this.toBlockAdapter(block);
-
         let ed = this.getEncounterData();
         let existing = ed.monsters.find(monster => monster.name === name);
         if (existing) {
