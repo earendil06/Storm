@@ -34,7 +34,6 @@ export default class Engine {
         if (existing) {
             throw new Error(name + " already exists in the encounter.")
         }
-
         this.engine.newMonster(name, ba);
     }
 

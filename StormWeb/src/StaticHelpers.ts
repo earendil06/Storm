@@ -22,6 +22,9 @@ import ICommand from "./term/commands/ICommand";
 import Engine from "./engine/Engine";
 import LocalAccessor from "./resources/LocalAccessor";
 import IdeCommand from "./term/commands/IdeCommand";
+import {ExportBlocksCommand} from "./term/commands/ExportBlocks";
+import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
+import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
 
 export class StaticHelpers {
     private static accessor = new LocalAccessor();
@@ -117,7 +120,6 @@ export class StaticHelpers {
         return [
             new ClearCommand(),
             new HelpCommand(),
-            new IdeCommand(),
             new BlockCommand(),
             new NewCommand(),
             new GetMonsterCommand(),
@@ -133,7 +135,11 @@ export class StaticHelpers {
             new SetInitiativeCommand(),
             new GetBlocksCommand(),
             new ExportEncounterCommand(),
-            new LoadEncounterCommand()
+            new LoadEncounterCommand(),
+            new ExportBlocksCommand(),
+            new LoadBlocksCommand(),
+            new IdeCommand(),
+            new DeleteBlockCommand()
         ];
     }
 }

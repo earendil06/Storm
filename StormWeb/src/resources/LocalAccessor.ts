@@ -5,19 +5,11 @@ import Optional from "typescript-optional";
 export default class LocalAccessor extends Accessor {
 
     async getBlockByName(blockName: string): Promise<Optional<Block>> {
-        let blockStored = localStorage.getItem(blockName);
-        if (blockStored) {
-            return new Promise<Optional<Block>>((resolve, reject) => {
-                let blockOpt = this.getBlockFromStormText(blockStored);
-                resolve(blockOpt)
-            });
-        } else {
-            return new Promise<Optional<Block>>((resolve, reject) => {
-                this.loadLocalBlock(blockName)
-                    .then(blockText => resolve(this.getBlockFromStormText(blockText)))
-                    .catch(reason => reject(reason))
-            });
-        }
+        return new Promise<Optional<Block>>((resolve, reject) => {
+            this.loadLocalBlock(blockName)
+                .then(blockText => resolve(this.getBlockFromStormText(blockText)))
+                .catch(reason => reject(reason))
+        });
     }
 
     async loadFileByName(filename: string): Promise<string> {
