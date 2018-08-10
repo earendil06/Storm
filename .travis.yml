@@ -36,10 +36,10 @@ matrix:
       #before_install: false
       #install: false
 
-   #- language: scala
-   #  scala:
-   #    - 2.12.4
-   #  before_script:
-   #    - cd ./engine/
-   #    - sbt clean "fastOptJS"
-   #    - cp target/scala-2.12/engine-fastopt.js ../StormWeb/js/
+    - language: scala
+      scala:
+        - 2.12.4
+      before_script:
+        - cd ./engine/
+        - sbt clean "fastOptJS"
+        - cp target/scala-2.12/engine-fastopt.js ../StormWeb/js/
