@@ -23,9 +23,7 @@ export default class Engine {
     getEncounterData(): EncounterData {
         let scalaEncounter = JSON.parse(this.engine.getEncounterData) as EncounterData;
         let monsters = scalaEncounter.monsters.map(m => new Monster(this.fromScalaBlock(m.block), m.name, m.hitPoints, m.initiative));
-        let encounter = new EncounterData(monsters, scalaEncounter.playingMonsterName, scalaEncounter.turn);
-        console.log(encounter);
-        return encounter;
+        return new EncounterData(monsters, scalaEncounter.playingMonsterName, scalaEncounter.turn);
     }
 
     toBlockAdapter(block: Block): any {

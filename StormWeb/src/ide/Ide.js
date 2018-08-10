@@ -5,7 +5,6 @@ editor.setOptions({
     enableLiveAutocompletion: false
 });
 editor.getSession().setMode("ace/mode/storm");
-ace.$ = $;
 let langTools = ace.require('ace/ext/language_tools');
 let tokens = ['AC ', 'ac ', 'PP ', 'pp ', 'HP ', 'hp ', 'speed ', 'str ', 'dex ', 'con ', 'int ', 'wis ', 'cha ',
     'actions {', 'features {', 'hit ', 'reach ', 'range ', 'to hit\n',
@@ -67,6 +66,7 @@ function save() {
     }
     let accessor = window.StaticHelpers.getAccessor();
     accessor.saveBlock(fileNameToSaveAs.toLowerCase(), textToWrite);
+    console.log("saved"); //todo check the save and prompt it
 }
 
 async function load() {
