@@ -20,7 +20,7 @@
     "build": "webpack --display-error-details",
     "test": "jest",
     "antlr": "./node_modules/.bin/antlr4ts -listener Storm.g4 -o src/parser",
-    "test2": "testcafe chrome src/terminal.ts"
+    "test2": "testcafe firefox src/terminal.ts"
   },
   "dependencies": {
     "antlr4": "^4.7.1",
