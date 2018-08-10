@@ -21,10 +21,10 @@ export default Vue.extend({
                 -ms-user-select: none;"
                 >
                     <span v-bind:style='{ color: isPlaying(monster.name) }'>
-                        {{ monster.blockName }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}
+                        {{ monster.block.name[0].toUpperCase() + monster.block.name.slice(1) }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}
                     </span>
             </h1>
-           AC: {{ monster.ac }},
+           AC: {{ monster.block.stats.find(f => f.statType === "ac").statValue.formulae() }},
            HP: 
             <input v-bind:id='staticId + monster.name + "hp"' type="text" v-bind:placeholder="monster.hitPoints" autocomplete="off"/>
             
