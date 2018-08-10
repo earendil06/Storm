@@ -6,10 +6,8 @@ fixture `Getting Started`// declare the fixture
 
 //then create a test and place your code there
 test('My first test', async t => {
-    await t
-        .typeText('#developer-name', 'John Smith')
-        .click('#submit-button')
-
-        // Use the assertion to check if the actual header text is equal to the expected one
-        .expect(Selector('#article-header').innerText).eql('Thank you, John Smith!');
+    await t.click("#inputLine")
+        .typeText('#inputLine', 'help')
+        .expect(Selector('.input-line').length).eql(0)
+        .pressKey('enter').wait(1000);
 });
