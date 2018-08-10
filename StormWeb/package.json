@@ -6,6 +6,7 @@
     "css-loader": "^0.28.11",
     "jest": "^23.4.2",
     "jquery": "^3.2.1",
+    "testcafe": "^0.21.1",
     "ts-jest": "^23.1.3",
     "ts-loader": "^4.4.1",
     "typescript": "^2.9.2",
@@ -18,7 +19,8 @@
   "scripts": {
     "build": "webpack --display-error-details",
     "test": "jest",
-    "antlr": "./node_modules/.bin/antlr4ts -listener Storm.g4 -o src/parser"
+    "antlr": "./node_modules/.bin/antlr4ts -listener Storm.g4 -o src/parser",
+    "test2": "testcafe chrome src/terminal.ts"
   },
   "dependencies": {
     "antlr4": "^4.7.1",
