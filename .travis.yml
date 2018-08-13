@@ -9,6 +9,7 @@ script:
   - npm run antlr
   - find ./src
   - npm run build
+  - cd ..
 
 addons:
   ssh_known_hosts:
