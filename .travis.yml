@@ -1,45 +1,11 @@
-matrix:
-  include:
-    - language: node_js
-      node_js:
-        - 8
-
-      dist: trusty
-      sudo: required
-      addons:
-        firefox: latest
-        apt:
-          sources:
-            - google-chrome
-          packages:
-            - google-chrome-stable fluxbox
-
-      before_script:
-        - "export DISPLAY=:99.0"
-        - "sh -e /etc/init.d/xvfb start"
-        - sleep 3
-        - fluxbox >/dev/null 2>&1 &
-        #- find .
-
-
-      script:
-        - cd ./StormWeb/
-        - npm install
-        - bower install
-        - npm i typescript --save-dev
-        - npm run antlr
-        - find ./src
-        - npm run build
-        - npm run test
-      #  - npm run test2
-
-      #before_install: false
-      #install: false
-
-    - language: scala
-      scala:
-        - 2.12.4
-      before_script:
-        - cd ./engine/
-        - sbt clean "fastOptJS"
-        - cp target/scala-2.12/engine-fastopt.js ../StormWeb/js/
+language: node_js
+node_js:
+  - 8
+script:
+  - cd ./StormWeb/
+  - npm install
+  - bower install
+  - npm i typescript --save-dev
+  - npm run antlr
+  - find ./src
+  - npm run build
