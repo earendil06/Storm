@@ -4,7 +4,8 @@
 
 Toolchain with the goal to help a Dungeon Master to run a D&D game.
 This tool is meant to be used for live pen and papers sessions.
-All (most) dice rolls should be done IRL, the toolchain should only
+
+Most dice rolls should be done IRL, the toolchain should only
 provide information like monster blocks and the state of an encounter.
 
 The principal features should be to enable faster battles and content generation by providing :
