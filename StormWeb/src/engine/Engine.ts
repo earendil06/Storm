@@ -4,30 +4,28 @@ export default class Engine {
     private engine = new (window as any).JSAdapter() as any;
 
     private static MISSING_BLOCK = "missing block.";
+    private static COOKIE = "cookie/encounter";
 
     constructor() {
+        console.log(document.cookie);
+        this.updateEncounter();
     }
 
     bakeCookie(): void {
         let encounter = this.getEncounterData();
-        document.cookie = JSON.stringify(encounter);
-        console.log(document.cookie);
-    }
-
-    readCookie(): EncounterData {
-        let result = document.cookie;
-        if (result) {
-            return JSON.parse(result) as EncounterData;
-        }
-        return null;
+        localStorage.setItem(Engine.COOKIE, JSON.stringify(encounter));
+        console.log(localStorage.getItem(Engine.COOKIE));
     }
 
     updateEncounter(): void {
-        this.bakeCookie();
-        //need to read it and send to scala
+        let encounter = localStorage.getItem(Engine.COOKIE);
+        if (encounter && encounter !== '') {
+            this.engine.setEncounter(encounter);
+        }
     }
 
     newMonster(name: string, block: Block): void {
+        this.updateEncounter();
         let ba = this.toBlockAdapter(block);
         let ed = this.getEncounterData();
         let existing = ed.monsters.find(monster => monster.name === name);
@@ -35,6 +33,7 @@ export default class Engine {
             throw new Error(name + " already exists in the encounter.")
         }
         this.engine.newMonster(name, ba);
+        this.bakeCookie();
     }
 
     getEncounterData(): EncounterData {
@@ -55,7 +54,7 @@ export default class Engine {
         block.stats.forEach(function (stat) {
             let sv = stat.statValue;
             if (sv instanceof ConstValue) {
-                let cv = new (window as any).ConstValue(sv.formulae(), sv.meanValue());
+                let cv = new (window as any).ConstValue(sv.formulae, sv.meanValue);
                 adapter.putStat(stat.statType, cv);
             } else if (sv instanceof DiceValue) {
                 let dv = new (window as any).DiceValue(sv.number, sv.sides, sv.modifier);
@@ -110,11 +109,15 @@ export default class Engine {
     }
 
     rollInitiative(): void {
+        this.updateEncounter();
         this.engine.rollInitiative();
+        this.bakeCookie()
     }
 
     nextTurn(): Monster {
+        this.updateEncounter();
         this.engine.nextTurn();
+        this.bakeCookie();
         return this.getPlayingMonster();
     }
 
@@ -131,6 +134,7 @@ export default class Engine {
     }
 
     damage(name: string, damage: number): Monster {
+        this.updateEncounter();
         if (name == null) {
             throw new Error("Missing name.")
         }
@@ -142,6 +146,7 @@ export default class Engine {
             throw Error("Not found");
         }
         this.updateMonster(damaged[0]);
+        this.bakeCookie();
         return this.getMonsterByName(name);
     }
 
@@ -151,7 +156,9 @@ export default class Engine {
     }
 
     reset(): void {
+        this.updateEncounter();
         this.engine.reset();
+        this.bakeCookie();
     }
 
     getTurn(): number {
@@ -159,13 +166,16 @@ export default class Engine {
     }
 
     remove(name: string): void {
+        this.updateEncounter();
         if (name == null) {
             throw new Error("Missing name.")
         }
         this.engine.remove(name);
+        this.bakeCookie();
     }
 
     setInitiative(name: string, value: number): Monster {
+        this.updateEncounter();
         if (name == null) {
             throw new Error("Missing name.")
         }
@@ -174,6 +184,7 @@ export default class Engine {
         }
         let updated = JSON.parse(this.engine.setInitiative(name, value));
         this.updateMonster(updated[0]);
+        this.bakeCookie();
         return this.getMonsterByName(name);
     }
 }

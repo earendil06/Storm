@@ -39,29 +39,26 @@ export class Stat {
 }
 
 export interface StatValue {
-    meanValue(): number;
+    meanValue: number;
+    formulae: string;
+    instantiateValue: number;
+    $type: string;
 
-    formulae(): string;
 }
 
 export class ConstValue implements StatValue {
-    formulaeField: string;
-    meanValueField: number;
+    formulae: string;
+    meanValue: number;
     instantiateValue: number;
+    $type: string;
 
     constructor(formulae: string, meanValue: number) {
-        this.formulaeField = formulae;
-        this.meanValueField = meanValue;
+        this.formulae = formulae;
+        this.meanValue = meanValue;
         this.instantiateValue = meanValue;
+        this.$type = "com.pastorm.model.ConstValue";
     }
 
-    formulae(): string {
-        return this.formulaeField;
-    }
-
-    meanValue(): number {
-        return this.meanValueField;
-    }
 }
 
 export class DiceValue implements StatValue {
@@ -69,20 +66,29 @@ export class DiceValue implements StatValue {
     sides: number;
     modifier: number;
 
+    formulae: string;
+    meanValue: number;
+    instantiateValue: number;
+    $type: string;
+
     constructor(number: number, sides: number, modifier: number) {
         this.number = number;
         this.sides = sides;
         this.modifier = modifier;
+        this.formulae = this.getFormulae();
+        this.meanValue = this.getMeanValue();
+        this.instantiateValue = this.getMeanValue();
+        this.$type = "com.pastorm.model.DiceValue";
     }
 
-    meanValue(): number {
+    getMeanValue(): number {
         let facesUp = this.sides + 1;
         let div = facesUp / 2;
         let res = this.number * div + this.modifier;
         return Math.floor(res);
     };
 
-    formulae(): string {
+    getFormulae(): string {
         let modifierFormat = '+';
         if (this.modifier > 0) {
             modifierFormat = '-';

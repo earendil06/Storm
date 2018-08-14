@@ -29,4 +29,6 @@ trait GameEngine {
   def remove(name: String): Unit
 
   def setInitiative(name: String, value: Int): Option[Monster]
+
+  def setEncounter(newEncounter: EncounterData): Unit
 }
