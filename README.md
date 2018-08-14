@@ -4,12 +4,13 @@
 
 Toolchain with the goal to help a Dungeon Master run a D&D game.
 This tool is meant to be used for live pen and papers sessions.
-All (most) dice rolls should be done IRL, the toolchain should only
+
+Most dice rolls should be done IRL, the toolchain should only
 provide information like monster blocks and the state of an encounter.
 
 The principal features should be to enable faster battles and content generation by providing :
 
-- A data type (StormLang) that can describe a monster's stats block
+- A data type that can describe a monster's stats block
   - an api that enables an easy manipulation of those data
   - a user-friendly way to add new blocks (currently StormIDE using Ace Editor)
 - A Command Line Interface to easily manage a battle encounter
