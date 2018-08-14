@@ -64,4 +64,6 @@ class EncounterEngine() extends GameEngine {
   override def setInitiative(name: String, value: Int): Option[Monster] =
     getMonsterByName(name).map(_.copy(initiative = Some(value)))
 
+  override def setEncounter(newEncounter: EncounterData): Unit = encounterData = newEncounter
+
 }

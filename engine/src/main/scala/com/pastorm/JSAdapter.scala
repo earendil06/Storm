@@ -10,17 +10,14 @@ class JSAdapter {
   val engine: EncounterEngine = EncounterEngineComponent.encounterEngine
 
   @JSExport
-  //todo
   def newMonster(name: String, adapter: BlockAdapter): Unit =
     engine.newMonster(name, adapter.block)
 
   @JSExport
-  //todo
   def getEncounterData: String =
     write(engine.getEncounterData)
 
   @JSExport
-  //todo
   def getMonsterByName(name: String): String =
     write(engine.getMonsterByName(name))
 
@@ -37,12 +34,10 @@ class JSAdapter {
     engine.nextTurn()
 
   @JSExport
-  //todo
   def getPlayingMonster: String =
     write(engine.getPlayingMonster)
 
   @JSExport
-  //todo
   def updateMonster(monster: String): Unit =
     engine.updateMonster(read[Monster](monster))
 
@@ -63,7 +58,10 @@ class JSAdapter {
     engine.remove(name)
 
   @JSExport
-  //todo
   def setInitiative(name: String, value: Int): String =
     write(engine.setInitiative(name, value))
+
+  @JSExport
+  def setEncounter(newEncounter: String): Unit =
+    engine.setEncounter(read[EncounterData](newEncounter))
 }
