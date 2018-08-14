@@ -25,6 +25,12 @@ The principal features should be to enable faster battles and content generation
     - create a room for the dm and the players
     - the players can update their hp and other stats
     - the players must not have access to the DM informations
+    
+
+### Releases
+You can use the online tool : https://storm.florentpastor.com
+
+You can download the executable :   
 
 ## StormLang
 
@@ -37,3 +43,5 @@ The principal features should be to enable faster battles and content generation
 #### Current state:
 
 ![demo](./gifs/stormv2.gif)
+
+

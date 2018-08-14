@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 cd StormWeb
-./build-and-watch.sh &
-cd electron
+./build.sh
+cd ../electron
 npm start
