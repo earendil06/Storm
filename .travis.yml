@@ -37,6 +37,8 @@ matrix:
         - sbt "fastOptJS"
         - cd ..
         - cp ./engine/target/scala-2.12/engine-fastopt.js ./StormWeb/js/
+      script:
+        -
       addons:
         ssh_known_hosts:
           - ssh.cluster026.hosting.ovh.net
