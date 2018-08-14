@@ -10,7 +10,7 @@ provide information like monster blocks and the state of an encounter.
 
 The principal features should be to enable faster battles and content generation by providing :
 
-- A data type (StormLang) that can describe a monster's stats block
+- A data type that can describe a monster's stats block
   - an api that enables an easy manipulation of those data
   - a user-friendly way to add new blocks (currently StormIDE using Ace Editor)
 - A Command Line Interface to easily manage a battle encounter
