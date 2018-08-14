@@ -18,7 +18,7 @@
     "jquery": "^3.2.1"
   },
   "scripts": {
-    "start": "runServer.sh | electron .",
+    "start": "electron .",
     "build": "webpack"
   },
   "dependencies": {

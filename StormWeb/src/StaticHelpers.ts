@@ -21,8 +21,14 @@ import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
 import Engine from "./engine/Engine";
 import LocalAccessor from "./resources/LocalAccessor";
+import IdeCommand from "./term/commands/IdeCommand";
+import {ExportBlocksCommand} from "./term/commands/ExportBlocks";
+import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
+import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
 
 export class StaticHelpers {
+    private static accessor = new LocalAccessor();
+
     static hideSpinner(): void {
         document.getElementById("loader-img").style.display = "none";
     }
@@ -87,8 +93,11 @@ export class StaticHelpers {
     }
 
     static async getBlocks() {
-        const accessor = new LocalAccessor();
-        return await accessor.getBlockNameList();
+        return await this.accessor.getBlockNameList();
+    }
+
+    static getAccessor() {
+        return this.accessor;
     }
 
     static async getMonsters() {
@@ -126,7 +135,11 @@ export class StaticHelpers {
             new SetInitiativeCommand(),
             new GetBlocksCommand(),
             new ExportEncounterCommand(),
-            new LoadEncounterCommand()
+            new LoadEncounterCommand(),
+            new ExportBlocksCommand(),
+            new LoadBlocksCommand(),
+            new IdeCommand(),
+            new DeleteBlockCommand()
         ];
     }
 }

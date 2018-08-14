@@ -8,20 +8,39 @@ export default class Engine {
     constructor() {
     }
 
+    bakeCookie(): void {
+        let encounter = this.getEncounterData();
+        document.cookie = JSON.stringify(encounter);
+        console.log(document.cookie);
+    }
+
+    readCookie(): EncounterData {
+        let result = document.cookie;
+        if (result) {
+            return JSON.parse(result) as EncounterData;
+        }
+        return null;
+    }
+
+    updateEncounter(): void {
+        this.bakeCookie();
+        //need to read it and send to scala
+    }
+
     newMonster(name: string, block: Block): void {
         let ba = this.toBlockAdapter(block);
-
         let ed = this.getEncounterData();
         let existing = ed.monsters.find(monster => monster.name === name);
         if (existing) {
             throw new Error(name + " already exists in the encounter.")
         }
-
         this.engine.newMonster(name, ba);
     }
 
     getEncounterData(): EncounterData {
-        return JSON.parse(this.engine.getEncounterData)
+        let scalaEncounter = JSON.parse(this.engine.getEncounterData) as EncounterData;
+        let monsters = scalaEncounter.monsters.map(m => new Monster(this.fromScalaBlock(m.block), m.name, m.hitPoints, m.initiative));
+        return new EncounterData(monsters, scalaEncounter.playingMonsterName, scalaEncounter.turn);
     }
 
     toBlockAdapter(block: Block): any {
@@ -63,7 +82,9 @@ export default class Engine {
             throw new Error("No monster found");
         }
         let m = result[0];
-        return new Monster(this.fromScalaBlock(m.block), m.name, m.hitPoints, m.initiative);
+
+        let block = this.fromScalaBlock(m.block);
+        return new Monster(block, m.name, m.hitPoints, m.initiative);
     }
 
     fromScalaBlock(scalaBlock: Block): Block {
@@ -73,8 +94,8 @@ export default class Engine {
         scalaBlock.features.forEach(value => b.features.push(new Feature(value.name, value.description)));
         scalaBlock.stats.forEach(value => {
             if ((value.statValue as any).$type == "com.pastorm.model.ConstValue") {
-                let cv = value.statValue as ConstValue;
-                b.stats.push(new Stat(value.statType, new ConstValue(cv.formulaeField, cv.meanValueField)))
+                let cv = value.statValue as any;
+                b.stats.push(new Stat(value.statType, new ConstValue(cv.formulae, cv.meanValue)))
             } else {
                 let dv = value.statValue as DiceValue;
                 b.stats.push(new Stat(value.statType, new DiceValue(dv.number, dv.sides, dv.modifier)))

@@ -7,7 +7,7 @@ import {HistoryCommand} from "../../poco/HistoryCommand";
 export class LoadEncounterCommand extends Command {
 
     constructor() {
-        super("load");
+        super("load-encounter");
     }
 
     async execute(args: string[]): Promise<IHistoryCommand> {

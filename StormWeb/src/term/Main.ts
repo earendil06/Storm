@@ -11,7 +11,6 @@ export default class Term {
     static main() {
         (window as any).engine = new Engine();
         (window as any).app = new Vue({
-
             el: '#container',
             data: {
                 user: "gm@Storm =>",
@@ -72,21 +71,7 @@ export default class Term {
                 },
                 encounterUpdate: function () {
                     let vue = this;
-                    vue.encounter = StaticHelpers.engine().getEncounterData()
-                    /*$.ajax({
-                        contentType: "application/json",
-                        url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data`,
-                        statusCode: {
-                            200: function (data) {
-                                const monsters = data.monsters;
-                                monsters.forEach(m => {
-                                    m.ac = m.block.stats.find(f => f.statType === "ac").statValue.formulae;
-                                    m.blockName = m.block.name[0].toUpperCase() + m.block.name.slice(1)
-                                });
-                                vue.encounter = data;
-                            }
-                        }
-                    });*/
+                    vue.encounter = StaticHelpers.engine().getEncounterData();
                 },
                 pressEnter: function () {
                     if (this.currentCommand !== "" && this.currentArguments[0] === "!!") {

@@ -3,7 +3,8 @@ import {
     AbilityContext,
     Action_blockContext,
     BlockContext,
-    Feature_blockContext, StatContext,
+    Feature_blockContext,
+    StatContext,
     StormParser
 } from "../parser/StormParser";
 import {Ability, Action, Block, ConstValue, DiceValue, Feature, Stat} from "../engine/Adapters";
@@ -28,7 +29,6 @@ export class MyStormListener implements StormListener {
         const modifier = f((value - 10) / 2) + substractValue;
         this.block.abilityScores.push(new Ability(type, value, modifier));
     }
-
 
     enterAction_block(ctx: Action_blockContext) {
         const actions = ctx.action_component();

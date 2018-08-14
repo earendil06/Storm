@@ -11,7 +11,7 @@ interface IAccessor {
 
     getBlockFromStormText(stormText: string): Optional<Block>;
 
-    saveBlock(blockName: string, block: string): string;
+    saveBlock(blockName: string, block: string): void;
 
     getBlockNameList(): Promise<string[]>;
 }
@@ -39,6 +39,6 @@ export abstract class Accessor implements IAccessor {
 
     async abstract getBlockNameList(): Promise<string[]>;
 
-    abstract saveBlock(blockName: string, block: string): string;
+    abstract saveBlock(blockName: string, block: string): void;
 
 }

@@ -5,22 +5,14 @@ import Optional from "typescript-optional";
 export default class LocalAccessor extends Accessor {
 
     async getBlockByName(blockName: string): Promise<Optional<Block>> {
-        let blockStored = localStorage.getItem(blockName);
-        if (blockStored) {
-            return new Promise<Optional<Block>>((resolve, reject) => {
-                let blockOpt = this.getBlockFromStormText(blockStored);
-                resolve(blockOpt)
-            });
-        } else {
-            return new Promise<Optional<Block>>((resolve, reject) => {
-                this.loadBlockFromBrowserDB(blockName)
-                    .then(blockText => resolve(this.getBlockFromStormText(blockText)))
-                    .catch(reason => reject(reason))
-            });
-        }
+        return new Promise<Optional<Block>>((resolve, reject) => {
+            this.loadLocalBlock(blockName)
+                .then(blockText => resolve(this.getBlockFromStormText(blockText)))
+                .catch(reason => reject(reason))
+        });
     }
 
-    private async loadFileByName(filename: string): Promise<string> {
+    async loadFileByName(filename: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let result;
             let xhr = new XMLHttpRequest(),
@@ -44,15 +36,46 @@ export default class LocalAccessor extends Accessor {
         });
     }
 
-    private async loadBlockFromBrowserDB(blockName: string): Promise<string> {
-        const result = await this.loadFileByName("db/" + blockName + ".storm");
-        try {
-            localStorage.setItem(blockName, result);
-            return result;
-        } catch (e) {
-            console.log("Storage failed: " + e);
+    async loadBlockFromFile(blockName: string, path: string): Promise<string> {
+        const result = await this.loadFileByName(path + blockName + ".storm")
+            .then(value => {
+                return value
+            })
+            .catch(() => "");
+        if (result !== "") {
+            try {
+                localStorage.setItem(blockName, result);
+                return result;
+            } catch (e) {
+                console.log("Storage failed: " + e);
+                return "";
+            }
+        }
+        return "";
+    }
+
+    async loadLocalBlock(blockName: string): Promise<string> {
+        let userDb = await this.loadBlockFromDB(blockName, "db/user/");
+        if (userDb !== "") {
+            return userDb;
+        }
+        let db = await this.loadBlockFromDB(blockName, "");
+        if (db !== "") {
+            return db;
+        }
+        let fromFile = await this.loadBlockFromFile(blockName, "db/");
+        if (fromFile !== "") {
+            return fromFile;
+        }
+        return "";
+    }
+
+    private async loadBlockFromDB(blockName: string, path: string): Promise<string> {
+        let res = localStorage.getItem(path + blockName);
+        if (res == null) {
             return "";
         }
+        return res;
     }
 
     async getBlockNameList(): Promise<string[]> {
@@ -68,9 +91,8 @@ export default class LocalAccessor extends Accessor {
         return [...blocks];
     }
 
-    saveBlock(blockName: string, block: string): string {
+    saveBlock(blockName: string, block: string): void {
         localStorage.setItem("db/user/" + blockName, block); //todo antlr validation
-        return "";
     }
 
 }

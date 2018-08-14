@@ -2,10 +2,10 @@ ace.define("ace/mode/storm_highlight_rules", ["require", "exports", "module", "a
     function (require, exports, module) {
         "use strict";
 
-        var oop = require("../lib/oop");
-        var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
+        let oop = require("../lib/oop");
+        let TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
-        var StormHighlightRules = function () {
+        let StormHighlightRules = function () {
             this.$rules = {
                 "start": [
                     {
@@ -89,7 +89,7 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
 
             this.$id = "ace/mode/storm-mode";
 
-            var WorkerClient = require("ace/worker/worker_client").WorkerClient;
+            let WorkerClient = require("ace/worker/worker_client").WorkerClient;
             this.createWorker = function (session) {
                 this.$worker = new WorkerClient(["ace"], "ace/worker/my-worker", "MyWorker", "my-worker.js");
                 this.$worker.attachToDocument(session.getDocument());
@@ -103,30 +103,20 @@ ace.define("ace/mode/storm", ["require", "exports", "module", "ace/lib/oop", "ac
                 });
 
                 this.$worker.on("storm-modified", function (storm) {
-                    $.ajax({
-                        type: "POST",
-                        url: "http://localhost:8080/api/convert",
-                        data: storm.data,
-                        contentType: "text/plain",
-                        success: function (data) {
-                            if (window.ideBlockApplication == null) {
-                                createVue(data);
-                            } else {
-                                window.ideBlockApplication.currentStorm = data
-                            }
-                        },
-                        error: function (data) {
+                    let accessor = window.StaticHelpers.getAccessor();
+                    let block = accessor.getBlockFromStormText(storm.data);
+                    if (block.isPresent) {
+                        if (window.ideBlockApplication == null) {
+                            createVue(block.get());
+                        } else {
+                            window.ideBlockApplication.currentStorm = block.get();
                         }
-                    });
-
+                    }
                 });
-
                 this.$worker.on("terminate", function () {
                     session.clearAnnotations();
                 });
-
                 return this.$worker;
-
             };
 
         }).call(Mode.prototype);

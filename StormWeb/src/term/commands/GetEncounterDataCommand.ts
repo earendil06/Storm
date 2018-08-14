@@ -10,6 +10,7 @@ export class GetEncounterDataCommand extends Command{
     }
 
     async execute(args: string[]): Promise<IHistoryCommand> {
-        return new HistoryCommand(this.getCommandName(), args, StaticHelpers.engine().getEncounterData(), "encounter-component");
+        let encounterData = StaticHelpers.engine().getEncounterData();
+        return new HistoryCommand(this.getCommandName(), args, encounterData, "encounter-component");
     }
 }
