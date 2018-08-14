@@ -4,18 +4,21 @@ export default class Engine {
     private engine = new (window as any).JSAdapter() as any;
 
     private static MISSING_BLOCK = "missing block.";
+    private static COOKIE = "cookie/encounter";
 
     constructor() {
+        console.log(document.cookie);
         this.updateEncounter();
     }
 
     bakeCookie(): void {
         let encounter = this.getEncounterData();
-        document.cookie = JSON.stringify(encounter);
+        localStorage.setItem(Engine.COOKIE, JSON.stringify(encounter));
+        console.log(localStorage.getItem(Engine.COOKIE));
     }
 
     updateEncounter(): void {
-        let encounter = document.cookie;
+        let encounter = localStorage.getItem(Engine.COOKIE);
         if (encounter && encounter !== '') {
             this.engine.setEncounter(encounter);
         }
