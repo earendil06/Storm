@@ -13,7 +13,7 @@ export default class HelpCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length === 0) {
-            let helpText = StaticHelpers.COMMANDS().map(c => c.getCommandName()).join(", ");
+            let helpText = '- ' + StaticHelpers.COMMANDS().map(c => c.getCommandName()).join("\n- ");
             helpText += '\n\nUse "help [command]" to learn more about a specific command';
             return new HistoryCommand(this.getCommandName(), args, helpText, "markdown-component");
         } else {
