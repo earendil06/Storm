@@ -59,7 +59,6 @@ export abstract class Accessor implements IAccessor {
                 }
             }, false);
             xhr.send();
-            console.log("szzzzzzzz");
         });
     }
 

@@ -15,15 +15,13 @@ export default class HelpCommand extends Command {
         if (args.length === 0) {
             return new HistoryCommand(this.getCommandName(), args, StaticHelpers.COMMANDS().map(c => c.getCommandName()).join(", "), "default-component");
         } else {
-            let markdown;
             try {
-                markdown = await new LocalAccessor().loadFileByName("helps/" + args[0] + ".md");
+                let markdown = await new LocalAccessor().loadFileByName("helps/" + args[0] + ".md");
+                return new HistoryCommand(this.getCommandName(), args, markdown, "markdown-component");
             } catch (e) {
                 return new HistoryCommand(this.getCommandName(), args, args[0] + " is not documented or does not exists.", "error-component")
             }
-            return new HistoryCommand(this.getCommandName(), args, markdown, "markdown-component");
         }
-
     }
 
 }
