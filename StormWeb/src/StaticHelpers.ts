@@ -101,11 +101,7 @@ export class StaticHelpers {
     }
 
     static async getMonsters() {
-        return await $.ajax({
-            contentType: "application/json",
-            url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/data/names`
-        });
-
+        return this.engine().getEncounterData().monsters.map(m => m.name);
     }
 
     static application(): Application {

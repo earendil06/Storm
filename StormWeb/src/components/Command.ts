@@ -8,16 +8,14 @@ import NavigatorComponent from "./Navigator";
 
 export default Vue.extend({
     template: `
-        <div>
-        <div class="input-line line">
-            <div class="prompt">{{ user }}</div>
-            <div>
-                <input class="cmdline" v-bind:value="completeInput" readonly="" disabled>
-            </div>
+    <div class="input-line col-md-12">
+        <div class="row">
+            <div class="pull-left username">{{ user }}</div>
+            <div class="pull-left">{{ completeInput }}</div>
         </div>
-        <div style="padding-bottom: 10px; padding-top: 5px;">
+        <div class="col-md-12">
             <component :is="command.templateName" :data="command.output"></component>
-        </div>
+        </div>     
     </div>
     `,
     name: "command",
@@ -26,7 +24,7 @@ export default Vue.extend({
         DefaultComponent, BlockComponent, MonsterComponent, EncounterComponent, NavigatorComponent
     },
     computed: {
-        completeInput: function() {
+        completeInput: function () {
             return this.command.command + " " + this.command.args.join(" ");
         }
     },
