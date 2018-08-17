@@ -1,27 +1,18 @@
 body {
-    background-color: black;
     font-size: 16pt;
     font-family: Inconsolata, monospace;
-    color: white;
 }
-
 .username {
-    color: #96b38a;
     padding-right: 15px;
     padding-left: 15px;
 }
-
 .cmdline {
-    background-color: black;
-    color: white;
     border: 0;
     padding: 0;
 }
-
 .bg-prop-current {
     opacity: 1 !important;
 }
-
 .proposal {
     opacity: 0.5;
 }
