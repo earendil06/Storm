@@ -40,7 +40,8 @@ export default class Term {
             },
             mounted: function () {
                 this.encounterUpdate();
-                StaticHelpers.scrollWindow()
+                StaticHelpers.scrollWindow();
+                $("#container").show();
             },
             updated: function () {
                 StaticHelpers.scrollWindow()

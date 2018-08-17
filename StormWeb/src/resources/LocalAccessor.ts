@@ -12,29 +12,7 @@ export default class LocalAccessor extends Accessor {
         });
     }
 
-    async loadFileByName(filename: string): Promise<string> {
-        return new Promise<string>((resolve, reject) => {
-            let result;
-            let xhr = new XMLHttpRequest(),
-                blob,
-                fileReader = new FileReader();
-            xhr.open("GET", filename, true);
-            xhr.responseType = "arraybuffer";
-            xhr.addEventListener("load", function () {
-                if (xhr.status === 200) {
-                    blob = new Blob([xhr.response]);
-                    fileReader.onload = function (evt) {
-                        result = evt.target.result;
-                        resolve(result);
-                    };
-                    fileReader.readAsText(blob);
-                } else {
-                    reject(xhr.status);
-                }
-            }, false);
-            xhr.send();
-        });
-    }
+
 
     async loadBlockFromFile(blockName: string, path: string): Promise<string> {
         const result = await this.loadFileByName(path + blockName + ".storm")

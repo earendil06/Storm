@@ -2,6 +2,7 @@ import Command from "./Command";
 import {StaticHelpers} from "../../StaticHelpers";
 import {IHistoryCommand} from "../../Application";
 import {HistoryCommand} from "../../poco/HistoryCommand";
+import LocalAccessor from "../../resources/LocalAccessor";
 
 export default class HelpCommand extends Command {
 
@@ -9,8 +10,15 @@ export default class HelpCommand extends Command {
         super("help");
     }
 
+
     async execute(args: string[]): Promise<IHistoryCommand> {
-        return new HistoryCommand(this.getCommandName(), args, StaticHelpers.COMMANDS().map(c => c.getCommandName()).join(", "), "default-component");
+        if (args.length === 0) {
+            return new HistoryCommand(this.getCommandName(), args, StaticHelpers.COMMANDS().map(c => c.getCommandName()).join(", "), "default-component");
+        }else {
+            let markdown = await new LocalAccessor().loadFileByName("helps/" + args[0] + ".md");
+            return new HistoryCommand(this.getCommandName(), args, markdown, "markdown-component");
+        }
+
     }
 
 }

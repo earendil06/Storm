@@ -16,11 +16,11 @@ export class RemoveCommand extends Command{
         } else {
             const monsterName = args[0];
             try {
-                const result = await $.ajax({
+                /*const result = await $.ajax({
                     contentType: "application/json",
                     method: 'DELETE',
                     url: `http://${StaticHelpers.server}:${StaticHelpers.port}/api/remove/` + monsterName
-                });
+                });*/
                 return new HistoryCommand(this.getCommandName(), args, monsterName + " has been removed from the encounter.", "default-component");
             } catch (e) {
                 switch (e.status) {
