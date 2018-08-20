@@ -95,9 +95,9 @@ export default class Term {
 
                     } else {
                         if (this.currentArguments.length === 0) {
-                            this.currentInputValue = this.proposalsDisplayed[this.proposalsIndex];
+                            this.currentInputValue = this.proposalsDisplayed[this.proposalsIndex] + " ";
                         } else {
-                            this.currentInputValue = this.currentCommand + " " + this.proposalsDisplayed[this.proposalsIndex];
+                            this.currentInputValue = this.currentCommand + " " + this.proposalsDisplayed[this.proposalsIndex] + " ";
                         }
 
                     }
