@@ -1,14 +1,14 @@
 package pastorm.stormlanguage
 
 import com.pastorm.encounter.engine.initiative.{DefaultInitiativeEngine, InitiativeEngine}
-import com.pastorm.model.{BlockAdapter, EncounterData, Monster}
+import com.pastorm.model.{BlockAdapter, Encounter, Monster}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.junit.Assert._
 
 class GameEngineSteps extends ScalaDsl with EN {
   val engine: InitiativeEngine = new DefaultInitiativeEngine
   val defaultBlock: BlockAdapter = new BlockAdapter
-  var encounterData: EncounterData = EncounterData(Seq(), "", 0)
+  var encounterData: Encounter = Encounter(Seq(), "", 0)
 
   Before { scenario =>
     defaultBlock.setName("test")

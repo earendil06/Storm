@@ -1,13 +1,13 @@
 package com.pastorm.encounter.engine.initiative
 
 import com.pastorm.model.dice.Die
-import com.pastorm.model.{EncounterData, Monster}
+import com.pastorm.model.{Encounter, Monster}
 
 
 class DefaultInitiativeEngine extends InitiativeEngine {
   private val d20 = new Die(20)
 
-  override def rollInitiatives(monsters: Seq[Monster]): Seq[Monster] =
+  override def rollInitiatives(monsters: List[Monster]): List[Monster] =
     monsters
       .map(monster => if (monster.initiative.isEmpty) rollInitiative(monster) else monster)
       .sortWith((l, r) => {
@@ -27,7 +27,7 @@ class DefaultInitiativeEngine extends InitiativeEngine {
     monster.copy(initiative = Some(rolledInitiative))
   }
 
-  override def nextTurn(encounterData: EncounterData): EncounterData = {
+  override def nextTurn(encounterData: Encounter): Encounter = {
     var resultEncounterData = encounterData
     val orderedInitiative = encounterData.monsters
       .filter(_.initiative.nonEmpty)

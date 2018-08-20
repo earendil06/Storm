@@ -1,34 +1,31 @@
 package com.pastorm.encounter.engine
 
-import com.pastorm.model.{Block, EncounterData, Monster}
+import com.pastorm.model.{Block, Encounter, Monster}
 
-trait GameEngine {
+abstract class GameEngine(val encounter: Encounter) {
 
-  def newMonster(name: String, block: Block): Unit
-
-  def getEncounterData: EncounterData
+  def newMonster(name: String, block: Block): Option[Encounter]
 
   def getMonsterByName(name: String): Option[Monster]
 
   def getPlayingMonsterName: String
 
-  def rollInitiative(): Unit
+  def rollInitiative(): Encounter
 
-  def nextTurn(): Unit
+  def nextTurn(): Encounter
 
   def getPlayingMonster: Option[Monster]
 
-  def updateMonster(monster: Monster): Unit
+  def updateMonster(monster: Monster): Encounter
 
-  def damage(name: String, damage: Int): Option[Monster]
+  def damage(name: String, damage: Int): Option[Encounter]
 
-  def reset(): Unit
+  def reset(): Encounter
 
   def getTurn: Int
 
-  def remove(name: String): Unit
+  def remove(name: String): Encounter
 
-  def setInitiative(name: String, value: Int): Option[Monster]
+  def setInitiative(name: String, value: Int): Encounter
 
-  def setEncounter(newEncounter: EncounterData): Unit
 }
