@@ -13,7 +13,7 @@ export default Vue.extend({
     template: `
     <div class="input-line col-md-12">
         <div class="row">
-            <div class="pull-left username">=></div>
+            <div class="pull-left username">-></div>
             <div class="pull-left">{{ completeInput }}</div>
         </div>
         <div class="col-md-12">
