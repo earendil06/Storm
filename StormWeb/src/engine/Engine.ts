@@ -11,9 +11,7 @@ export default class Engine {
 
     newMonster(name: string, block: Block): void {
         let ba = this.toBlockAdapter(block);
-        let ed = this.getEncounterData();
-        let existing = ed.monsters.find(monster => monster.name === name);
-        if (existing) {
+        if (this.checkMonsterExists(name)) {
             throw new Error(name + " already exists in the encounter.")
         }
         this.engine.newMonster(name, ba);
@@ -122,6 +120,9 @@ export default class Engine {
         if (damage == null) {
             throw new Error("Missing damage.")
         }
+        if (!this.checkMonsterExists(name)) {
+            throw new Error("No monster found");
+        }
         this.engine.damage(name, damage);
         return this.getMonsterByName(name);
     }
@@ -146,6 +147,9 @@ export default class Engine {
         if (this.getPlayingMonsterName() === name) {
             this.nextTurn();
         }
+        if (!this.checkMonsterExists(name)) {
+            throw new Error("No monster found");
+        }
         this.engine.remove(name);
     }
 
@@ -156,7 +160,19 @@ export default class Engine {
         if (value == null) {
             throw new Error("Missing value.")
         }
+        if (!this.checkMonsterExists(name)) {
+            throw new Error("No monster found");
+        }
         this.engine.setInitiative(name, value);
         return this.getMonsterByName(name);
+    }
+
+    checkMonsterExists(name: string): boolean {
+        try {
+            this.getMonsterByName(name);
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 }

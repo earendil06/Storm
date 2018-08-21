@@ -11,7 +11,7 @@ export class ExportEncounterCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 1) {
-            return new HistoryCommand(this.getCommandName(), args, "missing filename (e.g.: export-encounter [filename])", "default-component");
+            return new HistoryCommand(this.getCommandName(), args, "missing filename (e.g.: export-encounter [filename])", "error-component");
         } else {
             const filename = args[0];
             let blob = new Blob(

@@ -18,7 +18,7 @@ export class RemoveCommand extends Command {
                 StaticHelpers.engine().remove(monsterName);
                 return new HistoryCommand(this.getCommandName(), args, monsterName + " has been removed from the encounter.", "default-component");
             } catch (e) {
-                return new HistoryCommand(this.getCommandName(), args, monsterName + " does not exists in the encounter.", "default-component");
+                return new HistoryCommand(this.getCommandName(), args, monsterName + " does not exists in the encounter.", "error-component");
             }
         }
     }
