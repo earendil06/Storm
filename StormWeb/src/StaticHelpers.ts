@@ -78,6 +78,10 @@ export class StaticHelpers {
         return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
     }
 
+    static test(): string[] {
+        return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
+    }
+
     static async getBlocks() {
         return await this.accessor.getBlockNameList();
     }
