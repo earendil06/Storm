@@ -44,8 +44,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <command-component
+                        <!--<command-component
                                 v-for="command in commands"
+                                v-bind:command="command"
+                                v-bind:user="user">
+                        </command-component>-->
+                        <command-component
+                                v-for="command in commands.slice(commands.length -1)"
                                 v-bind:command="command"
                                 v-bind:user="user">
                         </command-component>
@@ -70,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div id="colEncounter" class="col-4">
+        <div id="colEncounter" class="col-4" style="position: fixed; right: 0">
             <div class="col-md-auto" style="font-size: 11px; float: right">
                 <span style="padding-right: 10px">Switch theme :</span>
                 <a onclick="changeCSS('css/term-theme-light.css')" href="#">light</a>
@@ -96,7 +101,6 @@
         newStyle.setAttribute("id", "theme");
         document.getElementsByTagName("head").item(0).replaceChild(newStyle, oldStyle);
     }
-
 </script>
 </body>
 </html>
