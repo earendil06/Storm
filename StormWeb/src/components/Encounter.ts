@@ -11,7 +11,7 @@ export default Vue.extend({
     template: `
     <div class="stat-block encounter">
         <hr class="orange-border"/>
-        <div v-for="monster in data.monsters" class="creature-heading">
+        <div v-for="monster in sortedMonsters" class="creature-heading">
         <form v-on:submit.prevent="modify(monster)">
             <input type="submit" style="display: none"/>
             <h1 @click="get(monster.name)"
@@ -92,5 +92,40 @@ export default Vue.extend({
                 StaticHelpers.application().commands.push(res);
             }
         }
+    },
+    computed: {
+        sortedMonsters: function () {
+            if (this.data.monsters) {
+                return this.data.monsters.sort((l, r) => {
+                    if (l.initiative == r.initiative) {
+                        return l.name < r.name
+                    } else {
+                        let li = 0;
+                        let ri = 0;
+                        if (l.initiative == undefined) {
+                            li = l.initiative;
+                        }
+                        if (r.initiative == undefined) {
+                            ri = r.initiative;
+                        }
+                        return li < ri;
+                    }
+                })
+            } else {
+                return [];
+            }
+        }
     }
 });
+
+/*
+val ordered = encounterData.monsters
+      .sortWith((l, r) => {
+        if (l.initiative == r.initiative) {
+          l.name < r.name
+        } else {
+          l.initiative.getOrElse(0) < r.initiative.getOrElse(0)
+        }
+      })
+      .reverse
+      */

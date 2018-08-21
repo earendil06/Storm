@@ -25,6 +25,7 @@ import IdeCommand from "./term/commands/IdeCommand";
 import {ExportBlocksCommand} from "./term/commands/ExportBlocks";
 import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
 import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
+import HomeCommand from "./term/commands/HomeCommand";
 
 export class StaticHelpers {
     private static accessor = new LocalAccessor();
@@ -38,15 +39,11 @@ export class StaticHelpers {
     }
 
     static scrollWindow(): void {
-        let container = document.getElementById('commandsContainer');
+        let container = document.getElementById('inputLine');
         if (container != null) {
-            container.scrollTop = container.scrollHeight;
+            container.scrollIntoView();
         }
     }
-
-    static port = 8080;
-    static server = StaticHelpers.getQueryVariable("server") === "" ? "localhost" : StaticHelpers.getQueryVariable("server");
-
 
     static async eval(command: string, additionalArgs: string[]): Promise<any> {
         if (command === "") {
@@ -54,7 +51,7 @@ export class StaticHelpers {
                 command: command,
                 args: additionalArgs,
                 output: "Command does not exists.",
-                templateName: "default-component"
+                templateName: "error-component"
             });
         } else {
             let commandFound = StaticHelpers.COMMANDS().find(f => f.getCommandName() === command) as ICommand;
@@ -63,7 +60,7 @@ export class StaticHelpers {
                     command: command,
                     args: additionalArgs,
                     output: "Command does not exists.",
-                    templateName: "default-component"
+                    templateName: "error-component"
                 });
             } else {
                 StaticHelpers.showSpinner();
@@ -74,21 +71,14 @@ export class StaticHelpers {
                 StaticHelpers.hideSpinner();
             }
         }
-    }
-
-    static getQueryVariable(variable: string): string {
-        const query = (window as any).location.search.substring(1);
-        const vars = query.split("&");
-        for (let i = 0; i < vars.length; i++) {
-            const pair = vars[i].split("=");
-            if (pair[0] === variable) {
-                return pair[1];
-            }
-        }
-        return "";
+        StaticHelpers.scrollWindow();
     }
 
     static getCommands(): string[] {
+        return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
+    }
+
+    static test(): string[] {
         return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
     }
 
@@ -135,6 +125,7 @@ export class StaticHelpers {
             new ExportBlocksCommand(),
             new LoadBlocksCommand(),
             new IdeCommand(),
+            new HomeCommand(),
             new DeleteBlockCommand()
         ];
     }

@@ -22,7 +22,7 @@ export class BlockCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 1) {
-            return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: block goblin)", "default-component")
+            return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: block goblin)", "error-component")
         } else {
             const blockName = args[0];
             return this.accessor.getBlockByName(blockName)
@@ -30,12 +30,12 @@ export class BlockCommand extends Command {
                     if (block.isPresent) {
                         return new HistoryCommand(this.getCommandName(), args, block.get(), "block-component");
                     }
-                    return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "default-component");
+                    return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "error-component");
                 })
                 .catch(statusCode => {
                     switch (statusCode) {
                         case 404 :
-                            return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "default-component");
+                            return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "error-component");
                         default:
                             return null;
                     }

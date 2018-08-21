@@ -5,8 +5,8 @@ import upickle.default.{macroRW, ReadWriter => RW}
 
 @JSExportTopLevel("EncounterData")
 @JSExportAll
-case class EncounterData(monsters: Seq[Monster], playingMonsterName: String, turn: Int)
+case class Encounter(monsters: List[Monster], playingMonsterName: String, turn: Int)
 
-object EncounterData{
-  implicit val rw: RW[EncounterData] = macroRW
+object Encounter{
+  implicit val rw: RW[Encounter] = macroRW
 }

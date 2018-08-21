@@ -4,36 +4,17 @@ export default class Engine {
     private engine = new (window as any).JSAdapter() as any;
 
     private static MISSING_BLOCK = "missing block.";
-    private static COOKIE = "cookie/encounter";
 
     constructor() {
-        console.log(document.cookie);
-        this.updateEncounter();
-    }
-
-    bakeCookie(): void {
-        let encounter = this.getEncounterData();
-        localStorage.setItem(Engine.COOKIE, JSON.stringify(encounter));
-        console.log(localStorage.getItem(Engine.COOKIE));
-    }
-
-    updateEncounter(): void {
-        let encounter = localStorage.getItem(Engine.COOKIE);
-        if (encounter && encounter !== '') {
-            this.engine.setEncounter(encounter);
-        }
+        this.engine.updateFromLocal();
     }
 
     newMonster(name: string, block: Block): void {
-        this.updateEncounter();
         let ba = this.toBlockAdapter(block);
-        let ed = this.getEncounterData();
-        let existing = ed.monsters.find(monster => monster.name === name);
-        if (existing) {
+        if (this.checkMonsterExists(name)) {
             throw new Error(name + " already exists in the encounter.")
         }
         this.engine.newMonster(name, ba);
-        this.bakeCookie();
     }
 
     getEncounterData(): EncounterData {
@@ -109,15 +90,14 @@ export default class Engine {
     }
 
     rollInitiative(): void {
-        this.updateEncounter();
         this.engine.rollInitiative();
-        this.bakeCookie()
+        if (this.getPlayingMonsterName() === "") {
+            this.nextTurn();
+        }
     }
 
     nextTurn(): Monster {
-        this.updateEncounter();
         this.engine.nextTurn();
-        this.bakeCookie();
         return this.getPlayingMonster();
     }
 
@@ -134,19 +114,16 @@ export default class Engine {
     }
 
     damage(name: string, damage: number): Monster {
-        this.updateEncounter();
         if (name == null) {
             throw new Error("Missing name.")
         }
         if (damage == null) {
             throw new Error("Missing damage.")
         }
-        let damaged = JSON.parse(this.engine.damage(name, damage)) as Monster[];
-        if (damaged.length === 0) {
-            throw Error("Not found");
+        if (!this.checkMonsterExists(name)) {
+            throw new Error("No monster found");
         }
-        this.updateMonster(damaged[0]);
-        this.bakeCookie();
+        this.engine.damage(name, damage);
         return this.getMonsterByName(name);
     }
 
@@ -156,9 +133,7 @@ export default class Engine {
     }
 
     reset(): void {
-        this.updateEncounter();
         this.engine.reset();
-        this.bakeCookie();
     }
 
     getTurn(): number {
@@ -166,25 +141,38 @@ export default class Engine {
     }
 
     remove(name: string): void {
-        this.updateEncounter();
         if (name == null) {
             throw new Error("Missing name.")
         }
+        if (this.getPlayingMonsterName() === name) {
+            this.nextTurn();
+        }
+        if (!this.checkMonsterExists(name)) {
+            throw new Error("No monster found");
+        }
         this.engine.remove(name);
-        this.bakeCookie();
     }
 
     setInitiative(name: string, value: number): Monster {
-        this.updateEncounter();
         if (name == null) {
             throw new Error("Missing name.")
         }
         if (value == null) {
             throw new Error("Missing value.")
         }
-        let updated = JSON.parse(this.engine.setInitiative(name, value));
-        this.updateMonster(updated[0]);
-        this.bakeCookie();
+        if (!this.checkMonsterExists(name)) {
+            throw new Error("No monster found");
+        }
+        this.engine.setInitiative(name, value);
         return this.getMonsterByName(name);
+    }
+
+    checkMonsterExists(name: string): boolean {
+        try {
+            this.getMonsterByName(name);
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 }

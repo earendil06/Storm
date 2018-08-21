@@ -10,6 +10,28 @@ import Engine from "../engine/Engine";
 export default class Term {
     static main() {
         (window as any).engine = new Engine();
+        const propEngine = [
+            {
+                "name": "",
+                "function": "getCommands"
+            },
+            {
+                "name": "(block)\\s",
+                "function": "getBlocks"
+            },
+            {
+                "name": "(monster)\\s",
+                "function": "getMonsters"
+            },
+            {
+                "name": "(new)\\s",
+                "function": "getBlocks"
+            },
+            {
+                "name": "(new)\\s[a-zA-Z]+\\s",
+                "function": "test"
+            }
+        ];
         (window as any).app = new Vue({
             el: '#container',
             data: {
@@ -20,7 +42,8 @@ export default class Term {
                 positionHistory: 0,
                 proposals: [],
                 proposalsIndex: -1,
-                encounter: ""
+                encounter: "",
+                isValidCommand: false
             },
             components: {
                 CommandComponent, StaticEncounterComponent
@@ -36,11 +59,15 @@ export default class Term {
                 },
                 commands: function () {
                     this.encounterUpdate();
+                },
+                currentInputValue: function () {
+                    this.isValidCommand = StaticHelpers.getCommands().find(f => f === this.currentCommand) != null;
                 }
             },
             mounted: function () {
                 this.encounterUpdate();
-                StaticHelpers.scrollWindow()
+                StaticHelpers.scrollWindow();
+                $("#container").show();
             },
             updated: function () {
                 StaticHelpers.scrollWindow()
@@ -94,9 +121,9 @@ export default class Term {
 
                     } else {
                         if (this.currentArguments.length === 0) {
-                            this.currentInputValue = this.proposalsDisplayed[this.proposalsIndex];
+                            this.currentInputValue = this.proposalsDisplayed[this.proposalsIndex] + " ";
                         } else {
-                            this.currentInputValue = this.currentCommand + " " + this.proposalsDisplayed[this.proposalsIndex];
+                            this.currentInputValue = this.currentCommand + " " + this.proposalsDisplayed[this.proposalsIndex] + " ";
                         }
 
                     }
@@ -116,27 +143,11 @@ export default class Term {
                 },
                 invokeAutoComplete: async function (message) {
                     message.preventDefault();
-                    const propEngine = [
-                        {
-                            "name": "root",
-                            "function": "getCommands"
-                        },
-                        {
-                            "name": "block",
-                            "function": "getBlocks"
-                        },
-                        {
-                            "name": "monster",
-                            "function": "getMonsters"
-                        },
-                        {
-                            "name": "new",
-                            "function": "getBlocks"
-                        }
-                    ];
 
-                    let pointer = this.currentArguments.length === 0 ? "root" : this.currentCommand;
-                    let toExecute = propEngine.find(f => f.name === pointer);
+                    let toExecute = propEngine
+                        .filter(f => this.currentInputValue.match(f.name))
+                        .sort((a, b) => b.name.length - a.name.length)[0];
+
                     if (toExecute === undefined) {
                         return;
                     }

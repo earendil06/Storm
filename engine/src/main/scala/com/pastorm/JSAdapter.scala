@@ -1,67 +1,104 @@
 package com.pastorm
-import scala.scalajs.js.annotation._
-import com.pastorm.encounter.engine.EncounterEngine
+
+import com.pastorm.encounter.engine.GameEngine
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent
-import com.pastorm.model.{Block, BlockAdapter, EncounterData, Monster}
+import com.pastorm.model.{BlockAdapter, Encounter, Monster}
+import org.scalajs.dom
 import upickle.default._
+
+import scala.scalajs.js.annotation._
 
 @JSExportTopLevel("JSAdapter")
 class JSAdapter {
-  val engine: EncounterEngine = EncounterEngineComponent.encounterEngine
+  var engine: GameEngine = EncounterEngineComponent.encounterEngine(Encounter(List(), "", 0))
+
+  def withLocalData(encounter: => Option[Encounter]): Unit = {
+    updateFromLocal()
+    saveOptionToLocal(encounter)
+    updateFromLocal()
+  }
+
+  def saveOptionToLocal(encounter: Option[Encounter]): Unit =
+    encounter.foreach(e => dom.window.localStorage.setItem("serial/encounter", write(e)))
 
   @JSExport
-  def newMonster(name: String, adapter: BlockAdapter): Unit =
+  def updateFromLocal(): Unit = {
+    val encounter = dom.window.localStorage.getItem("serial/encounter")
+    if (encounter != null && encounter != "") {
+      val restored = read[Encounter](encounter)
+      this.engine = EncounterEngineComponent.encounterEngine(restored)
+    }
+  }
+
+  @JSExport //todo try with read instead of blockAdapter
+  def newMonster(name: String, adapter: BlockAdapter): Unit = withLocalData {
     engine.newMonster(name, adapter.block)
+  }
 
   @JSExport
-  def getEncounterData: String =
-    write(engine.getEncounterData)
+  def rollInitiative(): Unit = withLocalData {
+    Some(engine.rollInitiative())
+  }
 
   @JSExport
-  def getMonsterByName(name: String): String =
-    write(engine.getMonsterByName(name))
+  def nextTurn(): Unit = withLocalData {
+    Some(engine.nextTurn())
+  }
 
   @JSExport
-  def getPlayingMonsterName: String =
+  def updateMonster(monster: String): Unit = withLocalData {
+    Some(engine.updateMonster(read[Monster](monster)))
+  }
+
+  @JSExport
+  def damage(name: String, damage: Int): Unit = withLocalData {
+    Some(engine.damage(name, damage))
+  }
+
+  @JSExport
+  def reset(): Unit = withLocalData {
+    Some(engine.reset())
+  }
+
+  @JSExport
+  def remove(name: String): Unit = withLocalData {
+    Some(engine.remove(name))
+  }
+
+  @JSExport
+  def setInitiative(name: String, value: Int): Unit = withLocalData {
+    Some(engine.setInitiative(name, value))
+  }
+
+  // Below only getters
+
+  @JSExport
+  def getPlayingMonsterName: String = {
+    updateFromLocal()
     engine.getPlayingMonsterName
+  }
 
   @JSExport
-  def rollInitiative(): Unit =
-    engine.rollInitiative()
-
-  @JSExport
-  def nextTurn(): Unit =
-    engine.nextTurn()
-
-  @JSExport
-  def getPlayingMonster: String =
+  def getPlayingMonster: String = {
+    updateFromLocal()
     write(engine.getPlayingMonster)
+  }
 
   @JSExport
-  def updateMonster(monster: String): Unit =
-    engine.updateMonster(read[Monster](monster))
-
-  @JSExport
-  def damage(name: String, damage: Int): String =
-    write(engine.damage(name, damage))
-
-  @JSExport
-  def reset(): Unit =
-    engine.reset()
-
-  @JSExport
-  def getTurn: Int =
+  def getTurn: Int = {
+    updateFromLocal()
     engine.getTurn
+  }
 
   @JSExport
-  def remove(name: String): Unit =
-    engine.remove(name)
+  def getEncounterData: String = {
+    updateFromLocal()
+    write(engine.encounter)
+  }
 
   @JSExport
-  def setInitiative(name: String, value: Int): String =
-    write(engine.setInitiative(name, value))
-
-  @JSExport
-  def setEncounter(newEncounter: String): Unit =
-    engine.setEncounter(read[EncounterData](newEncounter))
+  def getMonsterByName(name: String): String = {
+    updateFromLocal()
+    write(engine.getMonsterByName(name))
+  }
 }
