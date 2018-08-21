@@ -24,29 +24,27 @@ class EncounterEngine(override val encounter: Encounter) extends GameEngine(enco
 
   override def getPlayingMonster: Option[Monster] = getMonsterByName(encounter.playingMonsterName)
 
+  def updateMonsterAttribute(name: String, attributeModifierFunction: Monster => Monster): Encounter =
+    encounter.copy(monsters = encounter.monsters.map {
+      case updated if updated.name == name => attributeModifierFunction(updated)
+      case monster => monster
+    })
+
   override def updateMonster(monster: Monster): Encounter =
     encounter.copy(monsters = encounter.monsters.filterNot(m => m.name.equals(monster.name)) :+ monster)
 
-  override def damage(name: String, damage: Int): Option[Encounter] =
-    getMonsterByName(name) match {
-      case Some(_) => Some(
-        encounter.copy(monsters = encounter.monsters.map(m => m.copy(hitPoints = m.hitPoints.map(hp => hp + damage))))
-      )
-      case None => None
-    }
+  override def damage(name: String, damage: Int): Encounter =
+    updateMonsterAttribute(name, damaged => damaged.copy(hitPoints = damaged.hitPoints.map(hp => hp + damage)))
 
   override def reset(): Encounter = Encounter(List(), "", 0)
 
   override def getTurn: Int = encounter.turn
 
-  override def remove(name: String): Encounter = //todo next if encounter.playingMonsterName.equals(name)
+  override def remove(name: String): Encounter =
     encounter.copy(monsters = encounter.monsters.filterNot(m => m.name.equals(name)))
 
-  override def setInitiative(name: String, value: Int): Encounter =
-    encounter.copy(monsters = encounter.monsters.map {
-        case modified if modified.name == name => modified.copy(initiative = Some(value))
-        case monster => monster
-      })
+  override def setInitiative(name: String, newInitiative: Int): Encounter =
+    updateMonsterAttribute(name, modified => modified.copy(initiative = Some(newInitiative)))
 
   private def createBaseMonster(name: String, block: Block): Monster =
     Monster(block, name, hitPoints = block.findStat("hp").map(stat => stat.statValue.instantiateValue))

@@ -123,8 +123,6 @@ export default class Engine {
             throw new Error("Missing damage.")
         }
         this.engine.damage(name, damage);
-        let damaged = this.getMonsterByName(name);
-        this.updateMonster(damaged);
         return this.getMonsterByName(name);
     }
 
@@ -145,6 +143,9 @@ export default class Engine {
         if (name == null) {
             throw new Error("Missing name.")
         }
+        if (this.getPlayingMonsterName() === name) {
+            this.nextTurn();
+        }
         this.engine.remove(name);
     }
 
@@ -156,8 +157,6 @@ export default class Engine {
             throw new Error("Missing value.")
         }
         this.engine.setInitiative(name, value);
-        let updated = this.getMonsterByName(name);
-        this.updateMonster(updated);
         return this.getMonsterByName(name);
     }
 }

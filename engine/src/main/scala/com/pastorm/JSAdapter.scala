@@ -1,11 +1,12 @@
 package com.pastorm
 
-import scala.scalajs.js.annotation._
 import com.pastorm.encounter.engine.GameEngine
 import com.pastorm.encounter.engine.configuration.EncounterEngineComponent
 import com.pastorm.model.{BlockAdapter, Encounter, Monster}
 import org.scalajs.dom
 import upickle.default._
+
+import scala.scalajs.js.annotation._
 
 @JSExportTopLevel("JSAdapter")
 class JSAdapter {
@@ -51,7 +52,7 @@ class JSAdapter {
 
   @JSExport
   def damage(name: String, damage: Int): Unit = withLocalData {
-    engine.damage(name, damage)
+    Some(engine.damage(name, damage))
   }
 
   @JSExport

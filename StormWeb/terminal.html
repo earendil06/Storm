@@ -42,20 +42,6 @@
     <div class="row">
         <div class="col-8">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <!--<command-component
-                                v-for="command in commands"
-                                v-bind:command="command"
-                                v-bind:user="user">
-                        </command-component>-->
-                        <command-component
-                                v-for="command in commands.slice(commands.length -1)"
-                                v-bind:command="command"
-                                v-bind:user="user">
-                        </command-component>
-                    </div>
-                </div>
 
                 <div id="input-line" class="input-line col-md-12">
                     <div class="row">
@@ -73,6 +59,19 @@
                 <div v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }" class="col-md-3 proposal">
                     <span style="cursor: pointer" v-on:click="onClickProposition(index)" v-on:mouseover="onMouseOverProposition(index)">{{ prop }}</span>
                 </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <command-component
+                                v-for="command in commands.slice(commands.length -1)"
+                                v-bind:command="command"
+                                v-bind:user="user">
+                        </command-component>
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
         <div id="colEncounter" class="col-4" style="position: fixed; right: 0">

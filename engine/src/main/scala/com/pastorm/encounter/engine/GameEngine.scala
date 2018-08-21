@@ -18,7 +18,7 @@ abstract class GameEngine(val encounter: Encounter) {
 
   def updateMonster(monster: Monster): Encounter
 
-  def damage(name: String, damage: Int): Option[Encounter]
+  def damage(name: String, damage: Int): Encounter
 
   def reset(): Encounter
 
