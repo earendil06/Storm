@@ -43,10 +43,10 @@ class EncounterEngine(override val encounter: Encounter) extends GameEngine(enco
     encounter.copy(monsters = encounter.monsters.filterNot(m => m.name.equals(name)))
 
   override def setInitiative(name: String, value: Int): Encounter =
-    encounter.copy(monsters =
-      encounter.monsters
-        .filter(_.name == name)
-        .map(_.copy(initiative = Some(value))))
+    encounter.copy(monsters = encounter.monsters.map {
+        case modified if modified.name == name => modified.copy(initiative = Some(value))
+        case monster => monster
+      })
 
   private def createBaseMonster(name: String, block: Block): Monster =
     Monster(block, name, hitPoints = block.findStat("hp").map(stat => stat.statValue.instantiateValue))
