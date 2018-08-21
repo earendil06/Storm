@@ -1,0 +1,56 @@
+Bard
+
+AC 15
+HP 8d8 + 8
+speed 30
+pp 15
+
+str 11
+dex 14
+con 12
+int 10
+wis 13
+cha 14
+
+actions {
+
+Shortsword =>
++4 to hit
+reach 5
+hit 1d6+2 piercing
+
+Shortbow =>
++4 to hit
+range 80/320
+hit 1d6+2 slashing
+
+}
+
+features {
+
+Spellcasting =>
+{The bard is a 4th level spellcster. It's spellcastiing
+ability is Charisma (spell save DC 12 +4 to hit with spell attacks).
+It has the following bard spells prepared:
+
+Cantrips (at will): firends, mage hand, vicious mockery
+1st level (4 slots): charm person, healing word, heroism, sleep, thunderwave
+2nd level (3 slots): invisibility, shatter}
+
+Song of Rest => {The bard can perform a song while taking a short rest.
+Any ally who hear the song regains an extra 1d6 hit points
+if it spends any Hit Dice to regain hit points at then end of that rest.
+The bard can confer this benefit on itlself as well.}
+
+Taunt => {(2/Day). The bard can use a bonus action on its turn to target one creature within 30 feet of it.
+If the target can hear the bard, the target must succeed on a DC 12 Charisma saving throw or have disadvantage on abilityt checks,
+attack rolls, and saving throws until the start of the bard's next turn.}
+
+Skills => {Acrobatics +4, Perception +5, Performance +6}
+
+Languages => {Any two languages}
+
+Challenge => {2 (450 XP)}
+
+}
+

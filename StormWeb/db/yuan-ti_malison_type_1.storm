@@ -1,0 +1,79 @@
+Yuan-Ti Malison Type 1
+
+AC 12
+HP 12d8 + 12
+speed 30
+pp 12
+
+str 16
+dex 14
+con 13
+int 14
+wis 12
+cha 16
+
+actions {
+
+Bite =>
++5 to hit
+reach 5
+hit 1d4+3 piercing
+{plus 2d6 poison damage}
+
+Scimitar (Yuan-ti form only) =>
++5 to hit
+reach 5
+hit 1d6+3 slashing
+
+Longbow (Yuan-ti form only) =>
++5 to hit
+range 150/600
+hit 1d8+2 piercing
+{plus 2d6 poison damage}
+
+Multiattack (Yuan-ti form only) =>
+{The yuan-ti makes two ranged attacks or two melee attacks,
+but can use its bite only once.}
+
+}
+
+features {
+
+Shapechanger =>
+{The yuan-ti can use its action ot polymorph into a Medium snake, or back into its tru form,
+its statistics are the same in each form. Any equipement it is wearing or carrying
+isn't transformed. It doesn't change form if it dies.}
+
+Innate Spellcasting (Yuan-ti form only) =>
+{The yuan-ti's innate spellcasting ability is CHarisma (spell save DC 13).
+The Yuan-ti can innately cast the following spells, requiring no material components:
+
+At will: animal friendship (snakes only)
+3/day: suggestion
+}
+
+Magic Resistance =>
+{The yuan-ti has advantage on saving throws against spells and other magical effects.}
+
+Malison Type =>
+{This Malison has a human body with snake head}
+
+Saving Throws =>
+{Str +4, Dex +4, Wis +2}
+
+Skills => {Perception + 2}
+
+Damage Immunities =>
+{poison}
+
+Condition Immunities =>
+{poisoned}
+
+Senses => {darkvision 60ft}
+
+Languages => {Abyssal, Common, Draconic}
+
+Challenge => {2 (450 XP)}
+
+}
+

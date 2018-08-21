@@ -1,16 +1,17 @@
 import Vue from "vue";
-import {SetInitiativeCommand} from "../commands/SetInitiativeCommand";
-import {NextTurnCommand} from "../commands/NextTurnCommand";
-import {GetMonsterCommand} from "../commands/GetMonsterCommand";
+import {SetInitiativeCommand} from "../term/commands/SetInitiativeCommand";
+import {NextTurnCommand} from "../term/commands/NextTurnCommand";
+import {GetMonsterCommand} from "../term/commands/GetMonsterCommand";
 import * as $ from "jquery";
-import {DamageCommand} from "../commands/DamageCommand";
-import {RollInitiativeCommand} from "../commands/RollInitiativeCommand";
+import {DamageCommand} from "../term/commands/DamageCommand";
+import {RollInitiativeCommand} from "../term/commands/RollInitiativeCommand";
+import {StaticHelpers} from "../StaticHelpers";
 
 export default Vue.extend({
     template: `
     <div class="stat-block encounter">
         <hr class="orange-border"/>
-        <div v-for="monster in data.monsters" class="creature-heading">
+        <div v-for="monster in sortedMonsters" class="creature-heading">
         <form v-on:submit.prevent="modify(monster)">
             <input type="submit" style="display: none"/>
             <h1 @click="get(monster.name)"
@@ -20,10 +21,10 @@ export default Vue.extend({
                 -ms-user-select: none;"
                 >
                     <span v-bind:style='{ color: isPlaying(monster.name) }'>
-                        {{ monster.blockName }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}
+                        {{ monster.block.name[0].toUpperCase() + monster.block.name.slice(1) }} {{ monster.name[0].toUpperCase() + monster.name.slice(1) }}
                     </span>
             </h1>
-           AC: {{ monster.ac }},
+           AC: {{ monster.block.stats.find(f => f.statType === "ac").statValue.formulae }},
            HP: 
             <input v-bind:id='staticId + monster.name + "hp"' type="text" v-bind:placeholder="monster.hitPoints" autocomplete="off"/>
             
@@ -48,37 +49,83 @@ export default Vue.extend({
     name: "encounter",
     props: ['data', 'staticId'],
     methods: {
-        modify: function (monster) {
+        modify: async function (monster) {
             let inputHp = $('#' + this.staticId + monster.name + 'hp');
             if (inputHp.val() !== '') {
-                let args = ['damage', monster.name, inputHp.val()];
+                let args = [monster.name, inputHp.val()];
                 let damageCommand = new DamageCommand();
-                damageCommand.execute('damage ' + monster.name + ' ' + inputHp.val(), args);
+                const res = await damageCommand.execute(args);
+                this.push(res);
                 inputHp.val('');
+
             }
             let inputInit = $('#' + this.staticId + monster.name + 'init');
             if (inputInit.val() !== '') {
-                let args = ['set-init', monster.name, inputInit.val()];
+                let args = [monster.name, inputInit.val()];
                 let init = new SetInitiativeCommand();
-                init.execute('set-init ' + monster.name + ' ' + inputInit.val(), args);
+                const res = await init.execute(args);
+                this.push(res);
                 inputInit.val('');
             }
         },
-        next: function (data) {
+        next: async function (data) {
             if (data.playingMonsterName === "") {
                 let initiativeCommand = new RollInitiativeCommand();
-                initiativeCommand.execute("initiative", [])
+                const res = await initiativeCommand.execute([]);
+                this.push(res);
             } else {
                 let nextCommand = new NextTurnCommand();
-                nextCommand.execute("next", [])
+                const res = await nextCommand.execute([]);
+                this.push(res);
             }
         },
-        get: function (name) {
+        get: async function (name) {
             let monsterCommand = new GetMonsterCommand();
-            monsterCommand.execute('monster ' + name, ['monster', name])
+            const res = await monsterCommand.execute([name]);
+            this.push(res);
         },
         isPlaying: function (name) {
             return name === this.data.playingMonsterName ? "#191947" : "#922610"
+        },
+        push: function (res) {
+            if (res != null) {
+                StaticHelpers.application().commands.push(res);
+            }
+        }
+    },
+    computed: {
+        sortedMonsters: function () {
+            if (this.data.monsters) {
+                return this.data.monsters.sort((l, r) => {
+                    if (l.initiative == r.initiative) {
+                        return l.name < r.name
+                    } else {
+                        let li = 0;
+                        let ri = 0;
+                        if (l.initiative == undefined) {
+                            li = l.initiative;
+                        }
+                        if (r.initiative == undefined) {
+                            ri = r.initiative;
+                        }
+                        return li < ri;
+                    }
+                })
+            } else {
+                return [];
+            }
         }
     }
 });
+
+/*
+val ordered = encounterData.monsters
+      .sortWith((l, r) => {
+        if (l.initiative == r.initiative) {
+          l.name < r.name
+        } else {
+          l.initiative.getOrElse(0) < r.initiative.getOrElse(0)
+        }
+      })
+      .reverse
+      */

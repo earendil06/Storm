@@ -37,7 +37,7 @@
 ::-webkit-input-placeholder { color:black; }
 ::-moz-placeholder { color:black; } /* firefox 19+ */
 :-ms-input-placeholder { color:black; } /* ie */
-input:-moz-placeholder { color:black; }
+.stat-block input:-moz-placeholder { color:black; }
 
 .playing {
     color: #3498db;
@@ -218,6 +218,10 @@ input:-moz-placeholder { color:black; }
 }
 .actions:last-child{
     margin: 0;
+}
+
+.stat-block h4 {
+    font-weight: bold;
 }
 
 @media print{

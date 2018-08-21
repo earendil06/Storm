@@ -1,15 +1,16 @@
-
+[![Build Status](https://travis-ci.org/earendil06/Storm.svg?branch=master)](https://travis-ci.org/earendil06/Storm)
 
 # StormD&D Specifications draft
 
-Toolchain with the goal to help a Dungeon Master to run a D&D game.
+Toolchain with the goal to help a Dungeon Master run a D&D game.
 This tool is meant to be used for live pen and papers sessions.
-All (most) dice rolls should be done IRL, the toolchain should only
+
+Most dice rolls should be done IRL, the toolchain should only
 provide information like monster blocks and the state of an encounter.
 
 The principal features should be to enable faster battles and content generation by providing :
 
-- A data type (StormLang) that can describe a monster's stats block
+- A data type that can describe a monster's stats block
   - an api that enables an easy manipulation of those data
   - a user-friendly way to add new blocks (currently StormIDE using Ace Editor)
 - A Command Line Interface to easily manage a battle encounter
@@ -24,6 +25,12 @@ The principal features should be to enable faster battles and content generation
     - create a room for the dm and the players
     - the players can update their hp and other stats
     - the players must not have access to the DM informations
+    
+
+### Releases
+You can use the online tool : https://storm.florentpastor.com
+
+You can download the executable :   
 
 ## StormLang
 
@@ -36,3 +43,5 @@ The principal features should be to enable faster battles and content generation
 #### Current state:
 
 ![demo](./gifs/stormv2.gif)
+
+

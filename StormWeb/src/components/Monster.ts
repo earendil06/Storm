@@ -8,9 +8,9 @@ export default Vue.extend({
             <hr class="orange-border"/>
             <div class="creature-heading">
                 <h1>{{ data.name[0].toUpperCase() + data.name.slice(1) }}</h1>
-                <span>HP: {{ data.hitPoints }}</span>
+                <span>HP: {{ data.hitPoints[0] }}</span>
                 <br/>
-                <span>Initiative: {{ data.initiative === null ? "not rolled" : data.initiative }}</span>
+                <span>Initiative: {{ data.initiative === undefined ? "not rolled" : data.initiative[0] }}</span>
             </div>
             <block-component :data="data.block"></block-component>
         </div>
