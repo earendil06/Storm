@@ -54,7 +54,6 @@ export abstract class Accessor implements IAccessor {
                     };
                     fileReader.readAsText(blob);
                 } else {
-                    console.log("fzpenfz");
                     reject(xhr.status);
                 }
             }, false);
