@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/earendil06/Storm.svg?branch=master)](https://travis-ci.org/earendil06/Storm)
 
-# StormD&D Specifications draft
+# StormD&D Specifications draft 
 
 Toolchain with the goal to help a Dungeon Master run a D&D game.
 This tool is meant to be used for live pen and papers sessions.
