@@ -1,6 +1,12 @@
+# How to run as a web app
+
+```bash
+./run-web.sh
+```
+
+
 # How to run as a desktop app
 
 ```bash
-cd StormWeb
-./build-electron.sh
+./run-electron.sh
 ```

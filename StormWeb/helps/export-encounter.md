@@ -6,11 +6,11 @@ You can then reload this encounter with the load-encounter command.
 We will add this feature soon.</span>
 
 ## How to use ?
-```bash
+
 export-encounter [filename]
-```
+
 
 ## Example
-```bash
+
 export-encounter easy_goblin_ambush
-```
+
