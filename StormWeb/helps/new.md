@@ -1,5 +1,3 @@
-# New command help
-
 Add a new monster in the encounter.
 
 ## How to use ?
@@ -11,5 +9,3 @@ new [block_name] [monster_name]
 ```bash
 new goblin adrien
 ```
-
-

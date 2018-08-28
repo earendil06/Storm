@@ -117,15 +117,3 @@ export default Vue.extend({
         }
     }
 });
-
-/*
-val ordered = encounterData.monsters
-      .sortWith((l, r) => {
-        if (l.initiative == r.initiative) {
-          l.name < r.name
-        } else {
-          l.initiative.getOrElse(0) < r.initiative.getOrElse(0)
-        }
-      })
-      .reverse
-      */
