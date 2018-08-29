@@ -1,1 +1,69 @@
-name: Goblin
+name: goblin
+abilityScores:
+  - abilityType: str
+    score: 8
+    modifier: -2
+  - abilityType: dex
+    score: 14
+    modifier: 2
+  - abilityType: con
+    score: 10
+    modifier: 0
+  - abilityType: int
+    score: 10
+    modifier: 0
+  - abilityType: wis
+    score: 8
+    modifier: -2
+  - abilityType: cha
+    score: 8
+    modifier: -2
+stats:
+  - statType: ac
+    statValue:
+      formulae: '15'
+      meanValue: 15
+      instantiateValue: 15
+  - statType: hp
+    statValue:
+      number: 2
+      sides: 6
+      modifier: 0
+      formulae: 2d6
+      meanValue: 7
+      instantiateValue: 7
+  - statType: speed
+    statValue:
+      formulae: '30'
+      meanValue: 30
+      instantiateValue: 30
+  - statType: pp
+    statValue:
+      formulae: '12'
+      meanValue: 12
+      instantiateValue: 12
+features:
+  - name: Skills
+    description: stealth 6
+  - name: Nimble Escape
+    description: The goblin can take the Disengage or Hide action as a bonus action
+      on each of its turns.
+  - name: Senses
+    description: darkvision 60 ft.
+  - name: Languages
+    description: Common,Goblin
+  - name: Challenge
+    description: 1/4
+actions:
+  - name: scimitar
+    toHit: +4 to hit
+    reach: reach 5
+    range: ''
+    hit: hit 1d6+2 slashing
+    description: ''
+  - name: shortbow
+    toHit: +4 to hit
+    reach: ''
+    range: range 80/320
+    hit: hit 1d6 + 2 piercing
+    description: cool bow
