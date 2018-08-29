@@ -48,8 +48,10 @@
                         <div class="username pull-left">{{ user }}</div>
                         <input id="inputLine" v-model="currentInputValue"
                                @keyup.enter="pressEnter"
-                               @keyup.38="setPositionHistory"
-                               @keyup.40="setPositionHistory"
+                               @keyup.37="arrowPressed"
+                               @keyup.38="arrowPressed"
+                               @keyup.39="arrowPressed"
+                               @keyup.40="arrowPressed"
                                @keydown.tab="invokeAutoComplete"
                                class="cmdline pull-left col" autofocus/>
                     </div>
