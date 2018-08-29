@@ -13,13 +13,13 @@ export default Vue.extend({
         you can then use tab to navigate between them and enter to select one. Mouse navigation works too!
     </li>
     <li>
-        The component on the left is interactive. You can :
+        The component on the right is interactive. You can :
         <ul>
             <li>
                 Roll initiative or go to the next turn by click the bottom text.
             </li>
             <li>
-                Damage a monster by typing a number where it's hit points are and pressing the enter key.
+                Damage a monster by typing a number where its hit points are and pressing the enter key.
             </li>
             <li>
                 Change the initiative of a monster by typing a number where it's initiative is and pressing the enter key.
