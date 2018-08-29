@@ -10,28 +10,7 @@ import Engine from "../engine/Engine";
 export default class Term {
     static main() {
         (window as any).engine = new Engine();
-        const propEngine = [
-            {
-                "name": "",
-                "function": "getCommands"
-            },
-            {
-                "name": "(block)\\s",
-                "function": "getBlocks"
-            },
-            {
-                "name": "(monster)\\s",
-                "function": "getMonsters"
-            },
-            {
-                "name": "(new)\\s",
-                "function": "getBlocks"
-            },
-            {
-                "name": "(new)\\s[a-zA-Z]+\\s",
-                "function": "test"
-            }
-        ];
+        const propEngine = StaticHelpers.autocompleteParameters();
         (window as any).app = new Vue({
             el: '#container',
             data: {
@@ -144,16 +123,14 @@ export default class Term {
                 invokeAutoComplete: async function (message) {
                     message.preventDefault();
 
-                    let toExecute = propEngine
-                        .filter(f => this.currentInputValue.match(f.name))
-                        .sort((a, b) => b.name.length - a.name.length)[0];
-
+                    let toExecute = StaticHelpers.autocompleteParameters()
+                        .find(f => f.entryPoint.test(this.currentInputValue));
                     if (toExecute === undefined) {
                         return;
                     }
                     if (this.proposalsIndex === -1) {
                         StaticHelpers.showSpinner();
-                        this.proposals = await StaticHelpers[toExecute.function]();
+                        this.proposals = await toExecute.callback();
                         this.proposalsIndex = (this.proposalsIndex + 1) % this.proposalsDisplayed.length;
                         StaticHelpers.hideSpinner();
                         if (this.proposalsDisplayed.length === 1) {
