@@ -12,8 +12,6 @@ export default class LocalAccessor extends Accessor {
         });
     }
 
-
-
     async loadBlockFromFile(blockName: string, path: string): Promise<string> {
         const result = await this.loadFileByName(path + blockName + ".storm")
             .then(value => {
