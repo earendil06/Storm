@@ -128,11 +128,11 @@ export class Block {
 
 export class Monster {
     block: Block;
-    name: String;
+    name: string;
     hitPoints: number;
     initiative: number;
 
-    constructor(block: Block, name: String, hitPoints: number, initiative: number) {
+    constructor(block: Block, name: string, hitPoints: number, initiative: number) {
         this.block = block;
         this.name = name;
         this.hitPoints = hitPoints;
