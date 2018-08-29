@@ -60,7 +60,7 @@ export default class LocalAccessor extends Accessor {
         let blocks = new Set();
         for (let key in localStorage) {
             if (key.startsWith("db/user/")) {
-                blocks.add(key.substr(7, key.length));
+                blocks.add(key.substr(8, key.length));
             }
         }
         const fileServer = await this.loadFileByName("db/all.json");
