@@ -9,7 +9,8 @@ lazy val storm = (project in file("."))
 
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.6.6",
       libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-
+      libraryDependencies += "io.circe" %% "circe-yaml" % "0.8.0",
+      libraryDependencies += "io.circe" %% "circe-generic" % "0.9.3",
     libraryDependencies += "info.cukes" % "cucumber-scala_2.11" % "1.2.4",
     libraryDependencies += "info.cukes" % "cucumber-junit" % "1.2.4",
     libraryDependencies += "junit" % "junit" % "4.12"

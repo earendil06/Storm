@@ -8,12 +8,12 @@ import org.junit.Assert._
 class GameEngineSteps extends ScalaDsl with EN {
   val engine: InitiativeEngine = new DefaultInitiativeEngine
   val defaultBlock: BlockAdapter = new BlockAdapter
-  var encounterData: Encounter = Encounter(Seq(), "", 0)
+  var encounterData: Encounter = null//Encounter(Seq(), "", 0)
 
   Before { scenario =>
     defaultBlock.setName("test")
     defaultBlock.putAbility("dex", 10, 0)
-    encounterData = encounterData.copy(monsters = Seq())
+    //encounterData = encounterData.copy(monsters = Seq())
     encounterData = encounterData.copy(playingMonsterName = "")
     encounterData = encounterData.copy(turn = 0)
   }
