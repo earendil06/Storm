@@ -29,14 +29,14 @@
     letter-spacing: 1px;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+.stat-block ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: black;
     opacity: 1; /* Firefox */
 }
 
-::-webkit-input-placeholder { color:black; }
-::-moz-placeholder { color:black; } /* firefox 19+ */
-:-ms-input-placeholder { color:black; } /* ie */
+.stat-block ::-webkit-input-placeholder { color:black; }
+.stat-block ::-moz-placeholder { color:black; } /* firefox 19+ */
+.stat-block :-ms-input-placeholder { color:black; } /* ie */
 .stat-block input:-moz-placeholder { color:black; }
 
 .playing {

@@ -11,3 +11,30 @@ body {
     background-color: black;
     color: white;
 }
+
+.cmdline ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 0.5; /* Firefox */
+}
+
+.cmdline ::-webkit-input-placeholder {
+    color: white;
+    opacity: 0.5;
+}
+
+.cmdline ::-moz-placeholder {
+    color: white;
+    opacity: 0.5;
+}
+
+/* firefox 19+ */
+.cmdline :-ms-input-placeholder {
+    color: white;
+    opacity: 0.5;
+}
+
+/* ie */
+.cmdline input:-moz-placeholder {
+    color: white;
+    opacity: 0.5;
+}

@@ -100,32 +100,14 @@ export default Vue.extend({
                     if (l.initiative == r.initiative) {
                         return l.name < r.name
                     } else {
-                        let li = 0;
-                        let ri = 0;
-                        if (l.initiative == undefined) {
-                            li = l.initiative;
-                        }
-                        if (r.initiative == undefined) {
-                            ri = r.initiative;
-                        }
+                        let li = l.initiative !== undefined ? l.initiative[0] : 0;
+                        let ri = r.initiative !== undefined ? r.initiative[0] : 0;
                         return li < ri;
                     }
-                })
+                });
             } else {
                 return [];
             }
         }
     }
 });
-
-/*
-val ordered = encounterData.monsters
-      .sortWith((l, r) => {
-        if (l.initiative == r.initiative) {
-          l.name < r.name
-        } else {
-          l.initiative.getOrElse(0) < r.initiative.getOrElse(0)
-        }
-      })
-      .reverse
-      */

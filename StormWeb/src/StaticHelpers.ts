@@ -26,6 +26,7 @@ import {ExportBlocksCommand} from "./term/commands/ExportBlocks";
 import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
 import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
 import HomeCommand from "./term/commands/HomeCommand";
+import AutocompleteParameter from "./poco/AutocompleteParameter";
 
 export class StaticHelpers {
     private static accessor = new LocalAccessor();
@@ -78,20 +79,16 @@ export class StaticHelpers {
         return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
     }
 
-    static test(): string[] {
-        return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
-    }
-
-    static async getBlocks() {
-        return await this.accessor.getBlockNameList();
+    static async getBlocks() : Promise<string[]> {
+        return await StaticHelpers.accessor.getBlockNameList();
     }
 
     static getAccessor() {
-        return this.accessor;
+        return StaticHelpers.accessor;
     }
 
-    static async getMonsters() {
-        return this.engine().getEncounterData().monsters.map(m => m.name);
+    static getMonsters() : string[] {
+        return StaticHelpers.engine().getEncounterData().monsters.map(m => m.name);
     }
 
     static application(): Application {
@@ -127,6 +124,17 @@ export class StaticHelpers {
             new IdeCommand(),
             new HomeCommand(),
             new DeleteBlockCommand()
+        ];
+    }
+
+    static autocompleteParameters() : Array<AutocompleteParameter> {
+       return [
+           new AutocompleteParameter(new RegExp("^[a-z]*$"), StaticHelpers.getCommands),
+           new AutocompleteParameter(new RegExp("^(block)\\s[a-z]*$"), StaticHelpers.getBlocks),
+           new AutocompleteParameter(new RegExp("^(monster)\\s[a-z]*$"), StaticHelpers.getMonsters),
+           new AutocompleteParameter(new RegExp("^(new)\\s[a-z]*$"), StaticHelpers.getBlocks),
+           new AutocompleteParameter(new RegExp("^(damage)\\s[a-z]*$"), StaticHelpers.getMonsters),
+           new AutocompleteParameter(new RegExp("^(heal)\\s[a-z]*$"), StaticHelpers.getMonsters)
         ];
     }
 }
