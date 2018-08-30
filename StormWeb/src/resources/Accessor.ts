@@ -1,5 +1,6 @@
 import {Block} from "../engine/Adapters";
 import Optional from 'typescript-optional';
+import {JsonParser} from "./JsonParser";
 
 interface IAccessor {
     getBlockByName(blockName: string): Promise<Optional<Block>>;
@@ -15,14 +16,12 @@ export abstract class Accessor implements IAccessor {
 
     abstract async getBlockByName(blockName: string): Promise<Optional<Block>>;
 
+
+
     getBlockFromJsonText(stormText: string): Optional<Block> {
-        console.log(stormText);
         let deserialized = JSON.parse(stormText);
         try {
-            console.log(deserialized);
-            let result = deserialized as Block;
-            console.log(result);
-            return Optional.of(result);
+            return Optional.of(JsonParser.getBlockFromJson(deserialized));
         } catch (e) {
             return Optional.empty();
         }

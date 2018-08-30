@@ -35,38 +35,19 @@
   "stats": [
     {
       "statType": "ac",
-      "statValue": {
-        "formulae": "15",
-        "meanValue": 15,
-        "instantiateValue": 15
-      }
+      "statValue": "15"
     },
     {
       "statType": "hp",
-      "statValue": {
-        "number": 2,
-        "sides": 6,
-        "modifier": 0,
-        "formulae": "2d6",
-        "meanValue": 7,
-        "instantiateValue": 7
-      }
+      "statValue": "2d6"
     },
     {
       "statType": "speed",
-      "statValue": {
-        "formulae": "30",
-        "meanValue": 30,
-        "instantiateValue": 30
-      }
+      "statValue": "30"
     },
     {
       "statType": "pp",
-      "statValue": {
-        "formulae": "12",
-        "meanValue": 12,
-        "instantiateValue": 12
-      }
+      "statValue": "12"
     }
   ],
   "features": [
@@ -94,19 +75,15 @@
   "actions": [
     {
       "name": "scimitar",
-      "toHit": "+4 to hit",
-      "reach": "reach 5",
-      "range": "",
-      "hit": "hit 1d6+2 slashing",
-      "description": ""
+      "description": "wow"
     },
     {
       "name": "shortbow",
       "toHit": "+4 to hit",
       "reach": "",
       "range": "range 80/320",
-      "hit": "hit 1d6 + 2 piercing"
+      "hit": "hit 1d6 + 2 piercing",
+      "description": "cool bow"
     }
-  ],
-  "description": "cool bow"
+  ]
 }
