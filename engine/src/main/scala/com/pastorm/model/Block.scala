@@ -7,15 +7,12 @@ import upickle.default._
 import upickle.default.{macroRW, ReadWriter => RW}
 
 @JSExportAll
-sealed trait StatVal {
+sealed trait StatValue {
   def formulae: String
 
   def meanValue: Int
 
   def instantiateValue: Int
-}
-
-case class StatValue(formulae: String, meanValue: Int, instantiateValue: Int) extends StatVal {
 }
 object StatValue{
   implicit val rw: RW[StatValue] = macroRW
@@ -23,16 +20,16 @@ object StatValue{
 
 @JSExportTopLevel("ConstValue")
 @JSExportAll
-case class ConstVal(formulae: String, meanValue: Int) extends StatVal {
+case class ConstValue(formulae: String, meanValue: Int) extends StatValue {
   override def instantiateValue: Int = meanValue
 }
-object ConstVal{
-  implicit val rw: RW[ConstVal] = macroRW
+object ConstValue{
+  implicit val rw: RW[ConstValue] = macroRW
 }
 
 @JSExportTopLevel("DiceValue")
 @JSExportAll
-case class DiceVal(number: Int, sides: Int, modifier: Int) extends StatVal {
+case class DiceValue(number: Int, sides: Int, modifier: Int) extends StatValue {
   @JSExport
   override def instantiateValue: Int = {
     val die = new Die(sides)
@@ -57,8 +54,8 @@ case class DiceVal(number: Int, sides: Int, modifier: Int) extends StatVal {
     s"${number}d$sides${if (modifier != 0) modifierFormat else ""}"
   }
 }
-object DiceVal{
-  implicit val rw: RW[DiceVal] = macroRW
+object DiceValue{
+  implicit val rw: RW[DiceValue] = macroRW
 }
 
 case class Ability(abilityType: String, score: Int, modifier: Int)

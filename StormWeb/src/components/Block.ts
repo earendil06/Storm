@@ -123,7 +123,7 @@ export default Vue.extend({
                             {{ action.range.length != 0 ? action.range + "." : "" }}
                             <br v-if="action.hit.length != 0">
                             {{ action.hit.length != 0 ? action.hit + "." : "" }}
-                            <br v-if="action.description.length != 0">
+                            <br v-if="action.description != null && action.description.length != 0">
                         </p>
                         <p v-for="description in splitLine(action.description)">
                             {{ description.length == 0 ? "" : description }}
@@ -150,8 +150,8 @@ export default Vue.extend({
     name: "block",
     props: ["data"],
     methods: {
-        splitLine: function (description) {
-            if (description == null) return null;
+        splitLine: function (description: string) : string[] {
+            if (description == null) return [];
             return description.split('\n');
         }
     },

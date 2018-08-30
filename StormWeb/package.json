@@ -2,7 +2,6 @@
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "@types/jquery": "^3.3.1",
-    "antlr4ts-cli": "^0.4.0-alpha.4",
     "css-loader": "^0.28.11",
     "jest": "^23.4.2",
     "jquery": "^3.2.1",
@@ -19,13 +18,9 @@
   "scripts": {
     "build": "webpack --display-error-details",
     "test": "jest",
-    "antlr": "./node_modules/.bin/antlr4ts -listener Storm.g4 -o src/parser",
     "test2": "testcafe firefox src/terminal.ts"
   },
   "dependencies": {
-    "antlr4": "^4.7.1",
-    "antlr4ts": "^0.4.1-alpha.0",
-    "bower": "^1.8.4",
     "jquery": "^3.2.1",
     "jszip": "^3.1.5",
     "typescript-optional": "^1.8.0",
