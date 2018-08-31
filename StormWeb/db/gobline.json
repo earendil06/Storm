@@ -3,33 +3,27 @@
   "abilityScores": [
     {
       "abilityType": "str",
-      "score": 8,
-      "modifier": -2
+      "score": 8
     },
     {
       "abilityType": "dex",
-      "score": 14,
-      "modifier": 2
+      "score": 14
     },
     {
       "abilityType": "con",
-      "score": 10,
-      "modifier": 0
+      "score": 10
     },
     {
       "abilityType": "int",
-      "score": 10,
-      "modifier": 0
+      "score": 10
     },
     {
       "abilityType": "wis",
-      "score": 8,
-      "modifier": -2
+      "score": 8
     },
     {
       "abilityType": "cha",
-      "score": 8,
-      "modifier": -2
+      "score": 8
     }
   ],
   "stats": [

@@ -25,7 +25,6 @@ import IdeCommand from "./term/commands/IdeCommand";
 import {ExportBlocksCommand} from "./term/commands/ExportBlocks";
 import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
 import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
-import HomeCommand from "./term/commands/HomeCommand";
 import AutocompleteParameter from "./poco/AutocompleteParameter";
 
 export class StaticHelpers {
@@ -122,7 +121,6 @@ export class StaticHelpers {
             new ExportBlocksCommand(),
             new LoadBlocksCommand(),
             new IdeCommand(),
-            new HomeCommand(),
             new DeleteBlockCommand()
         ];
     }

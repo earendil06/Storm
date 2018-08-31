@@ -19,9 +19,10 @@ export abstract class Accessor implements IAccessor {
 
 
     getBlockFromJsonText(stormText: string): Optional<Block> {
-        let deserialized = JSON.parse(stormText);
         try {
-            return Optional.of(JsonParser.getBlockFromJson(deserialized));
+            const block = JsonParser.getBlockFromJsonText(stormText);
+            console.log(block);
+            return Optional.of(block);
         } catch (e) {
             return Optional.empty();
         }
