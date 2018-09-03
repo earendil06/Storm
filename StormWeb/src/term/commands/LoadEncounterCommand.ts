@@ -34,6 +34,7 @@ export class LoadEncounterCommand extends Command {
             } else {
                 StaticHelpers.application().commands.push(new HistoryCommand(commandName, args, "no encounter loaded", "default-component"));
             }
+            $elt.val("")
         });
         $elt.trigger("click");
         return null;
