@@ -22,7 +22,7 @@ jobs:
       script:
         - cd engine
         - sbt "fastOptJS"
-        - cp ./engine/target/scala-2.12/engine-fastopt.js ./StormWeb/js/
+        - cp ./target/scala-2.12/engine-fastopt.js ../StormWeb/js/
     - stage: deploy
       language: bash
       if: branch = master
