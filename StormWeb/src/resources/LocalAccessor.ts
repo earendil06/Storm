@@ -7,13 +7,13 @@ export default class LocalAccessor extends Accessor {
     async getBlockByName(blockName: string): Promise<Optional<Block>> {
         return new Promise<Optional<Block>>((resolve, reject) => {
             this.loadLocalBlock(blockName)
-                .then(blockText => resolve(this.getBlockFromStormText(blockText)))
+                .then(blockText => resolve(this.getBlockFromJsonText(blockText)))
                 .catch(reason => reject(reason))
         });
     }
 
     async loadBlockFromFile(blockName: string, path: string): Promise<string> {
-        const result = await this.loadFileByName(path + blockName + ".storm")
+        const result = await this.loadFileByName(path + blockName + ".json")
             .then(value => {
                 return value
             })
@@ -68,7 +68,7 @@ export default class LocalAccessor extends Accessor {
     }
 
     saveBlock(blockName: string, block: string): void {
-        localStorage.setItem("db/user/" + blockName, block); //todo antlr validation
+        localStorage.setItem("db/user/" + blockName, block);
     }
 
 }
