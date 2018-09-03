@@ -42,16 +42,45 @@
             </nav>
         </div>
     </div>
-    <div class="row flex-fill d-flex justify-content-start">
-        <pre id="editor" class="col" style="overflow-x: auto">
 
-</pre>
-        <div id="ideBlock" style="text-align: center; background-color: #002B36;">
-            <!--<block-component v-bind:data="currentStorm"></block-component>-->
-        </div>
-        <div id="loader" class="animate-bottom" style="display:none;"></div>
+    <div id="ideBlock" style="height:100vh; text-align: center; background-color: #002B36;">
+        <block-component v-bind:data="currentStorm"></block-component>
     </div>
+    <div id="loader" class="animate-bottom" style="display:none;"></div>
+
 </div>
 
 </body>
+
+<script>
+    let text = `{"name":"goblin",
+            "abilityScores":[
+                {"abilityType":"str","score":8},
+                {"abilityType":"dex","score":14},
+                {"abilityType":"con","score":10},
+                {"abilityType":"int","score":10},
+                {"abilityType":"wis","score":8},
+                {"abilityType":"cha","score":8}],
+            "stats":[
+                {"statType":"ac","statValue":"15"},
+                {"statType":"hp","statValue":"2d6"},
+                {"statType":"speed","statValue":"30"},
+                {"statType":"pp","statValue":"12"}],
+            "features":[
+                {"name":"Skills","description":"stealth 6"},
+                {"name":"Nimble Escape","description":"The goblin can take the Disengage or Hide action as a bonus action on each of its turns."},
+                {"name":"Senses","description":"darkvision 60 ft."},{"name":"Languages","description":"Common,Goblin"},
+                {"name":"Challenge","description":"1/4"}],
+            "actions":[
+                {"name":"scimitar","toHit":"+4 to hit","reach":"reach 5","hit":"hit 1d6+2 slashing","description":""},
+                {"name":"shortbow","toHit":"+4 to hit","reach":"","hit":"hit 1d6 + 2 piercing","description":"cool bow"}]
+}`;
+    const block = JsonParser.getBlockFromJsonText(text);
+    if (window.ideBlockApplication === undefined) {
+        window.createVue(block);
+    } else {
+        window.ideBlockApplication.currentStorm = block;
+    }
+</script>
+
 </html>

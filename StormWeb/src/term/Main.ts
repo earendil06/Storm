@@ -4,7 +4,6 @@ import StaticEncounterComponent from "../components/StaticEncounter";
 import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 import {Application, IHistoryCommand} from "../Application";
-import ClearCommand from "./commands/ClearCommand";
 import Engine from "../engine/Engine";
 
 export default class Term {

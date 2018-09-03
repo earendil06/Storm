@@ -2,12 +2,9 @@ import {Ability, Action, Block, ConstValue, DiceValue, Feature, Stat, StatValue}
 
 export class JsonParser {
     static getBlockFromJsonText(text: string): Block {
-        console.log("begin");
         const result = new Block();
         const json = JSON.parse(text);
-
         result.name = (json["name"] || "").toLowerCase();
-        console.log("name ok");
         result.stats = [];
         if (json.hasOwnProperty("stats")) {
             const stats = json["stats"] as any[];
@@ -29,7 +26,6 @@ export class JsonParser {
                 result.stats.push(new Stat(statType.toLowerCase(), value))
             });
         }
-        console.log("stats ok");
         if (json.hasOwnProperty("features")) {
             const features = json["features"] as any[];
             features.forEach(feature => {
@@ -38,7 +34,6 @@ export class JsonParser {
                 result.features.push(new Feature(featureName, featureDesc));
             });
         }
-        console.log("features ok");
         if (json.hasOwnProperty("abilityScores")) {
             const abilities = json["abilityScores"] as any[];
             abilities.forEach(ability => {
@@ -50,7 +45,6 @@ export class JsonParser {
                 result.abilityScores.push(new Ability(type, value, modifier));
             });
         }
-        console.log("abilities ok");
         if (json.hasOwnProperty("actions")) {
             const actions = json["actions"] as any[];
             actions.forEach(action => {
@@ -64,7 +58,6 @@ export class JsonParser {
                 result.actions.push(new Action(name.replace("\n", ""), toHit, reach, range, hit, cleanDescription));
             });
         }
-        console.log("actions ok");
         return result;
     }
 }
