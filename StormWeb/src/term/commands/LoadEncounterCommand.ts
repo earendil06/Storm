@@ -32,8 +32,7 @@ export class LoadEncounterCommand extends Command {
                 };
                 r.readAsText(f);
             } else {
-                StaticHelpers.application().commands.push(new HistoryCommand(commandName, args, "no encounter loaded", "default-component")
-                );
+                StaticHelpers.application().commands.push(new HistoryCommand(commandName, args, "no encounter loaded", "default-component"));
             }
         });
         $elt.trigger("click");
