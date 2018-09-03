@@ -1,107 +1,54 @@
 jobs:
   include:
-
     - stage: build
       language: node_js
       node_js: 8
+      cache:
+        directories:
+          - $HOME/Storm/StormWeb/node_modules
       script:
-      - cd ./StormWeb/
-      - npm install
-      - npm i typescript --save-dev
-      - npm run build
-      - cd ..
+        - cd $HOME/Storm/StormWeb/
+        - npm install
+        - npm i typescript --save-dev
+        - npm run build
     -
       language: scala
       scala:
-      - 2.12.4
+        - 2.12.4
+      cache:
+        directories:
+        - $HOME/.sbt
+        - $HOME/.ivy2
       script:
-      - cd ./engine
-      - sbt "fastOptJS"
+        - cd $HOME/Storm/engine
+        - sbt "fastOptJS"
+        - cp $HOME/Storm/engine/target/scala-2.12/engine-fastopt.js $HOME/Storm/StormWeb/js/
     - stage: deploy
       language: bash
-      script:
-        - echo "deploy stage toto"
+      addons:
+        ssh_known_hosts:
+          - ssh.cluster026.hosting.ovh.net
+      before_deploy:
+        - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+        - eval "$(ssh-agent -s)"
+        - chmod 600 /tmp/deploy_rsa
+        - ssh-add /tmp/deploy_rsa
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
+        on:
+          branch: master
 
 notifications:
   email: false
 
-#language: node_js
-#node_js:
-#  - 8
-##addons:
-##  ssh_known_hosts:
-##  - ssh.cluster026.hosting.ovh.net
-#cache:
-#  directories:
-#  #- StormWeb/node_modules
-#  - ~/.sbt
-#  - ~/.ivy2
-#
-#before_script:
-#  - echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
-#  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
-#  - sudo apt-get update
-#  - sudo apt-get -y install sbt
-#script:
-#  - cd ./StormWeb/
-#  - npm install
-#  - npm i typescript --save-dev
-#  - npm run build
-#  - cd ..
-#  - cd ./engine
-#  - sbt "fastOptJS"
-#
-#notifications:
-#  email: false
+after_success:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
 
-
-#      before_deploy:
-#        - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-#        - eval "$(ssh-agent -s)"
-#        - chmod 600 /tmp/deploy_rsa
-#        - ssh-add /tmp/deploy_rsa
-#
-#      deploy:
-#        provider: script
-#        skip_cleanup: true
-#        script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
-#        on:
-#          branch: master
-
-#    - language: scala
-#      scala:
-#        - 2.12.4
-#      before_script:
-#        - cd ./engine/
-#        - sbt "fastOptJS"
-#        - cd ..
-#        - cp ./engine/target/scala-2.12/engine-fastopt.js ./StormWeb/js/
-#      script:
-#        -
-#      addons:
-#        ssh_known_hosts:
-#          - ssh.cluster026.hosting.ovh.net
-#      cache:
-#        directories:
-#          - ~/.sbt
-#          - ~/.ivy2
-#      before_deploy:
-#        - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-#        - eval "$(ssh-agent -s)"
-#        - chmod 600 /tmp/deploy_rsa
-#        - ssh-add /tmp/deploy_rsa
-#
-#      deploy:
-#        provider: script
-#        skip_cleanup: true
-#        script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/js/engine-fastopt.js florentpgd@ssh.cluster026.hosting.ovh.net:~/storm/js
-#        on:
-#          branch: master
-#after_success:
-#  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-#  - chmod +x send.sh
-#  - ./send.sh success $WEBHOOK_URL
-#after_failure:
-#  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-#  - chmod +x send.sh
-#  - ./send.sh failure $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
