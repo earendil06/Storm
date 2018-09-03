@@ -17,16 +17,17 @@ jobs:
         - 2.12.4
       cache:
         directories:
-        - ~/.sbt
-        - ~/.ivy2
+          - ~/.sbt
+          - ~/.ivy2
       script:
         - cd engine
         - sbt "fastOptJS"
-        - cp ~/Storm/engine/target/scala-2.12/engine-fastopt.js ~/Storm/StormWeb/js/
+        - cp ./engine/target/scala-2.12/engine-fastopt.js ./StormWeb/js/
     - stage: deploy
       language: bash
+      if: branch = master
       addons:
-        ssh_known_hosts:
+        hosts:
           - ssh.cluster026.hosting.ovh.net
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
@@ -37,8 +38,6 @@ jobs:
         provider: script
         skip_cleanup: true
         script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
-        on:
-          branch: master
 
 notifications:
   email: false
