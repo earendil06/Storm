@@ -15,7 +15,6 @@ import {SetInitiativeCommand} from "./term/commands/SetInitiativeCommand";
 import {GetBlocksCommand} from "./term/commands/GetBlocksCommand";
 import {GetPlayingMonsterCommand} from "./term/commands/GetPlayingMonsterCommand";
 import {Application} from "./Application";
-import * as $ from "jquery";
 import {ExportEncounterCommand} from "./term/commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
@@ -25,7 +24,6 @@ import IdeCommand from "./term/commands/IdeCommand";
 import {ExportBlocksCommand} from "./term/commands/ExportBlocks";
 import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
 import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
-import HomeCommand from "./term/commands/HomeCommand";
 import AutocompleteParameter from "./poco/AutocompleteParameter";
 
 export class StaticHelpers {
@@ -79,7 +77,7 @@ export class StaticHelpers {
         return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
     }
 
-    static async getBlocks() : Promise<string[]> {
+    static async getBlocks(): Promise<string[]> {
         return await StaticHelpers.accessor.getBlockNameList();
     }
 
@@ -87,7 +85,7 @@ export class StaticHelpers {
         return StaticHelpers.accessor;
     }
 
-    static getMonsters() : string[] {
+    static getMonsters(): string[] {
         return StaticHelpers.engine().getEncounterData().monsters.map(m => m.name);
     }
 
@@ -122,19 +120,18 @@ export class StaticHelpers {
             new ExportBlocksCommand(),
             new LoadBlocksCommand(),
             new IdeCommand(),
-            new HomeCommand(),
             new DeleteBlockCommand()
         ];
     }
 
-    static autocompleteParameters() : Array<AutocompleteParameter> {
-       return [
-           new AutocompleteParameter(new RegExp("^[a-z]*$"), StaticHelpers.getCommands),
-           new AutocompleteParameter(new RegExp("^(block)\\s[a-z]*$"), StaticHelpers.getBlocks),
-           new AutocompleteParameter(new RegExp("^(monster)\\s[a-z]*$"), StaticHelpers.getMonsters),
-           new AutocompleteParameter(new RegExp("^(new)\\s[a-z]*$"), StaticHelpers.getBlocks),
-           new AutocompleteParameter(new RegExp("^(damage)\\s[a-z]*$"), StaticHelpers.getMonsters),
-           new AutocompleteParameter(new RegExp("^(heal)\\s[a-z]*$"), StaticHelpers.getMonsters)
+    static autocompleteParameters(): Array<AutocompleteParameter> {
+        return [
+            new AutocompleteParameter(new RegExp("^[a-z]*$"), StaticHelpers.getCommands),
+            new AutocompleteParameter(new RegExp("^(block)\\s[a-z]*$"), StaticHelpers.getBlocks),
+            new AutocompleteParameter(new RegExp("^(monster)\\s[a-z]*$"), StaticHelpers.getMonsters),
+            new AutocompleteParameter(new RegExp("^(new)\\s[a-z]*$"), StaticHelpers.getBlocks),
+            new AutocompleteParameter(new RegExp("^(damage)\\s[a-z]*$"), StaticHelpers.getMonsters),
+            new AutocompleteParameter(new RegExp("^(heal)\\s[a-z]*$"), StaticHelpers.getMonsters)
         ];
     }
 }

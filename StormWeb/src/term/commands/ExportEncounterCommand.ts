@@ -14,15 +14,13 @@ export class ExportEncounterCommand extends Command {
             return new HistoryCommand(this.getCommandName(), args, "missing filename (e.g.: export-encounter [filename])", "error-component");
         } else {
             const filename = args[0];
-            let blob = new Blob(
-                StaticHelpers.application().history
-                    .filter(command => !command.includes("clear"))
-                    .filter(command => !command.includes("export-encounter"))
-                    .filter(command => !command.includes("load-encounter"))
-                    .map(command => command + "\n")
-                ,
-                {type: "text/plain;charset=utf-8"}
-                );
+            let addMonsters = StaticHelpers.engine().getEncounterData().monsters.map(m => `new ${m.block.name} ${m.name}\n`);
+            // todo set-hp command
+            let setInitiative = StaticHelpers.engine().getEncounterData().monsters
+                .filter(m => m.initiative !== undefined)
+                .map(m => `set-init ${m.name} ${m.initiative}\n`);
+            let toWrite = addMonsters.concat(setInitiative);
+            let blob = new Blob(toWrite, {type: "text/plain;charset=utf-8"});
             (window as any).saveAs(blob, filename + ".encounter");
             return null;
 

@@ -1,104 +1,68 @@
-matrix:
+jobs:
   include:
-    - language: node_js
-      node_js:
-        - 8
-      script:
-        - cd ./StormWeb/
-        - npm install
-        - bower install
-        - npm i typescript --save-dev
-        - npm run antlr
-        - find ./src
-        - npm run build
-        - cd ..
-      addons:
-        ssh_known_hosts:
-          - ssh.cluster026.hosting.ovh.net
+    - stage: build
+      language: node_js
+      node_js: 8
       cache:
         directories:
-          - StormWeb/node_modules
-          - StormWeb/bower_components
+          - ./StormWeb/node_modules
+      script:
+        - cd StormWeb
+        - npm install
+        - npm i typescript --save-dev
+        - npm run build
+    -
+      language: scala
+      scala:
+        - 2.12.4
+      cache:
+        directories:
+          - ~/.sbt
+          - ~/.ivy2
+      script:
+        - cd engine
+        - sbt "fastOptJS"
+        - cp ./target/scala-2.12/engine-fastopt.js ../StormWeb/js/
 
+
+    - stage: deploy
+      language: bash
+      if: branch = master
+      addons:
+        hosts:
+          - ssh.cluster026.hosting.ovh.net
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
         - eval "$(ssh-agent -s)"
         - chmod 600 /tmp/deploy_rsa
         - ssh-add /tmp/deploy_rsa
-
       deploy:
         provider: script
         skip_cleanup: true
         script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
-        on:
-          branch: master
-
-    - language: scala
-      scala:
-        - 2.12.4
-      before_script:
-        - cd ./engine/
-        - sbt "fastOptJS"
-        - cd ..
-        - cp ./engine/target/scala-2.12/engine-fastopt.js ./StormWeb/js/
-      script:
-        -
-      addons:
-        ssh_known_hosts:
-          - ssh.cluster026.hosting.ovh.net
-      cache:
-        directories:
-          - ~/.sbt
+    - stage: deploy
+      language: bash
+      if: branch = master
       before_deploy:
-        - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-        - eval "$(ssh-agent -s)"
-        - chmod 600 /tmp/deploy_rsa
-        - ssh-add /tmp/deploy_rsa
-
+        - cd StormWeb
+        - npm package
+        - cd releases
+        - zip -r electron.zip storm-linux-x64
       deploy:
-        provider: script
+        provider: releases
+        api_key: "$GITHUB_TOKEN"
+        file: ~/Storm/StormWeb/releases/electron.zip
         skip_cleanup: true
-        script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/js/engine-fastopt.js florentpgd@ssh.cluster026.hosting.ovh.net:~/storm/js
-        on:
-          branch: master
+
+notifications:
+  email: false
+
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh success $WEBHOOK_URL
+
 after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
-
-  # - language: node_js
-  #   node_js:
-  #     - 8
-  #   if: branch = master
-  #   before_script:
-  #     - cd electron
-  #     - npm install
-  #     - electron-packager . Storm --platform=win32 --arch=x64
-  #     - cp -R ../StormWeb/* ./Storm-win32-x64/resources/
-  #     - zip -r windows.zip Storm-win32-x64
-  #     - cd ..
-  #   script:
-  #     -
-  #   addons:
-  #     ssh_known_hosts:
-  #       - ssh.cluster026.hosting.ovh.net
-  #   cache:
-  #     directories:
-  #       - electron/node_modules
-
-  #   before_deploy:
-  #     - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-  #     - eval "$(ssh-agent -s)"
-  #     - chmod 600 /tmp/deploy_rsa
-  #     - ssh-add /tmp/deploy_rsa
-
-  #   deploy:
-  #     provider: script
-  #     skip_cleanup: true
-  #     script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/electron/windows.zip florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
-  #     on:
-  #       branch: master

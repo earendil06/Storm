@@ -4,13 +4,11 @@ import StaticEncounterComponent from "../components/StaticEncounter";
 import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
 import {Application, IHistoryCommand} from "../Application";
-import ClearCommand from "./commands/ClearCommand";
 import Engine from "../engine/Engine";
 
 export default class Term {
     static main() {
         (window as any).engine = new Engine();
-        const propEngine = StaticHelpers.autocompleteParameters();
         (window as any).app = new Vue({
             el: '#container',
             data: {
@@ -109,15 +107,32 @@ export default class Term {
                     this.proposalsIndex = -1;
                     this.proposals = [];
                     this.encounterUpdate();
-                    document.getElementById("inputLine").focus()
+                    $("#inputLine")[0].focus();
                 },
-                setPositionHistory: function (message) {
-                    const downCode = 40;
-                    const upCode = 38;
-                    if (message.keyCode === upCode && this.positionHistory < this.history.length) {
-                        this.positionHistory++;
-                    } else if (message.keyCode === downCode && this.positionHistory > 0) {
-                        this.positionHistory--;
+                arrowPressed: function (message) {
+                    const [left, up, right, down] = [37, 38, 39, 40];
+                    if (this.proposalsDisplayed.length > 0){
+                        switch (message.keyCode) {
+                            case left:
+                                this.proposalsIndex = Math.max(this.proposalsIndex - 1, 0);
+                                break;
+                            case right:
+                                this.proposalsIndex = Math.min(this.proposalsIndex + 1, this.proposalsDisplayed.length - 1);
+                                break;
+                            case up:
+                                this.proposalsIndex = Math.max(this.proposalsIndex - 4, 0);
+                                break;
+                            case down:
+                                this.proposalsIndex = Math.min(this.proposalsIndex + 4, this.proposalsDisplayed.length - 1);
+                                break;
+                            default: break;
+                        }
+                    } else {
+                        if (message.keyCode === up && this.positionHistory < this.history.length) {
+                            this.positionHistory++;
+                        } else if (message.keyCode === down && this.positionHistory > 0) {
+                            this.positionHistory--;
+                        }
                     }
                 },
                 invokeAutoComplete: async function (message) {
@@ -147,19 +162,12 @@ export default class Term {
                 }
             }
         }) as Application;
+
         $(document as any).keydown(function (e) {
-            const tabCode = 9;
-            const enterCode = 13;
-            if (e.which !== tabCode && e.which !== enterCode) {
+            const codes = [9, 13, 37, 38, 39, 40];
+            if (codes.indexOf(e.which) === -1) {
                 StaticHelpers.application().proposals = [];
                 StaticHelpers.application().proposalsIndex = -1;
-            }
-            const lKey = 76;
-            if (e.ctrlKey && (e.which === lKey)) {
-                e.preventDefault();
-                e.stopPropagation();
-                new ClearCommand().execute(null);
-                return false;
             }
             return true;
         });
