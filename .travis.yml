@@ -5,9 +5,9 @@ jobs:
       node_js: 8
       cache:
         directories:
-          - $HOME/Storm/StormWeb/node_modules
+          - ./StormWeb/node_modules
       script:
-        - cd $HOME/Storm/StormWeb/
+        - cd StormWeb
         - npm install
         - npm i typescript --save-dev
         - npm run build
@@ -17,12 +17,12 @@ jobs:
         - 2.12.4
       cache:
         directories:
-        - $HOME/.sbt
-        - $HOME/.ivy2
+        - ~/.sbt
+        - ~/.ivy2
       script:
-        - cd $HOME/Storm/engine
+        - cd engine
         - sbt "fastOptJS"
-        - cp $HOME/Storm/engine/target/scala-2.12/engine-fastopt.js $HOME/Storm/StormWeb/js/
+        - cp ~/Storm/engine/target/scala-2.12/engine-fastopt.js ~/Storm/StormWeb/js/
     - stage: deploy
       language: bash
       addons:
