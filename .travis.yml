@@ -1,31 +1,56 @@
-language: node_js
-node_js:
-  - 8
-#addons:
-#  ssh_known_hosts:
-#  - ssh.cluster026.hosting.ovh.net
-cache:
-  directories:
-  #- StormWeb/node_modules
-  - ~/.sbt
-  - ~/.ivy2
+jobs:
+  include:
 
-before_script:
-  - echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
-  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
-  - sudo apt-get update
-  - sudo apt-get -y install sbt
-script:
+    - stage: build
+      language: node_js
+      node_js: 8
+      script:
+      - cd ./StormWeb/
+      - npm install
+      - npm i typescript --save-dev
+      - npm run build
+      - cd ..
+    -
+      scala:
+      - 2.12.4
+      script:
+      - cd ./engine
+      - sbt "fastOptJS"
+    - stage: deploy
+      script:
+        - echo "deploy stage toto"
+
+notifications:
+  email: false
+
+#language: node_js
+#node_js:
+#  - 8
+##addons:
+##  ssh_known_hosts:
+##  - ssh.cluster026.hosting.ovh.net
+#cache:
+#  directories:
+#  #- StormWeb/node_modules
+#  - ~/.sbt
+#  - ~/.ivy2
+#
+#before_script:
+#  - echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+#  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+#  - sudo apt-get update
+#  - sudo apt-get -y install sbt
+#script:
 #  - cd ./StormWeb/
 #  - npm install
 #  - npm i typescript --save-dev
 #  - npm run build
 #  - cd ..
-  - cd ./engine
-  - sbt "fastOptJS"
-
-notifications:
-  email: false
+#  - cd ./engine
+#  - sbt "fastOptJS"
+#
+#notifications:
+#  email: false
 
 
 #      before_deploy:
