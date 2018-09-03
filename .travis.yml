@@ -11,12 +11,14 @@ jobs:
       - npm run build
       - cd ..
     -
+      language: scala
       scala:
       - 2.12.4
       script:
       - cd ./engine
       - sbt "fastOptJS"
     - stage: deploy
+      language: bash
       script:
         - echo "deploy stage toto"
 
