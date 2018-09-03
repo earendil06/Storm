@@ -73,15 +73,15 @@
                 </div>
             </div>
         </div>
-        <div id="colEncounter" class="col-4" style="position: fixed; right: 0">
+        <div id="colEncounter" class="col-4" style="overflow-y: auto; height: calc(100% - 10px); position: fixed; right: 0">
             <div class="col-md-auto" style="font-size: 11px; float: right">
-                <span style="padding-right: 10px">Type help then press enter to show the help text!</span>
-                <span style="padding-right: 10px">Switch theme :</span>
+                <span style="padding-right: 5px">Type help then press enter to show the help text!</span>
+                <span style="padding-right: 5px">Switch theme :</span>
                 <a onclick="changeCSS('css/term-theme-light.css')" href="#">light</a>
                 <span style="padding: 0 10px">|</span>
                 <a onclick="changeCSS('css/term-theme-dark.css')" href="#">dark</a>
             </div>
-            <static-encounter-component v-bind:encounter="encounter" style="width: calc(100% - 25px)">
+            <static-encounter-component v-bind:encounter="encounter">
             </static-encounter-component>
         </div>
     </div>
