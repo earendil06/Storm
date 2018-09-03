@@ -40,7 +40,9 @@ jobs:
         provider: script
         skip_cleanup: true
         script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
-    -
+    - stage: deploy
+      language: bash
+      if: branch = master
       before_deploy:
         - cd StormWeb
         - npm package
