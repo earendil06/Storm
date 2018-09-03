@@ -26,10 +26,10 @@ jobs:
 
 
     - stage: deploy
-      language: bash
+      language: shell
       if: branch = master
       addons:
-        hosts:
+        ssh_known_hosts:
           - ssh.cluster026.hosting.ovh.net
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
@@ -41,11 +41,16 @@ jobs:
         skip_cleanup: true
         script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
     - stage: deploy
-      language: bash
+      language: node_js
+      node_js: 8
+      cache:
+      directories:
+        - ./StormWeb/node_modules
       if: branch = master
-      before_deploy:
+      script:
         - cd StormWeb
-        - npm package
+        - npm install
+        - npm run package
         - cd releases
         - zip -r electron.zip storm-linux-x64
       deploy:
