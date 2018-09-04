@@ -8,8 +8,10 @@ addons:
   ssh_known_hosts:
   - ssh.cluster026.hosting.ovh.net
 
-#after_success:
-#  - [ -f ~/$TRAVIS_BUILD_NUMBER/task1 ] && [ -f ~/$TRAVIS_BUILD_NUMBER/task2 ] && rsync -r --delete-after --quiet -av ~/$TRAVIS_BUILD_NUMBER/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
+after_success: |
+  [ -f ~/$TRAVIS_BUILD_NUMBER/task1 ]
+  [ -f ~/$TRAVIS_BUILD_NUMBER/task2 ]
+  rsync -r --delete-after --quiet -av ~/$TRAVIS_BUILD_NUMBER/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
 
 
 jobs:
