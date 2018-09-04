@@ -90,6 +90,10 @@ export class StaticHelpers {
         return StaticHelpers.engine().getEncounterData().monsters.map(m => m.name);
     }
 
+    static getReleases(): string[] {
+        return ["linux", "windows", "macOS"]
+    }
+
     static application(): Application {
         return (window as any).app as Application;
     }
@@ -133,7 +137,8 @@ export class StaticHelpers {
             new AutocompleteParameter(new RegExp("^(monster)\\s[a-z]*$"), StaticHelpers.getMonsters),
             new AutocompleteParameter(new RegExp("^(new)\\s[a-z]*$"), StaticHelpers.getBlocks),
             new AutocompleteParameter(new RegExp("^(damage)\\s[a-z]*$"), StaticHelpers.getMonsters),
-            new AutocompleteParameter(new RegExp("^(heal)\\s[a-z]*$"), StaticHelpers.getMonsters)
+            new AutocompleteParameter(new RegExp("^(heal)\\s[a-z]*$"), StaticHelpers.getMonsters),
+            new AutocompleteParameter(new RegExp("^(electron)\\s[a-z]*$"), StaticHelpers.getReleases)
         ];
     }
 }
