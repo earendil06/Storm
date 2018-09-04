@@ -4,11 +4,18 @@
   "description": "Storm Electron",
   "main": "main.js",
   "author": "Storm",
+  "build": {
+    "appId": "tototo",
+    "linux": {
+      "target": ["AppImage"]
+    }
+  },
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "@types/jquery": "^3.3.6",
     "css-loader": "^0.28.11",
     "electron": "^2.0.8",
+    "electron-builder": "^20.28.3",
     "electron-packager": "^12.1.1",
     "jest": "^23.5.0",
     "jquery": "^3.2.1",
@@ -27,7 +34,7 @@
     "test": "jest",
     "test2": "testcafe firefox src/terminal.ts",
     "start": "electron .",
-    "package": "electron-packager . storm --platform=linux --arch=x64 --out=releases"
+    "dist": "electron-builder"
   },
   "dependencies": {
     "jquery": "^3.2.1",

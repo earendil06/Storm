@@ -21,9 +21,13 @@ jobs:
     - npm install
     - npm i typescript --save-dev
     - npm run build
-    after_success:
-    - zip -r stormweb.zip ./*
-    - scp stormweb.zip florentpgd@ssh.cluster026.hosting.ovh.net:~/storm-deploy
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
+      on:
+        branch: master
+
 
   -
     language: scala
@@ -36,16 +40,12 @@ jobs:
     script:
     - cd engine
     - sbt "fastOptJS"
-    - cd ..
-    after_success:
-    - scp ./target/scala-2.12/engine-fastopt.js florentpgd@ssh.cluster026.hosting.ovh.net:~/storm-deploy
-
-  - stage: deploy
-    language: shell
-    if: branch = master
-    script:
-    - ssh florentpgd@ssh.cluster026.hosting.ovh.net "./deploy.sh"
-
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/js/engine-fastopt.js florentpgd@ssh.cluster026.hosting.ovh.net:~/cdn/storm/
+      on:
+        branch: master
 
 #  - stage: deploy
 #    language: node_js
