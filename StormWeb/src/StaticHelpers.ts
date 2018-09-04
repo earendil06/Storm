@@ -25,6 +25,7 @@ import {ExportBlocksCommand} from "./term/commands/ExportBlocks";
 import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
 import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
 import AutocompleteParameter from "./poco/AutocompleteParameter";
+import {ElectronCommand} from "./term/commands/ElectronCommand";
 
 export class StaticHelpers {
     private static accessor = new LocalAccessor();
@@ -120,7 +121,8 @@ export class StaticHelpers {
             new ExportBlocksCommand(),
             new LoadBlocksCommand(),
             new IdeCommand(),
-            new DeleteBlockCommand()
+            new DeleteBlockCommand(),
+            new ElectronCommand()
         ];
     }
 
