@@ -43,7 +43,7 @@ jobs:
     deploy:
       provider: script
       skip_cleanup: true
-      script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/StormWeb/js/engine-fastopt.js florentpgd@ssh.cluster026.hosting.ovh.net:~/cdn/storm/
+      script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/engine/target/scala-2.12/engine-fastopt.js florentpgd@ssh.cluster026.hosting.ovh.net:~/cdn/storm/
       on:
         branch: master
 
