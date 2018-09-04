@@ -1,9 +1,20 @@
 before_install:
-  - mkdir -p ~/$TRAVIS_BUILD_NUMBER
+  - mkdir -p ~/$TRAVIS_BUILD_NUMBER/StormWeb/js
+  - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 /tmp/deploy_rsa
+  - ssh-add /tmp/deploy_rsa
+addons:
+  ssh_known_hosts:
+  - ssh.cluster026.hosting.ovh.net
+
+after_success:
+  - [ -f ~/$TRAVIS_BUILD_NUMBER/task1 ] && [ -f ~/$TRAVIS_BUILD_NUMBER/task2 ] && rsync -r --delete-after --quiet -av ~/$TRAVIS_BUILD_NUMBER/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
+
 
 jobs:
   include:
-  - stage: build
+  - stage: setup files
     language: node_js
     node_js: 8
     cache:
@@ -14,10 +25,11 @@ jobs:
     - npm install
     - npm i typescript --save-dev
     - npm run build
-    after_script:
-    - rsync -r $TRAVIS_BUILD_DIR/StormWeb/ ~/$TRAVIS_BUILD_NUMBER
+    - cp -R $TRAVIS_BUILD_DIR/StormWeb/ ~/$TRAVIS_BUILD_NUMBER/
+    - touch ~/$TRAVIS_BUILD_NUMBER/task1
 
-  - language: scala
+  - stage: setup files
+    language: scala
     scala:
     - 2.12.4
     cache:
@@ -27,25 +39,19 @@ jobs:
     script:
     - cd engine
     - sbt "fastOptJS"
-    after_script:
-    - rsync $TRAVIS_BUILD_DIR/engine/target/scala-2.12/engine-fastopt.js ~/$TRAVIS_BUILD_NUMBER/StormWeb/js/
+    - cp -R $TRAVIS_BUILD_DIR/engine/target/scala-2.12/engine-fastopt.js ~/$TRAVIS_BUILD_NUMBER/StormWeb/js/
+    - touch ~/$TRAVIS_BUILD_NUMBER/task1
 
-  - stage: deploy
-    language: shell
-    if: branch = master
-    addons:
-      ssh_known_hosts:
-      - ssh.cluster026.hosting.ovh.net
-    before_deploy:
-    - openssl aes-256-cbc -K $encrypted_80b985043969_key -iv $encrypted_80b985043969_iv
-      -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-    - eval "$(ssh-agent -s)"
-    - chmod 600 /tmp/deploy_rsa
-    - ssh-add /tmp/deploy_rsa
-    deploy:
-      provider: script
-      skip_cleanup: true
-      script: rsync -r --delete-after --quiet -av ~/$TRAVIS_BUILD_NUMBER/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
+#  - stage: use shared files
+#    language: shell
+#    if: branch = master
+#
+#
+#    before_script:
+#
+#    - ls -R ~/$TRAVIS_BUILD_NUMBER/
+#    script:
+#    - rsync -r --delete-after --quiet -av ~/$TRAVIS_BUILD_NUMBER/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
 #  - stage: deploy
 #    language: node_js
 #    node_js: 8
