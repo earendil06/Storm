@@ -1,6 +1,23 @@
 import {Ability, Action, Block, ConstValue, DiceValue, Feature, Stat, StatValue} from "../engine/Adapters";
 
 export class JsonParser {
+
+    static parseStatValue(statValue): StatValue {
+        const diceRegExp = new RegExp("^\s*[0-9]+\s*(d)\s*[0-9]+\s*(([+\\-])\s*[0-9]+)?$");
+        let value: StatValue;
+        if (diceRegExp.test(statValue)) {
+            const [number, faces, modifierString] = statValue.match(/[+\\-]?[0-9]+/gi);
+            let modifierValue = 0;
+            if (modifierString != null) {
+                modifierValue = parseInt(modifierString);
+            }
+            value = new DiceValue(parseInt(number), parseInt(faces), modifierValue);
+        } else {
+            value = new ConstValue(statValue, parseInt(statValue))
+        }
+        return value;
+    }
+
     static getBlockFromJsonText(text: string): Block {
         const result = new Block();
         const json = JSON.parse(text);
@@ -11,18 +28,7 @@ export class JsonParser {
             stats.forEach(stat => {
                 const statType = stat["statType"] || "";
                 const statValue = stat["statValue"] || "";
-                const diceRegExp = new RegExp("^\s*[0-9]+\s*(d)\s*[0-9]+\s*(([+\\-])\s*[0-9]+)?$");
-                let value: StatValue;
-                if (diceRegExp.test(statValue)) {
-                    const [number, faces, modifierString] = statValue.match(/[+\\-]?[0-9]+/gi);
-                    let modifierValue = 0;
-                    if (modifierString != null) {
-                        modifierValue = parseInt(modifierString);
-                    }
-                    value = new DiceValue(parseInt(number), parseInt(faces), modifierValue);
-                } else {
-                    value = new ConstValue(statValue, parseInt(statValue))
-                }
+                let value = this.parseStatValue(statValue);
                 result.stats.push(new Stat(statType.toLowerCase(), value))
             });
         }
@@ -30,7 +36,7 @@ export class JsonParser {
             const features = json["features"] as any[];
             features.forEach(feature => {
                 const featureName = feature["name"] || "";
-                const featureDesc = feature["description"]  || "";
+                const featureDesc = feature["description"] || "";
                 result.features.push(new Feature(featureName, featureDesc));
             });
         }

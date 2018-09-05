@@ -44,7 +44,7 @@
     </div>
 
     <div id="ideBlock" style="height:100vh; text-align: center; background-color: #002B36;">
-        <editable-block v-bind:data="currentStorm"></editable-block>
+        <editable-block ref="editable" v-bind:block="currentStorm"></editable-block>
     </div>
     <div id="loader" class="animate-bottom" style="display:none;"></div>
 
@@ -75,12 +75,33 @@
                 {"name":"scimitar","toHit":"+4 to hit","reach":"reach 5","hit":"hit 1d6+2 slashing","description":""},
                 {"name":"shortbow","toHit":"+4 to hit","reach":"","hit":"hit 1d6 + 2 piercing","description":"cool bow"}]
 }`;
-    const block = JsonParser.getBlockFromJsonText(text);
+    let base = `{"name":"",
+            "abilityScores":[
+                {"abilityType":"str","score":10},
+                {"abilityType":"dex","score":10},
+                {"abilityType":"con","score":10},
+                {"abilityType":"int","score":10},
+                {"abilityType":"wis","score":10},
+                {"abilityType":"cha","score":10}],
+            "stats":[
+                {"statType":"ac","statValue":"10"},
+                {"statType":"hp","statValue":"1d1+1"},
+                {"statType":"speed","statValue":"30"},
+                {"statType":"pp","statValue":"12"}],
+            "features":[],
+            "actions":[]
+}`;
+    const block = JsonParser.getBlockFromJsonText(base);
     if (window.ideBlockApplication === undefined) {
         window.createVue(block);
     } else {
         window.ideBlockApplication.currentStorm = block;
     }
+    document.getElementById('save').addEventListener("click", function() {
+        console.log(window.ideBlockApplication.$refs)
+        window.ideBlockApplication.$refs.editable.save()
+    });
+
 </script>
 
 </html>

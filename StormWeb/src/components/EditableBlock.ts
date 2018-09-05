@@ -1,16 +1,18 @@
 import Vue from "vue";
 import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
+import {JsonParser} from "../resources/JsonParser";
+
+
+let model = {};
 
 export default Vue.extend({
     template: `
-<form v-on:submit.prevent="modify(data)">
-<input type="submit" style="display: none"/>
-            <div class="stat-block wide">
+<div class="stat-block wide">
         <hr class="orange-border"/>
         <div class="section-left">
             <div class="creature-heading">
-                <input id='name' type="text" v-bind:placeholder='data.name' autocomplete="off"/>
+                <input id='name' type="text" v-bind:placeholder='block.name' autocomplete="off"/>
             </div>
             <svg height="5" width="100%" class="tapered-rule">
                 <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -18,15 +20,18 @@ export default Vue.extend({
             <div class="top-stats">
                 <div class="property-line first">
                     <h4>Armor Class</h4>
-                    <p>{{ data.stats.find(f => f.statType === "ac").statValue.formulae }}</p>
+                    <p>{{ block.stats.find(f => f.statType === "ac").statValue.formulae }}</p>
                 </div>
                 <div class="property-line">
                     <h4>Hit Points</h4>
-                    <input id='hp' type="text" v-bind:placeholder='data.stats.find(f => f.statType === "hp").statValue.formulae + " (" + data.stats.find(f => f.statType === "hp").statValue.meanValue + ")"' autocomplete="off"/>
+                    <input id='hp' type="text" v-model="hp"
+                    v-bind:placeholder='block.stats.find(f => f.statType === "hp").statValue.formulae'
+                    autocomplete="off"/>
+                    ( {{ meanHp }} )
                 </div>
                 <div class="property-line last">
                     <h4>Speed</h4>
-                    <p>{{ data.stats.find(f => f.statType === "speed").statValue.formulae }}</p>
+                    <p>{{ block.stats.find(f => f.statType === "speed").statValue.formulae }}</p>
                 </div>
                 <svg height="5" width="100%" class="tapered-rule">
                     <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -35,43 +40,43 @@ export default Vue.extend({
                     <div class="ability-strength">
                         <h4>STR</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "str").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "str").modifier }})
+                            {{ block.abilityScores.find(f => f.abilityType === "str").score }}
+                            ({{ block.abilityScores.find(f => f.abilityType === "str").modifier }})
                         </p>
                     </div>
                     <div class="ability-dexterity">
                         <h4>DEX</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "dex").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "dex").modifier }})
+                            {{ block.abilityScores.find(f => f.abilityType === "dex").score }}
+                            ({{ block.abilityScores.find(f => f.abilityType === "dex").modifier }})
                         </p>
                     </div>
                     <div class="ability-constitution">
                         <h4>CON</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "con").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "con").modifier }})
+                            {{ block.abilityScores.find(f => f.abilityType === "con").score }}
+                            ({{ block.abilityScores.find(f => f.abilityType === "con").modifier }})
                         </p>
                     </div>
                     <div class="ability-intelligence">
                         <h4>INT</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "int").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "int").modifier }})
+                            {{ block.abilityScores.find(f => f.abilityType === "int").score }}
+                            ({{ block.abilityScores.find(f => f.abilityType === "int").modifier }})
                         </p>
                     </div>
                     <div class="ability-wisdom">
                         <h4>WIS</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "wis").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "wis").modifier }})
+                            {{ block.abilityScores.find(f => f.abilityType === "wis").score }}
+                            ({{ block.abilityScores.find(f => f.abilityType === "wis").modifier }})
                         </p>
                     </div>
                     <div class="ability-charisma">
                         <h4>CHA</h4>
                         <p>
-                            {{ data.abilityScores.find(f => f.abilityType === "cha").score }}
-                            ({{ data.abilityScores.find(f => f.abilityType === "cha").modifier }})
+                            {{ block.abilityScores.find(f => f.abilityType === "cha").score }}
+                            ({{ block.abilityScores.find(f => f.abilityType === "cha").modifier }})
                         </p>
                     </div>
                 </div> 
@@ -79,7 +84,7 @@ export default Vue.extend({
             <svg height="5" width="100%" class="tapered-rule">
                 <polyline points="0,0 400,2.5 0,5"></polyline>
             </svg>
-            <div v-for="feature in data.features" class="property-block">
+            <div v-for="feature in block.features" class="property-block">
                 <h4>{{ feature.name }}</h4>
                 <p v-for="description in splitLine(feature.description)">{{ description }}<br/></p>
             </div>
@@ -87,7 +92,7 @@ export default Vue.extend({
         <div class="section-right">
             <div class="actions">
                 <h3>Actions</h3>
-                <div v-for="action in data.actions" class="actions">
+                <div v-for="action in block.actions" class="actions">
                     <div class="property-block">
                         <h4>{{ action.name }}</h4>
                         <p>
@@ -109,10 +114,14 @@ export default Vue.extend({
         </div>
         <hr class="orange-border bottom"/>
     </div>
-</form>
     `,
     name: "editable-block",
-    props: ["data"],
+    props: ["block"],
+    data: function() {
+      return {
+          hp: []
+      }
+    },
     methods: {
         splitLine: function (description: string) : string[] {
             if (description == null) return [];
@@ -121,8 +130,8 @@ export default Vue.extend({
         getHp: function () {
 
         },
-        modify: function (data) {
-            console.log("fdwd")
+        save: function (data) {
+            console.log("save has been called");
             let name = $('#name');
             if (name.val() !== '') {
                 // let args = [monster.name, inputHp.val()];
@@ -132,6 +141,17 @@ export default Vue.extend({
                 data.name = name;
             }
         }
+    },
+    computed: {
+      meanHp: function () {
+          let hpInput = this.hp;
+          console.log(hpInput);
+          if (hpInput.length != 0) {
+              this.block.stats.find(f => f.statType === "hp").statValue = JsonParser.parseStatValue(hpInput);
+          }
+          // console.log(this.data.stats.find(f => f.statType === "hp"));
+          return this.block.stats.find(f => f.statType === "hp").statValue === undefined ? "" : this.block.stats.find(f => f.statType === "hp").statValue.meanValue;
+      }
     },
     mounted: function () {
         StaticHelpers.scrollWindow()
