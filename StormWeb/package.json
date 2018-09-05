@@ -10,6 +10,11 @@
       "target": [
         "AppImage"
       ]
+    },
+    "win": {
+      "target": [
+        "portable"
+      ]
     }
   },
   "devDependencies": {
