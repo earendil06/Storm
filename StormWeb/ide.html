@@ -17,8 +17,8 @@
 
     <script src="dist/build.js"></script>
 </head>
-<body>
-<div class="container-fluid" style="padding: 0">
+<body style="background-color: #002B36;">
+<div class="container-fluid" style="padding: 0;">
     <div class="row">
         <div class="col">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    <div id="ideBlock" style="height:100vh; text-align: center; background-color: #002B36;">
+    <div id="ideBlock" style="height:100vh; text-align: center;">
         <editable-block ref="editable" v-bind:block="currentStorm"></editable-block>
     </div>
     <div id="loader" class="animate-bottom" style="display:none;"></div>
@@ -75,7 +75,7 @@
                 {"name":"scimitar","toHit":"+4 to hit","reach":"reach 5","hit":"hit 1d6+2 slashing","description":""},
                 {"name":"shortbow","toHit":"+4 to hit","reach":"","hit":"hit 1d6 + 2 piercing","description":"cool bow"}]
 }`;
-    let base = `{"name":"",
+    let base = `{"name":"Name",
             "abilityScores":[
                 {"abilityType":"str","score":10},
                 {"abilityType":"dex","score":10},
@@ -88,7 +88,7 @@
                 {"statType":"hp","statValue":"1d1+1"},
                 {"statType":"speed","statValue":"30"},
                 {"statType":"pp","statValue":"12"}],
-            "features":[],
+            "features":[{"name":"Skills","description":"stealth 6"}],
             "actions":[]
 }`;
     const block = JsonParser.getBlockFromJsonText(base);
@@ -98,7 +98,6 @@
         window.ideBlockApplication.currentStorm = block;
     }
     document.getElementById('save').addEventListener("click", function() {
-        console.log(window.ideBlockApplication.$refs)
         window.ideBlockApplication.$refs.editable.save()
     });
 

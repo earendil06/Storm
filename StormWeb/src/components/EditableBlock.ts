@@ -1,10 +1,6 @@
 import Vue from "vue";
 import {StaticHelpers} from "../StaticHelpers";
-import * as $ from "jquery";
 import {JsonParser} from "../resources/JsonParser";
-
-
-let model = {};
 
 export default Vue.extend({
     template: `
@@ -12,7 +8,8 @@ export default Vue.extend({
         <hr class="orange-border"/>
         <div class="section-left">
             <div class="creature-heading">
-                <input id='name' type="text" v-bind:placeholder='block.name' autocomplete="off"/>
+                <input id='name' type="text" v-model="name"
+                v-bind:placeholder='block.name' autocomplete="off"/>
             </div>
             <svg height="5" width="100%" class="tapered-rule">
                 <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -20,18 +17,20 @@ export default Vue.extend({
             <div class="top-stats">
                 <div class="property-line first">
                     <h4>Armor Class</h4>
-                    <p>{{ block.stats.find(f => f.statType === "ac").statValue.formulae }}</p>
+                    <input id='name' type="text" v-model="ac"
+                    v-bind:placeholder='block.stats.find(f => f.statType === "ac").statValue.formulae' autocomplete="off"/>
                 </div>
                 <div class="property-line">
                     <h4>Hit Points</h4>
+                    ( {{ meanHp }} )
                     <input id='hp' type="text" v-model="hp"
                     v-bind:placeholder='block.stats.find(f => f.statType === "hp").statValue.formulae'
                     autocomplete="off"/>
-                    ( {{ meanHp }} )
                 </div>
                 <div class="property-line last">
                     <h4>Speed</h4>
-                    <p>{{ block.stats.find(f => f.statType === "speed").statValue.formulae }}</p>
+                    <input id='name' type="text" v-model="speed"
+                v-bind:placeholder='block.stats.find(f => f.statType === "speed").statValue.formulae' autocomplete="off"/>
                 </div>
                 <svg height="5" width="100%" class="tapered-rule">
                     <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -88,6 +87,7 @@ export default Vue.extend({
                 <h4>{{ feature.name }}</h4>
                 <p v-for="description in splitLine(feature.description)">{{ description }}<br/></p>
             </div>
+            <div @click="addFeature">Add Feature</div>
         </div>
         <div class="section-right">
             <div class="actions">
@@ -117,43 +117,53 @@ export default Vue.extend({
     `,
     name: "editable-block",
     props: ["block"],
-    data: function() {
-      return {
-          hp: []
-      }
+    data: function () {
+        return {
+            name: undefined,
+            ac: undefined,
+            hp: undefined,
+            speed: undefined,
+            features: this.block.features
+        }
     },
     methods: {
-        splitLine: function (description: string) : string[] {
+        addFeature: function (): void {
+            this.features.push({
+                name: "feature " + this.features.length,
+                description: "description"
+            })
+        },
+        splitLine: function (description: string): string[] {
             if (description == null) return [];
             return description.split('\n');
         },
-        getHp: function () {
-
-        },
-        save: function (data) {
+        save: function (): void {
             console.log("save has been called");
-            let name = $('#name');
-            if (name.val() !== '') {
-                // let args = [monster.name, inputHp.val()];
-                // let damageCommand = new DamageCommand();
-                // this.push(res);
-                // inputHp.val('');
-                data.name = name;
+            if (this.name !== undefined) {
+                this.block.name = this.name;
             }
+            if (this.ac !== undefined) {
+                this.block.stats.find(f => f.statType === "ac").statValue = JsonParser.parseStatValue(this.ac);
+            }
+            if (this.hp !== undefined) {
+                this.block.stats.find(f => f.statType === "hp").statValue = JsonParser.parseStatValue(this.hp);
+            }
+            if (this.speed !== undefined) {
+                this.block.stats.find(f => f.statType === "speed").statValue = JsonParser.parseStatValue(this.speed);
+            }
+            console.log("after save");
+            console.log(this.block)
         }
     },
     computed: {
-      meanHp: function () {
-          let hpInput = this.hp;
-          console.log(hpInput);
-          if (hpInput.length != 0) {
-              this.block.stats.find(f => f.statType === "hp").statValue = JsonParser.parseStatValue(hpInput);
-          }
-          // console.log(this.data.stats.find(f => f.statType === "hp"));
-          return this.block.stats.find(f => f.statType === "hp").statValue === undefined ? "" : this.block.stats.find(f => f.statType === "hp").statValue.meanValue;
-      }
+        meanHp: function () {
+            if (this.hp !== undefined) {
+                this.block.stats.find(f => f.statType === "hp").statValue = JsonParser.parseStatValue(this.hp);
+            }
+            return this.block.stats.find(f => f.statType === "hp").statValue === undefined ? "" : this.block.stats.find(f => f.statType === "hp").statValue.meanValue;
+        }
     },
-    mounted: function () {
+    mounted: function (): void {
         StaticHelpers.scrollWindow()
     }
 });
