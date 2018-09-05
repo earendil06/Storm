@@ -21,7 +21,7 @@ export class ElectronCommand extends Command{
                 break;
             case "window":
                 link = "/dist/storm-electron-1.0.0-x86_64.AppImage";
-                os = "window";
+                os = "windows";
                 break;
             case "macOS":
                 link = "/dist/storm-electron-1.0.0-x86_64.AppImage";
