@@ -7,7 +7,9 @@
   "build": {
     "appId": "tototo",
     "linux": {
-      "target": ["AppImage"]
+      "target": [
+        "AppImage"
+      ]
     }
   },
   "devDependencies": {
