@@ -125,8 +125,8 @@ export default Vue.extend({
                 dex: this.block.abilityScores.find(f => f.abilityType === "dex"),
                 con: this.block.abilityScores.find(f => f.abilityType === "con"),
                 int: this.block.abilityScores.find(f => f.abilityType === "int"),
-                cha: this.block.abilityScores.find(f => f.abilityType === "cha"),
-                wis: this.block.abilityScores.find(f => f.abilityType === "wis")
+                wis: this.block.abilityScores.find(f => f.abilityType === "wis"),
+                cha: this.block.abilityScores.find(f => f.abilityType === "cha")
             }
         }
     },
@@ -155,7 +155,6 @@ export default Vue.extend({
             if (this.speed !== undefined) {
                 this.block.stats.find(f => f.statType === "speed").statValue = JsonParser.parseStatValue(this.speed);
             }
-
             let key;
             for (key in this.abilities) {
                 let ability = this.abilities[key];
