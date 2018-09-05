@@ -21,7 +21,7 @@ jobs:
     - npm install
     - npm i typescript --save-dev
     - npm run build
-    - ./create-offline.sh && cp index-offline.html index.html && cp ide-offline.html ide.html
+    - chmod u+x ./create-offline.sh && ./create-offline.sh && cp index-offline.html index.html && cp ide-offline.html ide.html
     - npm run dist
     deploy:
       provider: script
@@ -48,28 +48,6 @@ jobs:
       script: rsync -r --delete-after --quiet -av $TRAVIS_BUILD_DIR/engine/target/scala-2.12/engine-fastopt.js florentpgd@ssh.cluster026.hosting.ovh.net:~/cdn/storm/
       on:
         branch: master
-
-#  - stage: deploy
-#    language: node_js
-#    node_js: 8
-#    cache:
-#    directories:
-#    - ./StormWeb/node_modules
-#    if: branch = master
-#    script:
-#    - cd StormWeb
-#    - npm install
-#    - npm run package
-#    - cd releases
-#    - zip -r electron.zip storm-linux-x64
-#    deploy:
-#      provider: releases
-#      api_key:
-#        secure: J1ZqxVL4P3yw9iZ9r3h/DTFh3AJilGuBk13IaLgTyIftaIK+mzmPd4+b95yk3UiW+UCmJqHFozJaSeD3ggTwKAhwc6mDSjSfg79R77MvwOuc1yDW3tKSW8RKSZ8lvw4C819/mkQB9zrP/HHXSjbaAGHZxGZ7jEllSt8AJgpp59H0gjokiL/tcNAzsADpjWSo0PAcJUTPaliEPm4uMm5k2NF04AnJ+UvULwxUSaYNQf0IwJ4/OukzWy96vz0rTdlZyI3LqcLrSFA5EP3/SvSTu05wnmSeMhoCQXGO8giziGn7F23Venps3zhBXOJr3gw0t6HCUoGaNJXUVApvcLv74QY49JVlZSvUZogNcdf5OHG58/zA1LfaU4nSKJ50pGSfJdSmfob6HhN+YAwXWIHnA5PEsEwxyCLvqGqmzpUxolQfrj4PFSruVU0O3pvbbkqehlDaWfcvUh4lbnES6hYpHq44/nzggyLbuDYDQuNTSqjW9HSH2OZohLVWAs4U6sddJJbAsYUzFzqUtqIhyQwZxqDcwZtWVTBD6ko06/0SAcNBEuxcUxGQR1cgWZ+1vZf8BVM7c42S8V37hEDsQMlqTG7LK235ylFL8TeCgQGHh6cGF65TAKuAqSQvq9w7aU5+DcaPJPCQNk+0ob58VZRfApNGap8rUaDCc/M4mzeBlTk=
-#      file: ~/Storm/StormWeb/releases/electron.zip
-#      on:
-#        repo: earendil06/Storm
-#      skip_cleanup: true
 
 notifications:
   email: false
