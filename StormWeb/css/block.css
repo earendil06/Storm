@@ -167,6 +167,9 @@
     text-align: center;
     color: #922610 !important;
 }
+.abilities input {
+    font-size: 12px;
+}
 .abilities > div{
     display: inline-block;
     vertical-align: middle;

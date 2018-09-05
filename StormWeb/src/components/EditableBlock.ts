@@ -1,6 +1,7 @@
 import Vue from "vue";
 import {StaticHelpers} from "../StaticHelpers";
 import {JsonParser} from "../resources/JsonParser";
+import {Ability} from "../engine/Adapters";
 
 export default Vue.extend({
     template: `
@@ -8,8 +9,7 @@ export default Vue.extend({
         <hr class="orange-border"/>
         <div class="section-left">
             <div class="creature-heading">
-                <input id='name' type="text" v-model="name"
-                v-bind:placeholder='block.name' autocomplete="off"/>
+                <input id='name' type="text" v-model="name" autocomplete="off"/>
             </div>
             <svg height="5" width="100%" class="tapered-rule">
                 <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -17,20 +17,16 @@ export default Vue.extend({
             <div class="top-stats">
                 <div class="property-line first">
                     <h4>Armor Class</h4>
-                    <input id='name' type="text" v-model="ac"
-                    v-bind:placeholder='block.stats.find(f => f.statType === "ac").statValue.formulae' autocomplete="off"/>
+                    <input id='name' type="text" v-model="ac" autocomplete="off"/>
                 </div>
                 <div class="property-line">
                     <h4>Hit Points</h4>
-                    ( {{ meanHp }} )
-                    <input id='hp' type="text" v-model="hp"
-                    v-bind:placeholder='block.stats.find(f => f.statType === "hp").statValue.formulae'
-                    autocomplete="off"/>
+                    ({{ meanHp }})
+                    <input id='hp' type="text" v-model="hp" autocomplete="off"/>
                 </div>
                 <div class="property-line last">
                     <h4>Speed</h4>
-                    <input id='name' type="text" v-model="speed"
-                v-bind:placeholder='block.stats.find(f => f.statType === "speed").statValue.formulae' autocomplete="off"/>
+                    <input id='name' type="text" v-model="speed" autocomplete="off"/>
                 </div>
                 <svg height="5" width="100%" class="tapered-rule">
                     <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -39,43 +35,43 @@ export default Vue.extend({
                     <div class="ability-strength">
                         <h4>STR</h4>
                         <p>
-                            {{ block.abilityScores.find(f => f.abilityType === "str").score }}
-                            ({{ block.abilityScores.find(f => f.abilityType === "str").modifier }})
+                            <input id='name' type="text" v-model="abilities.str.score" autocomplete="off"/>
+                            ({{ abilityModifier(this.abilities.str) }})
                         </p>
                     </div>
                     <div class="ability-dexterity">
                         <h4>DEX</h4>
                         <p>
-                            {{ block.abilityScores.find(f => f.abilityType === "dex").score }}
-                            ({{ block.abilityScores.find(f => f.abilityType === "dex").modifier }})
+                            <input id='name' type="text" v-model="abilities.dex.score" autocomplete="off"/>
+                            ({{ abilityModifier(this.abilities.dex) }})
                         </p>
                     </div>
                     <div class="ability-constitution">
                         <h4>CON</h4>
                         <p>
-                            {{ block.abilityScores.find(f => f.abilityType === "con").score }}
-                            ({{ block.abilityScores.find(f => f.abilityType === "con").modifier }})
+                            <input id='name' type="text" v-model="abilities.con.score" autocomplete="off"/>
+                            ({{ abilityModifier(this.abilities.con) }})
                         </p>
                     </div>
                     <div class="ability-intelligence">
                         <h4>INT</h4>
                         <p>
-                            {{ block.abilityScores.find(f => f.abilityType === "int").score }}
-                            ({{ block.abilityScores.find(f => f.abilityType === "int").modifier }})
+                            <input id='name' type="text" v-model="abilities.int.score" autocomplete="off"/>
+                            ({{ abilityModifier(this.abilities.int) }})
                         </p>
                     </div>
                     <div class="ability-wisdom">
                         <h4>WIS</h4>
                         <p>
-                            {{ block.abilityScores.find(f => f.abilityType === "wis").score }}
-                            ({{ block.abilityScores.find(f => f.abilityType === "wis").modifier }})
+                            <input id='name' type="text" v-model="abilities.wis.score" autocomplete="off"/>
+                            ({{ abilityModifier(this.abilities.wis) }})
                         </p>
                     </div>
                     <div class="ability-charisma">
                         <h4>CHA</h4>
                         <p>
-                            {{ block.abilityScores.find(f => f.abilityType === "cha").score }}
-                            ({{ block.abilityScores.find(f => f.abilityType === "cha").modifier }})
+                            <input id='name' type="text" v-model="abilities.cha.score" autocomplete="off"/>
+                            ({{ abilityModifier(this.abilities.cha) }})
                         </p>
                     </div>
                 </div> 
@@ -87,7 +83,7 @@ export default Vue.extend({
                 <h4>{{ feature.name }}</h4>
                 <p v-for="description in splitLine(feature.description)">{{ description }}<br/></p>
             </div>
-            <div @click="addFeature">Add Feature</div>
+            <div @click="addFeature" style="color: blue; cursor: pointer">Add Feature</div>
         </div>
         <div class="section-right">
             <div class="actions">
@@ -119,11 +115,19 @@ export default Vue.extend({
     props: ["block"],
     data: function () {
         return {
-            name: undefined,
-            ac: undefined,
-            hp: undefined,
-            speed: undefined,
-            features: this.block.features
+            name: this.block.name,
+            ac: this.block.stats.find(f => f.statType === "ac").statValue.formulae,
+            hp: this.block.stats.find(f => f.statType === "hp").statValue.formulae,
+            speed: this.block.stats.find(f => f.statType === "speed").statValue.formulae,
+            features: this.block.features,
+            abilities: {
+                str: this.block.abilityScores.find(f => f.abilityType === "str"),
+                dex: this.block.abilityScores.find(f => f.abilityType === "dex"),
+                con: this.block.abilityScores.find(f => f.abilityType === "con"),
+                int: this.block.abilityScores.find(f => f.abilityType === "int"),
+                cha: this.block.abilityScores.find(f => f.abilityType === "cha"),
+                wis: this.block.abilityScores.find(f => f.abilityType === "wis")
+            }
         }
     },
     methods: {
@@ -151,16 +155,24 @@ export default Vue.extend({
             if (this.speed !== undefined) {
                 this.block.stats.find(f => f.statType === "speed").statValue = JsonParser.parseStatValue(this.speed);
             }
+
+            let key;
+            for (key in this.abilities) {
+                let ability = this.abilities[key];
+                let index = this.block.abilityScores.indexOf(this.block.abilityScores.find(f => f.abilityType === ability.abilityType));
+                this.block.abilityScores[index] = JsonParser.parseAbility(ability);
+            }
             console.log("after save");
             console.log(this.block)
+        },
+        abilityModifier: function (ability: Ability) {
+            let newAbility = JsonParser.parseAbility(ability);
+            return newAbility.modifier;
         }
     },
     computed: {
         meanHp: function () {
-            if (this.hp !== undefined) {
-                this.block.stats.find(f => f.statType === "hp").statValue = JsonParser.parseStatValue(this.hp);
-            }
-            return this.block.stats.find(f => f.statType === "hp").statValue === undefined ? "" : this.block.stats.find(f => f.statType === "hp").statValue.meanValue;
+            return JsonParser.parseStatValue(this.hp).meanValue;
         }
     },
     mounted: function (): void {

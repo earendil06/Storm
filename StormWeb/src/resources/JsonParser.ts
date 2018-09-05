@@ -18,6 +18,15 @@ export class JsonParser {
         return value;
     }
 
+    static parseAbility(ability): Ability {
+        const type = ability["abilityType"] || "";
+        const value = ability["score"] || 0;
+        const f = (value - 10) > 0 ? Math.floor : Math.ceil;
+        const subtractValue = value < 10 ? -1 : 0;
+        const modifier = f((value - 10) / 2) + subtractValue;
+        return new Ability(type, value, modifier);
+    }
+
     static getBlockFromJsonText(text: string): Block {
         const result = new Block();
         const json = JSON.parse(text);
@@ -43,12 +52,7 @@ export class JsonParser {
         if (json.hasOwnProperty("abilityScores")) {
             const abilities = json["abilityScores"] as any[];
             abilities.forEach(ability => {
-                const type = ability["abilityType"] || "";
-                const value = ability["score"] || 0;
-                const f = (value - 10) > 0 ? Math.floor : Math.ceil;
-                const subtractValue = value < 10 ? -1 : 0;
-                const modifier = f((value - 10) / 2) + subtractValue;
-                result.abilityScores.push(new Ability(type, value, modifier));
+                result.abilityScores.push(this.parseAbility(ability));
             });
         }
         if (json.hasOwnProperty("actions")) {
