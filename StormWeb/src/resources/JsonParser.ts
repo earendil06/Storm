@@ -1,6 +1,32 @@
 import {Ability, Action, Block, ConstValue, DiceValue, Feature, Stat, StatValue} from "../engine/Adapters";
 
 export class JsonParser {
+
+    static parseStatValue(statValue): StatValue {
+        const diceRegExp = new RegExp("^\s*[0-9]+\s*(d)\s*[0-9]+\s*(([+\\-])\s*[0-9]+)?$");
+        let value: StatValue;
+        if (diceRegExp.test(statValue)) {
+            const [number, faces, modifierString] = statValue.match(/[+\\-]?[0-9]+/gi);
+            let modifierValue = 0;
+            if (modifierString != null) {
+                modifierValue = parseInt(modifierString);
+            }
+            value = new DiceValue(parseInt(number), parseInt(faces), modifierValue);
+        } else {
+            value = new ConstValue(statValue, parseInt(statValue))
+        }
+        return value;
+    }
+
+    static parseAbility(ability): Ability {
+        const type = ability["abilityType"] || "";
+        const value = ability["score"] || 0;
+        const f = (value - 10) > 0 ? Math.floor : Math.ceil;
+        const subtractValue = value < 10 ? -1 : 0;
+        const modifier = f((value - 10) / 2) + subtractValue;
+        return new Ability(type, value, modifier);
+    }
+
     static getBlockFromJsonText(text: string): Block {
         const result = new Block();
         const json = JSON.parse(text);
@@ -11,18 +37,7 @@ export class JsonParser {
             stats.forEach(stat => {
                 const statType = stat["statType"] || "";
                 const statValue = stat["statValue"] || "";
-                const diceRegExp = new RegExp("^\s*[0-9]+\s*(d)\s*[0-9]+\s*(([+\\-])\s*[0-9]+)?$");
-                let value: StatValue;
-                if (diceRegExp.test(statValue)) {
-                    const [number, faces, modifierString] = statValue.match(/[+\\-]?[0-9]+/gi);
-                    let modifierValue = 0;
-                    if (modifierString != null) {
-                        modifierValue = parseInt(modifierString);
-                    }
-                    value = new DiceValue(parseInt(number), parseInt(faces), modifierValue);
-                } else {
-                    value = new ConstValue(statValue, parseInt(statValue))
-                }
+                let value = this.parseStatValue(statValue);
                 result.stats.push(new Stat(statType.toLowerCase(), value))
             });
         }
@@ -30,19 +45,14 @@ export class JsonParser {
             const features = json["features"] as any[];
             features.forEach(feature => {
                 const featureName = feature["name"] || "";
-                const featureDesc = feature["description"]  || "";
+                const featureDesc = feature["description"] || "";
                 result.features.push(new Feature(featureName, featureDesc));
             });
         }
         if (json.hasOwnProperty("abilityScores")) {
             const abilities = json["abilityScores"] as any[];
             abilities.forEach(ability => {
-                const type = ability["abilityType"] || "";
-                const value = ability["score"] || 0;
-                const f = (value - 10) > 0 ? Math.floor : Math.ceil;
-                const subtractValue = value < 10 ? -1 : 0;
-                const modifier = f((value - 10) / 2) + subtractValue;
-                result.abilityScores.push(new Ability(type, value, modifier));
+                result.abilityScores.push(this.parseAbility(ability));
             });
         }
         if (json.hasOwnProperty("actions")) {

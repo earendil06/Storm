@@ -2,6 +2,7 @@ import Vue from "vue";
 import BlockComponent from "../components/Block";
 import {StaticHelpers} from "../StaticHelpers";
 import {JsonParser} from "../resources/JsonParser";
+import EditableBlock from "../components/EditableBlock";
 
 export default class Ide {
     static main() {
@@ -14,7 +15,7 @@ export default class Ide {
                     currentStorm: data
                 },
                 components: {
-                    BlockComponent
+                    BlockComponent, EditableBlock
                 }
             });
         }
