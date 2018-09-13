@@ -14,7 +14,7 @@ import {RemoveCommand} from "./term/commands/RemoveCommand";
 import {SetInitiativeCommand} from "./term/commands/SetInitiativeCommand";
 import {GetBlocksCommand} from "./term/commands/GetBlocksCommand";
 import {GetPlayingMonsterCommand} from "./term/commands/GetPlayingMonsterCommand";
-import {Application} from "./Application";
+import App from "./Application";
 import {ExportEncounterCommand} from "./term/commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
@@ -94,8 +94,8 @@ export class StaticHelpers {
         return ["linux", "windows", "macOS"]
     }
 
-    static application(): Application {
-        return (window as any).app as Application;
+    static application(): App {
+        return (window as any).app as App;
     }
 
     static engine(): Engine {

@@ -3,13 +3,13 @@ import CommandComponent from "../components/Command";
 import StaticEncounterComponent from "../components/StaticEncounter";
 import {StaticHelpers} from "../StaticHelpers";
 import * as $ from "jquery";
-import {Application, IHistoryCommand} from "../Application";
+import App, {IHistoryCommand} from "../Application";
 import Engine from "../engine/Engine";
 
 export default class Term {
     static main() {
         (window as any).engine = new Engine();
-        (window as any).app = new Vue({
+        (window as any).app = /* new Vue({
             el: '#container',
             data: {
                 user: "gm@Storm =>",
@@ -161,7 +161,12 @@ export default class Term {
                     }
                 }
             }
-        }) as Application;
+        }) as Application;*/ new App({
+            el: '#container',
+            components: {
+                CommandComponent, StaticEncounterComponent
+            }
+        });
 
         $(document as any).keydown(function (e) {
             const codes = [9, 13, 37, 38, 39, 40];
