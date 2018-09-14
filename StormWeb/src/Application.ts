@@ -6,8 +6,8 @@ import Vue from "vue"
 import CommandComponent from "./components/Command";
 import StaticEncounterComponent from "./components/StaticEncounter";
 import Optional from "typescript-optional";
-import {Option} from "typescript-optional/dist/lib/types";
-import ICommand from "./term/commands/ICommand";
+import {AppEngine} from "./AppEngine";
+import {ArrowDirection} from "./ArrowDirection";
 
 export interface IHistoryCommand {
     command: string;
@@ -15,7 +15,6 @@ export interface IHistoryCommand {
     output: any;
     templateName: string;
 }
-
 
 @Component({
     mounted(): void {
@@ -32,6 +31,8 @@ export interface IHistoryCommand {
     }
 })
 export default class App extends Vue {
+
+    private appEngine = new AppEngine();
 
     constructor(options) {
         super(options);
@@ -95,7 +96,6 @@ export default class App extends Vue {
     }
 
 
-
     async pressEnter(): Promise<void> {
         if (!this.currentCommand.isEmpty && this.currentArguments[0] === "!!") {
             if (this.commands.length > 0) {
@@ -156,10 +156,10 @@ export default class App extends Vue {
                     break;
             }
         }, () => {
-            if (message.keyCode === up && this.positionHistory < this.history.length) {
-                this.positionHistory++;
-            } else if (message.keyCode === down && this.positionHistory > 0) {
-                this.positionHistory--;
+            if (message.keyCode === up) {
+                this.positionHistory = this.appEngine.computeHistoryPosition(this.history, this.positionHistory, ArrowDirection.Up);
+            } else if (message.keyCode === down) {
+                this.positionHistory = this.appEngine.computeHistoryPosition(this.history, this.positionHistory, ArrowDirection.Down);
             }
         });
     }
