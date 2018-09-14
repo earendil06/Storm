@@ -1,8 +1,13 @@
 import {StaticHelpers} from "./StaticHelpers";
 import * as $ from "jquery";
 import {EncounterData} from "./engine/Adapters";
-import {Component, Prop, Provide, Watch} from "vue-property-decorator";
+import {Component, Watch} from "vue-property-decorator";
 import Vue from "vue"
+import CommandComponent from "./components/Command";
+import StaticEncounterComponent from "./components/StaticEncounter";
+import Optional from "typescript-optional";
+import {Option} from "typescript-optional/dist/lib/types";
+import ICommand from "./term/commands/ICommand";
 
 export interface IHistoryCommand {
     command: string;
@@ -12,10 +17,23 @@ export interface IHistoryCommand {
 }
 
 
-@Component
+@Component({
+    mounted(): void {
+        this.encounterUpdate();
+        StaticHelpers.scrollWindow();
+        $("#container").show();
+    },
+
+    updated(): void {
+        StaticHelpers.scrollWindow();
+    },
+    components: {
+        CommandComponent, StaticEncounterComponent
+    }
+})
 export default class App extends Vue {
 
-    constructor(options){
+    constructor(options) {
         super(options);
     }
 
@@ -25,21 +43,8 @@ export default class App extends Vue {
     currentInputValue: string = "";
     positionHistory: number = 0;
     proposals: string[] = [];
-    proposalsIndex: number = -1;
-    encounter: EncounterData = null;
-    isValidCommand: boolean = false;
-
-    mounted() {
-        console.log("tototot");
-        this.encounterUpdate();
-        StaticHelpers.scrollWindow();
-        $("#container").show();
-    }
-
-    updated() {
-        console.log("tototot");
-        StaticHelpers.scrollWindow();
-    }
+    proposalsIndex: Optional<number> = Optional.empty();
+    encounter: EncounterData = this.encounterUpdate();
 
 
     @Watch("positionHistory")
@@ -57,133 +62,152 @@ export default class App extends Vue {
         this.encounterUpdate();
     }
 
-    @Watch("currentInputValue")
-    watchCurrentInputValue() {
-        this.isValidCommand = StaticHelpers.getCommands().find(f => f === this.currentCommand()) != null;
-    }
-
-
-
-
-
-
-    proposalsDisplayed() {
+    get proposalsDisplayed(): string[] {
         if (this.currentArguments.length <= 1) {
-            const inputFilter = this.currentArguments.length === 1 ? this.currentArguments()[0] : this.currentCommand();
+            const inputFilter = this.currentArguments.length === 1 ? this.currentArguments[0] : this.currentCommand.orElse("");
             return this.proposals.filter(f => f.startsWith(inputFilter));
         }
         return this.proposals;
     }
 
 
-    currentCommand() :string {
+    get currentCommand(): Optional<string> {
         const values = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-        return values.length > 0 ? values[0].toLowerCase() : "";
+        return values.length > 0 ? Optional.of(values[0].toLowerCase()) : Optional.empty();
     }
 
-    currentArguments() {
+    get currentArguments(): string[] {
         return this.currentInputValue.trim().split(" ").filter(f => f !== "").slice(1);
     }
 
 
-    onClickProposition(index) {
-        this.proposalsIndex = index;
-        this.pressEnter();
+    async onClickProposition(index: number) {
+        this.proposalsIndex = Optional.of(index);
+        await this.pressEnter();
     }
 
-    onMouseOverProposition(index) {
-        this.proposalsIndex = index;
+    onMouseOverProposition(index: number) {
+        this.proposalsIndex = Optional.of(index);
     }
 
-    encounterUpdate() {
-        let vue = this;
-        vue.encounter = StaticHelpers.engine().getEncounterData();
+    encounterUpdate(): EncounterData {
+        return this.encounter = StaticHelpers.engine().getEncounterData();
     }
 
-    pressEnter() {
-        if (this.currentCommand() !== "" && this.currentArguments()[0] === "!!") {
+
+
+    async pressEnter(): Promise<void> {
+        if (!this.currentCommand.isEmpty && this.currentArguments[0] === "!!") {
             if (this.commands.length > 0) {
                 let previousCommand = this.commands[this.commands.length - 1] as IHistoryCommand;
-                this.currentInputValue = this.currentCommand() + " " + previousCommand.args.join(" ");
+                this.currentInputValue = this.currentCommand.get() + " " + previousCommand.args.join(" ");
                 return;
             } else {
                 this.currentInputValue = "";
                 return;
             }
         }
-        if (this.proposalsIndex === -1) {
-            const result = StaticHelpers.eval(this.currentCommand(), this.currentArguments());
+
+        this.proposalsIndex.ifPresentOrElse((value) => {
+            if (this.currentArguments.length === 0) {
+                this.currentInputValue = this.proposalsDisplayed[value] + " ";
+            } else {
+                this.currentInputValue = this.currentCommand.get() + " " + this.proposalsDisplayed[value] + " ";
+            }
+        }, async () => {
+            StaticHelpers.showSpinner();
+            const result = await StaticHelpers.eval(this.currentCommand.orElse(""), this.currentArguments);
+            this.commands.push(result);
+            StaticHelpers.hideSpinner();
+
             if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
                 this.history.push(this.currentInputValue);
             }
             this.currentInputValue = "";
             this.positionHistory = 0;
+        });
 
-        } else {
-            if (this.currentArguments.length === 0) {
-                this.currentInputValue = this.proposalsDisplayed[this.proposalsIndex] + " ";
-            } else {
-                this.currentInputValue = this.currentCommand + " " + this.proposalsDisplayed[this.proposalsIndex] + " ";
-            }
 
-        }
-        this.proposalsIndex = -1;
+        this.proposalsIndex = Optional.empty();
         this.proposals = [];
         this.encounterUpdate();
+        StaticHelpers.scrollWindow();
         $("#inputLine")[0].focus();
     }
 
     arrowPressed(message) {
         const [left, up, right, down] = [37, 38, 39, 40];
-        if (this.proposalsDisplayed.length > 0) {
+
+        this.proposalsIndex.ifPresentOrElse((value) => {
             switch (message.keyCode) {
                 case left:
-                    this.proposalsIndex = Math.max(this.proposalsIndex - 1, 0);
+                    this.proposalsIndex = Optional.of(Math.max(value - 1, 0));
                     break;
                 case right:
-                    this.proposalsIndex = Math.min(this.proposalsIndex + 1, this.proposalsDisplayed.length - 1);
+                    this.proposalsIndex = Optional.of(Math.min(value + 1, this.proposalsDisplayed.length - 1));
                     break;
                 case up:
-                    this.proposalsIndex = Math.max(this.proposalsIndex - 4, 0);
+                    this.proposalsIndex = Optional.of(Math.max(value - 4, 0));
                     break;
                 case down:
-                    this.proposalsIndex = Math.min(this.proposalsIndex + 4, this.proposalsDisplayed.length - 1);
+                    this.proposalsIndex = Optional.of(Math.min(value + 4, this.proposalsDisplayed.length - 1));
                     break;
                 default:
                     break;
             }
-        } else {
+        }, () => {
             if (message.keyCode === up && this.positionHistory < this.history.length) {
                 this.positionHistory++;
             } else if (message.keyCode === down && this.positionHistory > 0) {
                 this.positionHistory--;
             }
-        }
+        });
     }
+
+    private async getAutocompleteResults(): Promise<[Optional<number>, string[]]> {
+        const toExecuteOption = Optional.ofNullable(StaticHelpers.autocompleteParameters().find(f => f.entryPoint.test(this.currentInputValue)));
+
+        let proposalsIndex: Optional<number> = Optional.empty();
+        let proposals: string[] = [];
+
+        if (toExecuteOption.isEmpty) {
+            return [proposalsIndex, proposals];
+        }
+
+        const toExecute = toExecuteOption.get();
+
+        if (this.proposalsIndex.isEmpty) {
+            return [Optional.of(0), await toExecute.callback()];
+        }
+
+        if (this.proposalsDisplayed.length > 0) {
+            proposals = this.proposals;
+            proposalsIndex = Optional.of((this.proposalsIndex.get() + 1) % this.proposalsDisplayed.length);
+        } else {
+            proposals = [];
+            proposalsIndex = Optional.empty();
+        }
+
+
+        return [proposalsIndex, proposals];
+    }
+
 
     async invokeAutoComplete(message) {
         message.preventDefault();
 
-        let toExecute = StaticHelpers.autocompleteParameters()
-            .find(f => f.entryPoint.test(this.currentInputValue));
-        if (toExecute === undefined) {
-            return;
-        }
-        if (this.proposalsIndex === -1) {
-            StaticHelpers.showSpinner();
-            this.proposals = await toExecute.callback();
-            this.proposalsIndex = (this.proposalsIndex + 1) % this.proposalsDisplayed.length;
-            StaticHelpers.hideSpinner();
-            if (this.proposalsDisplayed.length === 1) {
-                this.pressEnter();
-            }
-            return;
+        StaticHelpers.showSpinner();
+
+        const tuple = await this.getAutocompleteResults();
+        this.proposalsIndex = tuple[0];
+        this.proposals = tuple[1];
+
+        if (this.proposalsDisplayed.length === 1) {
+            await this.pressEnter();
         }
 
-        if (this.proposalsDisplayed.length > 0) {
-            this.proposalsIndex = (this.proposalsIndex + 1) % this.proposalsDisplayed.length;
-        } else {
-            this.proposalsIndex = -1;
-        }
+        StaticHelpers.hideSpinner();
+
+
     }
 }

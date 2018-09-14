@@ -44,15 +44,16 @@
                     <img id="loader-img" style="display:none; width: 150px; height: 120px; margin-left: 100px" src="images/waiting.gif"/>
                 </div>
 
-                <div v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }" class="col-md-3 proposal">
+                <div v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex.orElse(0) }" class="col-md-3 proposal">
                     <span style="cursor: pointer" v-on:click="onClickProposition(index)" v-on:mouseover="onMouseOverProposition(index)">{{ prop }}</span>
                 </div>
 
                 <div class="col-md-12">
                     <div class="row">
                         <command-component
-                                v-for="command in commands.slice(commands.length -1)"
+                                v-for="(command, index) in commands.slice(commands.length -1)"
                                 v-bind:command="command"
+                                v-bind:key="index"
                                 v-bind:user="user">
                         </command-component>
                     </div>

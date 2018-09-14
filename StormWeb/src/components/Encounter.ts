@@ -85,7 +85,7 @@ export default Vue.extend({
             this.push(res);
         },
         isPlaying: function (name) {
-            return name === this.data.playingMonsterName ? "#191947" : "#922610"
+            return true;//name === this.data.playingMonsterName ? "#191947" : "#922610"
         },
         push: function (res) {
             if (res != null) {
@@ -95,7 +95,7 @@ export default Vue.extend({
     },
     computed: {
         sortedMonsters: function () {
-            if (this.data.monsters) {
+            /*if (this.data.monsters) {
                 return this.data.monsters.sort((l, r) => {
                     if (l.initiative == r.initiative) {
                         return l.name < r.name
@@ -105,9 +105,9 @@ export default Vue.extend({
                         return li < ri;
                     }
                 });
-            } else {
+            } else {*/
                 return [];
-            }
+            //}
         }
     }
 });
