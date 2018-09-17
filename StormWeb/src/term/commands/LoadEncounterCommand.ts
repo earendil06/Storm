@@ -20,7 +20,7 @@ export class LoadEncounterCommand extends Command {
                 const r = new FileReader();
                 r.onload = function (e) {
                     if (e != null && e.target != null) {
-                        const commandsHistory = e.target.result.split("\n");
+                        const commandsHistory = e.target.result.split("\n") as string[];
                         commandsHistory.forEach(command => {
                             const values = command.trim().split(" ").filter(f => f !== "");
                             const name = values.length > 0 ? values[0].toLowerCase() : "";

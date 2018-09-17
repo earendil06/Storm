@@ -18,7 +18,7 @@ export class JsonParser {
         return value;
     }
 
-    static parseAbility(ability): Ability {
+    static parseAbility(ability:any): Ability {
         const type = ability["abilityType"] || "";
         const value = ability["score"] || 0;
         const f = (value - 10) > 0 ? Math.floor : Math.ceil;

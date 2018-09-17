@@ -34,11 +34,11 @@
                         <div class="username pull-left">{{ user }}</div>
                         <input id="inputLine" v-model="currentInputValue"
                                @keyup.enter="pressEnter"
-                               @keyup.37="arrowPressed"
-                               @keyup.38="arrowPressed"
-                               @keyup.39="arrowPressed"
-                               @keyup.40="arrowPressed"
-                               @keydown.tab="invokeAutoComplete"
+                               @keyup.37="pressArrow"
+                               @keyup.38="pressArrow"
+                               @keyup.39="pressArrow"
+                               @keyup.40="pressArrow"
+                               @keydown.tab="pressTab"
                                class="cmdline pull-left col" autofocus/>
                     </div>
                     <img id="loader-img" style="display:none; width: 150px; height: 120px; margin-left: 100px" src="images/waiting.gif"/>

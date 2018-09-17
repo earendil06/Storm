@@ -63,23 +63,16 @@ export default class App extends Vue {
     }
 
     get proposalsDisplayed(): string[] {
-        if (this.currentArguments.length <= 1) {
-            const inputFilter = this.currentArguments.length === 1 ? this.currentArguments[0] : this.currentCommand.orElse("");
-            return this.proposals.filter(f => f.startsWith(inputFilter));
-        }
-        return this.proposals;
+        return this.appEngine.computeProposalsDisplayed(this.proposals, this.currentCommand, this.currentArguments);
     }
 
-
     get currentCommand(): Optional<string> {
-        const values = this.currentInputValue.trim().split(" ").filter(f => f !== "");
-        return values.length > 0 ? Optional.of(values[0].toLowerCase()) : Optional.empty();
+        return this.appEngine.getCurrentCommand(this.currentInputValue);
     }
 
     get currentArguments(): string[] {
-        return this.currentInputValue.trim().split(" ").filter(f => f !== "").slice(1);
+        return this.appEngine.getCurrentArguments(this.currentInputValue);
     }
-
 
     async onClickProposition(index: number) {
         this.proposalsIndex = Optional.of(index);
@@ -97,34 +90,28 @@ export default class App extends Vue {
 
     async pressEnter(): Promise<void> {
         if (!this.currentCommand.isEmpty && this.currentArguments[0] === "!!") {
-            if (this.commands.length > 0) {
-                let previousCommand = this.commands[this.commands.length - 1] as IHistoryCommand;
-                this.currentInputValue = this.currentCommand.get() + " " + previousCommand.args.join(" ");
-                return;
-            } else {
-                this.currentInputValue = "";
-                return;
-            }
+            this.currentInputValue = this.appEngine.transformInputBangBang(this.currentInputValue, Optional.ofNullable(this.commands[this.commands.length - 1]));
+            return;
         }
 
-        this.proposalsIndex.ifPresentOrElse((value) => {
-            if (this.currentArguments.length === 0) {
-                this.currentInputValue = this.proposalsDisplayed[value] + " ";
-            } else {
-                this.currentInputValue = this.currentCommand.get() + " " + this.proposalsDisplayed[value] + " ";
-            }
-        }, async () => {
+        if (this.proposalsIndex.isEmpty) {
             StaticHelpers.showSpinner();
             const result = await StaticHelpers.eval(this.currentCommand.orElse(""), this.currentArguments);
+
             this.commands.push(result);
+
             StaticHelpers.hideSpinner();
+
 
             if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
                 this.history.push(this.currentInputValue);
             }
             this.currentInputValue = "";
             this.positionHistory = 0;
-        });
+
+        } else {
+            this.currentInputValue = this.appEngine.transformInputAutocomplete(this.currentCommand, this.currentArguments, this.proposalsDisplayed[this.proposalsIndex.get()]);
+        }
 
 
         this.proposalsIndex = Optional.empty();
@@ -134,7 +121,7 @@ export default class App extends Vue {
         $("#inputLine")[0].focus();
     }
 
-    arrowPressed(message: KeyboardEvent) {
+    pressArrow(message: KeyboardEvent) {
         this.proposalsIndex.ifPresentOrElse((value) => {
             this.proposalsIndex = Optional.of(this.appEngine.computeProposalsIndexWithArrow(value, this.proposalsDisplayed, message.keyCode));
         }, () => {
@@ -142,50 +129,21 @@ export default class App extends Vue {
         });
     }
 
-    private async getAutocompleteResults(): Promise<[Optional<number>, string[]]> {
-        const toExecuteOption = Optional.ofNullable(StaticHelpers.autocompleteParameters().find(f => f.entryPoint.test(this.currentInputValue)));
-
-        let proposalsIndex: Optional<number> = Optional.empty();
-        let proposals: string[] = [];
-
-        if (toExecuteOption.isEmpty) {
-            return [proposalsIndex, proposals];
-        }
-
-        const toExecute = toExecuteOption.get();
-
-        if (this.proposalsIndex.isEmpty) {
-            return [Optional.of(0), await toExecute.callback()];
-        }
-
-        if (this.proposalsDisplayed.length > 0) {
-            proposals = this.proposals;
-            proposalsIndex = Optional.of((this.proposalsIndex.get() + 1) % this.proposalsDisplayed.length);
-        } else {
-            proposals = [];
-            proposalsIndex = Optional.empty();
-        }
-
-
-        return [proposalsIndex, proposals];
-    }
-
-
-    async invokeAutoComplete(message: Event) {
+    async pressTab(message: Event) {
         message.preventDefault();
 
         StaticHelpers.showSpinner();
+        const toExecuteOption = Optional.ofNullable(StaticHelpers.autocompleteParameters().find(f => f.entryPoint.test(this.currentInputValue)));
 
-        const tuple = await this.getAutocompleteResults();
-        this.proposalsIndex = tuple[0];
-        this.proposals = tuple[1];
+        if (this.proposals.length === 0) {
+            this.proposals = await this.appEngine.computeProposals(toExecuteOption);
+        }
+        this.proposalsIndex = this.appEngine.getProposalsIndex(this.proposalsIndex, this.proposalsDisplayed);
 
         if (this.proposalsDisplayed.length === 1) {
             await this.pressEnter();
         }
 
         StaticHelpers.hideSpinner();
-
-
     }
 }

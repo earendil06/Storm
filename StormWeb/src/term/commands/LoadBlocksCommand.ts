@@ -13,22 +13,25 @@ export class LoadBlocksCommand extends Command {
     async execute(args: string[]): Promise<IHistoryCommand> {
         const $elt = $("#file") as any;
         $elt.off();
-        $elt.on("change", function (evt) {
-            function handleFile(f) {
+        $elt.on("change", function (evt: any) {
+            function handleFile(f: any) {
                 JSZip.loadAsync(f)
-                    .then(zip => zip.forEach(function (relativePath, zipEntry) {
-                        zip.file(relativePath).async("text").then(text => {
+                    .then((zip: any) => zip.forEach(function (relativePath: string, zipEntry: any) {
+                        zip.file(relativePath).async("text").then((text: string) => {
                             let blockName = relativePath.substr(0, relativePath.lastIndexOf("."));
                             localStorage.setItem(blockName, text);
                         });
                     }))
-                    .catch((e => console.log("Error reading " + f.name + ": " + e.message)));
+                    .catch((e: Error) => console.log("Error reading " + f.name + ": " + e.message));
             }
 
-            let files = evt.target.files;
-            for (let i = 0; i < files.length; i++) {
-                handleFile(files[i]);
+            if (evt != null && evt.target != null && evt.target.files != null) {
+                let files = evt.target.files;
+                for (let i = 0; i < files.length; i++) {
+                    handleFile(files[i]);
+                }
             }
+
         });
         $elt.trigger("click");
         return new HistoryCommand(this.getCommandName(), args, "blocks are loaded", "default-component");

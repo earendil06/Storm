@@ -1,7 +1,7 @@
 import Vue from "vue";
 import {StaticHelpers} from "../StaticHelpers";
 import {JsonParser} from "../resources/JsonParser";
-import {Ability} from "../engine/Adapters";
+import {Ability, Stat, StatValue} from "../engine/Adapters";
 
 export default Vue.extend({
     template: `
@@ -116,17 +116,17 @@ export default Vue.extend({
     data: function () {
         return {
             name: this.block.name,
-            ac: this.block.stats.find(f => f.statType === "ac").statValue.formulae,
-            hp: this.block.stats.find(f => f.statType === "hp").statValue.formulae,
-            speed: this.block.stats.find(f => f.statType === "speed").statValue.formulae,
+            ac: this.block.stats.find((f: Stat) => f.statType === "ac").statValue.formulae,
+            hp: this.block.stats.find((f:Stat) => f.statType === "hp").statValue.formulae,
+            speed: this.block.stats.find((f:Stat) => f.statType === "speed").statValue.formulae,
             features: this.block.features,
             abilities: {
-                str: this.block.abilityScores.find(f => f.abilityType === "str"),
-                dex: this.block.abilityScores.find(f => f.abilityType === "dex"),
-                con: this.block.abilityScores.find(f => f.abilityType === "con"),
-                int: this.block.abilityScores.find(f => f.abilityType === "int"),
-                wis: this.block.abilityScores.find(f => f.abilityType === "wis"),
-                cha: this.block.abilityScores.find(f => f.abilityType === "cha")
+                str: this.block.abilityScores.find(( f: Ability) => f.abilityType === "str"),
+                dex: this.block.abilityScores.find(( f: Ability) => f.abilityType === "dex"),
+                con: this.block.abilityScores.find(( f: Ability) => f.abilityType === "con"),
+                int: this.block.abilityScores.find(( f: Ability) => f.abilityType === "int"),
+                wis: this.block.abilityScores.find(( f: Ability) => f.abilityType === "wis"),
+                cha: this.block.abilityScores.find(( f: Ability) => f.abilityType === "cha")
             }
         }
     },
@@ -147,18 +147,18 @@ export default Vue.extend({
                 this.block.name = this.name;
             }
             if (this.ac !== undefined) {
-                this.block.stats.find(f => f.statType === "ac").statValue = JsonParser.parseStatValue(this.ac);
+                this.block.stats.find((f:Stat) => f.statType === "ac").statValue = JsonParser.parseStatValue(this.ac);
             }
             if (this.hp !== undefined) {
-                this.block.stats.find(f => f.statType === "hp").statValue = JsonParser.parseStatValue(this.hp);
+                this.block.stats.find((f:Stat) => f.statType === "hp").statValue = JsonParser.parseStatValue(this.hp);
             }
             if (this.speed !== undefined) {
-                this.block.stats.find(f => f.statType === "speed").statValue = JsonParser.parseStatValue(this.speed);
+                this.block.stats.find((f:Stat) => f.statType === "speed").statValue = JsonParser.parseStatValue(this.speed);
             }
             let key;
             for (key in this.abilities) {
                 let ability = this.abilities[key];
-                let index = this.block.abilityScores.indexOf(this.block.abilityScores.find(f => f.abilityType === ability.abilityType));
+                let index = this.block.abilityScores.indexOf(this.block.abilityScores.find((f:Ability) => f.abilityType === ability.abilityType));
                 this.block.abilityScores[index] = JsonParser.parseAbility(ability);
             }
             console.log("after save");

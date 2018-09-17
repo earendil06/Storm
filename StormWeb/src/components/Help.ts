@@ -42,7 +42,7 @@ export default Vue.extend({
     name: "help",
     props: ["data"],
     methods: {
-        onClickHelpProposal: async function(com){
+        onClickHelpProposal: async function(com: string){
             let helpSpecificCommand = new HelpCommand();
             const res = await helpSpecificCommand.execute([com]);
             if (res != null) {

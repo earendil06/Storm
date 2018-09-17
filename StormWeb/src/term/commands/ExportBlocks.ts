@@ -20,7 +20,7 @@ export class ExportBlocksCommand extends Command {
             }
         }
         zip.generateAsync({type:"blob"})
-            .then(function(content) {
+            .then(function(content:any) {
                 (window as any).saveAs(content, "StormBlocks.zip");
             });
         return new HistoryCommand(this.getCommandName(), args, "all is exported", "default-component");
