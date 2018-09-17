@@ -2,6 +2,7 @@ import Command from "./Command";
 import * as $ from "jquery";
 import {IHistoryCommand} from "../../Application";
 import * as JSZip from 'jszip';
+import {HistoryCommand} from "../../poco/HistoryCommand";
 
 export class LoadBlocksCommand extends Command {
 
@@ -30,6 +31,6 @@ export class LoadBlocksCommand extends Command {
             }
         });
         $elt.trigger("click");
-        return null;
+        return new HistoryCommand(this.getCommandName(), args, "blocks are loaded", "default-component");
     }
 }

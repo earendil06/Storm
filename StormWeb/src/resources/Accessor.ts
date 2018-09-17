@@ -39,8 +39,11 @@ export abstract class Accessor implements IAccessor {
                 if (xhr.status === 200) {
                     blob = new Blob([xhr.response]);
                     fileReader.onload = function (evt) {
-                        result = evt.target.result;
-                        resolve(result);
+                        if (evt != null && evt.target != null){
+                            result = evt.target.result;
+                            resolve(result);
+                        }
+
                     };
                     fileReader.readAsText(blob);
                 } else {

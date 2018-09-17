@@ -37,7 +37,7 @@ export class BlockCommand extends Command {
                         case 404 :
                             return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "error-component");
                         default:
-                            return null;
+                            return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "error-component");
                     }
                 })
         }

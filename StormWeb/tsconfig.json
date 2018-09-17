@@ -4,6 +4,7 @@
     "sourceMap": true,
     "strict": false,
     "noImplicitReturns": true,
+    "noImplicitAny": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es6",

@@ -7,7 +7,6 @@ import CommandComponent from "./components/Command";
 import StaticEncounterComponent from "./components/StaticEncounter";
 import Optional from "typescript-optional";
 import {AppEngine} from "./AppEngine";
-import {ArrowDirection} from "./ArrowDirection";
 
 export interface IHistoryCommand {
     command: string;
@@ -34,7 +33,7 @@ export default class App extends Vue {
 
     private appEngine = new AppEngine();
 
-    constructor(options) {
+    constructor(options: any) {
         super(options);
     }
 
@@ -135,32 +134,11 @@ export default class App extends Vue {
         $("#inputLine")[0].focus();
     }
 
-    arrowPressed(message) {
-        const [left, up, right, down] = [37, 38, 39, 40];
-
+    arrowPressed(message: KeyboardEvent) {
         this.proposalsIndex.ifPresentOrElse((value) => {
-            switch (message.keyCode) {
-                case left:
-                    this.proposalsIndex = Optional.of(Math.max(value - 1, 0));
-                    break;
-                case right:
-                    this.proposalsIndex = Optional.of(Math.min(value + 1, this.proposalsDisplayed.length - 1));
-                    break;
-                case up:
-                    this.proposalsIndex = Optional.of(Math.max(value - 4, 0));
-                    break;
-                case down:
-                    this.proposalsIndex = Optional.of(Math.min(value + 4, this.proposalsDisplayed.length - 1));
-                    break;
-                default:
-                    break;
-            }
+            this.proposalsIndex = Optional.of(this.appEngine.computeProposalsIndexWithArrow(value, this.proposalsDisplayed, message.keyCode));
         }, () => {
-            if (message.keyCode === up) {
-                this.positionHistory = this.appEngine.computeHistoryPosition(this.history, this.positionHistory, ArrowDirection.Up);
-            } else if (message.keyCode === down) {
-                this.positionHistory = this.appEngine.computeHistoryPosition(this.history, this.positionHistory, ArrowDirection.Down);
-            }
+            this.positionHistory = this.appEngine.computeHistoryPosition(this.history, this.positionHistory, message.keyCode);
         });
     }
 
@@ -193,7 +171,7 @@ export default class App extends Vue {
     }
 
 
-    async invokeAutoComplete(message) {
+    async invokeAutoComplete(message: Event) {
         message.preventDefault();
 
         StaticHelpers.showSpinner();
