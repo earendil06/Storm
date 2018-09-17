@@ -14,7 +14,7 @@ export class ExportBlocksCommand extends Command {
         for (let key in localStorage) {
             if (key.startsWith("db/user/")) {
                 let name = key.substr(8, key.length) + ".json";
-                let storm = localStorage.getItem(key);
+                let storm = localStorage.getItem(key) as any;
                 console.log(name);
                 zip.file(name, storm);
             }

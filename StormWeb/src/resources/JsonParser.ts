@@ -2,11 +2,11 @@ import {Ability, Action, Block, ConstValue, DiceValue, Feature, Stat, StatValue}
 
 export class JsonParser {
 
-    static parseStatValue(statValue): StatValue {
+    static parseStatValue(statValue:string): StatValue {
         const diceRegExp = new RegExp("^\s*[0-9]+\s*(d)\s*[0-9]+\s*(([+\\-])\s*[0-9]+)?$");
         let value: StatValue;
         if (diceRegExp.test(statValue)) {
-            const [number, faces, modifierString] = statValue.match(/[+\\-]?[0-9]+/gi);
+            const [number, faces, modifierString] = statValue.match(/[+\\-]?[0-9]+/gi) as [string, string, string];
             let modifierValue = 0;
             if (modifierString != null) {
                 modifierValue = parseInt(modifierString);

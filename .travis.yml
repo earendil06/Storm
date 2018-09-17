@@ -23,6 +23,7 @@ jobs:
     - npm run build
     - chmod u+x ./create-offline.sh && ./create-offline.sh && cp index-offline.html index.html && cp ide-offline.html ide.html
     - npm run dist
+    - npm run test
     deploy:
       provider: script
       skip_cleanup: true

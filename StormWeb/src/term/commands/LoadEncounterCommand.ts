@@ -14,7 +14,7 @@ export class LoadEncounterCommand extends Command {
         const $elt = $("#file") as any;
         const commandName = this.getCommandName();
         $elt.off();
-        $elt.on("change", function (evt) {
+        $elt.on("change", function (evt:any) {
             const f = evt.target.files[0];
             if (f) {
                 const r = new FileReader();
