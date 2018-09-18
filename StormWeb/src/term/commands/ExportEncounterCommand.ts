@@ -22,7 +22,7 @@ export class ExportEncounterCommand extends Command {
             let toWrite = addMonsters.concat(setInitiative);
             let blob = new Blob(toWrite, {type: "text/plain;charset=utf-8"});
             (window as any).saveAs(blob, filename + ".encounter");
-            return null;
+            return new HistoryCommand(this.getCommandName(), args, "encounter is exported", "default-component");
 
         }
     }

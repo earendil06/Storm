@@ -34,25 +34,26 @@
                         <div class="username pull-left">{{ user }}</div>
                         <input id="inputLine" v-model="currentInputValue"
                                @keyup.enter="pressEnter"
-                               @keyup.37="arrowPressed"
-                               @keyup.38="arrowPressed"
-                               @keyup.39="arrowPressed"
-                               @keyup.40="arrowPressed"
-                               @keydown.tab="invokeAutoComplete"
+                               @keyup.37="pressArrow"
+                               @keyup.38="pressArrow"
+                               @keyup.39="pressArrow"
+                               @keyup.40="pressArrow"
+                               @keydown.tab="pressTab"
                                class="cmdline pull-left col" autofocus/>
                     </div>
                     <img id="loader-img" style="display:none; width: 150px; height: 120px; margin-left: 100px" src="images/waiting.gif"/>
                 </div>
 
-                <div v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex }" class="col-md-3 proposal">
+                <div v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex.orElse(0) }" class="col-md-3 proposal">
                     <span style="cursor: pointer" v-on:click="onClickProposition(index)" v-on:mouseover="onMouseOverProposition(index)">{{ prop }}</span>
                 </div>
 
                 <div class="col-md-12">
                     <div class="row">
                         <command-component
-                                v-for="command in commands.slice(commands.length -1)"
+                                v-for="(command, index) in commands.slice(commands.length -1)"
                                 v-bind:command="command"
+                                v-bind:key="index"
                                 v-bind:user="user">
                         </command-component>
                     </div>
@@ -87,5 +88,15 @@
         document.getElementsByTagName("head").item(0).replaceChild(newStyle, oldStyle);
     }
 </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125938137-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-125938137-1');
+</script>
+
 </body>
 </html>

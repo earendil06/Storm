@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "@types/jquery": "^3.3.6",
+    "@types/jszip": "^3.1.4",
     "css-loader": "^0.28.11",
     "electron": "^2.0.8",
     "electron-builder": "^20.28.3",
@@ -39,7 +40,7 @@
   "scripts": {
     "build": "webpack --display-error-details",
     "test": "jest",
-    "test2": "testcafe firefox src/terminal.ts",
+    "test-gui": "testcafe firefox src/terminal.ts",
     "start": "electron .",
     "dist": "electron-builder"
   },
@@ -47,6 +48,7 @@
     "jquery": "^3.2.1",
     "jszip": "^3.1.5",
     "typescript-optional": "^1.8.0",
+    "vue-property-decorator": "^7.0.0",
     "vue-typed": "^2.1.4"
   }
 }

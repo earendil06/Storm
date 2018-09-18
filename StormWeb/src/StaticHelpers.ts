@@ -14,7 +14,7 @@ import {RemoveCommand} from "./term/commands/RemoveCommand";
 import {SetInitiativeCommand} from "./term/commands/SetInitiativeCommand";
 import {GetBlocksCommand} from "./term/commands/GetBlocksCommand";
 import {GetPlayingMonsterCommand} from "./term/commands/GetPlayingMonsterCommand";
-import {Application} from "./Application";
+import App, {IHistoryCommand} from "./Application";
 import {ExportEncounterCommand} from "./term/commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
@@ -26,16 +26,24 @@ import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
 import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
 import AutocompleteParameter from "./poco/AutocompleteParameter";
 import {ElectronCommand} from "./term/commands/ElectronCommand";
+import Optional from "typescript-optional";
 
 export class StaticHelpers {
     private static accessor = new LocalAccessor();
 
     static hideSpinner(): void {
-        document.getElementById("loader-img").style.display = "none";
+        const target = document.getElementById("loader-img");
+        if (target != null) {
+            target.style.display = "none";
+        }
+
     }
 
     static showSpinner(): void {
-        document.getElementById("loader-img").style.display = "block";
+        const target = document.getElementById("loader-img");
+        if (target != null) {
+            target.style.display = "block";
+        }
     }
 
     static scrollWindow(): void {
@@ -45,36 +53,8 @@ export class StaticHelpers {
         }
     }
 
-    static async eval(command: string, additionalArgs: string[]): Promise<any> {
-        if (command === "") {
-            StaticHelpers.application().commands.push({
-                command: command,
-                args: additionalArgs,
-                output: "Command does not exists.",
-                templateName: "error-component"
-            });
-        } else {
-            let commandFound = StaticHelpers.COMMANDS().find(f => f.getCommandName() === command) as ICommand;
-            if (typeof commandFound === "undefined") {
-                StaticHelpers.application().commands.push({
-                    command: command,
-                    args: additionalArgs,
-                    output: "Command does not exists.",
-                    templateName: "error-component"
-                });
-            } else {
-                StaticHelpers.showSpinner();
-                const res = await commandFound.execute(additionalArgs);
-                if (res != null) {
-                    StaticHelpers.application().commands.push(res);
-                }
-                StaticHelpers.hideSpinner();
-            }
-        }
-        StaticHelpers.scrollWindow();
-    }
 
-    static getCommands(): string[] {
+    static async getCommands(): Promise<string[]> {
         return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
     }
 
@@ -86,16 +66,16 @@ export class StaticHelpers {
         return StaticHelpers.accessor;
     }
 
-    static getMonsters(): string[] {
+    static async getMonsters(): Promise<string[]> {
         return StaticHelpers.engine().getEncounterData().monsters.map(m => m.name);
     }
 
-    static getReleases(): string[] {
+    static async getReleases(): Promise<string[]> {
         return ["linux", "windows", "macOS"]
     }
 
-    static application(): Application {
-        return (window as any).app as Application;
+    static application(): App {
+        return (window as any).app as App;
     }
 
     static engine(): Engine {
@@ -128,6 +108,20 @@ export class StaticHelpers {
             new DeleteBlockCommand(),
             new ElectronCommand()
         ];
+    }
+
+    static async eval(command: string, additionalArgs: string[]): Promise<IHistoryCommand> {
+        let commandFound = Optional.ofNullable(StaticHelpers.COMMANDS().find(f => f.getCommandName() === command)) as Optional<ICommand>;
+        if (commandFound.isEmpty) {
+            return {
+                command: command,
+                args: additionalArgs,
+                output: "Command does not exists.",
+                templateName: "error-component"
+            };
+        } else {
+            return await commandFound.get().execute(additionalArgs);
+        }
     }
 
     static autocompleteParameters(): Array<AutocompleteParameter> {

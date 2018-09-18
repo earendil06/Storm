@@ -10,16 +10,6 @@ export class BlockCommand extends Command {
         super("block");
     }
 
-    static castTo<T>(a : { new() : T}, obj : object): T {
-        let result = new a();
-        for (let property in obj){
-            if (obj.hasOwnProperty(property)) {
-                result[property] = obj[property];
-            }
-        }
-        return result;
-    }
-
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 1) {
             return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: block goblin)", "error-component")
@@ -37,7 +27,7 @@ export class BlockCommand extends Command {
                         case 404 :
                             return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "error-component");
                         default:
-                            return null;
+                            return new HistoryCommand(this.getCommandName(), args, blockName + " is not registered.", "error-component");
                     }
                 })
         }

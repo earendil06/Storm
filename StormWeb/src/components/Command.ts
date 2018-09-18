@@ -31,6 +31,7 @@ export default Vue.extend({
             return this.command.command + " " + this.command.args.join(" ");
         }
     },
+
     mounted: function () {
         StaticHelpers.scrollWindow();
         StaticHelpers.hideSpinner();

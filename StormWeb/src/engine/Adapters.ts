@@ -90,8 +90,8 @@ export class DiceValue implements StatValue {
 
     getFormulae(): string {
         let modifierFormat = '+';
-        if (this.modifier > 0) {
-            modifierFormat = '-';
+        if (this.modifier < 0) {
+            modifierFormat = '';
         }
         let res = `${this.number}d${this.sides}`;
         if (this.modifier != 0) {
