@@ -126,6 +126,11 @@ test("compute input bang bang", async () => {
     expect(appEngine.transformInputBangBang("command !!", Optional.of(previousArgs))).toEqual("command arg1 arg2");
 });
 
+test("transform autocomplete input", async () => {
+    expect(appEngine.transformInputAutocomplete("com", "command")).toBe("command");
+    expect(appEngine.transformInputAutocomplete("", "command")).toBe("command");
+    expect(appEngine.transformInputAutocomplete("command ", "argument")).toBe("command argument");
+    expect(appEngine.transformInputAutocomplete("command arg", "argument")).toBe("command argument");
+});
 
-
-//todo transformInputAutocomplete
+//todo find autocomplete parameters

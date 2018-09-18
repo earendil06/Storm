@@ -103,10 +103,17 @@ export class AppEngine {
         const currentArguments = this.computeCurrentArguments(currentInputValue);
 
         if (currentCommand.isEmpty) {
-            return "";
+            return proposalSelected;
+        }
+
+        if (proposalSelected === ""){
+            return currentCommand.get();
         }
 
         if (currentArguments.length === 0) {
+            if (currentInputValue.endsWith(" ")) {
+                return currentCommand.get() + " " + proposalSelected;
+            }
             return proposalSelected;
         } else {
             return currentCommand.get() + currentArguments.slice(0, currentArguments.length - 1).join(" ") + " " + proposalSelected;
