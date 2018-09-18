@@ -2,6 +2,7 @@ import {ArrowDirection} from "./ArrowDirection";
 import Optional from "typescript-optional";
 import AutocompleteParameter from "./poco/AutocompleteParameter";
 import {IHistoryCommand} from "./Application";
+import {StaticHelpers} from "./StaticHelpers";
 
 export class AppEngine {
     constructor() {
@@ -34,6 +35,13 @@ export class AppEngine {
 
     }
 
+    public computeProposalsIndexWithTab(proposalsIndex: Optional<number>, proposalsDisplayed: string[]) : Optional<number> {
+        if (proposalsDisplayed.length === 0){
+            return Optional.empty();
+        }
+        return Optional.of((proposalsIndex.orElse(-1) + 1) % proposalsDisplayed.length);
+    }
+
     public async computeProposals(toExecuteOption: Optional<AutocompleteParameter>): Promise<string[]> {
         if (toExecuteOption.isEmpty) {
             return [];
@@ -42,23 +50,22 @@ export class AppEngine {
         }
     }
 
-    public getProposalsIndex(proposalsIndex: Optional<number>, proposalsDisplayed: string[]) : Optional<number> {
-        if (proposalsDisplayed.length === 0){
-            return Optional.empty();
-        }
-        return Optional.of((proposalsIndex.orElse(-1) + 1) % proposalsDisplayed.length);
-    }
 
-    public getCurrentCommand(currentInputValue: string): Optional<string> {
+
+    public computeCurrentCommand(currentInputValue: string): Optional<string> {
         const values = currentInputValue.trim().split(" ").filter(f => f !== "");
         return values.length > 0 ? Optional.of(values[0].toLowerCase()) : Optional.empty();
     }
 
-    public getCurrentArguments(currentInputValue: string) : string[] {
+    public computeCurrentArguments(currentInputValue: string) : string[] {
         return currentInputValue.trim().split(" ").filter(f => f !== "").slice(1);
     }
 
-    public computeProposalsDisplayed(proposals: string[], currentCommand: Optional<string>, currentArguments: string[]): string[] {
+    public computeProposalsDisplayed(proposals: string[], currentInputValue:string): string[] {
+
+        const currentCommand = this.computeCurrentCommand(currentInputValue);
+        const currentArguments = this.computeCurrentArguments(currentInputValue);
+
         if (currentArguments.length <= 1) {
             const inputFilter = currentArguments.length === 1 ? currentArguments[0] : currentCommand.orElse("");
             return proposals.filter(f => f.startsWith(inputFilter));
@@ -67,17 +74,34 @@ export class AppEngine {
     }
 
     public transformInputBangBang(currentInputValue: string, optionalPreviousCommand: Optional<IHistoryCommand>): string {
-        const currentCommand = this.getCurrentCommand(currentInputValue);
-        if (currentCommand.isEmpty){
-            return "";
-        }
-        return optionalPreviousCommand.matches({
-            present: (previousCommand) => currentCommand.get() + " " + previousCommand.args.join(" "),
-            empty: () => ""
-        });
+        const currentCommand = this.computeCurrentCommand(currentInputValue);
+        const currentArgs = this.computeCurrentArguments(currentInputValue);
+
+        return currentCommand.flatMap((command) => {
+            if (command === "!!"){
+                return Optional.of("");
+            }
+            if (currentArgs[0] === "!!") {
+                return Optional.of(optionalPreviousCommand.matches({
+                    present: (previousCommand) => {
+                        if (previousCommand.args.length > 0){
+                            return command + " " + previousCommand.args.join(" ")
+                        }
+                        return command;
+                    },
+                    empty: () => command
+                }));
+            }
+
+            return Optional.of(command);
+        }).orElse("");
     }
 
-    public transformInputAutocomplete(currentCommand: Optional<string>, currentArguments: string[], proposalSelected: string) {
+    public transformInputAutocomplete(currentInputValue:string, proposalSelected: string) {
+
+        const currentCommand = this.computeCurrentCommand(currentInputValue);
+        const currentArguments = this.computeCurrentArguments(currentInputValue);
+
         if (currentCommand.isEmpty) {
             return "";
         }
@@ -87,5 +111,9 @@ export class AppEngine {
         } else {
             return currentCommand.get() + currentArguments.slice(0, currentArguments.length - 1).join(" ") + " " + proposalSelected;
         }
+    }
+
+    public findAutocompleteParameters(currentInputValue: string): Optional<AutocompleteParameter> {
+        return Optional.ofNullable(StaticHelpers.autocompleteParameters().find(f => f.entryPoint.test(currentInputValue)));
     }
 }

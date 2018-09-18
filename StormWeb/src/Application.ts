@@ -63,15 +63,15 @@ export default class App extends Vue {
     }
 
     get proposalsDisplayed(): string[] {
-        return this.appEngine.computeProposalsDisplayed(this.proposals, this.currentCommand, this.currentArguments);
+        return this.appEngine.computeProposalsDisplayed(this.proposals, this.currentInputValue);
     }
 
     get currentCommand(): Optional<string> {
-        return this.appEngine.getCurrentCommand(this.currentInputValue);
+        return this.appEngine.computeCurrentCommand(this.currentInputValue);
     }
 
     get currentArguments(): string[] {
-        return this.appEngine.getCurrentArguments(this.currentInputValue);
+        return this.appEngine.computeCurrentArguments(this.currentInputValue);
     }
 
     async onClickProposition(index: number) {
@@ -110,7 +110,7 @@ export default class App extends Vue {
             this.positionHistory = 0;
 
         } else {
-            this.currentInputValue = this.appEngine.transformInputAutocomplete(this.currentCommand, this.currentArguments, this.proposalsDisplayed[this.proposalsIndex.get()]);
+            this.currentInputValue = this.appEngine.transformInputAutocomplete(this.currentInputValue, this.proposalsDisplayed[this.proposalsIndex.get()]);
         }
 
 
@@ -133,12 +133,12 @@ export default class App extends Vue {
         message.preventDefault();
 
         StaticHelpers.showSpinner();
-        const toExecuteOption = Optional.ofNullable(StaticHelpers.autocompleteParameters().find(f => f.entryPoint.test(this.currentInputValue)));
+        const toExecuteOption = this.appEngine.findAutocompleteParameters(this.currentInputValue);
 
         if (this.proposals.length === 0) {
             this.proposals = await this.appEngine.computeProposals(toExecuteOption);
         }
-        this.proposalsIndex = this.appEngine.getProposalsIndex(this.proposalsIndex, this.proposalsDisplayed);
+        this.proposalsIndex = this.appEngine.computeProposalsIndexWithTab(this.proposalsIndex, this.proposalsDisplayed);
 
         if (this.proposalsDisplayed.length === 1) {
             await this.pressEnter();
