@@ -7,6 +7,9 @@ before_install:
 addons:
   ssh_known_hosts:
   - ssh.cluster026.hosting.ovh.net
+  sonarcloud:
+    organization: "earendil06-github"
+    token: $SONAR_TOKEN
 
 jobs:
   include:
@@ -16,12 +19,14 @@ jobs:
     cache:
       directories:
       - ./StormWeb/node_modules
+      - $HOME/.sonar/cache
     script:
     - cd StormWeb
     - npm install
     - npm i typescript --save-dev
     - npm run build
     - chmod u+x ./create-offline.sh && ./create-offline.sh && cp index-offline.html index.html && cp ide-offline.html ide.html
+    - sonar-scanner
     - npm run dist
     - npm run test
     deploy:
