@@ -133,4 +133,23 @@ test("transform autocomplete input", async () => {
     expect(appEngine.transformInputAutocomplete("command arg", "argument")).toBe("command argument");
 });
 
-//todo find autocomplete parameters
+test("find autocomplete", async () => {
+    jest.mock('../StaticHelpers');
+    const mockStaticF = jest.fn();
+    const params = [
+        new AutocompleteParameter(new RegExp("^[a-z]*$"), StaticHelpers.getCommands),
+        new AutocompleteParameter(new RegExp("^(block)\\s[a-z]*$"), StaticHelpers.getBlocks),
+        new AutocompleteParameter(new RegExp("^(new)\\s[a-z]*$"), StaticHelpers.getBlocks),
+        new AutocompleteParameter(new RegExp("^(new)\\s[a-z]+\\s[a-z]*$"), StaticHelpers.getBlocks),
+    ];
+
+    mockStaticF.mockReturnValue(params);
+    StaticHelpers.autocompleteParameters = mockStaticF.bind(StaticHelpers);
+
+    expect(appEngine.findAutocompleteParameters("com").get()).toEqual(params[0]);
+    expect(appEngine.findAutocompleteParameters("block g").get()).toEqual(params[1]);
+
+    expect(appEngine.findAutocompleteParameters("new ").get()).toEqual(params[2]);
+    expect(appEngine.findAutocompleteParameters("new goblin ").get()).toEqual(params[3]);
+    expect(appEngine.findAutocompleteParameters("new goblin t").get()).toEqual(params[3]);
+});
