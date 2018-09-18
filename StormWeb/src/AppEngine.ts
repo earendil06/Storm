@@ -46,7 +46,7 @@ export class AppEngine {
         if (toExecuteOption.isEmpty) {
             return [];
         }else {
-            return await toExecuteOption.get().callback()
+            return await toExecuteOption.get().callback();
         }
     }
 
@@ -66,11 +66,21 @@ export class AppEngine {
         const currentCommand = this.computeCurrentCommand(currentInputValue);
         const currentArguments = this.computeCurrentArguments(currentInputValue);
 
-        if (currentArguments.length <= 1) {
-            const inputFilter = currentArguments.length === 1 ? currentArguments[0] : currentCommand.orElse("");
-            return proposals.filter(f => f.startsWith(inputFilter));
-        }
-        return proposals;
+        return currentCommand.flatMap(command => {
+
+            if (currentArguments.length === 1) {
+                return Optional.of(proposals.filter(f => f.startsWith(currentArguments[0])));
+            }
+
+            if (currentArguments.length === 0) {
+                if (currentInputValue.endsWith(" ")) {
+                    return Optional.of(proposals);
+                }
+                return Optional.of(proposals.filter(f => f.startsWith(command)));
+            }
+
+            return Optional.of(proposals);
+        }).orElse(proposals);
     }
 
     public transformInputBangBang(currentInputValue: string, optionalPreviousCommand: Optional<IHistoryCommand>): string {
@@ -102,22 +112,22 @@ export class AppEngine {
         const currentCommand = this.computeCurrentCommand(currentInputValue);
         const currentArguments = this.computeCurrentArguments(currentInputValue);
 
-        if (currentCommand.isEmpty) {
-            return proposalSelected;
-        }
-
-        if (proposalSelected === ""){
-            return currentCommand.get();
-        }
-
-        if (currentArguments.length === 0) {
-            if (currentInputValue.endsWith(" ")) {
-                return currentCommand.get() + " " + proposalSelected;
+        return currentCommand.flatMap(command => {
+            if (proposalSelected === ""){
+                return Optional.of(command);
             }
-            return proposalSelected;
-        } else {
-            return currentCommand.get() + currentArguments.slice(0, currentArguments.length - 1).join(" ") + " " + proposalSelected;
-        }
+
+
+            if (currentArguments.length === 0) {
+                if (currentInputValue.endsWith(" ")) {
+                    return Optional.of(command + " " + proposalSelected);
+                }
+                return Optional.of(proposalSelected);
+            } else {
+                return Optional.of(command + currentArguments.slice(0, currentArguments.length - 1).join(" ") + " " + proposalSelected);
+            }
+
+        }).orElse(proposalSelected);
     }
 
     public findAutocompleteParameters(currentInputValue: string): Optional<AutocompleteParameter> {

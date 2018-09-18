@@ -110,6 +110,7 @@ test("compute proposals displayed", async () => {
     expect(appEngine.computeProposalsDisplayed(proposals, "command g")).toEqual(["goblin"]);
     expect(appEngine.computeProposalsDisplayed(proposals, "command dra")).toEqual(["dragon", "dracula"]);
     expect(appEngine.computeProposalsDisplayed(proposals, "command o")).toEqual(["ork"]);
+    expect(appEngine.computeProposalsDisplayed(proposals, "command ")).toEqual(proposals);
 });
 
 test("compute input bang bang", async () => {

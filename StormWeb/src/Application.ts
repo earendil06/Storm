@@ -134,7 +134,6 @@ export default class App extends Vue {
 
         StaticHelpers.showSpinner();
         const toExecuteOption = this.appEngine.findAutocompleteParameters(this.currentInputValue);
-
         if (this.proposals.length === 0) {
             this.proposals = await this.appEngine.computeProposals(toExecuteOption);
         }

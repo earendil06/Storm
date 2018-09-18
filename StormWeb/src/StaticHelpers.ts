@@ -54,7 +54,7 @@ export class StaticHelpers {
     }
 
 
-    static getCommands(): string[] {
+    static async getCommands(): Promise<string[]> {
         return StaticHelpers.COMMANDS().map(c => c.getCommandName()).sort();
     }
 
@@ -66,11 +66,11 @@ export class StaticHelpers {
         return StaticHelpers.accessor;
     }
 
-    static getMonsters(): string[] {
+    static async getMonsters(): Promise<string[]> {
         return StaticHelpers.engine().getEncounterData().monsters.map(m => m.name);
     }
 
-    static getReleases(): string[] {
+    static async getReleases(): Promise<string[]> {
         return ["linux", "windows", "macOS"]
     }
 
