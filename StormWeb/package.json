@@ -44,7 +44,7 @@
     "test-gui": "testcafe firefox src/terminal.ts",
     "start": "electron .",
     "dist": "electron-builder",
-    "tslint": "tslint -t json -o report.json -c tslint.json './src/**/*.ts'"
+    "tslint": "tslint -t json -o report.json -c tslint.json 'src/**/*.ts'"
   },
   "dependencies": {
     "jquery": "^3.2.1",
