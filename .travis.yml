@@ -25,6 +25,7 @@ jobs:
     - npm install
     - npm i typescript --save-dev
     - npm run build
+    - npm run tslint
     - sonar-scanner
     - npm run test
     - chmod u+x ./create-offline.sh && ./create-offline.sh && cp index-offline.html index.html && cp ide-offline.html ide.html

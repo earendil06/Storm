@@ -30,6 +30,7 @@
     "testcafe": "^0.21.1",
     "ts-jest": "^23.1.4",
     "ts-loader": "^4.5.0",
+    "tslint": "^5.11.0",
     "typescript": "^2.9.2",
     "vue": "^2.5.16",
     "vue-loader": "^14.2.2",
@@ -42,7 +43,8 @@
     "test": "jest",
     "test-gui": "testcafe firefox src/terminal.ts",
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "tslint": "tslint -t json -o report.json -c tslint.json './src/**/*.ts'"
   },
   "dependencies": {
     "jquery": "^3.2.1",
