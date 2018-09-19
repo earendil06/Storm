@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/earendil06/Storm.svg?branch=master)](https://travis-ci.org/earendil06/Storm)
 
+[![Build Status](https://sonarcloud.io/api/project_badges/measure?project=earendil06_Storm&metric=alert_status)](https://sonarcloud.io/dashboard?id=earendil06_Storm)
+
 # StormD&D Specifications draft 
 
 Toolchain with the goal to help a Dungeon Master run a D&D game.
