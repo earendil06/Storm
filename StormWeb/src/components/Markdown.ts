@@ -8,7 +8,8 @@ export default Vue.extend({
     props: ['data'],
     computed: {
         markdownHtmlGenerated: function () {
-            let converter = new (window as any).showdown.Converter();
+            const showdown  = require('showdown');
+            let converter = new showdown.Converter();
             return converter.makeHtml(this.data);
         },
     }
