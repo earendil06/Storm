@@ -1,4 +1,5 @@
 import {Ability, Action, Block, ConstValue, DiceValue, EncounterData, Feature, Monster, Stat} from "./Adapters";
+import Optional from "typescript-optional";
 
 export default class Engine {
     private engine = new (window as any).JSAdapter() as any;
@@ -19,7 +20,7 @@ export default class Engine {
 
     getEncounterData(): EncounterData {
         let scalaEncounter = JSON.parse(this.engine.getEncounterData) as EncounterData;
-        let monsters = scalaEncounter.monsters.map(m => new Monster(this.fromScalaBlock(m.block), m.name, m.hitPoints, m.initiative));
+        let monsters = scalaEncounter.monsters.map(m => new Monster(this.fromScalaBlock(m.block), m.name, m.hitPoints, Optional.ofNullable((m.initiative as any)[0])));
         return new EncounterData(monsters, scalaEncounter.playingMonsterName, scalaEncounter.turn);
     }
 
