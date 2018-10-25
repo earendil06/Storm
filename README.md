@@ -10,7 +10,7 @@ This tool is meant to be used for live pen and papers sessions.
 Most dice rolls should be done IRL, the toolchain should only
 provide information like monster blocks and the state of an encounter.
 
-The principal features should be to enable faster battles and content generation by providing :
+The principal features should be to enable faster battles and content generation by providing : 
 
 - A data type that can describe a monster's stats block
   - an api that enables an easy manipulation of those data
