@@ -10,14 +10,14 @@ export class GetMonsterCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 1) {
-            return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: monster adrien)", "error-component");
+            return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: monster adrien)", "error");
         } else {
             const monsterName = args[0];
             try {
                 let found = StaticHelpers.engine().getMonsterByName(monsterName);
-                return new HistoryCommand(this.getCommandName(), args, found, "monster-component")
+                return new HistoryCommand(this.getCommandName(), args, found, "monster")
             } catch (e) {
-                return new HistoryCommand(this.getCommandName(), args, monsterName + " is not in the encounter.", "error-component");
+                return new HistoryCommand(this.getCommandName(), args, monsterName + " is not in the encounter.", "error");
             }
         }
     }

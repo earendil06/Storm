@@ -11,14 +11,14 @@ export class RemoveCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 1) {
-            return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: remove adrien)", "default-component");
+            return new HistoryCommand(this.getCommandName(), args, "missing parameter (e.g.: remove adrien)", "default");
         } else {
             const monsterName = args[0];
             try {
                 StaticHelpers.engine().remove(monsterName);
-                return new HistoryCommand(this.getCommandName(), args, monsterName + " has been removed from the encounter.", "default-component");
+                return new HistoryCommand(this.getCommandName(), args, monsterName + " has been removed from the encounter.", "default");
             } catch (e) {
-                return new HistoryCommand(this.getCommandName(), args, monsterName + " does not exists in the encounter.", "error-component");
+                return new HistoryCommand(this.getCommandName(), args, monsterName + " does not exists in the encounter.", "error");
             }
         }
     }

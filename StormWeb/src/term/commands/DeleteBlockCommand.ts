@@ -10,15 +10,15 @@ export class DeleteBlockCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 1) {
-            return new HistoryCommand(this.getCommandName(), args, "Missing block name.", "error-component");
+            return new HistoryCommand(this.getCommandName(), args, "Missing block name.", "error");
         } else {
             const blockName = args[0];
             const fileName = "db/user/" + blockName;
             if (localStorage.getItem(fileName)) {
                 localStorage.removeItem(fileName);
-                return new HistoryCommand(this.getCommandName(), args, blockName + " has been deleted.", "default-component");
+                return new HistoryCommand(this.getCommandName(), args, blockName + " has been deleted.", "default");
             }
-            return new HistoryCommand(this.getCommandName(), args, blockName + " does not exists.", "error-component");
+            return new HistoryCommand(this.getCommandName(), args, blockName + " does not exists.", "error");
         }
     }
 }

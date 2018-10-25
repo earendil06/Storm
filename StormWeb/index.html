@@ -40,12 +40,12 @@
 
                 <div class="col-md-12">
                     <div class="row">
-                        <command-component
+                        <command
                                 v-for="(command, index) in commands.slice(commands.length -1)"
                                 v-bind:command="command"
                                 v-bind:key="index"
                                 v-bind:user="user">
-                        </command-component>
+                        </command>
                     </div>
                 </div>
             </div>
@@ -58,8 +58,8 @@
                 <span style="padding: 0 10px">|</span>
                 <a onclick="changeCSS('css/term-theme-dark.css')" href="#">dark</a>
             </div>
-            <static-encounter-component v-bind:encounter="encounter">
-            </static-encounter-component>
+            <static-encounter v-bind:encounter="encounter">
+            </static-encounter>
         </div>
     </div>
 </div>

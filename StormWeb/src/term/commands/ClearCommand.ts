@@ -12,7 +12,7 @@ export default class ClearCommand extends Command {
     async execute(args: string[]): Promise<IHistoryCommand> {
         StaticHelpers.application().commands = [];
         StaticHelpers.hideSpinner();
-        return new HistoryCommand(this.getCommandName(), args, "all is cleared", "default-component");
+        return new HistoryCommand(this.getCommandName(), args, "all is cleared", "default");
     }
 
 }

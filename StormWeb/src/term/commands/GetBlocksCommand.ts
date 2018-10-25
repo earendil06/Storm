@@ -13,7 +13,7 @@ export class GetBlocksCommand extends Command {
         let md = `<div class="row">` +
             `<div class="col-md-3">` + blocks.reduce((previousValue, currentValue) => previousValue + `</div>` + `<div class="col-md-3">` + currentValue) +
             `</div></div>`;
-        return new HistoryCommand(this.getCommandName(), args, md, "default-component");
+        return new HistoryCommand(this.getCommandName(), args, md, "default");
     }
 
 }

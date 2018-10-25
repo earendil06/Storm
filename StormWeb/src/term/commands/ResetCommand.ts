@@ -10,6 +10,6 @@ export class ResetCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         StaticHelpers.engine().reset();
-        return new HistoryCommand(this.getCommandName(), args, "The encounter is empty.", "default-component");
+        return new HistoryCommand(this.getCommandName(), args, "The encounter is empty.", "default");
     }
 }
