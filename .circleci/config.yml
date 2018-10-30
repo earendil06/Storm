@@ -1,63 +1,63 @@
 version: 2
 jobs:
-  build-test-scala:
-    working_directory: ~/engine
-    docker:
-    - image: openjdk:8
-    environment:
-      SBT_VERSION: 1.2.0
-    steps:
-    - run: echo 'export ARTIFACT_BUILD=$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM.zip' >> $BASH_ENV
-    - run:
-        name: Get sbt binary
-        command: |
-          apt update && apt install -y curl
-          curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
-          dpkg -i sbt-$SBT_VERSION.deb
-          rm sbt-$SBT_VERSION.deb
-          apt-get update
-          apt-get install -y sbt git
-          apt-get clean && apt-get autoclean
-    - checkout
-    - restore_cache:
-        key: sbt-cache
-    - run:
-        name: Compile samplescala dist package
-        command: |
-          sbt clean "fastOptJS"
-    - save_cache:
-        key: sbt-cache
-        paths:
-        - "~/.ivy2/cache"
-        - "~/.sbt"
-        - "~/.m2"
-
-#  build-test-ts: # runs not using Workflows must have a `build` job as entry point
-#    working_directory: ~/StormWeb # directory where steps will run
-#    docker: # run the steps with Docker
-#    - image: circleci/node:4.8.2 # ...with this image as the primary container; this is where all `steps` will run
-#    steps: # a collection of executable commands
-#    - checkout # special step to check out source code to working directory
+#  build-test-scala:
+#    working_directory: ~/engine
+#    docker:
+#    - image: openjdk:8
+#    environment:
+#      SBT_VERSION: 1.2.0
+#    steps:
+#    - run: echo 'export ARTIFACT_BUILD=$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM.zip' >> $BASH_ENV
 #    - run:
-#        name: update-npm
-#        command: 'sudo npm install -g npm@latest'
-#    - restore_cache: # special step to restore the dependency cache
-#        key: dependency-cache-{{ checksum "package.json" }}
+#        name: Get sbt binary
+#        command: |
+#          apt update && apt install -y curl
+#          curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
+#          dpkg -i sbt-$SBT_VERSION.deb
+#          rm sbt-$SBT_VERSION.deb
+#          apt-get update
+#          apt-get install -y sbt git
+#          apt-get clean && apt-get autoclean
+#    - checkout
+#    - restore_cache:
+#        key: sbt-cache
 #    - run:
-#        name: install-npm-wee
-#        command: npm install
-#    - save_cache: # special step to save the dependency cache
-#        key: dependency-cache-{{ checksum "package.json" }}
+#        name: Compile samplescala dist package
+#        command: |
+#          sbt clean "fastOptJS"
+#    - save_cache:
+#        key: sbt-cache
 #        paths:
-#        - ./node_modules
-#    - run: # run tests
-#        name: test
-#        command: npm test
+#        - "~/.ivy2/cache"
+#        - "~/.sbt"
+#        - "~/.m2"
+
+  build-test-ts: # runs not using Workflows must have a `build` job as entry point
+    working_directory: ~/StormWeb # directory where steps will run
+    docker: # run the steps with Docker
+    - image: circleci/node:4.8.2 # ...with this image as the primary container; this is where all `steps` will run
+    steps: # a collection of executable commands
+    - checkout # special step to check out source code to working directory
+    - run:
+        name: update-npm
+        command: 'sudo npm install -g npm@latest'
+    - restore_cache: # special step to restore the dependency cache
+        key: dependency-cache-{{ checksum "package.json" }}
+    - run:
+        name: install-npm-wee
+        command: npm install
+    - save_cache: # special step to save the dependency cache
+        key: dependency-cache-{{ checksum "package.json" }}
+        paths:
+        - ./node_modules
+    - run: # run tests
+        name: test
+        command: npm test
 
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-    - build-test-scala
-#    - build-test-ts
+    #- build-test-scala
+    - build-test-ts
