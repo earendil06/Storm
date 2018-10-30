@@ -23,7 +23,8 @@ jobs:
         key: sbt-cache
     - run:
         name: Compile samplescala dist package
-        command: cat /dev/null | sbt clean fastOptJS
+        command: |
+          sbt clean "fastOptJS"
     - save_cache:
         key: sbt-cache
         paths:
@@ -59,4 +60,4 @@ workflows:
   build_and_test:
     jobs:
     - build-test-scala
-    - build-test-ts
+#    - build-test-ts
