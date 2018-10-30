@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+cd ./StormWeb
 rm -rf ./generated/cdn
 rm ./index-offline.html
 rm ./ide-offline.html

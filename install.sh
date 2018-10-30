@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+cd ./StormWeb
+
 echo "=> npm install"
 npm install
 
