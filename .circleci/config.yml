@@ -33,7 +33,7 @@ jobs:
 #        - "~/.m2"
 
   build-test-ts: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ~/StormWeb # directory where steps will run
+    working_directory: ./StormWeb # directory where steps will run
     docker:
       #image: circleci/classic:201708-01 # ...with this image as the primary container; this is where all `steps` will run
       - image: circleci/node:6.10.3
