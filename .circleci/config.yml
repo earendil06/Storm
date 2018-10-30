@@ -33,7 +33,7 @@ jobs:
 #        - "~/.m2"
 
   build-test-ts: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ./StormWeb # directory where steps will run
+    working_directory: ~/Storm # directory where steps will run
     docker:
       #image: circleci/classic:201708-01 # ...with this image as the primary container; this is where all `steps` will run
       - image: circleci/node:6.10.3
@@ -41,22 +41,23 @@ jobs:
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
     - run:
-        name: list
-        command: ls
+        name: goto StormWeb directory
+        command: cd StormWeb
     - run:
-        name: update-npm
+        name: update npm
         command: 'sudo npm install -g npm@latest'
-#    - restore_cache: # special step to restore the dependency cache
-#        key: dependency-cache-{{ checksum "package.json" }}
+    - restore_cache: # special step to restore the dependency cache
+        key: dependency-cache-{{ checksum "package.json" }}
     - run:
-        name: install-npm-wee
-        command: npm install
-#    - save_cache: # special step to save the dependency cache
-#        key: dependency-cache-{{ checksum "package.json" }}
-#        paths:
-#        - ./node_modules
+        name: install npm dependencies
+        command: chmod +x install.sh && ./install.sh
+
+    - save_cache: # special step to save the dependency cache
+        key: dependency-cache-{{ checksum "package.json" }}
+        paths:
+        - ./node_modules
     - run: # run tests
-        name: test
+        name: run tests
         command: npm test
 
 
