@@ -36,7 +36,7 @@ jobs:
     working_directory: ~/StormWeb # directory where steps will run
     docker:
       #image: circleci/classic:201708-01 # ...with this image as the primary container; this is where all `steps` will run
-      image: circleci/node:6.10.3
+      - image: circleci/node:6.10.3
 
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
