@@ -39,14 +39,14 @@ jobs:
 
     steps:
     - checkout
-    - run:
-        name: update npm
-        command: 'sudo npm install -g npm@latest && npm --version'
+#    - run:
+#        name: update npm
+#        command: 'sudo npm install -g npm@latest && npm --version'
     - restore_cache:
         key: dependency-cache-{{ checksum "./StormWeb/package.json" }}
     - run:
         name: install npm dependencies
-        command: npm cache clean && chmod +x ./install.sh && ./install.sh
+        command: npm --version && npm cache clean && chmod +x ./install.sh && ./install.sh
 
     - run:
         name: build project
