@@ -1,36 +1,36 @@
 version: 2
 jobs:
-#  build-test-scala:
-#    working_directory: ~/engine
-#    docker:
-#    - image: openjdk:8
-#    environment:
-#      SBT_VERSION: 1.2.0
-#    steps:
-#    - run: echo 'export ARTIFACT_BUILD=$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM.zip' >> $BASH_ENV
-#    - run:
-#        name: Get sbt binary
-#        command: |
-#          apt update && apt install -y curl
-#          curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
-#          dpkg -i sbt-$SBT_VERSION.deb
-#          rm sbt-$SBT_VERSION.deb
-#          apt-get update
-#          apt-get install -y sbt git
-#          apt-get clean && apt-get autoclean
-#    - checkout
-#    - restore_cache:
-#        key: sbt-cache
-#    - run:
-#        name: Compile samplescala dist package
-#        command: |
-#          sbt clean "fastOptJS"
-#    - save_cache:
-#        key: sbt-cache
-#        paths:
-#        - "~/.ivy2/cache"
-#        - "~/.sbt"
-#        - "~/.m2"
+  build-test-scala:
+    working_directory: ~/Storm
+    docker:
+    - image: openjdk:8
+    environment:
+      SBT_VERSION: 1.2.0
+    steps:
+    - run: echo 'export ARTIFACT_BUILD=$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM.zip' >> $BASH_ENV
+    - run:
+        name: Get sbt binary
+        command: |
+          apt update && apt install -y curl
+          curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
+          dpkg -i sbt-$SBT_VERSION.deb
+          rm sbt-$SBT_VERSION.deb
+          apt-get update
+          apt-get install -y sbt git
+          apt-get clean && apt-get autoclean
+    - checkout
+    - restore_cache:
+        key: sbt-cache
+    - run:
+        name: Compile samplescala dist package
+        command: |
+          chmod +x ./gen-copy-scala.sh && ./gen-copy-scala.sh
+    - save_cache:
+        key: sbt-cache
+        paths:
+        - "~/.ivy2/cache"
+        - "~/.sbt"
+        - "~/.m2"
 
   build-test-ts:
     working_directory: ~/Storm
@@ -39,19 +39,14 @@ jobs:
 
     steps:
     - checkout
-#    - run:
-#        name: update npm
-#        command: 'sudo npm install -g npm@latest && npm --version'
     - restore_cache:
         key: dependency-cache-{{ checksum "./StormWeb/package.json" }}
     - run:
         name: install npm dependencies
         command: npm --version && npm cache clean && chmod +x ./install.sh && ./install.sh
-
     - run:
         name: build project
         command: chmod +x ./build.sh && ./build.sh
-
     - save_cache:
         key: dependency-cache-{{ checksum "./StormWeb/package.json" }}
         paths:
@@ -65,5 +60,5 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-    #- build-test-scala
+    - build-test-scala
     - build-test-ts
