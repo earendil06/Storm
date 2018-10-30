@@ -38,9 +38,9 @@ jobs:
       image: circleci/classic:latest # ...with this image as the primary container; this is where all `steps` will run
     steps: # a collection of executable commands
     - checkout # special step to check out source code to working directory
-    - run:
-        name: list
-        command: ls
+#    - run:
+#        name: list
+#        command: ls
     - run:
         name: update-npm
         command: 'sudo npm install -g npm@latest'
