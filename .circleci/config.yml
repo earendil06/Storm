@@ -68,9 +68,9 @@ jobs:
     docker:
     - image: buildpack-deps:jessie
     steps:
+    - checkout
     - attach_workspace:
         at: ~/Storm/engine/target/scala-2.12/
-    - checkout
     - run:
         name: Copy generated files
         command: |
