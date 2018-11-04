@@ -2,4 +2,4 @@
 
 cd ./engine/
 sbt clean "fastOptJS"
-cp ./target/scala-2.12/engine-fastopt.js ../StormWeb/js/
+cp ./target/scala-2.12/engine-fastopt.js ../StormWeb/generated/
