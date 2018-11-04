@@ -61,10 +61,12 @@ jobs:
 
   deploy:
     working_directory: ~/Storm
+    docker:
+    - image: buildpack-deps:jessie
     steps:
     - attach_workspace:
-        at: /tmp/engine/target/scala-2.12/
-    - run: cat /tmp/engine/target/scala-2.12/engine-fastopt.js
+        at: ~/Storm/engine/target/scala-2.12/
+    - run: cat ~/Storm/engine/target/scala-2.12/engine-fastopt.js
 
 
 workflows:
