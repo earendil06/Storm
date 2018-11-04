@@ -31,11 +31,15 @@ jobs:
         - "~/.ivy2/cache"
         - "~/.sbt"
         - "~/.m2"
+    - persist_to_workspace:
+        root: engine/target/scala-2.12/
+        paths:
+        - engine-fastopt.js
 
   build-test-ts:
     working_directory: ~/Storm
     docker:
-      - image: circleci/node:6.10.3
+    - image: circleci/node:6.10.3
 
     steps:
     - checkout
@@ -55,6 +59,13 @@ jobs:
         name: run tests
         command: chmod +x ./test-ts.sh && ./test-ts.sh
 
+  deploy:
+    working_directory: ~/Storm
+    steps:
+    - attach_workspace:
+        at: /tmp/engine/target/scala-2.12/
+    - run: cat /tmp/engine/target/scala-2.12/engine-fastopt.js
+
 
 workflows:
   version: 2
@@ -62,3 +73,7 @@ workflows:
     jobs:
     - build-test-scala
     - build-test-ts
+    - deploy:
+        requires:
+        - build-test-scala
+        - build-test-ts
