@@ -22,9 +22,9 @@ jobs:
     - restore_cache:
         key: sbt-cache
     - run:
-        name: Compile samplescala dist package
+        name: Compile scala
         command: |
-          chmod +x ./gen-copy-scala.sh && ./gen-copy-scala.sh
+          chmod +x ./gen-scala.sh && ./gen-scala.sh
     - save_cache:
         key: sbt-cache
         paths:
