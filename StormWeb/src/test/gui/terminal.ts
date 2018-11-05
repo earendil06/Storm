@@ -1,7 +1,7 @@
-import { Selector } from 'testcafe'; // first import testcafe selectors
+import {Selector} from 'testcafe';
 
-fixture `Getting Started`// declare the fixture
-    .page `../terminal.html`;  // specify the start page
+fixture`Getting Started`// declare the fixture
+    .page`../terminal.html`;  // specify the start page
 
 
 //then create a test and place your code there

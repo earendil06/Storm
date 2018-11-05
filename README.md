@@ -1,5 +1,8 @@
 [![CircleCI](https://circleci.com/gh/earendil06/Storm/tree/master.svg?style=svg)](https://circleci.com/gh/earendil06/Storm/tree/master)
 
+[![Build Status](https://sonarcloud.io/api/project_badges/measure?project=earendil06_Storm&metric=alert_status)](https://sonarcloud.io/dashboard?id=earendil06_Storm)
+
+
 # StormD&D Specifications draft 
 
 Toolchain with the goal to help a Dungeon Master run a D&D game.
@@ -8,7 +11,7 @@ This tool is meant to be used for live pen and papers sessions.
 Most dice rolls should be done IRL, the toolchain should only
 provide information like monster blocks and the state of an encounter.
 
-The principal features should be to enable faster battles and content generation by providing :
+The principal features should be to enable faster battles and content generation by providing : 
 
 - A data type that can describe a monster's stats block
   - an api that enables an easy manipulation of those data

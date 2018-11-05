@@ -32,7 +32,7 @@ export default Vue.extend({
             
             <br/>Initiative:
             <input v-bind:id='staticId + monster.name + "init"' type="text"
-                v-bind:placeholder="monster.initiative === undefined ? 'none' : monster.initiative"
+                v-bind:placeholder="monster.initiative.orElse('none')"
                 autocomplete="off"/>
         </form>
         </div>
@@ -98,13 +98,14 @@ export default Vue.extend({
     computed: {
         sortedMonsters: function () {
             if (this.data.monsters) {
-                return this.data.monsters.sort((l:Monster, r:Monster) => {
-                    if (l.initiative == r.initiative) {
-                        return l.name < r.name
+                return this.data.monsters.sort((l: Monster, r: Monster) => {
+                    let li = l.initiative.orElse(0);
+                    let ri = r.initiative.orElse(0);
+
+                    if (li === ri) {
+                        return l.name > r.name ? 1 : -1;
                     } else {
-                        let li = l.initiative != null ? l.initiative : 0;
-                        let ri = r.initiative != null ? r.initiative : 0;
-                        return li < ri;
+                        return li > ri ? -1 : 1;
                     }
                 });
             } else {

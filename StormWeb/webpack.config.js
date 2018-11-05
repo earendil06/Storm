@@ -1,5 +1,5 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
@@ -9,8 +9,6 @@ module.exports = {
         publicPath: '/generated/',
         filename: 'build.js'
     },
-
-
     module: {
         rules: [
             {
@@ -41,6 +39,10 @@ module.exports = {
                 options: {
                     name: '[name].[ext]?[hash]'
                 }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
             }
         ]
     },

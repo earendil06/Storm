@@ -1,3 +1,5 @@
+import Optional from "typescript-optional";
+
 export class Action {
     name: string;
     toHit: string;
@@ -130,13 +132,13 @@ export class Monster {
     block: Block;
     name: string;
     hitPoints: number;
-    initiative: number;
+    initiative: Optional<number>;
 
-    constructor(block: Block, name: string, hitPoints: number, initiative: number) {
+    constructor(block: Block, name: string, hitPoints: number, initiative: Optional<number>) {
         this.block = block;
         this.name = name;
         this.hitPoints = hitPoints;
-        this.initiative = initiative;
+        this.initiative = initiative
     }
 }
 
