@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/earendil06/Storm.svg?branch=master)](https://travis-ci.org/earendil06/Storm)
+[![CircleCI](https://circleci.com/gh/earendil06/Storm/tree/master.svg?style=svg)](https://circleci.com/gh/earendil06/Storm/tree/master)
 
 # StormD&D Specifications draft 
 
