@@ -1,11 +1,11 @@
 version: 2
 jobs:
   build-test-scala:
-    working_directory: ~/engine
+    working_directory: ~/Storm
     docker:
     - image: openjdk:8
     environment:
-      SBT_VERSION: 1.0.4
+      SBT_VERSION: 1.2.0
     steps:
     - run: echo 'export ARTIFACT_BUILD=$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM.zip' >> $BASH_ENV
     - run:
@@ -22,37 +22,73 @@ jobs:
     - restore_cache:
         key: sbt-cache
     - run:
-        name: Compile samplescala dist package
-        command: cat /dev/null | sbt clean fastOptJS
+        name: Compile scala
+        command: |
+          chmod +x ./gen-scala.sh && ./gen-scala.sh
     - save_cache:
         key: sbt-cache
         paths:
         - "~/.ivy2/cache"
         - "~/.sbt"
         - "~/.m2"
-
-  build-test-ts: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ~/StormWeb # directory where steps will run
-    docker: # run the steps with Docker
-    - image: circleci/node:4.8.2 # ...with this image as the primary container; this is where all `steps` will run
-    steps: # a collection of executable commands
-    - checkout # special step to check out source code to working directory
-    - run:
-        name: update-npm
-        command: 'sudo npm install -g npm@latest'
-    - restore_cache: # special step to restore the dependency cache
-        key: dependency-cache-{{ checksum "package.json" }}
-    - run:
-        name: install-npm-wee
-        command: npm install
-    - save_cache: # special step to save the dependency cache
-        key: dependency-cache-{{ checksum "package.json" }}
+    - persist_to_workspace:
+        root: engine/target/scala-2.12/
         paths:
-        - ./node_modules
-    - run: # run tests
-        name: test
-        command: npm test
+        - engine-fastopt.js
 
+  build-test-ts:
+    working_directory: ~/Storm
+    docker:
+    - image: circleci/node:6.10.3
+
+    steps:
+    - checkout
+    - restore_cache:
+        key: dependency-cache-{{ checksum "./StormWeb/package.json" }}
+    - run:
+        name: install npm dependencies
+        command: npm --version && npm cache clean && chmod +x ./install.sh && ./install.sh
+    - run:
+        name: build project
+        command: chmod +x ./build.sh && ./build.sh
+    - save_cache:
+        key: dependency-cache-{{ checksum "./StormWeb/package.json" }}
+        paths:
+        - ~/Storm/StormWeb/node_modules
+    - run:
+        name: run tests
+        command: chmod +x ./test-ts.sh && ./test-ts.sh
+    - persist_to_workspace:
+        root: StormWeb/generated/
+        paths:
+        - build.js
+
+  deploy:
+    working_directory: ~/Storm
+    docker:
+    - image: buildpack-deps:jessie
+    steps:
+    - checkout
+    - attach_workspace:
+        at: ~/Storm
+    - run:
+        name: install rsync binary
+        command: |
+          apt update && apt install -y rsync
+    - run: ssh-keyscan ssh.cluster026.hosting.ovh.net >> ~/.ssh/known_hosts
+    - run:
+        name: copy generated artifacts
+        command: |
+          mkdir -p ~/Storm/StormWeb/generated
+          mv ~/Storm/build.js ~/Storm/StormWeb/generated/
+          mv ~/Storm/engine-fastopt.js ~/Storm/StormWeb/generated/
+    - add_ssh_keys:
+        fingerprints:
+        - "ba:b4:1c:de:ae:8d:cf:4c:1b:df:9a:5c:3d:dc:4d:eb"
+    - run:
+        name: Deploy over SSH
+        command: |
+          rsync -r --delete-after --quiet -av ~/Storm/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
 
 workflows:
   version: 2
@@ -60,3 +96,10 @@ workflows:
     jobs:
     - build-test-scala
     - build-test-ts
+    - deploy:
+        filters:
+          branches:
+            only: master
+        requires:
+        - build-test-scala
+        - build-test-ts

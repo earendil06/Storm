@@ -8,5 +8,5 @@
 # How to run as a desktop app
 
 ```bash
-./run-electron.sh
+./run-electron.sh 
 ```
