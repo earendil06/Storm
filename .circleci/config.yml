@@ -90,9 +90,6 @@ jobs:
         command: |
           rsync -r --delete-after --quiet -av ~/Storm/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
 
-
-ssh_known_hosts:
-  - ssh.cluster026.hosting.ovh.net
 workflows:
   version: 2
   build_and_test:
