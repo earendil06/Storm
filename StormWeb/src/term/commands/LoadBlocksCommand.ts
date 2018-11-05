@@ -34,6 +34,6 @@ export class LoadBlocksCommand extends Command {
 
         });
         $elt.trigger("click");
-        return new HistoryCommand(this.getCommandName(), args, "blocks are loaded", "default-component");
+        return new HistoryCommand(this.getCommandName(), args, "blocks are loaded", "default");
     }
 }

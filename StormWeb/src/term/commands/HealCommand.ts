@@ -10,18 +10,18 @@ export class HealCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 2) {
-            return new HistoryCommand(this.getCommandName(), args,"missing parameters (e.g.: heal adrien 2)", "error-component");
+            return new HistoryCommand(this.getCommandName(), args,"missing parameters (e.g.: heal adrien 2)", "error");
         } else {
             const monsterName = args[0];
             const monsterDamage = parseInt(args[1]);
             if (isNaN(monsterDamage)) {
-                return new HistoryCommand(this.getCommandName(), args, 'The request should be like "heal adrien 2".', "error-component")
+                return new HistoryCommand(this.getCommandName(), args, 'The request should be like "heal adrien 2".', "error")
             }
             if (StaticHelpers.engine().isMonsterInEncounter(monsterName)) {
                 const result = StaticHelpers.engine().damage(monsterName, monsterDamage);
-                return new HistoryCommand(this.getCommandName(), args, result, "monster-component");
+                return new HistoryCommand(this.getCommandName(), args, result, "monster");
             } else {
-                return new HistoryCommand(this.getCommandName(), args, monsterName + " does not exists in the encounter.", "error-component");
+                return new HistoryCommand(this.getCommandName(), args, monsterName + " does not exists in the encounter.", "error");
             }
         }
     }

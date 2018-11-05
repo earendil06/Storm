@@ -12,6 +12,6 @@ export default class IdeCommand extends Command {
         return new HistoryCommand(this.getCommandName(), args, {
             link: "./ide.html",
             text: "To StormIDE"
-        }, "navigator-component");
+        }, "navigator");
     }
 }

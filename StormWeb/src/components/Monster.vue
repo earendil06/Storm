@@ -1,8 +1,4 @@
-import Vue from "vue";
-import BlockComponent from "./Block";
-
-export default Vue.extend({
-    template:`
+<template>
     <div>
         <div class="stat-block">
             <hr class="orange-border"/>
@@ -15,10 +11,15 @@ export default Vue.extend({
             <block-component :data="data.block"></block-component>
         </div>
     </div>
-    `,
-    name: "monster",
-    props: ['data'],
-    components: {
-        BlockComponent
+</template>
+
+<script>
+    import Block from "./Block";
+
+    export default {
+        props: ['data'],
+        components: {
+            Block
+        }
     }
-});
+</script>

@@ -117,7 +117,7 @@ export class StaticHelpers {
                 command: command,
                 args: additionalArgs,
                 output: "Command does not exists.",
-                templateName: "error-component"
+                templateName: "error"
             };
         } else {
             return await commandFound.get().execute(additionalArgs);

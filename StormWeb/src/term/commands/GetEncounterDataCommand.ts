@@ -11,6 +11,6 @@ export class GetEncounterDataCommand extends Command{
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         let encounterData = StaticHelpers.engine().getEncounterData();
-        return new HistoryCommand(this.getCommandName(), args, encounterData, "encounter-component");
+        return new HistoryCommand(this.getCommandName(), args, encounterData, "encounter");
     }
 }
