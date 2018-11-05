@@ -70,12 +70,18 @@ jobs:
     steps:
     - checkout
     - attach_workspace:
-        at: ~/Storm/StormWeb/generated
+        at: ~/Storm
     - run:
         name: install rsync binary
         command: |
           apt update && apt install -y rsync
     - run: ssh-keyscan ssh.cluster026.hosting.ovh.net >> ~/.ssh/known_hosts
+    - run:
+        name: copy generated artifacts
+        command: |
+          mkdir -p ~/Storm/StormWeb/generated
+          mv ~/Storm/build.js ~/Storm/StormWeb/generated/
+          mv ~/Storm/engine-fastopt.js ~/Storm/StormWeb/generated/
     - add_ssh_keys:
         fingerprints:
         - "ba:b4:1c:de:ae:8d:cf:4c:1b:df:9a:5c:3d:dc:4d:eb"
