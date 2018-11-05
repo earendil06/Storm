@@ -71,18 +71,19 @@ jobs:
     - checkout
     - attach_workspace:
         at: ~/Storm/engine/target/scala-2.12/
-    - run:
-        name: Copy generated files
-        command: |
-          cp ~/Storm/engine/target/scala-2.12/engine-fastopt.js ~/Storm/StormWeb/generated/
-          cp ~/Storm/StormWeb/generated/build.js ~/Storm/StormWeb/generated/
-    - add_ssh_keys:
-        fingerprints:
-        - "ba:b4:1c:de:ae:8d:cf:4c:1b:df:9a:5c:3d:dc:4d:eb"
-    - run:
-        name: Deploy over SSH
-        command: |
-          rsync -r --delete-after --quiet -av ~/Storm/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
+    - run: ls -R
+#    - run:
+#        name: Copy generated files
+#        command: |
+#          cp ~/Storm/engine/target/scala-2.12/engine-fastopt.js ~/Storm/StormWeb/generated/
+#          cp ~/Storm/StormWeb/generated/build.js ~/Storm/StormWeb/generated/
+#    - add_ssh_keys:
+#        fingerprints:
+#        - "ba:b4:1c:de:ae:8d:cf:4c:1b:df:9a:5c:3d:dc:4d:eb"
+#    - run:
+#        name: Deploy over SSH
+#        command: |
+#          rsync -r --delete-after --quiet -av ~/Storm/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
 
 
 
