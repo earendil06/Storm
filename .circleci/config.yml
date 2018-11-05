@@ -68,13 +68,14 @@ jobs:
     docker:
     - image: buildpack-deps:jessie
     steps:
-    - run:
-      name: Get rsync binary
-      command: |
-        apt update && apt install -y rsync
     - checkout
     - attach_workspace:
         at: ~/Storm/StormWeb/generated
+    - run:
+        name: install rsync binary
+        command: |
+          apt update && apt install -y rsync
+    - run: ssh-keyscan ssh.cluster026.hosting.ovh.net >> ~/.ssh/known_hosts
     - add_ssh_keys:
         fingerprints:
         - "ba:b4:1c:de:ae:8d:cf:4c:1b:df:9a:5c:3d:dc:4d:eb"
@@ -84,7 +85,8 @@ jobs:
           rsync -r --delete-after --quiet -av ~/Storm/StormWeb/ florentpgd@ssh.cluster026.hosting.ovh.net:~/storm
 
 
-
+ssh_known_hosts:
+  - ssh.cluster026.hosting.ovh.net
 workflows:
   version: 2
   build_and_test:
