@@ -68,6 +68,10 @@ jobs:
     docker:
     - image: buildpack-deps:jessie
     steps:
+    - run:
+      name: Get rsync binary
+      command: |
+        apt update && apt install -y rsync
     - checkout
     - attach_workspace:
         at: ~/Storm/StormWeb/generated
