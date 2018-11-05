@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/earendil06/Storm.svg?branch=master)](https://travis-ci.org/earendil06/Storm)
+[![CircleCI](https://circleci.com/gh/earendil06/Storm/tree/master.svg?style=svg)](https://circleci.com/gh/earendil06/Storm/tree/master)
 
 [![Build Status](https://sonarcloud.io/api/project_badges/measure?project=earendil06_Storm&metric=alert_status)](https://sonarcloud.io/dashboard?id=earendil06_Storm)
 
