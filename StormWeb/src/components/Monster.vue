@@ -8,7 +8,7 @@
                 <br/>
                 <span>Initiative: {{ data.initiative === undefined ? "not rolled" : data.initiative[0] }}</span>
             </div>
-            <block-component :data="data.block"></block-component>
+            <block :data="data.block"></block>
         </div>
     </div>
 </template>

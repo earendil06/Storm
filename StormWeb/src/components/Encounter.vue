@@ -31,7 +31,7 @@
                 <h1 @click="next(data)"
                     style="cursor: pointer; user-select: none; -moz-user-select: none; -ms-user-select: none;">
                     {{ data.playingMonsterName === "" ? "Nobody rolled initiative" :
-                    data.playingMonsterName + "\\'s turn" }}
+                    data.playingMonsterName + "'s turn" }}
                 </h1>
             </div>
             <!--<div>Turn {{ data.turn }}</div>-->
