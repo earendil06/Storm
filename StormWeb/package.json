@@ -42,7 +42,7 @@
   "scripts": {
     "build": "webpack --display-error-details",
     "test": "jest",
-    "test-gui": "testcafe firefox src/test/gui/terminal.ts",
+    "test-gui": "testcafe firefox src/test/gui",
     "start": "electron .",
     "dist": "electron-builder",
     "tslint": "tslint -t json -o report.json --project ."

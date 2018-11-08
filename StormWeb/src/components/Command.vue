@@ -2,10 +2,10 @@
     <div class="input-line col-md-12">
         <div class="row">
             <div class="pull-left username">-></div>
-            <div class="pull-left">{{ completeInput }}</div>
+            <div id="command-result-input" class="pull-left">{{ completeInput }}</div>
         </div>
         <div class="col-md-12">
-            <component :is="command.templateName" :data="command.output"></component>
+            <component id="command-result-output" :data-template="command.templateName" :is="command.templateName" :data="command.output"></component>
         </div>
     </div>
 </template>
