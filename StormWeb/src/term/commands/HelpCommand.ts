@@ -16,7 +16,7 @@ export default class HelpCommand extends Command {
             return new HistoryCommand(this.getCommandName(), args, StaticHelpers.COMMANDS().map(c => c.getCommandName()), "help");
         } else {
             try {
-                let markdown = await new LocalAccessor().loadFileByName("helps/" + args[0] + ".md");
+                let markdown = await LocalAccessor.loadFileByName("helps/" + args[0] + ".md");
                 return new HistoryCommand(this.getCommandName(), args, markdown, "markdown");
             } catch (e) {
                 return new HistoryCommand(this.getCommandName(), args, args[0] + " is not documented or does not exists.", "error")
