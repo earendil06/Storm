@@ -3,8 +3,10 @@ import * as $ from "jquery";
 import {EncounterData} from "./engine/Adapters";
 import {Component, Watch} from "vue-property-decorator";
 import Vue from "vue"
-import CommandComponent from "./components/Command";
-import StaticEncounterComponent from "./components/StaticEncounter";
+// @ts-ignore
+import Command from "./components/Command.vue";
+// @ts-ignore
+import StaticEncounter from "./components/StaticEncounter.vue";
 import Optional from "typescript-optional";
 import {AppEngine} from "./AppEngine";
 
@@ -26,7 +28,7 @@ export interface IHistoryCommand {
         StaticHelpers.scrollWindow();
     },
     components: {
-        CommandComponent, StaticEncounterComponent
+        Command, StaticEncounter
     }
 })
 export default class App extends Vue {

@@ -11,9 +11,9 @@ export class GetPlayingMonsterCommand extends Command {
     async execute(args: string[]): Promise<IHistoryCommand> {
         try {
             let found = StaticHelpers.engine().getPlayingMonster();
-            return new HistoryCommand(this.getCommandName(), args, found, "monster-component")
+            return new HistoryCommand(this.getCommandName(), args, found, "monster")
         } catch (e) {
-            return new HistoryCommand(this.getCommandName(), args, "No one rolled initiative.", "default-component");
+            return new HistoryCommand(this.getCommandName(), args, "No one rolled initiative.", "default");
         }
     }
 }

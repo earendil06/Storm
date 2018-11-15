@@ -10,7 +10,7 @@ export class ElectronCommand extends Command{
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length === 0) {
-            return new HistoryCommand(this.getCommandName(), args, "missing parameters (e.g.: electron [linux | window | macOS])", "error-component");
+            return new HistoryCommand(this.getCommandName(), args, "missing parameters (e.g.: electron [linux | window | macOS])", "error");
         }
         let link = "";
         let os = "";
@@ -31,13 +31,13 @@ export class ElectronCommand extends Command{
                 link = ""
         }
         if (link === "") {
-            return new HistoryCommand(this.getCommandName(), args, "no releases found for " + args[0], "error-component");
+            return new HistoryCommand(this.getCommandName(), args, "no releases found for " + args[0], "error");
         }
         return new HistoryCommand(this.getCommandName(), args, {
             link: link,
             download: true,
             text: `Download for ${os}`
-        }, "navigator-component");
+        }, "navigator");
     }
 
 }

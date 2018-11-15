@@ -11,20 +11,20 @@ export class SetInitiativeCommand extends Command {
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (args.length < 2) {
-            return new HistoryCommand(this.getCommandName(), args, "missing parameters (e.g: set-init adrien 12)", "error-component");
+            return new HistoryCommand(this.getCommandName(), args, "missing parameters (e.g: set-init adrien 12)", "error");
         } else {
             const name = args[0];
             const value = parseInt(args[1]);
             if (isNaN(value)) {
-                return new HistoryCommand(this.getCommandName(), args, 'The request should be like "set-init adrien 12".', "error-component");
+                return new HistoryCommand(this.getCommandName(), args, 'The request should be like "set-init adrien 12".', "error");
             }
 
             if (StaticHelpers.engine().isMonsterInEncounter(name)) {
                 StaticHelpers.engine().setInitiative(name, value);
-                return new HistoryCommand(this.getCommandName(), args, name + "'s initiative has been set to " + value + ".", "default-component");
+                return new HistoryCommand(this.getCommandName(), args, name + "'s initiative has been set to " + value + ".", "default");
 
             } else {
-                return new HistoryCommand(this.getCommandName(), args, name + " does not exists in the encounter.", "error-component");
+                return new HistoryCommand(this.getCommandName(), args, name + " does not exists in the encounter.", "error");
             }
         }
     }

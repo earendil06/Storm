@@ -10,9 +10,9 @@ export class RollInitiativeCommand extends Command{
 
     async execute(args: string[]): Promise<IHistoryCommand> {
         if (StaticHelpers.engine().getEncounterData().monsters.length == 0) {
-            return new HistoryCommand(this.getCommandName(), args, "No one can roll initiative in the encounter.", "default-component");
+            return new HistoryCommand(this.getCommandName(), args, "No one can roll initiative in the encounter.", "default");
         }
         StaticHelpers.engine().rollInitiative();
-        return new HistoryCommand(this.getCommandName(), args, "initiative rolled.", "default-component");
+        return new HistoryCommand(this.getCommandName(), args, "initiative rolled.", "default");
     }
 }

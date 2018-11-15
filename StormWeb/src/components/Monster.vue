@@ -1,8 +1,4 @@
-import Vue from "vue";
-import BlockComponent from "./Block";
-
-export default Vue.extend({
-    template:`
+<template>
     <div>
         <div class="stat-block">
             <hr class="orange-border"/>
@@ -12,13 +8,18 @@ export default Vue.extend({
                 <br/>
                 <span>Initiative: {{ data.initiative === undefined ? "not rolled" : data.initiative[0] }}</span>
             </div>
-            <block-component :data="data.block"></block-component>
+            <block :data="data.block"></block>
         </div>
     </div>
-    `,
-    name: "monster",
-    props: ['data'],
-    components: {
-        BlockComponent
+</template>
+
+<script>
+    import Block from "./Block";
+
+    export default {
+        props: ['data'],
+        components: {
+            Block
+        }
     }
-});
+</script>

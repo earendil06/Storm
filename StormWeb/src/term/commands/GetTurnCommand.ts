@@ -9,6 +9,6 @@ export class GetTurnCommand extends Command {
     }
 
     async execute(args: string[]): Promise<IHistoryCommand> {
-        return new HistoryCommand(this.getCommandName(), args, StaticHelpers.engine().getTurn(), "default-component");
+        return new HistoryCommand(this.getCommandName(), args, StaticHelpers.engine().getTurn(), "default");
     }
 }

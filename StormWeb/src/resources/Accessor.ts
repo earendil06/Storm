@@ -27,7 +27,7 @@ export abstract class Accessor implements IAccessor {
         }
     }
 
-    async loadFileByName(filename: string): Promise<string> {
+    static async loadFileByName(filename: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             let result;
             let xhr = new XMLHttpRequest(),

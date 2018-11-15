@@ -1,9 +1,5 @@
-import Vue from "vue";
-import {StaticHelpers} from "../StaticHelpers";
-
-export default Vue.extend({
-    template: `
-            <div class="stat-block wide">
+<template>
+    <div class="stat-block wide">
         <hr class="orange-border"/>
         <div class="section-left">
             <div class="creature-heading">
@@ -146,16 +142,22 @@ export default Vue.extend({
         </div> <!-- section right -->
         <hr class="orange-border bottom"/>
     </div>
-    `,
-    name: "block",
-    props: ["data"],
-    methods: {
-        splitLine: function (description: string) : string[] {
-            if (description == null) return [];
-            return description.split('\n');
+</template>
+
+<script>
+    import {StaticHelpers} from "../StaticHelpers";
+
+    export default {
+        props: ["data"],
+        methods: {
+            splitLine: function (description) {
+                if (description == null) return [];
+                return description.split('\n');
+            }
+        },
+        mounted: function () {
+            StaticHelpers.scrollWindow()
         }
-    },
-    mounted: function () {
-        StaticHelpers.scrollWindow()
     }
-});
+</script>
+

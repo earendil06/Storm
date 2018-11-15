@@ -28,17 +28,17 @@ export class LoadEncounterCommand extends Command {
                             const result = StaticHelpers.eval(name, addArgs);
                         });
                         StaticHelpers.application().commands.push(
-                            new HistoryCommand(commandName, args, "encounter loaded successfully", "default-component")
+                            new HistoryCommand(commandName, args, "encounter loaded successfully", "default")
                         );
                     }
                 };
                 r.readAsText(f);
             } else {
-                StaticHelpers.application().commands.push(new HistoryCommand(commandName, args, "no encounter loaded", "default-component"));
+                StaticHelpers.application().commands.push(new HistoryCommand(commandName, args, "no encounter loaded", "default"));
             }
             $elt.val("")
         });
         $elt.trigger("click");
-        return new HistoryCommand(commandName, args, "loading encounter...", "default-component")
+        return new HistoryCommand(commandName, args, "loading encounter...", "default")
     }
 }
