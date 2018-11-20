@@ -1,13 +1,15 @@
 import {Accessor} from "./Accessor";
 import {Block} from "../engine/Adapters";
 import Optional from "typescript-optional";
+import {JsonParser} from "./JsonParser";
+import {StaticHelpers} from "../StaticHelpers";
 
-export default class LocalAccessor extends Accessor {
+export default class WebAccessor extends Accessor {
 
     async getBlockByName(blockName: string): Promise<Optional<Block>> {
         return new Promise<Optional<Block>>((resolve, reject) => {
-            this.loadLocalBlock(blockName)
-                .then(blockText => resolve(this.getBlockFromJsonText(blockText)))
+            WebAccessor.loadLocalBlock(blockName)
+                .then(blockText => resolve(JsonParser.getBlockFromJsonText(blockText)))
                 .catch(reason => reject(reason))
         });
     }
@@ -19,27 +21,24 @@ export default class LocalAccessor extends Accessor {
             })
             .catch(() => "");
         if (result !== "") {
-            try {
-                localStorage.setItem(blockName, result);
-                return result;
-            } catch (e) {
-                console.log("Storage failed: " + e);
-                return result;
-            }
+
+            StaticHelpers.getStorage().setItem(blockName, result);
+            return result;
+
         }
         return "";
     }
 
-    async loadLocalBlock(blockName: string): Promise<string> {
-        let userDb = await LocalAccessor.loadBlockFromDB(blockName, "db/user/");
+    static async loadLocalBlock(blockName: string): Promise<string> {
+        let userDb = await WebAccessor.loadBlockFromDB(blockName, "db/user/");
         if (userDb !== "") {
             return userDb;
         }
-        let db = await LocalAccessor.loadBlockFromDB(blockName, "");
+        let db = await WebAccessor.loadBlockFromDB(blockName, "");
         if (db !== "") {
             return db;
         }
-        let fromFile = await LocalAccessor.loadBlockFromFile(blockName, "db/");
+        let fromFile = await WebAccessor.loadBlockFromFile(blockName, "db/");
         if (fromFile !== "") {
             return fromFile;
         }
@@ -47,10 +46,7 @@ export default class LocalAccessor extends Accessor {
     }
 
     private static async loadBlockFromDB(blockName: string, path: string): Promise<string> {
-        if (typeof localStorage === 'undefined') {
-            return "";
-        }
-        let res = localStorage.getItem(path + blockName);
+        let res = StaticHelpers.getStorage().getItem(path + blockName);
         if (res == null) {
             return "";
         }
@@ -59,14 +55,11 @@ export default class LocalAccessor extends Accessor {
 
     async getBlockNameList(): Promise<string[]> {
         let blocks = new Set();
-        try {
-            for (let key in localStorage) {
-                if (key.startsWith("db/user/")) {
-                    blocks.add(key.substr(8, key.length));
-                }
+
+        for (let key in StaticHelpers.getStorage()) {
+            if (key.startsWith("db/user/")) {
+                blocks.add(key.substr(8, key.length));
             }
-        } catch (e) {
-            console.log("error access local storage");
         }
 
 
@@ -77,7 +70,7 @@ export default class LocalAccessor extends Accessor {
     }
 
     saveBlock(blockName: string, block: string): void {
-        localStorage.setItem("db/user/" + blockName, block);
+        StaticHelpers.getStorage().setItem("db/user/" + blockName, block);
     }
 
 }

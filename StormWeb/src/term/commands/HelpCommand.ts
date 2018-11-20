@@ -2,7 +2,7 @@ import Command from "./Command";
 import {StaticHelpers} from "../../StaticHelpers";
 import {IHistoryCommand} from "../../Application";
 import {HistoryCommand} from "../../poco/HistoryCommand";
-import LocalAccessor from "../../resources/LocalAccessor";
+import WebAccessor from "../../resources/WebAccessor";
 
 export default class HelpCommand extends Command {
 
@@ -16,7 +16,7 @@ export default class HelpCommand extends Command {
             return new HistoryCommand(this.getCommandName(), args, StaticHelpers.COMMANDS().map(c => c.getCommandName()), "help");
         } else {
             try {
-                let markdown = await LocalAccessor.loadFileByName("helps/" + args[0] + ".md");
+                let markdown = await WebAccessor.loadFileByName("helps/" + args[0] + ".md");
                 return new HistoryCommand(this.getCommandName(), args, markdown, "markdown");
             } catch (e) {
                 return new HistoryCommand(this.getCommandName(), args, args[0] + " is not documented or does not exists.", "error")

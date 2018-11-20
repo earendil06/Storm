@@ -37,6 +37,17 @@ export default class App extends Vue {
 
     constructor(options: any) {
         super(options);
+        const self = this;
+        $(document as any).keydown(function (e) {
+            const codes = [9, 13, 37, 38, 39, 40];
+            if (codes.indexOf(e.which) === -1) {
+                self.proposals = [];
+                self.proposalsIndex = Optional.empty();
+            }
+            return true;
+        });
+
+
     }
 
     user: string = "gm@Storm =>";
@@ -47,6 +58,7 @@ export default class App extends Vue {
     proposals: string[] = [];
     proposalsIndex: Optional<number> = Optional.empty();
     encounter: EncounterData = this.encounterUpdate();
+    processing: boolean = false;
 
 
     @Watch("positionHistory")
@@ -97,12 +109,12 @@ export default class App extends Vue {
         }
 
         if (this.proposalsIndex.isEmpty) {
-            StaticHelpers.showSpinner();
+            this.processing = true;
             const result = await StaticHelpers.eval(this.currentCommand.orElse(""), this.currentArguments);
 
             this.commands.push(result);
 
-            StaticHelpers.hideSpinner();
+            this.processing = false;
 
 
             if (this.currentInputValue !== "" && this.currentInputValue !== this.history[this.history.length - 1]) {
@@ -134,7 +146,7 @@ export default class App extends Vue {
     async pressTab(message: Event) {
         message.preventDefault();
 
-        StaticHelpers.showSpinner();
+        this.processing = true;
         const toExecuteOption = this.appEngine.findAutocompleteParameters(this.currentInputValue);
         if (this.proposals.length === 0) {
             this.proposals = await this.appEngine.computeProposals(toExecuteOption);
@@ -145,6 +157,6 @@ export default class App extends Vue {
             await this.pressEnter();
         }
 
-        StaticHelpers.hideSpinner();
+        this.processing = false;
     }
 }

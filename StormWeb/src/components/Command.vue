@@ -41,7 +41,6 @@
 
         mounted: function () {
             StaticHelpers.scrollWindow();
-            StaticHelpers.hideSpinner();
         }
     }
 </script>
