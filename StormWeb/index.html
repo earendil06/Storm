@@ -30,7 +30,9 @@
                                @keydown.tab="pressTab"
                                class="cmdline variable pull-left col" autofocus/>
                     </div>
-                    <img id="loader-img" style="display:none; width: 150px; height: 120px; margin-left: 100px" src="images/waiting.gif"/>
+                    <img id="loader-img"
+                         v-bind:style="{ display: processing ? 'block' : 'none' }"
+                         style="width: 150px; height: 120px; margin-left: 100px" src="images/waiting.gif"/>
                 </div>
 
                 <div v-for="(prop, index) in proposalsDisplayed" v-bind:class="{ 'bg-prop-current' : index === proposalsIndex.orElse(0) }" class="col-md-3 proposal">

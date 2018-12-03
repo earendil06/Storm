@@ -28,4 +28,4 @@ test('execute block command with bad block name', async () => {
 //     expect(result.templateName).toBe("block");
 //     // expect(typeof result.output).toBe("block");
 //     // expect(result.output).toBeDefined();
-// });
+// });//TODO mock the database content

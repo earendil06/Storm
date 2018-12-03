@@ -1,10 +1,13 @@
 import Command from "./Command";
 import {HistoryCommand} from "../../poco/HistoryCommand";
 import {IHistoryCommand} from "../../Application";
-import LocalAccessor from "../../resources/LocalAccessor";
+import {Accessor} from "../../resources/Accessor";
+import WebAccessor from "../../resources/WebAccessor";
 
 export class BlockCommand extends Command {
-    private accessor = new LocalAccessor();
+
+
+    private accessor: Accessor = new WebAccessor();
 
     constructor() {
         super("block");

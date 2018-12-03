@@ -1,31 +1,11 @@
 import {Block} from "../engine/Adapters";
 import Optional from 'typescript-optional';
-import {JsonParser} from "./JsonParser";
-
-interface IAccessor {
-    getBlockByName(blockName: string): Promise<Optional<Block>>;
-
-    getBlockFromJsonText(stormText: string): Optional<Block>;
-
-    saveBlock(blockName: string, block: string): void;
-
-    getBlockNameList(): Promise<string[]>;
-}
+import {IAccessor} from "./IAccessor";
 
 export abstract class Accessor implements IAccessor {
 
     abstract async getBlockByName(blockName: string): Promise<Optional<Block>>;
 
-
-
-    getBlockFromJsonText(stormText: string): Optional<Block> {
-        try {
-            const block = JsonParser.getBlockFromJsonText(stormText);
-            return Optional.of(block);
-        } catch (e) {
-            return Optional.empty();
-        }
-    }
 
     static async loadFileByName(filename: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
@@ -39,7 +19,7 @@ export abstract class Accessor implements IAccessor {
                 if (xhr.status === 200) {
                     blob = new Blob([xhr.response]);
                     fileReader.onload = function (evt) {
-                        if (evt != null && evt.target != null){
+                        if (evt != null && evt.target != null) {
                             result = evt.target.result;
                             resolve(result);
                         }

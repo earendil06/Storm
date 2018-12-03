@@ -1,7 +1,10 @@
 import {Ability, Action, Block, ConstValue, DiceValue, EncounterData, Feature, Monster, Stat} from "./Adapters";
 import Optional from "typescript-optional";
 
+//TODO switch scala js to scala ts to remove this adapter code...
+
 export default class Engine {
+
     private engine = new (window as any).JSAdapter() as any;
 
     private static MISSING_BLOCK = "missing block.";

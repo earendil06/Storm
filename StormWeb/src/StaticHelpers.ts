@@ -19,7 +19,7 @@ import {ExportEncounterCommand} from "./term/commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
 import Engine from "./engine/Engine";
-import LocalAccessor from "./resources/LocalAccessor";
+import WebAccessor from "./resources/WebAccessor";
 import IdeCommand from "./term/commands/IdeCommand";
 import {ExportBlocksCommand} from "./term/commands/ExportBlocks";
 import {LoadBlocksCommand} from "./term/commands/LoadBlocksCommand";
@@ -27,24 +27,10 @@ import {DeleteBlockCommand} from "./term/commands/DeleteBlockCommand";
 import AutocompleteParameter from "./poco/AutocompleteParameter";
 import {ElectronCommand} from "./term/commands/ElectronCommand";
 import Optional from "typescript-optional";
+import {LocalStorage} from "./LocalStorage";
+import {IAccessor} from "./resources/IAccessor";
 
 export class StaticHelpers {
-    private static accessor = new LocalAccessor();
-
-    static hideSpinner(): void {
-        const target = document.getElementById("loader-img");
-        if (target != null) {
-            target.style.display = "none";
-        }
-
-    }
-
-    static showSpinner(): void {
-        const target = document.getElementById("loader-img");
-        if (target != null) {
-            target.style.display = "block";
-        }
-    }
 
     static scrollWindow(): void {
         let container = document.getElementById('inputLine');
@@ -59,11 +45,7 @@ export class StaticHelpers {
     }
 
     static async getBlocks(): Promise<string[]> {
-        return await StaticHelpers.accessor.getBlockNameList();
-    }
-
-    static getAccessor() {
-        return StaticHelpers.accessor;
+        return await StaticHelpers.getAccessor().getBlockNameList();
     }
 
     static async getMonsters(): Promise<string[]> {
@@ -74,12 +56,25 @@ export class StaticHelpers {
         return ["linux", "windows", "macOS"]
     }
 
+
+    private static appImpl: App;
+
     static application(): App {
-        return (window as any).app as App;
+        if (this.appImpl == null) {
+            this.appImpl = new App({
+                el: '#container'
+            })
+        }
+        return this.appImpl;
     }
 
+    private static engineImpl: Engine;
+
     static engine(): Engine {
-        return (window as any).engine as Engine;
+        if (this.engineImpl == null) {
+            this.engineImpl = new Engine();
+        }
+        return this.engineImpl;
     }
 
     static COMMANDS() {
@@ -134,5 +129,13 @@ export class StaticHelpers {
             new AutocompleteParameter(new RegExp("^(heal)\\s[a-z]*$"), StaticHelpers.getMonsters),
             new AutocompleteParameter(new RegExp("^(electron)\\s[a-z]*$"), StaticHelpers.getReleases)
         ];
+    }
+
+    static getStorage(): Storage {
+        return new LocalStorage();
+    }
+
+    static getAccessor(): IAccessor {
+        return new WebAccessor();
     }
 }
