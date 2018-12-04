@@ -9,13 +9,7 @@ import Command from "./components/Command.vue";
 import StaticEncounter from "./components/StaticEncounter.vue";
 import Optional from "typescript-optional";
 import {AppEngine} from "./AppEngine";
-
-export interface IHistoryCommand {
-    command: string;
-    args: string[],
-    output: any;
-    templateName: string;
-}
+import {IHistoryCommand} from "./IHistoryCommand";
 
 @Component({
     mounted(): void {
@@ -38,7 +32,7 @@ export default class App extends Vue {
     constructor(options: any) {
         super(options);
         const self = this;
-        $(document as any).keydown(function (e) {
+        $(document as any).keydown(function (e: any) {
             const codes = [9, 13, 37, 38, 39, 40];
             if (codes.indexOf(e.which) === -1) {
                 self.proposals = [];

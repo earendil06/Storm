@@ -1,4 +1,4 @@
-import {IHistoryCommand} from "../../Application";
+import {IHistoryCommand} from "../../IHistoryCommand";
 
 export default interface ICommand {
     execute(args: string[]): Promise<IHistoryCommand>;

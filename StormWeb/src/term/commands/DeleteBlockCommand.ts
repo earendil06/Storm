@@ -1,5 +1,5 @@
 import Command from "./Command";
-import {IHistoryCommand} from "../../Application";
+import {IHistoryCommand} from "../../IHistoryCommand";
 import {HistoryCommand} from "../../poco/HistoryCommand";
 
 export class DeleteBlockCommand extends Command {

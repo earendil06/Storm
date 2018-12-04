@@ -14,7 +14,7 @@ import {RemoveCommand} from "./term/commands/RemoveCommand";
 import {SetInitiativeCommand} from "./term/commands/SetInitiativeCommand";
 import {GetBlocksCommand} from "./term/commands/GetBlocksCommand";
 import {GetPlayingMonsterCommand} from "./term/commands/GetPlayingMonsterCommand";
-import App, {IHistoryCommand} from "./Application";
+import App from "./Application";
 import {ExportEncounterCommand} from "./term/commands/ExportEncounterCommand";
 import {LoadEncounterCommand} from "./term/commands/LoadEncounterCommand";
 import ICommand from "./term/commands/ICommand";
@@ -29,6 +29,7 @@ import {ElectronCommand} from "./term/commands/ElectronCommand";
 import Optional from "typescript-optional";
 import {LocalStorage} from "./LocalStorage";
 import {IAccessor} from "./resources/IAccessor";
+import {IHistoryCommand} from "./IHistoryCommand";
 
 export class StaticHelpers {
 
@@ -57,15 +58,8 @@ export class StaticHelpers {
     }
 
 
-    private static appImpl: App;
-
     static application(): App {
-        if (this.appImpl == null) {
-            this.appImpl = new App({
-                el: '#container'
-            })
-        }
-        return this.appImpl;
+        return (window as any).app;
     }
 
     private static engineImpl: Engine;

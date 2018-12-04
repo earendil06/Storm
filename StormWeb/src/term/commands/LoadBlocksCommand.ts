@@ -1,6 +1,6 @@
 import Command from "./Command";
 import * as $ from "jquery";
-import {IHistoryCommand} from "../../Application";
+import {IHistoryCommand} from "../../IHistoryCommand";
 import * as JSZip from 'jszip';
 import {HistoryCommand} from "../../poco/HistoryCommand";
 

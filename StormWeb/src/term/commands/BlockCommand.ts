@@ -1,6 +1,6 @@
 import Command from "./Command";
 import {HistoryCommand} from "../../poco/HistoryCommand";
-import {IHistoryCommand} from "../../Application";
+import {IHistoryCommand} from "../../IHistoryCommand";
 import {Accessor} from "../../resources/Accessor";
 import WebAccessor from "../../resources/WebAccessor";
 

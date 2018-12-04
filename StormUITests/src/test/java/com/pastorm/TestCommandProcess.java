@@ -8,7 +8,7 @@ public class TestCommandProcess extends SeleniumTest {
     @Test
     public void wrongCommandInInputTest() {
         String input = "wrong jedi";
-        getHelper().writeInput(input);
+        getHelper().rewriteInput(input);
         getHelper().pressEnter();
         Assert.assertEquals("error", getHelper().getResultTemplateName());
         Assert.assertEquals("Command does not exists.", getHelper().getResultText());

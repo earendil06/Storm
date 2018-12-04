@@ -1,6 +1,6 @@
 import Command from "./Command";
 import {StaticHelpers} from "../../StaticHelpers";
-import {IHistoryCommand} from "../../Application";
+import {IHistoryCommand} from "../../IHistoryCommand";
 import ICommand from "./ICommand";
 
 export class NextTurnCommand extends Command {

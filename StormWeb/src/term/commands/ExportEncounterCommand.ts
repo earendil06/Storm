@@ -1,6 +1,6 @@
 import {StaticHelpers} from "../../StaticHelpers";
 import Command from "./Command";
-import {IHistoryCommand} from "../../Application";
+import {IHistoryCommand} from "../../IHistoryCommand";
 import {HistoryCommand} from "../../poco/HistoryCommand";
 
 export class ExportEncounterCommand extends Command {

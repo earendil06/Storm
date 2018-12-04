@@ -1,7 +1,7 @@
 import {ArrowDirection} from "./ArrowDirection";
 import Optional from "typescript-optional";
 import AutocompleteParameter from "./poco/AutocompleteParameter";
-import {IHistoryCommand} from "./Application";
+import {IHistoryCommand} from "./IHistoryCommand";
 import {StaticHelpers} from "./StaticHelpers";
 
 export class AppEngine {
