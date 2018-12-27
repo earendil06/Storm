@@ -26,9 +26,7 @@ export class JsonParser {
     }
 
     static computeModifier(value: number) {
-        const f = (value - 10) > 0 ? Math.floor : Math.ceil;
-        const subtractValue = value < 10 ? -1 : 0;
-        return f((value - 10) / 2) + subtractValue;
+        return Math.floor(value / 2) - 5;
     }
 
     static getBlockFromJsonText(text: string): Optional<Block> {
@@ -42,7 +40,7 @@ export class JsonParser {
                 stats.forEach(stat => {
                     const statType = stat["statType"] || "";
                     const statValue = stat["statValue"] || "";
-                    let value = this.parseStatValue(statValue);
+                    let value = JsonParser.parseStatValue(statValue);
                     result.stats.push(new Stat(statType.toLowerCase(), value))
                 });
             }

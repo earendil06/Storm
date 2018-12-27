@@ -1,63 +1,7 @@
 import {JsonParser} from "../resources/JsonParser";
-import Optional from "typescript-optional";
-import {Ability, Action, Block, ConstValue, DiceValue, Feature, Stat} from "../engine/Adapters";
-
-test('getBlockFromJsonText when bad input', async () => {
-    const input = "blabla\ntoto";
-    expect(JsonParser.getBlockFromJsonText(input)).toEqual(Optional.empty());
-});
-
-
-
-test('getBlockFromJsonText when good input', async () => {
-    const input = {
-        "name": "Ape",
-        "abilityScores": [
-            {
-                "abilityType": "str",
-                "score": 16
-            }
-        ],
-        "stats": [
-            {
-                "statType": "ac",
-                "statValue": "12"
-            },
-            {
-                "statType": "HP",
-                "statValue": "3d8+6"
-            }
-        ],
-        "features": [
-            {
-                "name": "Skills",
-                "description": "Athletics 5, Perception 3"
-            }
-        ],
-        "actions": [
-            {
-                "name": "Multiattack",
-                "toHit": "",
-                "reach": "",
-                "hit": "",
-                "description": "The ape makes two fist attacks."
-            }
-        ]
-    };
-
-    const expected = new Block();
-    expected.name = "ape";
-    expected.abilityScores = [new Ability("str", 16, 3)];
-    expected.features = [new Feature("Skills", "Athletics 5, Perception 3")];
-    expected.stats = [new Stat("ac", new ConstValue("12", 12)), new Stat("hp", new DiceValue(3, 8, 6))];
-    expected.actions = [
-        new Action("Multiattack", "", "", "", "", "The ape makes two fist attacks.")
-    ];
-    expect(JsonParser.getBlockFromJsonText(JSON.stringify(input)).get()).toEqual(expected);
-});
 
 test('compute modifier', async () => {
-    /*expect(JsonParser.computeModifier(1)).toBe(-5);
+    expect(JsonParser.computeModifier(1)).toBe(-5);
     expect(JsonParser.computeModifier(2)).toBe(-4);
     expect(JsonParser.computeModifier(3)).toBe(-4);
     expect(JsonParser.computeModifier(4)).toBe(-3);
@@ -86,5 +30,5 @@ test('compute modifier', async () => {
     expect(JsonParser.computeModifier(27)).toBe(8);
     expect(JsonParser.computeModifier(28)).toBe(9);
     expect(JsonParser.computeModifier(29)).toBe(9);
-    expect(JsonParser.computeModifier(30)).toBe(10);*/
+    expect(JsonParser.computeModifier(30)).toBe(10);
 });
